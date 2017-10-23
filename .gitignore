@@ -1,0 +1,19 @@
+/build/
+/target/
+/.externalToolBuilders/
+/.settings/
+.settings/
+/WebContent/
+/lucene/
+/.idea/
+.idea_modules/
+.idea/
+*.eml
+*.iml
+*.project
+*.classpath
+*.settings
+*.classes
+
+#Mac OSX
+.DS_Store

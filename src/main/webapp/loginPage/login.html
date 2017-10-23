@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html  onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用户登录</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon"/>
+    <link type="text/css" rel="stylesheet" href="./css/willon.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/login.css"/>
+</head>
+<body>
+    <div class="login-view">
+        <div class="login-logo">
+            <img src="images/logo.jpg" alt="logo加载失败">
+        </div>
+        <div class="login-input-group">
+            <input type="text" id="cellphone" class="login-input" placeholder="手机号" autocomplete="false"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="password" id="password" class="login-input" placeholder="密码" />
+            <span class="tips"></span>
+        </div>
+        <div class="login-btn" id="login">登录</div>
+        <div class="login-tips"> 
+            <input type="checkbox" id="" ><span>记住我</span>
+            <div>
+                <a href="#">忘记密码</a>
+                <a href="register.html"target="_blank">注册新账号</a>
+            </div>
+            <div class="login-tips-other">版权&copy仲恺智慧农业创新团队</div>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+</body>
+<script src="./js/canvas.js"></script>
+<script src="./js/willon_js_baseFrame.js"></script>
+<script src="./js/willon_checkForm_entity.js"></script>
+<script>
+    var cellphone = $('#cellphone'),
+         password = $('#password'),
+         flag = {};
+    bindEvent(cellphone,'blur',function(){
+        flag.cellphone = checkForm.check('cellphone',cellphone.nextElementSibling,cellphone.value).end();
+    });
+    bindEvent(login,'click',function(){
+        var canLogin = false;
+        for(var attr in flag){
+            if(!flag[attr]){
+                canLogin = false;
+                break;
+            }else{
+                canLogin = true;
+            }
+        }
+        if(!canLogin){//提交给后台处理
+            alert('登录失败');
+        }else{
+            alert('登陆成功');
+        }
+    });
+
+</script>
+</html>

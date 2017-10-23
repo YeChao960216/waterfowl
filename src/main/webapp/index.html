@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水禽溯源管理系统</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="./css/baseFrame.css">
+</head>
+<body>
+    <div class="baseFrame">
+        <div class="nav">
+            <h2>水禽溯源管理系统</h2>
+        </div>
+        <div class="container">
+            <div class="aside">
+                <div class="userInfo"> 
+                    <p><span id="nowTime"></span></p>
+                    <p>&#9755;用户:<a href="#">管理员</a></p>
+                </div>
+                <div class="menu">
+                    <!--<img src="./images/zTree.jpg" alt="" style="width:100%;height:100%">-->
+                </div>
+            </div>
+            <div class="r-aside">
+                <div class="path" id="paths">
+                    &#9992;位置&gt<label id="path1"></label><label id="path2"></label><label id="path3"></label><label id="path4"></label>
+                    <div class="f-right login-out pointer">&#9785;退出系统</div>
+                </div>
+                <div class="content">
+                       <iframe id="whichPage" src="https://www.baidu.com/" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    !function(){
+        if(navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0 || navigator.userAgent.indexOf("iPod") > 0) {
+            window.location.href = './404.html';
+        }else{
+        /*
+        *获取dom元素
+        */
+        var get = function(id){
+            return document.getElementById(id);
+        }
+        /*
+        *显示当前时间
+        */
+        get('nowTime').innerHTML = new Date().toLocaleString();
+        var timer = setInterval(function(){
+            get('nowTime').innerHTML = new Date().toLocaleString();
+        },1000);
+        /*
+        *设置iframe的路由
+        */
+        get('paths').onclick = function(e){
+            e = e || window.event;
+            var target = e.target?e.target:e.srcElement;
+            if(target.tagName=='SPAN'&&target.innerText!=''){
+                get('whichPage').src=target.getAttribute('data-href');
+            }else{
+                return;
+            }
+        }
+        /*
+        *设置路径的方法
+        */
+        setPath(1,'https://www.baidu.com','百度');
+        setPath(2,'./styleDemo.html','public公共样式');
+        //emptyPath(2);
+        }
+    }();
+    /*
+    *一定要用这个设置路径显示,路径目前最多三层
+    */
+    function setPath(num,url,content){
+        var path = document.getElementById('path'+num);
+        path.innerHTML = "<span class='pointer' data-href='"+url+"' title='"+content+"'>"+content+"</span><i>&gt</i>";
+        path.style.display = 'inline-block';
+    }
+    function emptyPath(num){
+        num = Math.min(num,3);
+        var path = document.getElementById('path'+num);
+        (!document.getElementById('path'+(num+1)).innerText)?path.innerHTML = '':alert('移除路径失败，请你先移除路径'+num+'之后路径');
+        path.style.display = 'none';
+    }
+
+</script>
+</html>
