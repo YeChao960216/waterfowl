@@ -8,12 +8,8 @@
     width: 100%;
     height:8%;
     padding:22px 12px;
-    text-shadow: 2px 3px 4px rgb(193, 202, 193);
-    -webkit-box-shadow: inset -6px 2px 48px 20px #ccc;
-    -moz-box-shadow: inset -6px 2px 48px 20px #ccc;
-    -ms-box-shadow: inset -6px 2px 48px 20px #ccc;
-    box-shadow: inset -6px 2px 48px 20px #ccc;
-    
+    background: url('../images/nav.jpg');
+    background-repeat: repeat-y;
 }
 .container{
     width:100%;
@@ -29,11 +25,8 @@
 .aside .userInfo{
     width:100%;
     height:6%;
-    /* line-height: 28px; */
     padding:15px 10px;
     background: #ccc;
-    /* -webkit-box-shadow: inset -1px 6px 44px 32px #ccc;
-    box-shadow: inset -1px 6px 44px 32px #ccc; */
 }
 
 .aside .menu{
@@ -41,8 +34,7 @@
     width:100%;
     height:93%;
     padding: 5px;
-    -webkit-box-shadow: inset 0px -16px 120px 19px #ccc;
-    box-shadow: inset 0px -16px 120px 19px #ccc;
+    background-image:url('../images/aside.jpg');    
     overflow: auto;
 }
 .r-aside{
@@ -54,8 +46,6 @@
     width:100%;
     height:6%;
     padding: 15px 10px;
-    /* -webkit-box-shadow: inset 0px -2px 20px 15px #ccc;
-    box-shadow: inset 0px -2px 20px 15px #ccc; */
     background: #ccc;
 }
 .r-aside .login-out{

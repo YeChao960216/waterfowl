@@ -1,0 +1,63 @@
+﻿!function(){
+    if(navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0 || navigator.userAgent.indexOf("iPod") > 0) {
+        window.location.href = 'system/404.html';
+    }else{
+    /*
+    *获取dom元素
+    */
+    var get = function(id){
+        return document.getElementById(id);
+    }
+    /*
+    *调整页面大小，铺满全屏
+    */
+    var init = function(){
+        var W = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var H = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        get('baseFrame').style.width = W + 'px';
+        get('baseFrame').style.height = H + 'px';
+    }
+    init();
+    window.onresize = function(){
+        init();
+    }
+    /*
+    *显示当前时间
+    */
+    get('nowTime').innerHTML = new Date().toLocaleString();
+    var timer = setInterval(function(){
+        get('nowTime').innerHTML = new Date().toLocaleString();
+    },1000);
+    /*
+    *设置iframe的路由
+    */
+    get('paths').onclick = function(e){
+        e = e || window.event;
+        var target = e.target?e.target:e.srcElement;
+        if(target.tagName=='SPAN'&&target.innerText!=''){
+            get('whichPage').src=target.getAttribute('data-href');
+        }else{
+            return;
+        }
+    }
+    /*
+    *设置路径的方法
+    */
+    setPath(1,'./styleDemo.html','public公共样式');
+    //emptyPath(2);
+    }
+}();
+/*
+*一定要用这个设置路径显示,路径目前最多三层
+*/
+function setPath(num,url,content){
+    var path = document.getElementById('path'+num);
+    path.innerHTML = "<span class='pointer' data-href='"+url+"' title='"+content+"'>"+content+"</span><i>&gt</i>";
+    path.style.display = 'inline-block';
+}
+function emptyPath(num){
+    num = Math.min(num,3);
+    var path = document.getElementById('path'+num);
+    (!document.getElementById('path'+(num+1)).innerText)?path.innerHTML = '':alert('移除路径失败，请你先移除路径'+num+'之后路径');
+    path.style.display = 'none';
+}
