@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon 
  * @Date: 2017-09-16 23:10:32 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2017-10-17 16:11:20
+ * @Last Modified time: 2017-10-24 14:55:30
  */
 
 /**
@@ -11,7 +11,7 @@
  * @param {any} o 
  * @returns 
  */
-var $ = function(o){
+var W = function(o){
     var type = typeof(o);
     switch(type){
         case 'function':window.onload=o();break;

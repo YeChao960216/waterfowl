@@ -1,7 +1,8 @@
 ﻿
 .baseFrame{
-    min-width: 1350px;
+    min-width: 1200px;
     /* padding: 5px 5px; */
+    min-height:720px;
     margin: 0 auto;
 }
 .nav{
@@ -37,7 +38,6 @@
 }
 
 .aside .menu{
-    margin-top: 2%;
     width:100%;
     height:93%;
     padding: 5px;
