@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.epidemic.service;
 
+import cn.zhku.waterfowl.modules.epidemic.service.EpidemicService;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
@@ -10,13 +11,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public class EpidemicService  implements IBaseService<Epidemic>  {
-    public static int add(Epidemic entity) {
+    @Autowired
+    EpidemicService epidemicService;
+    public  int add(Epidemic entity) {
     }
 
-    public static int delete(Epidemic entity) {
+    public  int delete(Epidemic entity) {
     }
 
-    public static int update(Epidemic entity) {
+    public  int update(Epidemic entity) {
 
     }
 
@@ -27,7 +30,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
      * @return 状态码 1 成功， 0 失败
      * @throws Exception sql
      */
-    public static int delete(Epidemic entity) {
+    public  int delete(Epidemic entity) {
         return EpidemicMapper.deleteByPrimaryKey(entity);
     }
     /**
@@ -37,11 +40,12 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
      * @return user
      * @throws Exception sql
      */
-    public static Epidemic get(String id) {
+    public  Epidemic get(String id) {
         return EpidemicMapper.selectByPrimaryKey(id);
     }
 
-    public static List<Epidemic> findList(Epidemic entity) {
+    public  List<Epidemic> findList(Epidemic entity) {
+
 
     }
 }
