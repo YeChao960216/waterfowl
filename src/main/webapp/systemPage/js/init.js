@@ -34,17 +34,12 @@
     get('paths').onclick = function(e){
         e = e || window.event;
         var target = e.target?e.target:e.srcElement;
-        if(target.tagName=='SPAN'&&target.innerText!=''){
+        if(target.tagName=='SPAN'&&target.innerText!=''&&target.innerText!='#'){
             get('whichPage').src=target.getAttribute('data-href');
         }else{
             return;
         }
     }
-    /*
-    *设置路径的方法
-    */
-    setPath(1,'./styleDemo.html','public公共样式');
-    //emptyPath(2);
     }
 }();
 /*
