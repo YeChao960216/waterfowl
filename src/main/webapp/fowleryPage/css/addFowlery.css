@@ -1,15 +1,10 @@
-#fowlery{width:800px;height: 500px;background: #5dffe6;}
-
-#topList{border: solid #ccc 1px;width: 100%;height: 50px;}
-body{background: #70ccc5;}
-#container div{width: 80%;height: 30px;margin-bottom: 5px;border: solid #cccccc 1px;}
-#container div div{width: 20%;height: 30px;margin-bottom: 5px;float: left;border: solid #cccccc 1px;margin-right: 10px;text-align:right;}
-#container div input{width: 50%;height: 50px;margin-right:0;}
-
-
-
-
-
+#fowlery{width:1500px;height: 750px;border: 3px #ccc solid;}
+.list{float: left;margin-right: 30px;}
+#topList{width: 100%;height: 50px;border-bottom: 3px #ccc solid;}
+#box{width: 1200px;height: 70px;margin: 10px 0; }
+#box div{height:50px;margin-bottom: 5px;}
+#box div div{width:80px;height: 30px;margin-bottom: 5px;float: left;text-align:right;line-height:30px;}
+#fowlery div:last-child{height: 20px;width: 80%;}
 
 
 
