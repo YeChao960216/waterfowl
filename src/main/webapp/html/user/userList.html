@@ -35,7 +35,9 @@
     function showUserList() {
         let url = "/waterfowl/admin/user/list";   // 这里可以加各种参数，例如 url = "/admin/user/list"+ param   ,param是根据用户行为有不同的值，例如 param="?type=1&duty=饲养员"
         let tboby = $("#tbody");  //    找到挂在的dom节点
-        $.ajax({ url:url, success :function (pageBean) {    //  ajax成功后执行的函数
+        $.ajax({ url:url, data:{
+            pageSize:3
+        },success :function (pageBean) {    //  ajax成功后执行的函数
             let data = pageBean.list;   //  从pageBean提取需要的信息,这里是List<User>
             $(data).each(function (index,element) { //  遍历用户列表List
                 let tr = $("<tr></tr>");    //  创建新的<tr>节点
