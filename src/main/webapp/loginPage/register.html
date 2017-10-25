@@ -12,7 +12,7 @@
 <body>
     <div class="login-view">
         <div class="login-logo">
-            <img src="images/logo.jpg" alt="logo加载失败">
+            <img src="./images/logo.jpg" alt="logo加载失败">
         </div>
         <div class="login-input-group">
             <input type="text" id="cellphone" class="login-input" placeholder="手机号"/>
@@ -51,12 +51,12 @@
 <script src="./js/willon_checkForm_entity.js"></script>
 <script>
     (function(){
-        var cellphone = $('#cellphone'),
-            nickname = $('#nickname'),
-            password1 = $('#password1'),
-            password2 = $('#password2'),
-            verifyCode = $('#verify'),
-            sign_in = $('#sign_in'),
+        var cellphone = W('#cellphone'),
+            nickname = W('#nickname'),
+            password1 = W('#password1'),
+            password2 = W('#password2'),
+            verifyCode = W('#verify'),
+            sign_in = W('#sign_in'),
             flag = {};
         bindEvent(cellphone,'blur',function(){
             flag.cellphone = checkForm.check('cellphone',cellphone.nextElementSibling,cellphone.value).end();
@@ -101,9 +101,13 @@
                 }
             }
             if(canSign){
-                alert('注册成功');
+                ajax.post('/user/register',{'cellphone':cellphone.value,'nickname':nickname.value,'password':password2.value,'verifyCode':verifyCode.value},function(data){
+                    if(data.status==0){
+                        window.location.href = './login.html';
+                    }
+                })
             }else{
-                alert('注册失败');
+                alert('注册失败,请正确填写相关信息');
             }
         });
     })();
