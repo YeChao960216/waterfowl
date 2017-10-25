@@ -1,0 +1,9 @@
+﻿.nav{
+    background: url('../images/nav.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+.aside .menu{
+    background-image:url('../images/aside.jpg');    
+    background-size:cover;
+}
