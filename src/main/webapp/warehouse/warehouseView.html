@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <title>查看出入库信息</title>
+  <link rel="stylesheet" href="../css/public.css" type="text/css">
+  <style>
+    .info{margin: 20px auto;width: 400px;text-align: center;}
+    td{width:100px;}
+    label{vertical-align: top;}
+    div{float: none;}
+    .inner{padding-top: 15px;float: none;}
+    .innerinput{border:none;border-bottom:1px solid black;border-radius:0px;width:260px;float: left;}
+    .innertips{height:35px;}
+    .innerselect{margin-left:-180px;float:left;}
+  </style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+  <div class="">
+    <table>
+          <caption>出入库信息一览表</caption>
+      <tr>
+        <th>记录编号</th>
+        <th>入库日期</th>
+        <th>物资编号</th>
+        <th>物资名称</th>
+        <th>采购数量</th>
+        <th>计数单位</th>
+        <th>来源厂家</th>
+        <th>联系电话</th>
+        <th>备注</th>
+        <th>记录员工</th>
+        <th>负责员工</th>
+        <th>误录删改</th>
+      </tr>
+      <tr>
+        <td>123456789</td>
+        <td>2017-12-12 12:12:12</td>
+        <td>123456</td>
+        <td>鸡传染性支气管炎弱毒疫苗（H52）</td>
+        <td>100</td>
+        <td>盒</td>
+        <td>广东温氏大华农生物科技有限公司</td>
+        <td>12345678901</td>
+        <td>鸡传染性支气管炎  滴鼻或饮水1次，用量同H120 用于4周龄以上雏鸡。免疫期6个月 </td>
+        <td>123456</td>
+        <td>123456</td>
+        <td><button type="button" onclick="">误录修改</button><button type="button" onclick="">删除</button></td>
+      </tr>
+      <tr>
+        <td>入库日期</td>
+        <td>仲恺</td>
+        <td>家禽</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>养殖</td>
+        <td>溯源</td>
+        <td>系统</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="info">
+  <h1>填写入库信息</h1>
+  <form method="post" action="">
+    <div class="inner"><input type="text" readonly="readonly" placeholder="入库日期" class="innerinput"/><input style="margin-left:-180px;float:left;" type="datetime-local" value=""/><div class="innertips" onclick="alert('入库日期');">选择日期</div></div>
+    <div class="inner"><input type="text" readonly="readonly" placeholder="物资类型" class="innerinput"/>
+      <select id="thtype"  onchange="show()" class="innerselect">
+        <option value=""></option>
+        <option value="家禽">家禽</option>
+        <option value="饲料">饲料</option>
+        <option value="药物">药物</option>
+      </select>
+    </div><div id="thtype_tips" class="innertips">选择物资类型</div>
+    <div id="thinfo"></div><div id="thinfo"></div>
+    <div class="inner"><input type="text" placeholder="采购数量" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="计数单位" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="来源厂家" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="联系电话" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="有效日期" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="储存地点" class="innerinput"/><div class="innertips"></div></div>
+    <div class="inner"><input type="text" placeholder="存放方式" class="innerinput"/><div class="innertips"></div></div>
+    <div><div class="inner"><textarea placeholder="备注" class=" " style="float:left"></textarea><div style="height:160px;" class="divCenter" class="innertips"></div></div></div>
+    <h6>仔细填写，确认无误后再提交。除联系电话、备注外，其他项目必填。</h6>
+    <p><label><input type="reset" value="重置" class="btn" id="reset"/>
+    </label><input type="submit" value="提交" class="btn" id="submit"/></p>
+  </form>
+  </div>
+</body>
+</html>
