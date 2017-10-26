@@ -628,6 +628,13 @@
 					<include>**/*.xml</include>
 				</includes>
 			</resource>
+			<!--	编译为resources目录下的全部文件	-->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.* </include>
+				</includes>
+			</resource>
 		</resources>
 		<plugins> 
 			 <!--Compiler 插件, 设定JDK版本-->
@@ -777,7 +784,7 @@
 				<version>${maven.plugin.verion}</version>
 			</plugin>
 
-		<!--mybatis插件-->
+		<!--mybatis代码自动生成器插件-->
 		<plugin>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-maven-plugin</artifactId>

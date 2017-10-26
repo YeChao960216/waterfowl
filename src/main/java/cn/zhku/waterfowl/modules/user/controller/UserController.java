@@ -4,6 +4,7 @@ package cn.zhku.waterfowl.modules.user.controller;
 import cn.zhku.waterfowl.modules.user.service.UserService;
 import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.util.modle.CommonQo;
+import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 
 import com.github.pagehelper.PageHelper;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("{adminPath}/user/")
 public class UserController extends BaseController {
+    //  注入user表的服务
     @Autowired
     UserService userService;
 
@@ -42,9 +44,12 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("new")
-    public int addUser(User user) throws Exception {
+    public Message addUser(User user) throws Exception {
         user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
-        return userService.add(user);
+        if(userService.add(user) == 1)
+            return new Message("1","增加用户成功");
+        else
+            return new Message("2","增加用户失败");
     }
 
     //删除用户
@@ -57,10 +62,13 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("delete/{id}")
-    public int deleteUser(@PathVariable String id) throws Exception {
+    public Message deleteUser(@PathVariable String id) throws Exception {
         User user = new User();
         user.setId(id);
-        return userService.delete(user);
+        if(userService.delete(user) == 1)
+            return new Message("1","删除用户成功");
+        else
+            return new Message("2","删除用户失败");
     }
 
 
@@ -74,9 +82,12 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("edit/{id}")
-    public int editUser(@PathVariable String id,User user) throws Exception {
+    public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
-        return userService.update(user);
+        if(userService.update(user) == 1)
+            return new Message("1","修改用户成功");
+        else
+            return new Message("2","修改用户成失败");
     }
 
     //展示用户
@@ -97,7 +108,7 @@ public class UserController extends BaseController {
     /**
      *  根据多个添加添加展示一列用户 => 多条件查询分页
      * @param user   user实体的各个字段
-     * @param commonQo   通用查询类，拥有pageSize,
+     * @param commonQo   通用查询类，拥有pageSize,pageNum
      * @return  PageInfo<User> 一个带有List<User>的pageBean
      * @throws Exception    sql
      */
