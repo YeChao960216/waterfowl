@@ -101,7 +101,7 @@
                 }
             }
             if(canSign){
-                ajax.post('/user/register',{'cellphone':cellphone.value,'nickname':nickname.value,'password':password2.value,'verifyCode':verifyCode.value},function(data){
+                ajax.post('/user/login',{'cellphone':cellphone.value,'nickname':nickname.value,'password':password2.value,'verifyCode':verifyCode.value},function(data){
                     if(data.status==0){
                         window.location.href = './login.html';
                     }
