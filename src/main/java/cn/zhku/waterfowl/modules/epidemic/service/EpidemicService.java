@@ -1,16 +1,15 @@
 package cn.zhku.waterfowl.modules.epidemic.service;
-import cn.zhku.waterfowl.modules.epidemic.service.EpidemicService;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
 import cn.zhku.waterfowl.pojo.mapper.EpidemicMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
-
+@Service
 public class EpidemicService  implements IBaseService<Epidemic>  {
     @Autowired
     private EpidemicMapper epidemicMapper;
-
     @Override
     /**
      * 根据epidemic实体插入
@@ -59,12 +58,12 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
 
     @Override
     /**
-     * 根据epidemic实体多条件查询，不分页
+     * 根据epidemic实体多条件查询
      */
     public List<Epidemic> findList(Epidemic entity) throws Exception {
         EpidemicExample epidemicExample =new EpidemicExample();
         EpidemicExample.Criteria criteria = epidemicExample.createCriteria();
-        //日期
+        //  日期
         if (entity.getDate()!=null)
             criteria.andDateEqualTo(entity.getDate());
         //疾病
@@ -79,9 +78,6 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //批次编号
         if (entity.getIdBatch()!=null)
             criteria.andIdBatchEqualTo(entity.getIdBatch());
-        //库存编号
-        if (entity.getInventoryId()!=null);
-            criteria.andIdNotEqualTo(entity.getInventoryId());
         //记录者编号
         if (entity.getIdRecorder()!=null)
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
@@ -94,6 +90,16 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //免疫，疾病标志
         if (entity.getSign()!=null)
             criteria.andSignEqualTo(entity.getSign());
+//        // 库存编号                                   这个字段有毒!!!
+//        if (entity.getInventoryId()!=null);
+//            criteria.andInventoryIdEqualTo(entity.getInventoryId());
+        return epidemicMapper.selectByExample(epidemicExample);
+    }
+
+    public List<Epidemic> showAllByFlag(int flag) {
+        EpidemicExample epidemicExample =new EpidemicExample();
+        EpidemicExample.Criteria criteria = epidemicExample.createCriteria();
+        criteria.andFlagEqualTo(flag);
         return epidemicMapper.selectByExample(epidemicExample);
     }
 }
