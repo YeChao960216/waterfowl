@@ -54,11 +54,19 @@ public class LoginController {
     }
 
 
-    //  注册验证码
+    /**
+     *  验证用户名是否被注册
+     * @param username  用户名
+     * @return Message
+     */
     @ResponseBody
-    @RequestMapping("/user/registerVerifyCode")
-    public Message registerVerifyCode(){
-        return null;
+    @RequestMapping("/user/registerCheckUsername")
+    public Message registerVerifyCode(String username){
+        if(loginService.registerCheckUsername(username))
+            return new Message("1","用户名尚未被注册");
+        else
+            return new Message("2","用户名已经被注册");
+
     }
 
 

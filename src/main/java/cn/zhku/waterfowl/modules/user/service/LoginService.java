@@ -33,12 +33,39 @@ public class LoginService {
     }
 
     //检验手机号
+
+    /**
+     *  查询是否有相同手机号的用户
+     * @param user 必须参数:phone
+     * @return  true 手机号不存在  false 手机号存在
+     */
     public boolean CheckPhone(User user) {
+        UserExample userExample = new UserExample();
+        userExample.or().andPhoneEqualTo(user.getPhone());
+        if(userMapper.selectByExample(userExample) != null)
+            return false;   //  若有相同手机号的用户，返回false
+        else
+            return true;    //   否则返回true
+}
+
+    //  用户注册
+    public boolean register(User user) {
         return false;
     }
 
 
-    public boolean register(User user) {
-        return false;
+    /**
+     *  查询是否有相同用户名的用户
+     * @param username  前端传入的用户名
+     * @return
+     */
+    public boolean registerCheckUsername(String username) {
+        UserExample userExample = new UserExample();
+        userExample.or().andUsernameEqualTo(username);
+        if(userMapper.selectByExample(userExample) != null)
+            return false;   //  若有相同用户名的用户，返回false
+        else
+            return true;    //   否则返回true
+
     }
 }
