@@ -22,21 +22,49 @@ public class FowleryService implements IBaseService<Fowler> {
         return fowleryMapper.insert(entity);
     }
 
+    /**
+     * 修改禽舍信息
+     * @param entity
+     *            映射数据库单表的实体类
+     * @return
+     * @throws Exception
+     */
     @Override
     public int update(Fowler entity) throws Exception {
         return fowleryMapper.updateByPrimaryKeySelective(entity);
     }
 
+    /**
+     * 删除禽舍信息
+     * @param entity
+     *            映射数据库单表的实体类
+     * @return
+     * @throws Exception
+     */
     @Override
     public int delete(Fowler entity) throws Exception {
         return fowleryMapper.updateByPrimaryKey(entity);
     }
 
+    /**
+     *
+     * @param id
+     *            主键ID
+     * @return
+     * @throws Exception
+     */
     @Override
     public Fowler get(String id) throws Exception {
         return fowleryMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     *
+     * @param entity
+     *            映射数据库单表的实体类
+     * @return
+     * @throws Exception
+     */
     @Override
     public Fowler get(Fowler entity) throws Exception {
         FowleryExample fowleryExample=new FowleryExample();
@@ -48,6 +76,13 @@ public class FowleryService implements IBaseService<Fowler> {
         }
     }
 
+    /**
+     * 展示，多条件查询
+     * @param entity
+     *            映射数据库单表的实体类
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Fowler> findList(Fowler entity) throws Exception {
         FowleryExample fowleryExample=new FowleryExample();
