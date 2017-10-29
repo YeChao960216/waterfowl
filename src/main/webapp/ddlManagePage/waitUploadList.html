@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>待上传记录列表</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <!--此处引入base.js-->
+    <script src="js/base.js"></script>
+    <script>
+        window.onload =function () {
+            zhanjia.popLayer(25);
+            zhanjia.selectAll();
+        }
+    </script>
+    <!-- `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
+  `epidemic_id` varchar(45) NOT NULL COMMENT '疫病情况表编号',
+  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `num_processed` int(11) NOT NULL COMMENT '需处理个体数量',
+  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号'-->
+    <style>
+        .head_form {
+            margin:10px;
+        }
+        .head_form input {
+            margin-right:30px;
+        }
+    </style>
+</head>
+<body>
+<!--表头查询部分开始-->
+<form action="" class="head_form">
+    <span>查询日期：</span><input type="date" id="record_date">
+    <span>疾控批次：</span><input type="text" id="epidemic_id" placeholder="输入疾控批次">
+    <span>处理方式：</span><input type="text" id="processing_mode" placeholder="输入处理方式">
+    <span>记录者编号：</span><input type="text" id="id_recorder" placeholder="记录者编号">
+    <span>负责人编号：</span><input type="text" id="id_charge" placeholder="负责人编号">
+    <input type="submit" value="查询">
+</form>
+<!--表头查询部分结束-->
+<!--记录展示部分开始-->
+<form action="" class="record_form">
+    <input type="submit" value="上传所选记录" class="btn">
+    <table>
+        <tr>
+            <th><input type="checkbox" id="selectAll">全选</th>
+            <th>记录日期</th>
+            <th>所属疾控批次</th>
+            <th>处理数量</th>
+            <th>处理方式</th>
+            <th>记录者编号</th>
+            <th>负责人编号</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>2017-10-26</td>
+            <td>所属疾控批次1</td>
+            <td>处理数量</td>
+            <td>处理方式</td>
+            <td>记录者编号</td>
+            <td>负责人编号</td>
+            <td class="remark">备注</td>
+            <td>
+                <button class="btn">修改</button>
+                <button class="btn">删除</button>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>2017-10-26</td>
+            <td>所属疾控批次1</td>
+            <td>处理数量</td>
+            <td>处理方式</td>
+            <td>记录者编号</td>
+            <td>负责人编号</td>
+            <td class="remark">备注</td>
+            <td>
+                <button class="btn">修改</button>
+                <button class="btn">删除</button>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>2017-10-26</td>
+            <td>所属疾控批次1</td>
+            <td>处理数量</td>
+            <td>处理方式</td>
+            <td>记录者编号</td>
+            <td>负责人编号</td>
+            <td class="remark">备注</td>
+            <td>
+                <button class="btn">修改</button>
+                <button class="btn">删除</button>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>2017-10-26</td>
+            <td>所属疾控批次1</td>
+            <td>处理数量</td>
+            <td>处理方式</td>
+            <td>记录者编号</td>
+            <td>负责人编号</td>
+            <td class="remark">备注</td>
+            <td>
+                <button class="btn">修改</button>
+                <button class="btn">删除</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<!--记录展示部分结束-->
+</body>
+</html>

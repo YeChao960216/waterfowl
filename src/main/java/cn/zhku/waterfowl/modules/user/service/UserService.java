@@ -130,6 +130,4 @@ public class UserService  implements IBaseService<User> {
         return userMapper.selectByExample(userExample);
     }
 
-
-
 }
