@@ -596,13 +596,18 @@
 		</dependency>
 
 
-
+		<!-- mybatis缓存 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
+
+
+
+
+
+
 	</dependencies>
   
  	<build>
