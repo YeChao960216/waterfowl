@@ -109,6 +109,10 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         if (entity.getIdCharge() != null)
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
+        if (entity.getInventoryId() != null)
+            //  相当于 duty = entity.getInventoryId()
+            criteria.andIdChargeEqualTo(entity.getInventoryId());
+
 
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
