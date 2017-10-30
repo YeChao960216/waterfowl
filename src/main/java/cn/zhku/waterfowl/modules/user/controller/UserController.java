@@ -125,9 +125,13 @@ public class UserController extends BaseController {
     }
 
 
-
-
-    @RequestMapping(value = "userxml",method= RequestMethod.POST)
+    /**
+     *  导入用excel
+     * @param request      请求域
+     * @param excelFile excel文件，用MultipartFile
+     * @return Message
+     */
+    @RequestMapping(value = "excel/new",method= RequestMethod.POST)
     @ResponseBody
     public Message uploadUsers(HttpServletRequest request,MultipartFile excelFile)  {
         System.out.println("================== 方法开始 =====================");
