@@ -45,7 +45,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("new")
     public Message addUser(User user) throws Exception {
-        user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+        user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
         if(userService.add(user) == 1)
             return new Message("1","增加用户成功");
         else
