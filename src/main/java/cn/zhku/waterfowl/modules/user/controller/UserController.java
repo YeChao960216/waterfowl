@@ -11,10 +11,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -121,6 +122,53 @@ public class UserController extends BaseController {
         List<User> userList =  userService.findList(user);
         //  返回 pageBean
         return new PageInfo<User>(userList);
+    }
+
+
+    /**
+     *  导入用excel
+     * @param request      请求域
+     * @param excelFile excel文件，用MultipartFile
+     * @return Message
+     */
+    @RequestMapping(value = "excel/new",method= RequestMethod.POST)
+    @ResponseBody
+    public Message uploadUsers(HttpServletRequest request,MultipartFile excelFile)  {
+        System.out.println("================== 方法开始 =====================");
+        //手工导入
+        try {
+            if(excelFile != null){
+                //List<UserModel> models=userService.insertUserByExcel(excelFile);
+
+                    //储存图片的物理路径
+                    String realPath = request.getServletContext().getRealPath("/WEB-INF/xml/user");
+
+                    String originalFileName = excelFile.getOriginalFilename();
+
+                    //新的的图片名称
+                    String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
+                    //新图片文件
+                    File newFile = new File(realPath+newFileName);
+
+                    //将内存中的数据写入磁盘
+                    System.out.println("================== 这里尚未写入=====================");
+                    excelFile.transferTo(newFile);
+
+                    System.out.println("=================="+newFile+"=====================");
+                    //将新图片名称写到repair中
+                    //repair.setRepairPic(newFileName);
+                if(true){
+                    return new Message("1","名单导入成功");
+                }else{
+                    return new Message("2","名单导入失败");
+                }
+            }else{
+                return new Message("2","上传失败");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
     }
 
 }
