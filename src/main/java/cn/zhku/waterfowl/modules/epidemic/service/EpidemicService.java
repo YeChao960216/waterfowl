@@ -90,9 +90,9 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //免疫，疾病标志
         if (entity.getSign()!=null)
             criteria.andSignEqualTo(entity.getSign());
-//        // 库存编号                                   这个字段有毒!!!
-//        if (entity.getInventoryId()!=null);
-//            criteria.andInventoryIdEqualTo(entity.getInventoryId());
+        // 库存编号                                   这个字段有毒!!!
+        if (entity.getInventoryId()!=null)
+            criteria.andInventoryIdEqualTo(entity.getInventoryId());
         return epidemicMapper.selectByExample(epidemicExample);
     }
 
