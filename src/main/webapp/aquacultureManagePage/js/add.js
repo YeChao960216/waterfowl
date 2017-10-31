@@ -23,7 +23,7 @@ $(function () {
             type: "post",
             dataType: "json",
             /*请求完成时的回调函数*/
-            success: function (msg) {
+            success: function (data) {
                 if (msg=='1'){
                     alert("您好,新增禽舍成功！！！");
                 }else{

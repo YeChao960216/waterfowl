@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加记录</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <!-- `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
+  `epidemic_id` varchar(45) NOT NULL COMMENT '疫病情况表编号',
+  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `num_processed` int(11) NOT NULL COMMENT '需处理个体数量',
+  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号'-->
+</head>
+<body>
+<table>
+    <tr>
+        <th>记录日期</th>
+        <th>所属疾控批次</th>
+        <th>处理数量</th>
+        <th>处理方式</th>
+        <th>记录者编号</th>
+        <th>负责人编号</th>
+        <th>备注</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td><input type="date" id="record_date"></td>
+        <td><input type="text" id="epidemic_id" placeholder="所属疾控批次" ></td>
+        <td><input type="text" id="num_processed" placeholder="处理数量" ></td>
+        <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
+        <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
+        <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
+        <td><input type="text" id="remark" placeholder="备注"></td>
+        <td><button class="btn">提交</button></td>
+    </tr>
+
+</table>
+</body>
+</html>

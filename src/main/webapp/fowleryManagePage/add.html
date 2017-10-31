@@ -4,28 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>手动增加禽舍</title>
+    <title>手动增加雇员</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
+    <!-- `id` varchar(45) NOT NULL COMMENT '禽舍管理编号',
+  `date_establish` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '建立日期',
+  `address` varchar(45) NOT NULL COMMENT '地址',
+  `num_max` int(11) NOT NULL COMMENT '最大纳员数量',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号rf',-->
 </head>
 <body>
 <table>
     <tr>
-        <th>建立时间</th>
-        <th>最大纳员数</th>
-        <th>记录员</th>
-        <th>负责人</th>
+        <th>禽舍管理编号</th>
+        <th>建立日期</th>
+        <th>地址</th>
+        <th>最大纳员数量</th>
         <th>备注</th>
+        <th>记录者编号</th>
+        <th>负责人编号</th>
         <th>操作</th>
     </tr>
     <tr>
-        <td><input id="dateEstablish" type="date"  placeholder="建立时间"></td>
-        <td><input id="numMax" type="text"  placeholder="最大纳员数" ></td>
-        <td><input id="idCharge" type="text"  placeholder="负责人"></td>
-        <td><input id="idRecorder" type="text"  placeholder="记录员" ></td>
-        <td><input id="remark" type="text" placeholder="备注"></td>
+        <td><input type="text" id="id" placeholder="禽舍管理编号"></td>
+        <td><input type="text" id="date_establish" placeholder="建立日期" ></td>
+        <td><input type="text" id="address" placeholder="地址" ></td>
+        <td><input type="text" id="num_max" placeholder="最大纳员数量"></td>
+        <td><input type="text" id="remark" placeholder="备注"></td>
+        <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
+        <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
+
         <td><button class="btn">提交</button></td>
     </tr>
-</table>
 
+</table>
 </body>
 </html>
