@@ -1,19 +1,29 @@
-﻿!function(){
+﻿(function(){
     if(navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0 || navigator.userAgent.indexOf("iPod") > 0) {
         window.location.href = '../404.html';
     }else{
     /*
     *调整页面大小，铺满全屏
     */
-    var init = function(){
+    var userId;
+    var getUserId = function(){
+        return userId;
+    }
+    $.get('/waterfowl/user/nowUserInfo',function (data) {
+        if(data){
+            get('user').innerHTML = data.username;
+            userId = data.id;
+        }
+    });
+    var initF = function(){
         var W = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var H = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         get('baseFrame').style.width = W + 'px';
         get('baseFrame').style.height = H + 'px';
     }
-    init();
+    initF();
     window.onresize = function(){
-        init();
+        initF();
     }
     /*
     *显示当前时间
@@ -39,7 +49,8 @@
         }
     }
     }
-}();
+    return getUserId;
+})();
 /*
 *一定要用这个设置路径显示,路径目前最多三层
 */

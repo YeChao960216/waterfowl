@@ -59,10 +59,10 @@ public class ImageCodeController {
         Date now = new Date();
         Long codeTime = Long.valueOf(session.getAttribute("codeTime")+"");
         if(StringUtils.isEmpty(checkCode) || captcha == null ||  !(checkCode.equalsIgnoreCase(captcha))){
-            request.setAttribute("errorMsg", "验证码错误！");
+            //request.setAttribute("errorMsg", "验证码错误！");
             return new Message("2","验证码错误！");
         }else if ((now.getTime()-codeTime)/1000/60>5){//验证码有效时长为5分钟
-            request.setAttribute("errorMsg", "验证码已失效，请重新输入！");
+            //request.setAttribute("errorMsg", "验证码已失效，请重新输入！");
             return new Message("2","验证码已失效，请重新输入！");
         }else {
             session.removeAttribute("simpleCaptcha");
