@@ -141,7 +141,7 @@ public class UserController extends BaseController {
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
 
                     //储存图片的物理路径
-                    String realPath = request.getServletContext().getRealPath("/WEB-INF/xml/user");
+                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user");
 
                     String originalFileName = excelFile.getOriginalFilename();
 
