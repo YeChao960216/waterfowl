@@ -36,7 +36,9 @@ import java.util.UUID;
         @ResponseBody
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
+
             epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+            System.out.println(epidemic.toString());
             if(epidemicService.add(epidemic) == 1)
                 return new Message("1","添加疾病/免疫记录表成功");
             else
@@ -104,6 +106,7 @@ import java.util.UUID;
             //  返回 pageBean
             return new PageInfo<Epidemic>(epidemicList);
         }
+
         //分页展示免疫记录表
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
@@ -119,7 +122,7 @@ import java.util.UUID;
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
             //  通过服务层获取查询后的用户列表
             List<Epidemic> epidemicList =  epidemicService.findList(epidemic);
-            //  返回 pageBean
+            //  返回 pageBean实体
             return new PageInfo<Epidemic>(epidemicList);
         }
 

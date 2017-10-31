@@ -628,15 +628,8 @@
 					<include>**/*.xml</include>
 				</includes>
 			</resource>
-			<!--	编译为resources目录下的全部文件	-->
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.* </include>
-				</includes>
-			</resource>
 		</resources>
-		<plugins> 
+		<plugins>
 			 <!--Compiler 插件, 设定JDK版本-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -682,7 +675,7 @@
 					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Eclipse 插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -709,46 +702,46 @@
 			</plugin>
 
 
-			
+
 			<!-- tomcat6插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat6-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
+
 			<!-- tomcat7插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
- 
+
+
 			<!-- resource插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
-			
+
 			<!-- install插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
 				<version>${maven.plugin.verion}</version>
 			</plugin>
-			
+
 			<!-- clean插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -769,14 +762,14 @@
 					</filesets>
 				</configuration>
 			</plugin>
-			
+
 			<!-- ant插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
 			</plugin>
-			
+
 			<!-- dependency插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -784,7 +777,7 @@
 				<version>${maven.plugin.verion}</version>
 			</plugin>
 
-		<!--mybatis代码自动生成器插件-->
+		<!--mybatis插件-->
 		<plugin>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-maven-plugin</artifactId>

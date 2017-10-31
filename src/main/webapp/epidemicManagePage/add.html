@@ -25,7 +25,8 @@
   `id_batch` varchar(45) NOT NULL COMMENT '养殖批次',-->
 </head>
 <body>
-<table>
+<form action="/waterfowl/epidemic/save"  name="Epidemic"enctype="application/x-www-form-urlencoded" method="post">
+  <table>
     <tr>
         <th>记录日期</th>
         <th>养殖批次</th>
@@ -62,8 +63,9 @@
         <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
         <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><button class="btn">提交</button></td>
+        <td><input type="submit" value="提交"></td>
     </tr>
-</table>
+  </table>
+</form>
 </body>
 </html>
