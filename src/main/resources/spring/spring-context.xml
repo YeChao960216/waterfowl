@@ -34,6 +34,9 @@
     </bean>
 
 
+
+
+
 	<!-- 配置 JSR303 Bean Validator 定义 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 

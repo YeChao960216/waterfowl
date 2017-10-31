@@ -6,6 +6,8 @@ import cn.zhku.waterfowl.pojo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author : 钱伟健 gonefuture@qq.com
  * @version : 2017/10/23 21:50.
@@ -49,8 +51,14 @@ public class LoginService {
 }
 
     //  用户注册
-    public boolean register(User user) {
-        return false;
+
+    /**
+     *  注册用户
+     * @param user  user实体
+     * @return
+     */
+    public int register(User user) {
+        return userMapper.insertSelective(user);
     }
 
 

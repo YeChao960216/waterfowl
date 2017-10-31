@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.UUID;
+
 /**
  * @author : 钱伟健 gonefuture@qq.com
  * @version : 2017/10/23 21:49.
@@ -47,7 +49,8 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/user/register")
     public Message loginCheckPhone(User user,String verifyCode){
-        if(loginService.register(user))
+        user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
+        if(loginService.register(user) == 1)
             return new Message("1","用户注册成功");
         else
             return new Message("2","用户注册失败");
@@ -68,8 +71,6 @@ public class LoginController {
             return new Message("2","用户名已经被注册");
 
     }
-
-
 
 
 }
