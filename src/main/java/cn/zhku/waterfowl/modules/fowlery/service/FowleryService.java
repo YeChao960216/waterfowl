@@ -77,7 +77,7 @@ public class FowleryService implements IBaseService<Fowler> {
     }
 
     /**
-     * 展示，多条件查询
+     * 展示，多条件查询,模糊查询
      * @param entity
      *            映射数据库单表的实体类
      * @return

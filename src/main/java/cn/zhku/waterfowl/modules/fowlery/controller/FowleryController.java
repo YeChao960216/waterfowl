@@ -45,7 +45,7 @@ public class FowleryController {
     public int deleteFowlery(@PathVariable String id) throws Exception {
         Fowler fowlery=new Fowler();
         fowlery.setId(id);
-        return fowleryService.delete(fowlery);
+       return fowleryService.delete(fowlery);
     }
 
     /**
@@ -67,7 +67,7 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("edit/{id}")
-    public int editFowlery(@PathVariable String id,Fowler fowlery) throws Exception {
+    public int editFowlery(@PathVariable String id, Fowler fowlery) throws Exception {
         fowlery.setId(id);
         return fowleryService.update(fowlery);
     }
