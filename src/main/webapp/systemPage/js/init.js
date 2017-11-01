@@ -1,25 +1,29 @@
-﻿!function(){
+﻿(function(){
     if(navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0 || navigator.userAgent.indexOf("iPod") > 0) {
-        window.location.href = 'system/404.html';
+        window.location.href = '../404.html';
     }else{
-    /*
-    *获取dom元素
-    */
-    var get = function(id){
-        return document.getElementById(id);
-    }
     /*
     *调整页面大小，铺满全屏
     */
-    var init = function(){
+    var userId;
+    var getUserId = function(){
+        return userId;
+    }
+    $.get('/waterfowl/user/nowUserInfo',function (data) {
+        if(data){
+            get('user').innerHTML = data.username;
+            userId = data.id;
+        }
+    });
+    var initF = function(){
         var W = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var H = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         get('baseFrame').style.width = W + 'px';
         get('baseFrame').style.height = H + 'px';
     }
-    init();
+    initF();
     window.onresize = function(){
-        init();
+        initF();
     }
     /*
     *显示当前时间
@@ -36,15 +40,23 @@
         var target = e.target?e.target:e.srcElement;
         if(target.tagName=='SPAN'&&target.innerText!=''&&target.innerText!='#'){
             get('whichPage').src=target.getAttribute('data-href');
+            var tid = parseInt(target.parentNode.id.substr(4));
+            if(tid==1){
+                emptyPath(tid+1);
+            }
         }else{
             return;
         }
     }
     }
-}();
+    return getUserId;
+})();
 /*
 *一定要用这个设置路径显示,路径目前最多三层
 */
+function get(id){
+    return document.getElementById(id);
+}
 function setPath(num,url,content){
     var path = document.getElementById('path'+num);
     path.innerHTML = "<span class='pointer' data-href='"+url+"' title='"+content+"'>"+content+"</span><i>&gt</i>";
@@ -55,4 +67,10 @@ function emptyPath(num){
     var path = document.getElementById('path'+num);
     (!document.getElementById('path'+(num+1)).innerText)?path.innerHTML = '':alert('移除路径失败，请你先移除路径'+num+'之后路径');
     path.style.display = 'none';
+}
+
+function displayPath(num){
+    console.log(get('path'+num).firstChild);
+    get('whichPage').src = get('path'+num).firstChild.getAttribute('data-href');
+
 }

@@ -21,6 +21,7 @@
  * checkIDCard
  * checkPostalCode
  * has 6 methods
+ * has 6 methods
  */
 /**
  * 链式增加验证方法
@@ -145,8 +146,8 @@
         obj.innerHTML='密码长度应该在6-18之间';
         throw new Error('密码长度应该在6-18之间');
     }else if(!reg.test(content)){
-        obj.innerHTML='密码格式错误';
-        throw new Error('密码格式错误');
+        obj.innerHTML='请以字母开头，长度在6~18之间';
+        throw new Error('密码格式错误，请以字母开头，长度在6~18之间');
     }else{
         hideTips(obj);
         this.flag = true;
