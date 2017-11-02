@@ -124,37 +124,29 @@ public class UserController extends BaseController {
         return new PageInfo<User>(userList);
     }
 
-
+    // 接受一个新Excel
     /**
      *  导入用excel
      * @param request      请求域
-     * @param excelFile excel文件，用MultipartFile
+     * @param excelFile excel文件，前端用multipart/form-data类型上传
      * @return Message
      */
-    @RequestMapping(value = "excel/new",method= RequestMethod.POST)
+    @RequestMapping(value = "excel/new")
     @ResponseBody
-    public Message uploadUsers(HttpServletRequest request,MultipartFile excelFile)  {
-        System.out.println("================== 方法开始 =====================");
-        //手工导入
+    public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
             if(excelFile != null){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
-
-                    //储存图片的物理路径
+                    //  储存图片的物理路径
                     String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user");
-
+                    //  获取上传文件的文件类型名
                     String originalFileName = excelFile.getOriginalFilename();
-
-                    //新的的图片名称
+                    //  新的的图片名称,用UUID做文件名防止重复
                     String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
                     //新图片文件
                     File newFile = new File(realPath+newFileName);
-
                     //将内存中的数据写入磁盘
-                    System.out.println("================== 这里尚未写入=====================");
                     excelFile.transferTo(newFile);
-
-                    System.out.println("=================="+newFile+"=====================");
                     //将新图片名称写到repair中
                     //repair.setRepairPic(newFileName);
                 if(true){
