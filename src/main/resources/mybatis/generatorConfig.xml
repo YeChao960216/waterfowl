@@ -74,13 +74,15 @@
       <table tableName="dictionary"/>
       <table tableName="epidemic"/>
       <table tableName="fowlery"/>
-      <table tableName="inventory"/>
-      <table tableName="permission"/>
+      <table tableName="material"/>
+      <table tableName="outstorage"/>
+      <table tableName="poultry"/>
       <table tableName="role"/>
+      <table tableName="permission"/>
       <table tableName="role_permission"/>
+      <table tableName="storage"/>
       <table tableName="user"/>
       <table tableName="user_role"/>
-      <table tableName="warehouse"/>
       <table tableName="weather"/>
 
 

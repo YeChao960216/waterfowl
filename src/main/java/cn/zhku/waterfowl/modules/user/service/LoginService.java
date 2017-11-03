@@ -24,14 +24,14 @@ public class LoginService {
      * @param form  user ,必须参数:phone，password
      * @return True：成功 False：失败
      */
-    public boolean login(User form) {
+    public User login(User form) {
         UserExample userExample = new UserExample();
         userExample.or().andPhoneEqualTo(form.getPhone());
         User user = userMapper.selectByExample(userExample).get(0);
-        if (user.getPassword().equals(form.getPassword()))
-            return Boolean.TRUE;
+        if (user != null && user.getPassword().equals(form.getPassword()))
+            return user;
         else
-            return Boolean.FALSE;
+            return null;
     }
 
     //检验手机号

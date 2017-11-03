@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +30,6 @@ import java.util.UUID;
  * 对用户user状态操作的controller,继承BaseController以便使用全局变量和参数绑定
  */
 @Controller
-@RequestMapping("{adminPath}/user/")
 public class UserController extends BaseController {
     //  注入user表的服务
     @Autowired
@@ -44,7 +44,7 @@ public class UserController extends BaseController {
      * @throws Exception sql
      */
     @ResponseBody
-    @RequestMapping("new")
+    @RequestMapping("{adminPath}/user/new")
     public Message addUser(User user) throws Exception {
         user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
         if(userService.add(user) == 1)
@@ -62,7 +62,7 @@ public class UserController extends BaseController {
      * @throws Exception sql
      */
     @ResponseBody
-    @RequestMapping("delete/{id}")
+    @RequestMapping("{adminPath}/user/delete/{id}")
     public Message deleteUser(@PathVariable String id) throws Exception {
         User user = new User();
         user.setId(id);
@@ -82,7 +82,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("edit/{id}")
+    @RequestMapping("{adminPath}/user/edit/{id}")
     public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
         if(userService.update(user) == 1)
@@ -100,7 +100,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("show/{id}")
+    @RequestMapping("{adminPath}/user/show/{id}")
     public User showUser(@PathVariable String id) throws Exception {
         return userService.get(id);
     }
@@ -114,7 +114,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("list")
+    @RequestMapping("{adminPath}/user/list")
     public PageInfo<User> listUser(User user, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
@@ -131,7 +131,7 @@ public class UserController extends BaseController {
      * @param excelFile excel文件，前端用multipart/form-data类型上传
      * @return Message
      */
-    @RequestMapping(value = "excel/new")
+    @RequestMapping(value = "{adminPath}/user/excel/new")
     @ResponseBody
     public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
@@ -162,5 +162,7 @@ public class UserController extends BaseController {
 
         }
     }
+
+
 
 }

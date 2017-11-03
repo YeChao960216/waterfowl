@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,14 +25,17 @@ public class LoginController {
 
     /**
      *  用户登录
-     * @param user  User类，必须参数：phone，password
+     * @param form  User类，必须参数：phone，password
      * @return
      */
     @ResponseBody
     @RequestMapping("/user/login")
-    public Message login(User user){
-        if(loginService.login(user))
+    public Message login(User form, HttpSession httpSession){
+        User user = loginService.login(form);
+        if(user != null){
+            httpSession.setAttribute("user",user);
             return new Message("1","用户登录成功");
+        }
         else
             return new Message("2","用户登录失败");
     }
@@ -80,5 +84,11 @@ public class LoginController {
 
     }
 
-
+    @RequestMapping("/user/nowUserInfo")
+    @ResponseBody
+    public User nowUserInfo(HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("user");
+        user.setPassword("  ");
+        return user;
+    }
 }
