@@ -49,7 +49,7 @@ var viewCommand = (function(msg){
                 '<td ><button id="add{#id#}" class="btn">办理入职</button></td>',
             '</tr>'
          ].join(''),
-         update_fireEmp:[
+         del_fireEmp:[
             '<tr>',
                 '<td >{#phone#}</td>',
                 '<td >{#name#}</td>',

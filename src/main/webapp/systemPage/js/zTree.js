@@ -31,7 +31,7 @@ var zNodes = [
             [   //办理入职的时候，主要罗列出处于离职状态的员工，为其办理入职手续
                 {name:"办理入职",tid:'./empManagePage/addEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'},
                 //解雇/删除，主要罗列出处于入职状态的员工，办理离职手续手续
-                {name:"解雇/删除员工信息",tid:'./empManagePage/update_fireEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'}
+                {name:"解雇/删除员工信息",tid:'./empManagePage/del_fireEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'}
             ]
         },
         
