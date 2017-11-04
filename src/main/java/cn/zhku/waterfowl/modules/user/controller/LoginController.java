@@ -59,7 +59,7 @@ public class LoginController {
         user.setGender((byte) 3);
         user.setName("真实姓名");
         user.setRemark("备注");
-        user.setRoleId("404");
+
         user.setSign("3");
         user.setTurnover(new Date());
         if(loginService.register(user) == 1)
