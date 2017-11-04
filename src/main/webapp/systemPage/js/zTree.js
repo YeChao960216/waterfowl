@@ -22,17 +22,19 @@ var zNodes = [
         {   //列出所有的信息
             name:"个人信息", open:true, tid:'./userPage/showInfo.html',children:
             [   //除了入职，与状态之外，其他的是可以修改的
-                {name:"完善/修改",tid:'./userPage/update.html',pName:"个人信息",pUrl:'./userPage/showInfo.html'}
+                {name:"完善/修改",tid:'./userPage/update.html',pName:"个人信息",pUrl:'./userPage/showInfo.html'},
+                {name:"修改密码",tid:'./userPage/resetPassw.html',pName:"个人信息",pUrl:'./userPage/showInfo.html'}
             ]
         },
         {   //列出所有员工，但是，员工的密码是没办法看到的
-            name:"员工管理", open:true, tid:'./empManagePage/showEmp.html',children:
+            name:"员工信息管理", open:true, tid:'./empManagePage/showEmp.html',children:
             [   //办理入职的时候，主要罗列出处于离职状态的员工，为其办理入职手续
                 {name:"办理入职",tid:'./empManagePage/addEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'},
                 //解雇/删除，主要罗列出处于入职状态的员工，办理离职手续手续
-                {name:"解雇/删除员工信息",tid:'./empManagePage/updateEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'}
+                {name:"解雇/删除员工信息",tid:'./empManagePage/del_fireEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'}
             ]
-        }
+        },
+        
    ];
 var zTree = '';
 // setPath(1,'./employeeManagePage/add.html','增加员工')

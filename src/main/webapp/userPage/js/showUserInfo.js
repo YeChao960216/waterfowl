@@ -14,7 +14,7 @@
             $('#gender')[0].innerHTML = data.gender;
             $('#entry')[0].innerHTML = data.entry;
             $('#sign')[0].innerHTML = data.sign;
-            $('#ramark')[0].innerHTML = data.ramark;
+            $('#remark')[0].innerHTML = data.remark;
         }
     })
 })();

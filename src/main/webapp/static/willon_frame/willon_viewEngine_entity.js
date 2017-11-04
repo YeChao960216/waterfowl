@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-10-25 14:56:54 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2017-10-26 17:46:46
+ * @Last Modified time: 2017-11-04 17:56:07
  */
 /*
  * @Author: 伟龙-Willon qq:1061258787 
@@ -49,15 +49,16 @@ var viewCommand = (function(msg){
                 '<td ><button id="add{#id#}" class="btn">办理入职</button></td>',
             '</tr>'
          ].join(''),
-         update_FireEmp:[
+         del_fireEmp:[
             '<tr>',
                 '<td >{#phone#}</td>',
                 '<td >{#name#}</td>',
                 '<td >{#gender#}</td>',
                 '<td >{#entry#}</td>',
-                '<td ><select id="sign{#id#}"}><option value="1">在职</option><option value="0">离职<option></select></td>',
-                '<td ><button id="add{#id#}" class="btn">办理入职</button></td>',
-                '<td ><button id="add{#id#}" class="btn">删除信息</button></td>',
+                '<td >{#sign#}</td>',
+                '<td >{#role_id#}</td>',
+                '<td ><button id="fire{#id#}" class="btn">解雇</button></td>',
+                '<td ><button id="del{#id#}" class="btn">删除信息</button></td>',
             '</tr>'
          ].join(''),
          powerForEmp:[

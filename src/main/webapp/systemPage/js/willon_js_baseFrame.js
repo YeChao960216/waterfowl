@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon 
  * @Date: 2017-09-16 23:10:32 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2017-10-24 14:55:30
+ * @Last Modified time: 2017-10-31 21:48:48
  */
 
 /**
@@ -411,5 +411,26 @@ var setCookie = function(attrName,value){
         var cval=getCookie(attrName);//如果传入的name属性，在修改之前就存在了
         if(cval!=null)
             document.cookie=attrName +"="+cval+";expires="+exp.toGMTString();
+    }
+}
+
+var saveLocalInfo = function(key,val){
+    if(localStorage){
+        localStorage.setItem(key,val);
+    }else if(document.cookie){
+        setCookie(key,val);
+    }else{
+        alert('您的浏览器已经落后，请更换浏览器,来获取更佳体现');
+    }
+    
+}
+
+var getLocalInfo = function(key){
+    if(localStorage){
+        localStorage.getItem(key);
+    }else if(document.cookie){
+        setCookie(key);
+    }else{
+        alert('获取本地值失败');
     }
 }
