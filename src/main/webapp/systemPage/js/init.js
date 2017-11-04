@@ -5,16 +5,13 @@
     /*
     *调整页面大小，铺满全屏
     */
-    var userId;
-    var getUserId = function(){
-        return userId;
-    }
-    $.get('/waterfowl/user/nowUserInfo',function (data) {
-        if(data){
-            get('user').innerHTML = data.username;
-            userId = data.id;
-        }
-    });
+
+    // $.get('/waterfowl/user/nowUserInfo',function (data) {
+    //     if(data){
+    //         get('user').innerHTML = data.username;
+    //         //save('willon_user_id',data.id,'保存id值失败');//
+    //     }
+    // });
     var initF = function(){
         var W = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var H = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -49,7 +46,7 @@
         }
     }
     }
-    return getUserId;
+
 })();
 /*
 *一定要用这个设置路径显示,路径目前最多三层
