@@ -22,7 +22,7 @@
         <div class="container">
             <div class="aside">
                 <div class="userInfo">
-                    <p>&#9755;用户:<a href="#">管理员</a></p>
+                    <p>&#9755;用户:<a href="#" id="user">管理员</a></p>
                 </div>
                 <div class="menu ztree"  id="menu">
                 </div>
@@ -30,10 +30,12 @@
             <div class="r-aside">
                 <div class="path" id="paths">
                     &#9992;位置&gt<label id="path1"></label><label id="path2"></label><label id="path3"></label><label id="path4"></label>
-                    <div class="f-right login-out pointer">&#9785;退出系统<span id="nowTime"></span></div>
+                    <!-- 注销登录需要一个接口把session清除 -->
+                    <div class="f-right login-out"><a href="./loginPage/login.html">&#9785;退出系统</a ><span id="nowTime"></span></div>
                 </div>
                 <div class="content">
-                       <iframe id="whichPage" src="" frameborder="0"></iframe>
+                       <iframe id="whichPage" src="./systemPage/first.html" frameborder="0"></iframe>
+
                 </div>
             </div>
         </div>
@@ -42,50 +44,5 @@
 <script src="./systemPage/js/init.js"></script>
 <script src="./static/zTree_v3/js/jq.min.js"></script>
 <script src="./static/zTree_v3/js/jquery.ztree.all.min.js"></script>
-<script>
-    var setting = {  
-        callback:{
-            onClick:zTreeOnclick
-        },
-        isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
-        treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
-        treeNodeParentKey : "pId",        //在isSimpleData格式下，当前节点的父节点id属性  
-        showLine : true,                  //是否显示节点间的连线  
-        checkable : true                  //每个节点上是否显示 CheckBox  
-    };  
-  
-var zNodes = [
-        {
-            name:"员工信息管理", open:true, tid:'user_manager',children:
-            [
-                {name:"增加员工",tid:'add_user'}, {name:"删除员工",tid:'user_delete'},{name:'完善/修改员工信息',tid:'user_update'}
-            ]
-        },
-        {
-            name:"禽舍管理", tid:'user_manager', open:true, children:   //open=true 展开状态
-            [
-                {name:"增加",tid:'add'}, {name:"删除",tid:'delete'},{name:"修改",tid:"update"}
-            ]
-        }
-        
-   ];
-var zTree = '';
-setPath(1,'./employeeManagePage/add.html','增加员工')
-$(document).ready(function(){
-    zTree = $.fn.zTree.init($("#menu"), setting, zNodes);
- }); 
-function zTreeOnclick(e,pid,treeNodes){
-    console.log(treeNodes,e.target.className=='node_name');
-    if(!treeNodes.children){//没子节点的设置路径2
-        emptyPath(2);
-        setPath(2,treeNodes.id,treeNodes.name);
-    }else{                 //否则就设置路径1
-        emptyPath(2);
-        emptyPath(1);
-        setPath(1,'#',treeNodes.name);
-        //findxx()根据xx返回所有人员信息 这里要用ajax 获取人员数据
-    }
-}
-
-</script>
+<script src="./systemPage/js/zTree.js"></script>
 </html>

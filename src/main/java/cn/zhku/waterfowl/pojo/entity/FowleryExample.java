@@ -605,7 +605,7 @@ public class FowleryExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdChargeEqualTo(String value) {
+        public Criteria andIdChargeEqualTo(FowleryExample value) {
             addCriterion("id_charge =", value, "idCharge");
             return (Criteria) this;
         }
@@ -664,6 +664,8 @@ public class FowleryExample {
             addCriterion("id_charge not between", value1, value2, "idCharge");
             return (Criteria) this;
         }
+
+
     }
 
     /**

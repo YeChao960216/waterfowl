@@ -44,7 +44,7 @@ public class LoginService {
     public boolean CheckPhone(User user) {
         UserExample userExample = new UserExample();
         userExample.or().andPhoneEqualTo(user.getPhone());
-        if(userMapper.selectByExample(userExample) != null)
+        if(userMapper.selectByExample(userExample).size() > 0)
             return false;   //  若有相同手机号的用户，返回false
         else
             return true;    //   否则返回true
@@ -70,7 +70,7 @@ public class LoginService {
     public boolean registerCheckUsername(String username) {
         UserExample userExample = new UserExample();
         userExample.or().andUsernameEqualTo(username);
-        if(userMapper.selectByExample(userExample) != null)
+        if(userMapper.selectByExample(userExample).size() > 0)
             return false;   //  若有相同用户名的用户，返回false
         else
             return true;    //   否则返回true

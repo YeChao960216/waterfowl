@@ -16,10 +16,14 @@
     box-shadow: inset -6px 2px 48px 20px #ccc;
     
 }
+/* .nav img{
+    width:55px;
+    height:55px;
+} */
 .container{
     width:100%;
     height:92%;
-    font-size: 15px;
+    font-size: 13px;
 }
 .aside{
     float: left;
@@ -60,8 +64,12 @@
 }
 .r-aside .login-out{
     margin-right: 15px;
+}
+.r-aside .login-out a{
     color: #800000;
-
+}
+.r-aside .login-out a:hover{
+    text-decoration: none;
 }
 .r-aside .login-out span{
     margin-left:20px;
@@ -99,3 +107,5 @@
 .aside .userInfo a:hover, .path span:hover{
     text-decoration: underline;
 }
+
+

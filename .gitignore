@@ -8,8 +8,9 @@
 /.idea/
 .idea_modules/
 .idea/
-#*.eml
-#*.iml
+*.eml
+*.iml
+*.zip
 *.project
 *.classpath
 *.settings

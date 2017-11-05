@@ -18,7 +18,7 @@ var ajax = (function(){
     }
     return{
         get:function(url,cb){
-            //xhr.withCredentials = true;
+            xhr.withCredentials = true; 
             xhr.open('GET',url,true);
             xhr.send(null);
             xhr.onreadystatechange = function(){

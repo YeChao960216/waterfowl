@@ -13,7 +13,7 @@ You shuold be install jdk1.8,maven,mysql first!
 
 You can checkout the source as :
 
-###git clone https://gitee.com/gonefuture/waterfowl_origin.git
+### git clone https://gitee.com/yec12/waterfowl.git
 
 
 cd into project root directory then use mvn build and package as:
@@ -26,5 +26,5 @@ If first time to build would be cost so much time to download the reference jar 
 
 or you can eclipse IDE to run as->maven clean && run as->maven install.
 
-##卓文智    叶超	 马成君  张莹祺  江伟龙！ 林伟佳
+##卓文智   叶超	 马成君  张莹祺  江伟龙！ 林伟佳  黄文浩 李瀚清 林锦曼 钱伟健
 

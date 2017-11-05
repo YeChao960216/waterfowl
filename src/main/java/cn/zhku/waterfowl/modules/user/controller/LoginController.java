@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -50,6 +51,13 @@ public class LoginController {
     @RequestMapping("/user/register")
     public Message loginCheckPhone(User user,String verifyCode){
         user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
+        user.setDuty("职务");
+        user.setGender((byte) 3);
+        user.setName("真实姓名");
+        user.setRemark("备注");
+        user.setRoleId("404");
+        user.setSign("3");
+        user.setTurnover(new Date());
         if(loginService.register(user) == 1)
             return new Message("1","用户注册成功");
         else

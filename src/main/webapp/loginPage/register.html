@@ -15,11 +15,11 @@
             <img src="./images/logo.jpg" alt="logo加载失败">
         </div>
         <div class="login-input-group">
-            <input type="text" id="cellphone" class="login-input" placeholder="手机号"/>
+            <input type="text" id="cellphone" class="login-input" placeholder="手机号" autocomplete="off"/>
             <span class="tips"></span>
         </div>
         <div class="login-input-group">
-            <input type="text" id="nickname" class="login-input" placeholder="昵称"/>
+            <input type="text" id="nickname" class="login-input" placeholder="昵称" autocomplete="off"/>
             <span class="tips"></span>
         </div>
         <div class="login-input-group">
@@ -31,9 +31,9 @@
             <span class="tips"></span>
         </div>
         <div class="login-input-group">
-            <input type="text" id="verify" class="login-input" placeholder="验证码"/>
+            <input type="text" id="verify" class="login-input" placeholder="验证码" autocomplete="off"/>
             <span class="tips" style="top:28px;right:88px;"></span>
-            <div class="verifyCode"><img src="images/verifyCode.jpg" alt="验证码加载失败"></div>
+            <div class="verifyCode"><img id="imgC" src="/waterfowl/images/imagecode?p=123123" alt="验证码加载失败" style="height:24px"></div>
         </div>
         <div class="login-input-group">
             <div id="sign_in"class="login-btn">注册</div>
@@ -49,69 +49,7 @@
 <script src="./js/canvas.js"></script>
 <script src="./js/willon_js_baseFrame.js"></script>
 <script src="./js/willon_checkForm_entity.js"></script>
-<script>
-    (function(){
-        var cellphone = W('#cellphone'),
-            nickname = W('#nickname'),
-            password1 = W('#password1'),
-            password2 = W('#password2'),
-            verifyCode = W('#verify'),
-            sign_in = W('#sign_in'),
-            flag = {};
-        bindEvent(cellphone,'blur',function(){
-            flag.cellphone = checkForm.check('cellphone',cellphone.nextElementSibling,cellphone.value).end();
-        });
-        bindEvent(nickname,'blur',function(){
-            flag.uername = checkForm.check('userName',nickname.nextElementSibling,nickname.value).end();
-        });
-        bindEvent(password1,'blur',function(){
-            flag.password1 = checkForm.check('password',password1.nextElementSibling,password1.value).end();
-        });
-        bindEvent(password2,'blur',function(){
-            if(password1.value!==password2.value){
-                password2.nextElementSibling.innerHTML = '密码不一致';
-                flag.password2 = false;
-            }else{
-                flag.password2 = true;
-                hideTips(password2.nextElementSibling);
-            }
-                
-        });
-        // bindEvent(email,'blur',function(){
-        //     flag.email = checkForm.check('email',email.nextElementSibling,email.value).end();
-        // });
-        bindEvent(verifyCode,'keyup',function(){
-            flag.verifyCode = false;
-            if(verifyCode.value.length >= 4){
-                if(verifyCode.value.toLowerCase() ==='3aed'){
-                    flag.verifyCode = true;
-                    hideTips(verifyCode.nextElementSibling);
-                }else
-                    verifyCode.nextElementSibling.innerHTML = "验证码错误";
-            }
-        });
-        bindEvent(sign_in,'click',function(){//最后再检测一次是否有错
-            var canSign = false;  
-            for(var attt in flag){
-                if(!flag[attr]){
-                    canSign = false;
-                    break;
-                }else{
-                    canSign = true;
-                }
-            }
-            if(canSign){
-                ajax.post('/user/register',{'cellphone':cellphone.value,'nickname':nickname.value,'password':password2.value,'verifyCode':verifyCode.value},function(data){
-                    if(data.status==0){
-                        window.location.href = './login.html';
-                    }
-                })
-            }else{
-                alert('注册失败,请正确填写相关信息');
-            }
-        });
-    })();
-    
-
-</script>
+<script src="/waterfowl/static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/willon_register.js"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
 </html>
