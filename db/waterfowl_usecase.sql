@@ -2,7 +2,8 @@
 SQLyog v10.2 
 MySQL - 5.5.28 : Database - waterfowl
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -192,8 +193,6 @@ CREATE TABLE `permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `permission` */
-
-insert  into `permission`(`id`,`permission_name`) values ('0','root'),('1','dictionary'),('10','fowlery'),('100','null'),('11','weather'),('2','user'),('3','permissio'),('4','role'),('5','warehouse'),('6','inventory'),('7','aquaculture'),('8','epidemic'),('9','ddl');
 
 /*Table structure for table `role` */
 

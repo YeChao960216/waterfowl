@@ -51,7 +51,7 @@ viewCommand({
 // $('#content').on("click","[id*=add]",function(){
 //     var emp_id = $(this).attr(id).substr(2);
 //     $.post(URL_ADDEMP.ADDEMP,{id:emp_id},function(data){
-//         if(data.status==0){//修改成功
+//         if(data.status==1){//修改成功
 //             initView();
 //         }
 //     });

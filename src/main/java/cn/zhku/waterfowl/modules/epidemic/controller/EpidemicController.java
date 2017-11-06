@@ -37,8 +37,7 @@ import java.util.UUID;
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
 
-            epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
-            System.out.println(epidemic.toString());
+            epidemic.setIdEpidemic(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             if(epidemicService.add(epidemic) == 1)
                 return new Message("1","添加疾病/免疫记录表成功");
             else
@@ -47,15 +46,15 @@ import java.util.UUID;
 
         /** 根据记录表id删除对象
          * 测试完成
-         * @param id   只需id字段
+         * @param idEpidemic   只需id字段
          * @return message
          * @throws Exception sql
          */
         @ResponseBody
-        @RequestMapping("delete/{id}")
-        public Message deleteEpidemic(@PathVariable String id) throws Exception {
+        @RequestMapping("delete/{idEpidemic}")
+        public Message deleteEpidemic(@PathVariable String idEpidemic) throws Exception {
             Epidemic epidemic = new Epidemic();
-            epidemic.setId(id);
+            epidemic.setIdEpidemic(idEpidemic);
             if(epidemicService.delete(epidemic) == 1)
                 return new Message("1","删除疾病/免疫记录表成功");
             else
@@ -63,14 +62,44 @@ import java.util.UUID;
         }
         /** 根据id修改免疫记录
          *  测试成功
-         * @param   id 包括记录表id的各个Epidemic实体类字段
+         * @param   idEpidemic 不包括记录表的各个Epidemic实体类字段
          * @return  message
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("edit/{id}")
-        public Message editEpidemic(@PathVariable String id, Epidemic epidemic) throws Exception {
-            epidemic.setId(id);
+        @RequestMapping("edit/{idEpidemic}")
+        public Message editEpidemic(@PathVariable String idEpidemic, Epidemic epidemic) throws Exception {
+            epidemic.setIdEpidemic(idEpidemic);
+            if(epidemicService.update(epidemic) == 1)
+                return new Message("1","修改疾病/免疫记录表成功");
+            else
+                return new Message("2","修改疾病/免疫记录表成失败");
+        }
+        /**
+        * 根据多个id更改提交状态为已提交
+        * @param idList
+         * @return Message
+         * @throws Exception sql
+        * */
+        @ResponseBody
+        @RequestMapping("editFlagById")
+        public Message editFlagById(List<String> idList){
+
+                if (epidemicService.updateFlag(idList)==1)
+                    return new Message("1","提交疾病/免疫记录表成功");
+                else
+                    return new Message("2","提交疾病/免疫记录表成失败");
+        }
+        /** 根据id修改免疫记录
+         *  测试成功
+         * @param   epidemic 包括记录表id的各个Epidemic实体类字段
+         * @return  message
+         * @throws Exception    sql
+         */
+        @ResponseBody
+        @RequestMapping("edit")
+        public Message editEpidemic(Epidemic epidemic) throws Exception {
+
             if(epidemicService.update(epidemic) == 1)
                 return new Message("1","修改疾病/免疫记录表成功");
             else
@@ -97,8 +126,8 @@ import java.util.UUID;
          * @throws Exception    sql
          * */
         @ResponseBody
-        @RequestMapping("showAllByFlag/{flag}")
-        public PageInfo<Epidemic> showAllByFlag(@PathVariable int flag,CommonQo commonQo){
+        @RequestMapping("showByFlag/{flag}")
+        public PageInfo<Epidemic> showByFlag(@PathVariable int flag,CommonQo commonQo){
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
             //  通过服务层获取查询后的用户列表
@@ -112,7 +141,7 @@ import java.util.UUID;
          *  根据多个条件展示一列用户 => 多条件查询分页
          * @param epidemic   epidemic实体的各个字段
          * @param commonQo   通用查询类，拥有pageSize,
-         * @return  PageInfo<Epidemic> 一个带有List<User>的pageBean
+         * @return  PageInfo<Epidemic> 一个带有List<Epidemic>的pageBean
          * @throws Exception    sql
          */
         @ResponseBody

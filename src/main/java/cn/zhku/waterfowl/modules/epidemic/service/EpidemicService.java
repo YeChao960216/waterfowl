@@ -17,29 +17,60 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
     public int add(Epidemic entity) throws Exception {
         return epidemicMapper.insert(entity);
     }
-
+    /**
+    *根据id修改提交状态为已经提交
+    * */
+    public  int updateFlag(List<String> idList){
+        Epidemic epidemic=null;
+        try {
+            for (String id : idList
+                    ) {
+                epidemic.setIdEpidemic(id);
+                epidemic.setFlag(1);
+                update(epidemic);
+            }
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
     @Override
     /**
      * 根据epidemic实体更新
+     * @param entity 映射数据库单表的实体类
+     * @return 状态参数  1表示修改成功 0表示修改失败
      */
     public int update(Epidemic entity) throws Exception {
-        return epidemicMapper.updateByPrimaryKeySelective(entity);
+        if (checkFlag(entity)==0) {
+            epidemicMapper.updateByPrimaryKeySelective(entity);
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     @Override
     /**
      *根据epidemic实体类id删除
+     * @param entity 映射数据库单表的实体类
+     * @return 状态参数  1表示修改成功 0表示修改失败
      */
     public int delete(Epidemic entity) throws Exception {
-        return epidemicMapper.deleteByPrimaryKey(entity.getId());
+        if (checkFlag(entity)==0) {
+            epidemicMapper.deleteByPrimaryKey(entity.getIdEpidemic());
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     @Override
     /**
      * 根据id得到epdemic实体类
      */
-    public Epidemic get(String id) throws Exception {
-        return epidemicMapper.selectByPrimaryKey(id);
+    public Epidemic get(String idEpidemic) throws Exception {
+        return epidemicMapper.selectByPrimaryKey(idEpidemic);
     }
 
     @Override
@@ -48,7 +79,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
      */
     public Epidemic get(Epidemic entity) throws Exception {
         EpidemicExample epidemicExample =new EpidemicExample();
-        epidemicExample.or().andIdBatchEqualTo(entity.getId());
+        epidemicExample.or().andIdEpidemicEqualTo(entity.getIdEpidemic());
         if (epidemicExample!=null) {
             return epidemicMapper.selectByExample(epidemicExample).get(0);
         }else {
@@ -63,6 +94,12 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
     public List<Epidemic> findList(Epidemic entity) throws Exception {
         EpidemicExample epidemicExample =new EpidemicExample();
         EpidemicExample.Criteria criteria = epidemicExample.createCriteria();
+        //是否提交
+        if(entity.getFlag()!=null)
+            criteria.andFlagEqualTo(entity.getFlag());
+        //禽舍编号
+        if(entity.getIdFowlery()!=null)
+            criteria.andIdFowleryEqualTo(entity.getIdFowlery());
         //  日期
         if (entity.getDate()!=null)
             criteria.andDateEqualTo(entity.getDate());
@@ -75,9 +112,9 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //负责人编号
         if (entity.getIdCharge()!=null)
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        //批次编号
-        if (entity.getIdBatch()!=null)
-            criteria.andIdBatchEqualTo(entity.getIdBatch());
+//        //批次编号
+//        if (entity.getIdBatch()!=null)
+//            criteria.andIdBatchEqualTo(entity.getIdBatch());
         //记录者编号
         if (entity.getIdRecorder()!=null)
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
@@ -90,9 +127,9 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //免疫，疾病标志
         if (entity.getSign()!=null)
             criteria.andSignEqualTo(entity.getSign());
-        // 库存编号
-        if (entity.getInventoryId()!=null)
-            criteria.andInventoryIdEqualTo(entity.getInventoryId());
+        //染病个体数
+        if (entity.getNumInfected()!=null)
+            criteria.andNumInfectedEqualTo(entity.getNumInfected());
         return epidemicMapper.selectByExample(epidemicExample);
     }
 
@@ -101,5 +138,15 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         EpidemicExample.Criteria criteria = epidemicExample.createCriteria();
         criteria.andFlagEqualTo(flag);
         return epidemicMapper.selectByExample(epidemicExample);
+    }
+    /*
+   *检查提交状态
+   * 其中1为已经提交, 0为未提交
+   * */
+    private int checkFlag(Epidemic entity) throws Exception {
+        Epidemic epidemic = get(entity);
+        if (epidemic.getFlag()==1){
+            return 1;
+        }else return 0;
     }
 }
