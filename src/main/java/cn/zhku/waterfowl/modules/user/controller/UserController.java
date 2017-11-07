@@ -138,7 +138,7 @@ public class UserController extends BaseController {
             if(excelFile != null){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
                     //  储存图片的物理路径
-                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user");
+                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
                     //  获取上传文件的文件类型名
                     String originalFileName = excelFile.getOriginalFilename();
                     //  新的的图片名称,用UUID做文件名防止重复
