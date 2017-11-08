@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import java.util.List;
@@ -90,6 +91,15 @@ import java.util.UUID;
                 else
                     return new Message("2","提交疾病/免疫记录表成失败");
         }
+        @ResponseBody
+        @RequestMapping("editFlagById")
+        public Message editFlagById(String id) throws Exception {
+
+            if (epidemicService.updateFlag(id)==1)
+                return new Message("1","提交疾病/免疫记录表成功");
+            else
+                return new Message("2","提交疾病/免疫记录表成失败");
+        }
         /** 根据id修改免疫记录
          *  测试成功
          * @param   epidemic 包括记录表id的各个Epidemic实体类字段
@@ -129,7 +139,7 @@ import java.util.UUID;
         @RequestMapping("showByFlag/{flag}")
         public PageInfo<Epidemic> showByFlag(@PathVariable int flag,CommonQo commonQo){
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id_epidemic desc");
             //  通过服务层获取查询后的用户列表
             List<Epidemic> epidemicList =  epidemicService.showAllByFlag(flag);
             //  返回 pageBean
@@ -146,9 +156,9 @@ import java.util.UUID;
          */
         @ResponseBody
         @RequestMapping("findList")
-        public PageInfo<Epidemic> findListEpidemic(Epidemic epidemic, CommonQo commonQo) throws Exception {
+        public PageInfo<Epidemic> findList(Epidemic epidemic, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id_epidemic desc");
             //  通过服务层获取查询后的用户列表
             List<Epidemic> epidemicList =  epidemicService.findList(epidemic);
             //  返回 pageBean实体

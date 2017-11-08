@@ -35,6 +35,16 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
             return 0;
         }
     }
+    public int updateFlag(String id) throws Exception {
+        Epidemic epidemic = null;
+        epidemic.setIdEpidemic(id);
+        epidemic.setFlag(1);
+        System.out.println(id);
+        System.out.println(epidemic);
+        return  update(epidemic);
+    }
+
+
     @Override
     /**
      * 根据epidemic实体更新
@@ -149,4 +159,6 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
             return 1;
         }else return 0;
     }
+
+
 }

@@ -27,6 +27,7 @@
         <th>备注</th>
         <th>操作</th>
     </tr>
+    <form name="ddl_form" method="post" action="/waterfowl/ddl/save">
     <tr>
         <td><input type="date" id="record_date"></td>
         <td><input type="text" id="epidemic_id" placeholder="所属疾控批次" ></td>
@@ -35,9 +36,27 @@
         <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
         <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><button class="btn">提交</button></td>
+        <td><button class="btn-submit"  onclick="beforeSubmit()">提交</button></td>
     </tr>
-
+    </form>
 </table>
+<script type="text/javascript">
+    function beforeSubmit() {
+    var formData = new FormData('ddl_form');
+    var xmlHttpRequest = new  XMLHttpRequest();
+    xmlHttpRequest.open("post","/waterfowl/ddlManagePage/add.html");
+    xmlHttpRequest.onload = function (resp) {
+        if (xmlHttpRequest.status==200){
+            alert("增加成功");
+
+        }else {
+            alert('Error:'+xmlHttpRequest.status);
+        }
+        xmlHttpRequest.send(formData);
+     }
+    }
+    
+</script>
+
 </body>
 </html>
