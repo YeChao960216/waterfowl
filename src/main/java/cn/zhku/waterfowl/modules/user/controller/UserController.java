@@ -124,6 +124,43 @@ public class UserController extends BaseController {
         return new PageInfo<User>(userList);
     }
 
+    /**
+     *  解雇用户
+     * @param id    用户id
+     * @return  message
+     * @throws Exception    sql
+     */
+    @RequestMapping("{adminPath}/user/fire/{id}")
+    @ResponseBody
+    public Message fire(@PathVariable String id) throws Exception {
+        User user = new User();
+        user.setId(id);
+        user.setSign("2");
+        if (userService.update(user) == 1 ) {
+            return new Message("1","该用户已经解雇");
+        } else {
+            return new Message("2","解雇该用户失败");
+        }
+    }
+
+    @RequestMapping("{adminPath}/user/entry/{id}")
+    @ResponseBody
+    public Message entry(@PathVariable String id) throws Exception {
+        User user = new User();
+        user.setId(id);
+        user.setSign("1");
+        if (userService.update(user) == 1 ) {
+            return new Message("1","该用户入职成功");
+        } else {
+            return new Message("2","该用户入职失败");
+        }
+    }
+
+
+
+
+
+
     // 接受一个新Excel
     /**
      *  导入用excel
