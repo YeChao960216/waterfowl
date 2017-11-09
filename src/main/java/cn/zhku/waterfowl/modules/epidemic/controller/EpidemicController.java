@@ -47,19 +47,19 @@ import java.util.UUID;
 
         /** 根据记录表id删除对象
          * 测试完成
-         * @param idEpidemic   只需id字段
+         * @param id 只需id字段
          * @return message
          * @throws Exception sql
          */
         @ResponseBody
-        @RequestMapping("delete/{idEpidemic}")
-        public Message deleteEpidemic(@PathVariable String idEpidemic) throws Exception {
-            Epidemic epidemic = new Epidemic();
-            epidemic.setIdEpidemic(idEpidemic);
+        @RequestMapping("delete/{id}")
+        public Message deleteEpidemic(@PathVariable String id) throws Exception {
+            Epidemic epidemic =  new Epidemic();
+            epidemic.setIdEpidemic(id);
             if(epidemicService.delete(epidemic) == 1)
                 return new Message("1","删除疾病/免疫记录表成功");
             else
-                return new Message("2","删除疾病/免疫记录表失败");
+                return new Message("2","删除疾病/免疫记录表失败,已经提交的数据无法删除");
         }
         /** 根据id修改免疫记录
          *  测试成功
@@ -85,7 +85,6 @@ import java.util.UUID;
         @ResponseBody
         @RequestMapping("editFlagById")
         public Message editFlagById(List<String> idList){
-
                 if (epidemicService.updateFlag(idList)==1)
                     return new Message("1","提交疾病/免疫记录表成功");
                 else

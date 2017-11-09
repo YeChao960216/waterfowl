@@ -1,4 +1,5 @@
 package cn.zhku.waterfowl.modules.epidemic.service;
+import cn.zhku.waterfowl.modules.epidemic.dao.EpidemicDao;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
 import cn.zhku.waterfowl.pojo.mapper.EpidemicMapper;
@@ -10,6 +11,8 @@ import java.util.List;
 public class EpidemicService  implements IBaseService<Epidemic>  {
     @Autowired
     private EpidemicMapper epidemicMapper;
+    @Autowired
+    private EpidemicDao epidemicDao;
     @Override
     /**
      * 根据epidemic实体插入
@@ -21,27 +24,25 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
     *根据id修改提交状态为已经提交
     * */
     public  int updateFlag(List<String> idList){
-        Epidemic epidemic=null;
-        try {
-            for (String id : idList
-                    ) {
-                epidemic.setIdEpidemic(id);
-                epidemic.setFlag(1);
-                update(epidemic);
+
+            try {
+                for (String id:idList
+                     ) {
+                    epidemicDao.updateFlagById(id);
+                }
+                return 1;
+            }catch (Exception e){
+                return 0;
             }
+    }
+    public int updateFlag(String id){
+        try {
+            epidemicDao.updateFlagById(id);
             return 1;
         }catch (Exception e){
             e.printStackTrace();
             return 0;
         }
-    }
-    public int updateFlag(String id) throws Exception {
-        Epidemic epidemic = null;
-        epidemic.setIdEpidemic(id);
-        epidemic.setFlag(1);
-        System.out.println(epidemic.getIdEpidemic());
-        System.out.println(epidemic);
-        return  update(epidemic);
     }
 
 

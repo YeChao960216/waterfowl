@@ -49,12 +49,12 @@ public class DdlController extends BaseController{
     @ResponseBody
     @RequestMapping("delete/{id}")
     public Message deteleDdl(@PathVariable String id) throws Exception {
-        Ddl ddl =null;
+        Ddl ddl =new Ddl();
         ddl.setId(id);
         if (ddlService.delete(ddl) == 1) {
             return new Message("1", "删除病死淘记录表成功");
         } else
-            return new Message("2","删除病死淘记录表失败，不存在该数据");
+            return new Message("2","删除病死淘记录表失败，已经提交的数据无法删除");
     }
     /**
      * 根据多个id更改提交状态为已提交
@@ -69,7 +69,22 @@ public class DdlController extends BaseController{
         if (ddlService.updateFlag(idList)==1)
             return new Message("1","提交疾病/免疫记录表成功");
         else
-            return new Message("2","提交疾病/免疫记录表成失败");
+            return new Message("2","提交疾病/免疫记录表成失败,已经提交的数据无法删除");
+    }
+    /**
+     * 根据多个id更改提交状态为已提交
+     * @param id
+     * @return Message
+     * @throws Exception sql
+     * */
+    @ResponseBody
+    @RequestMapping("editFlagById/{id}")
+    public Message editFlagById(@PathVariable String id) throws Exception {
+
+        if (ddlService.updateFlag(id)==1)
+            return new Message("1","提交疾病/免疫记录表成功");
+        else
+            return new Message("2","提交疾病/免疫记录表成失败,已经提交的数据无法删除");
     }
     /**
      * 修改未提交Ddl表记录
@@ -82,7 +97,7 @@ public class DdlController extends BaseController{
         if (ddlService.update(ddl) == 1) {
             return new Message("1", "修改病死淘记录表成功");
         } else
-            return new Message("2","修改病死淘记录表失败");
+            return new Message("2","修改病死淘记录表失败,已经提交的数据无法删除");
     }
     /**
      * 修改未提交Ddl表记录
@@ -109,14 +124,13 @@ public class DdlController extends BaseController{
     public Ddl showById(@PathVariable String id) throws Exception {
         return ddlService.get(id);
     }
-    /*&#x6839;&#x636e;flag&#x5206;&#x9875;&#x5c55;&#x793a;&#x6570;&#x636e;
-         *  &#x6d4b;&#x8bd5;&#x5b8c;&#x6210;
-         *   &#x5176;&#x4e2d;flag=0 &#x8868;&#x793a;&#x672a;&#x63d0;&#x4ea4;   flag=1&#x8868;&#x793a;&#x5df2;&#x63d0;&#x4ea4;
-         * @param   flag
-         * @param commonQo   &#x67e5;&#x8be2;&#x7c7b;&#xff0c;&#x62e5;&#x6709;pageSize,
-         * @return  PageInfo<Ddl> &#x4e00;&#x4e2a;&#x5e26;&#x6709;List<Ddl>&#x7684;pageBean
-         * @throws Exception    sql
-         * */
+    /**
+     * 根据提交状态显示Ddl表记录
+     *  @param flag
+     *  @return  PageInfo<Ddl>
+     *  @throws Exception    sql
+
+     */
     @ResponseBody
     @RequestMapping("showByFlag/{flag}")
     public PageInfo<Ddl> showAllByFlag(@PathVariable int flag,CommonQo commonQo){

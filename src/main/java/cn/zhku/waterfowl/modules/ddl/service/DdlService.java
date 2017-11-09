@@ -113,7 +113,7 @@ public class DdlService implements IBaseService<Ddl> {
         if (entity.getRemark() != null)
             criteria.andRemarkLike("%" + entity.getRemark() + "%");
         if (entity.getProcessingMode() != null)
-            criteria.andProcessingModeEqualTo(entity.getProcessingMode());
+            criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
         return ddlMapper.selectByExample(ddlExample);
     }
 
@@ -138,7 +138,7 @@ public class DdlService implements IBaseService<Ddl> {
  * 根据id修改提交状态为已经提交
  * */
     public int updateFlag(List<String> idList) {
-        Ddl ddl = null;
+        Ddl ddl = new Ddl();
         try {
             for (String id : idList
                     ) {
@@ -148,6 +148,19 @@ public class DdlService implements IBaseService<Ddl> {
             }
             return 1;
         } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+    public int updateFlag(String id) throws Exception {
+        Ddl ddl = new Ddl();
+        ddl.setId(id);
+        ddl.setFlag(1);
+        try {
+            update(ddl);
+            return 1;
+        }catch (Exception e){
             e.printStackTrace();
             return 0;
         }
