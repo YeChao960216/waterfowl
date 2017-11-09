@@ -126,6 +126,9 @@ public class UserService  implements IBaseService<User> {
         if (entity.getGender() != null)
             //  相当于 duty = entity.getDuty()
             criteria.andGenderEqualTo(entity.getGender());
+        if (entity.getSign() != null)
+            //  相当于 Sign = entity.getSign()
+            criteria.andSignEqualTo(entity.getSign());
 
         return userMapper.selectByExample(userExample);
     }
