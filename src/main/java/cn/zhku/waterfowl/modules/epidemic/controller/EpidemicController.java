@@ -92,8 +92,8 @@ import java.util.UUID;
                     return new Message("2","提交疾病/免疫记录表成失败");
         }
         @ResponseBody
-        @RequestMapping("editFlagById")
-        public Message editFlagById(String id) throws Exception {
+        @RequestMapping("editFlagById/{id}")
+        public Message editFlagById(@PathVariable String id) throws Exception {
 
             if (epidemicService.updateFlag(id)==1)
                 return new Message("1","提交疾病/免疫记录表成功");

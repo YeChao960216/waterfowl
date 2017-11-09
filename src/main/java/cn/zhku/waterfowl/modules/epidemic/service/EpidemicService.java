@@ -39,7 +39,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         Epidemic epidemic = null;
         epidemic.setIdEpidemic(id);
         epidemic.setFlag(1);
-        System.out.println(id);
+        System.out.println(epidemic.getIdEpidemic());
         System.out.println(epidemic);
         return  update(epidemic);
     }
