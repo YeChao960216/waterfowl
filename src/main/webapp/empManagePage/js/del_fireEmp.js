@@ -13,8 +13,8 @@
     const oURL = {
         PORNAME:'/waterfowl',
         WORKEMPINFO:'amdin/user/getWorker',
-        FIREEMP : '',
-        DELEMP:'',
+        FIREEMP : 'admin/user/fire/',
+        DELEMP:'admin/user/delete/',
     }
     /**
      * 马上渲染试图
@@ -37,7 +37,7 @@
      * @param {*} cb 
      */
     var option = function(url,id,cb){
-        $.post(url,{'id':id},function(data){
+        $.get(url+id,function(data){
             if(data.status==1){//成功
                 cb&&cb();
             }

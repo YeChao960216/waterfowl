@@ -5,21 +5,20 @@
      * @returns {Object}
      * @constructor
      */
-    function getRequest() {
-        var url = location.search;
-        var theRequest = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            var strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);//将key_value 转化成 theRequset的属性值
-            }
-        }
-        return theRequest; //返回出去
-    }
-
     const oURL = (function () {
             var emp_id = getRequest()[id];
+            function getRequest() {
+                var url = location.search;
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    var strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);//将key_value 转化成 theRequset的属性值
+                    }
+                }
+                return theRequest; //返回出去
+            }
             return {
                 EMP_ID : emp_id,
                 PORNAME:'/waterfowl',

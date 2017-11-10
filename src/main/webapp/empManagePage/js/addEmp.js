@@ -16,16 +16,20 @@
         PAGE:1,
         COUNT:15,
         PRONAME:'/waterfowl',
-        GETNOTWORKER:'admin/user/getNotWorker',
-        ADDEMP:'admin/user/entry',
+        GETNOTWORKER:'/admin/user/list',
+        ADDEMP:'/admin/user/entry/',
     };
 
     var oContent = $('#content')[0];
 
     function initView(){
-        ajax.get(oURL.PRONAME+oURL.GETNOTWORKER+'?page='+oURL.PAGE+'&count='+oURL.COUNT,function(data){
+        $.get(oURL.PRONAME+oURL.GETNOTWORKER+'?sign=2',function(data){
             console.log(data);
             if(data.length!=0){
+                data = new DataFilter({
+                    data:data.list,
+                    type:'userInfo'
+                });
                 viewCommand({
                     command:'display',
                     param:[oContent,data,'addEmp']
@@ -40,10 +44,8 @@
      *
      */
     $('#content').on("click","[id*=add]",function(){
-        var emp_id = $(this).attr(id).substr(2),
-            entry = new Date().getTime(),
-            sign = '1';
-        $.post(oURL.PRONAME+oURL.ADDEMP,{'id':emp_id,'entry':entry,'sign':sign},function(data){
+        var emp_id = $(this).attr(id).substr(2);
+        $.post(oURL.PRONAME+oURL.ADDEMP+emp_id,function(data){
             if(data.status==1){//修改成功
                 initView();
             }else{
