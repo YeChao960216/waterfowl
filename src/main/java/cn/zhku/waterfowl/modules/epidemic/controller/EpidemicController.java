@@ -39,6 +39,7 @@ import java.util.UUID;
         public Message addEpidemic(Epidemic epidemic) throws Exception {
 
             epidemic.setIdEpidemic(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+            epidemic.setFlag(0);
             if(epidemicService.add(epidemic) == 1)
                 return new Message("1","添加疾病/免疫记录表成功");
             else

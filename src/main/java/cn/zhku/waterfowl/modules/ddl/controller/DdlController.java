@@ -30,7 +30,7 @@ public class DdlController extends BaseController{
     @RequestMapping("save")
     public Message addDdl(Ddl ddl) throws Exception {
         ddl.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-//        ddl.setFlag(0);
+        ddl.setFlag(0);
        try {
             ddlService.add(ddl);
             return  new Message("1", "增加病死淘记录表成功");
@@ -40,7 +40,6 @@ public class DdlController extends BaseController{
         }
 
     }
-
     /**
      * 删除未提交Ddl表记录
      *  @param id
@@ -112,7 +111,7 @@ public class DdlController extends BaseController{
         if (ddlService.update(ddl) == 1) {
             return new Message("1", "修改病死淘记录表成功");
         } else
-            return new Message("2","修改病死淘记录表失败");
+            return new Message("2","修改病死淘记录表失败，已经提交的数据无法修改");
     }
 
     /**

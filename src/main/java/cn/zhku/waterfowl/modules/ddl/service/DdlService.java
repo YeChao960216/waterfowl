@@ -51,8 +51,15 @@ public class DdlService implements IBaseService<Ddl> {
      * @throws Exception 抛出参数错误、SQL操作等异常
      */
     @Override
-    public int add(Ddl entity) throws Exception {
-        return ddlMapper.insertSelective(entity);
+    public int add(Ddl entity) {
+        try {
+            ddlMapper.insertSelective(entity);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
     /**
@@ -91,28 +98,28 @@ public class DdlService implements IBaseService<Ddl> {
      * 通过查询条件获取某个实体对象（相对应的表）列表操作
      *
      * @param entity 映射数据库单表的实体类
-     * @return 影响行数
+     * @return List<Ddl>
      * @throws Exception 抛出参数错误、SQL操作等异常
      */
     @Override
     public List<Ddl> findList(Ddl entity) throws Exception {
         DdlExample ddlExample = new DdlExample();
         DdlExample.Criteria criteria = ddlExample.createCriteria();
-        if (entity.getIdCharge() != null)
+        if (entity.getIdCharge() != null&&entity.getIdCharge().trim()!="")
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getIdPoultry() != null)
+        if (entity.getIdPoultry() != null&&entity.getIdPoultry().trim()!="")
             criteria.andIdPoultryEqualTo(entity.getIdPoultry());
-        if (entity.getIdRecorder() != null)
+        if (entity.getIdRecorder() != null&&entity.getIdRecorder().trim()!="")
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getFlag() != null)
             criteria.andFlagEqualTo(entity.getFlag());
-        if (entity.getNumProcessed() != null)
+        if (entity.getNumProcessed()!= null)
             criteria.andNumProcessedEqualTo(entity.getNumProcessed());
-        if (entity.getRecordDate() != null)
+        if (entity.getRecordDate()!= null)
             criteria.andRecordDateEqualTo(entity.getRecordDate());
-        if (entity.getRemark() != null)
+        if (entity.getRemark() != null&&entity.getRemark().trim()!="")
             criteria.andRemarkLike("%" + entity.getRemark() + "%");
-        if (entity.getProcessingMode() != null)
+        if (entity.getProcessingMode() != null&&entity.getProcessingMode().trim()!="")
             criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
         return ddlMapper.selectByExample(ddlExample);
     }
