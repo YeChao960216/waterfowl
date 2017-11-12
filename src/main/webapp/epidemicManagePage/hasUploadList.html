@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,15 +44,15 @@
     </style>
 </head>
 <body>
-<form action="" class="head_form">
-    <span>查询日期：</span><input type="date" id="record_date">
+<form name="find_form"  class="head_form">
+    <span>查询日期：</span><input type="date" id="date">
     <span>所患疾病：</span><input type="text" id="diseaes" placeholder="输入所患疾病">
     <span>处理方式：</span><input type="text" id="processing_mode" placeholder="输入处理方式">
-    <span>养殖批次：</span><input type="text" id="id_batch" placeholder="输入养殖批次">
-    <span>出库编号：</span><input type="text" id="inventory_id" placeholder="输入库存编号"><br>
+    <span>禽舍编号：</span><input type="text" id="id_fowlery" placeholder="输入禽舍编号">
     <span>记录者编号：</span><input type="text" id="id_recorder" placeholder="输入记录者编号">
     <span>负责人编号：</span><input type="text" id="id_charge" placeholder="输入负责人编号">
-    <input type="submit" value="查询">
+    <span>备注内容：</span><input type="text" id="remark" placeholder="输入备注"><br>
+    <input type="submit" id="sub" value="查询">
 </form>
 <table>
     <tr>
