@@ -9,25 +9,23 @@ function findMaxNum() {
 //Ajax请求
 $(function () {
     $('#btn').click(function () {
-        var idPoultry=$('#idPoultry').val();
-        var fowleryId=$('#fowleryId').val();
-        var recordDate=$('#recordDate').val();
-        var numTotal=$('#numTotal').val();
-        var feedWeight=$('#feedWeight').val();
-        var feedType=$('#feedType').val();
-        var type=$('#type').val();
-        var idRecorder=$('#idRecorder').val();
-        var idCharge=$('#idCharge').val();
-        var remark=$('#remark').val();
-        var status=$('#status');
 
         $.ajax({
             /*请求的HTML页的URL地址*/
             url: "",
             /*data发送至服务器的key/value数据*/
             data: {
-                "recordDate":recordDate,"idPoultry":idPoultry,"fowleryId":fowleryId,"type":type,"numTotal":numTotal,"feedType":feedType,
-                "feedWeight":feedWeight,"status":status,"idRecorder":idRecorder,"idCharge":idCharge,"remark":remark},
+                "recordDate":$('#recordDate').val(),
+                "idPoultry":$('#idPoultry').val(),
+                "fowleryId":$('#fowleryId').val(),
+                "type":$('#type').val(),
+                "numTotal":$('#numTotal').val(),
+                "feedType":$('#feedType').val(),
+                "feedWeight":$('#feedWeight').val(),
+                "status":$('#status'),
+                "idRecorder":$('#idRecorder').val(),
+                "idCharge":$('#idCharge').val(),
+                "remark":$('#remark').val()},
             /*客户端请求的类型*/
             type: "post",
             dataType: "json",

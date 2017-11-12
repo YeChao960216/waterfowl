@@ -9,19 +9,18 @@ function findMaxNum() {
 findMaxNum();
 $(function () {
     $('#btn').click(function () {
-        var dateEstablish=$('#dateEstablish').val();
-        var address=$('#address').val();
-        var type=$('#type').val();
-        var numMax=$('#numMax').val();
-        var idRecorder=$('#idRecorder').val();
-        var idCharge=$('#idCharge').val();
-        var remark=$('#remark').val();
         $.ajax({
             /*请求的HTML页的URL地址*/
             url: "",
             /*data发送至服务器的key/value数据*/
             data: {
-                "dateEstablish":dateEstablish,"address":address,"numMax":numMax,"type":type,"idRecorder":idRecorder," idCharge": idCharge,"remark":remark
+                "dateEstablish":$('#dateEstablish').val()h,
+                "address":$('#address').val(),
+                "numMax":$('#numMax').val(),
+                "type":$('#type').val(),
+                "idRecorder":$('#idRecorder').val(),
+                " idCharge": $('#idCharge').val(),
+                "remark":$('#remark').val()
             },
             /*客户端请求的类型*/
             type: "post",
