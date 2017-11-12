@@ -42,38 +42,6 @@
             margin-right:30px;
         }
     </style>
-    <script type="text/javascript">
-        //创建ajax核心对象
-        xmlhttp=null;
-        if (window.XMLHttpRequest)
-        {// code for Firefox, Mozilla, IE7, etc.
-            xmlhttp=new XMLHttpRequest();
-        }
-        else if (window.ActiveXObject)
-        {// code for IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        //监听事件
-       window.onload =function () {
-
-           var submit = document.getElementById("sub");
-           sub.onclick=function () {
-               xmlhttp.onreadystatechange=function (obj){
-                   if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                       var data =xmlhttp.responseText;
-                       var jsonObj = JSON.parse( data );
-                       console.log(jsonObj.sign);
-                   }
-               }
-               var formData = new FormData('find_form');
-               xmlhttp.open("post",
-                   "/waterfowl/epidemic/findList");
-               xmlhttp.send(formData);
-           };
-
-       };
-
-    </script>
 </head>
 <body>
 <form name="find_form"  class="head_form">

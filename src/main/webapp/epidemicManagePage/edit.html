@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>添加记录</title>
+    <title>修改记录</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
     <!-- `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
   `fowlery_id` varchar(45) NOT NULL COMMENT '禽舍编号',
@@ -28,18 +28,15 @@
 <table>
     <tr>
         <th>记录日期</th>
-        <th>养殖批次</th>
         <th>禽舍编号</th>
-        <th>库存编号</th>
         <th>免疫、疫病标志</th>
         <th>疾病</th>
-        <th>个体总数</th>
         <th>染病个体数</th>
         <th>处理方式</th>
         <th>给药方式</th>
         <th>剂量</th>
         <th>剂量单位</th>
-        <th>用药总量</th>
+        <th>出仓表编号</th>
         <th>记录者编号</th>
         <th>负责人编号</th>
         <th>备注</th>
@@ -47,22 +44,19 @@
     </tr>
     <tr>
         <td><input type="date" id="record_date"></td>
-        <td><input type="text" id="id_batch" placeholder="养殖批次" ></td>
-        <td><input type="text" id="fowlery_id" placeholder="禽舍编号" ></td>
-        <td><input type="text" id="inventory_id" placeholder="库存编号"></td>
+        <td><input type="text" id="id_fowlery" placeholder="禽舍编号" ></td>
         <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
         <td><input type="text" id="diseaes" placeholder="疾病"></td>
-        <td><input type="text" id="num_total" placeholder="个体总数"></td>
         <td><input type="text" id="num_infected" placeholder="染病个体数"></td>
         <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
         <td><input type="text" id="medication_mode" placeholder="给药方式"></td>
         <td><input type="text" id="dose" placeholder="剂量"></td>
         <td><input type="text" id="dose_unit" placeholder="剂量单位"></td>
-        <td><input type="text" id="medication_amount" placeholder="用药总量"></td>
+        <td><input type="text" id="id_outstorage" placeholder="出仓表编号"></td>
         <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
         <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><button class="btn">提交</button></td>
+        <td><input type="button" class="btn" value="修改"></td>
     </tr>
 </table>
 </body>

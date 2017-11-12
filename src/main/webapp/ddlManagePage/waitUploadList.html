@@ -1,28 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>待上传记录列表</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <!--此处引入base.js-->
+    <!--此处引入base.js>-->
     <script src="js/base.js"></script>
-    <script>
-        window.onload =function () {
-            zhanjia.popLayer(25);
-            zhanjia.selectAll();
-        }
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            /*查询方法
+            *pageNum为页数
+            * flag为提交状态码,其中1表示已经上传,0表示未上传
+            * */
+            function search(pageNum,flag) {
+                $("#tbody tr").each(function(i){
+                    $("#tbody").find("tr").eq(0).remove();
+                });
+                $.ajax({
+                    type:"post",
+                    url:"/waterfowl/ddl/findList",
+                    data:{
+                        "recordDate":$("#record_date").val(),//日期查询
+                        "idPoultry":$("#id_poultry").val(),//批次查询
+                        "processingMode":$("#processing_mode").val(),//处理方式查询
+                        "idRecorder":$("#id_recorder").val(),//记录者编号查询
+                        "idCharge":$("#id_charge").val(),//负责人编号查询
+                        "pageNum":pageNum,//当前页
+                        "flag":flag
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        $(data.list).each(function(i,n){
+                            $("#tbody").append(
+                                 "<tr><td><input type='checkbox'></td>"
+                                +"<td>"+n.recordDate+"</td>"
+                                +"<td>"+n.idPoultry+"</td>"
+                                +"<td>"+n.numProcessed+"</td>"
+                                +"<td>"+n.processingMode+"</td>"
+                                +"<td>"+n.idRecorder+"</td>"
+                                +"<td>"+n.idCharge+"</td>"
+                                +"<td class='remark'>"+n.remark+"</td>"
+                                +"<td><button class='btn edit'>修改</button><button class='btn delete'>删除</button></td></tr>");
+                            $("#tbody").find("tr").eq(i).find("td").eq(0).find("input").attr("value",n.id);
+                            $("#tbody").find("tr").eq(i).find("td").eq(8).find("button").eq(0).click(function(){editDdL(n.id)});
+                            $("#tbody").find("tr").eq(i).find("td").eq(8).find("button").eq(1).click(function(){deleteDdL(n.id)});
+                        });
+                        $(".pageNum").html(data.pageNum);//当前页
+                        $(".pages").html(data.pages);//总页数
+                        $(".total").html(data.total);//总数量
+//                        $(".prePage").html(data.prpPage);//上一页
+//                        $(".nextPage").html(data.nextPage);//下一页
+                        zhanjia.popLayer(25);//干啥子
+                        zhanjia.selectAll();//干啥子
+                    }
+                })
+            };
+            //页面第一次加载时，调用ajax函数加载数据
+            search(1,0);
+//            上一页  ---判断是否为首页
+            $(".prePage").click(function () {
+                var opageNum=$(".opageNum").html();
+                opageNum--;
+                if(opageNum===0){
+                    alert("已经是首页了！");
+                    return;
+                }else {
+                    search(opageNum, 0);
+                }
+            });
+            //下一页  ---判断是否是尾页
+            $(".nextPage").click(function () {
+                var opageNum=$(".opageNum").html();
+                var opages = $(".pages").html();
+                if(opageNum>=opages) {
+                    alert("已经是最后一页了！");
+                    return;
+                }
+                    opageNum=parseInt(opageNum)+1;
+                    search(opageNum,0);
+
+            });
+            //多条件查询
+            $("#find").click(function(){
+                search(1,0);
+            });
+            function editDdL(id) {
+                //带着id转发到edit.html去
+            }
+            function deleteDdL(id) {
+                $.ajax({
+                    type:"get",
+                    url:'/ddl/delete/'+id,
+                    dataType:"json",
+                    success:function (data) {
+                        //根据删除状态返回
+                        if (data.status===1){
+                            alert(data.msg);
+                        }else{
+                            alert(data.msg);
+                        }
+                        //刷新数据
+                        search($(".pageNum").html(),0);
+                    }
+                })
+            }
+        });
     </script>
-    <!-- `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
-  `epidemic_id` varchar(45) NOT NULL COMMENT '疫病情况表编号',
-  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
-  `num_processed` int(11) NOT NULL COMMENT '需处理个体数量',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号'-->
     <style>
+        body,html {
+            height: 100%;
+        }
         .head_form {
             margin:10px;
         }
@@ -32,24 +122,22 @@
     </style>
 </head>
 <body>
-<!--表头查询部分开始-->
 <form action="" class="head_form">
     <span>查询日期：</span><input type="date" id="record_date">
-    <span>疾控批次：</span><input type="text" id="epidemic_id" placeholder="输入疾控批次">
+    <span>家禽记录批次：</span><input type="text" id="id_poultry" placeholder="家禽记录批次">
     <span>处理方式：</span><input type="text" id="processing_mode" placeholder="输入处理方式">
     <span>记录者编号：</span><input type="text" id="id_recorder" placeholder="记录者编号">
     <span>负责人编号：</span><input type="text" id="id_charge" placeholder="负责人编号">
-    <input type="submit" value="查询">
+    <input type="submit" id="find" value="查询">
 </form>
-<!--表头查询部分结束-->
-<!--记录展示部分开始-->
-<form action="" class="record_form">
-    <input type="submit" value="上传所选记录" class="btn">
+<span>单项操作</span><button class="btn upload">上传选中</button><button class="btn delete">删除选中</button>
+<form>
     <table>
+        <thead>
         <tr>
-            <th><input type="checkbox" id="selectAll">全选</th>
+            <th><input type="checkbox" id="selectAll" />全选</th>
             <th>记录日期</th>
-            <th>所属疾控批次</th>
+            <th>家禽记录批次</th>
             <th>处理数量</th>
             <th>处理方式</th>
             <th>记录者编号</th>
@@ -57,64 +145,15 @@
             <th>备注</th>
             <th>操作</th>
         </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>2017-10-26</td>
-            <td>所属疾控批次1</td>
-            <td>处理数量</td>
-            <td>处理方式</td>
-            <td>记录者编号</td>
-            <td>负责人编号</td>
-            <td class="remark">备注</td>
-            <td>
-                <button class="btn">修改</button>
-                <button class="btn">删除</button>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>2017-10-26</td>
-            <td>所属疾控批次1</td>
-            <td>处理数量</td>
-            <td>处理方式</td>
-            <td>记录者编号</td>
-            <td>负责人编号</td>
-            <td class="remark">备注</td>
-            <td>
-                <button class="btn">修改</button>
-                <button class="btn">删除</button>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>2017-10-26</td>
-            <td>所属疾控批次1</td>
-            <td>处理数量</td>
-            <td>处理方式</td>
-            <td>记录者编号</td>
-            <td>负责人编号</td>
-            <td class="remark">备注</td>
-            <td>
-                <button class="btn">修改</button>
-                <button class="btn">删除</button>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>2017-10-26</td>
-            <td>所属疾控批次1</td>
-            <td>处理数量</td>
-            <td>处理方式</td>
-            <td>记录者编号</td>
-            <td>负责人编号</td>
-            <td class="remark">备注</td>
-            <td>
-                <button class="btn">修改</button>
-                <button class="btn">删除</button>
-            </td>
-        </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
     </table>
+    <ul id="ul">
+        <li>共<span class="total"></span>条记录，当前页为<span class="pageNum"></span>/<span class="pages"></span></li>
+        <li><span class="prePage" ></span>上一页<span class="nextPage" >下一页</span></li>
+    </ul>
 </form>
-<!--记录展示部分结束-->
 </body>
 </html>
