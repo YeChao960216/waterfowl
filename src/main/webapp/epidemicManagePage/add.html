@@ -6,64 +6,85 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>添加记录</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <!-- `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `fowlery_id` varchar(45) NOT NULL COMMENT '禽舍编号',
-  `inventory_id` varchar(45) DEFAULT NULL COMMENT '库存表编号',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
-  `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
-  `diseaes` varchar(45) NOT NULL COMMENT '疾病',
-  `num_total` int(11) NOT NULL COMMENT '个体总数',
-  `num_infected` int(11) NOT NULL COMMENT '染病个体数',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
-  `medication_mode` varchar(45) NOT NULL COMMENT '给药方式',
-  `dose` float NOT NULL COMMENT '剂量',
-  `dose_unit` varchar(45) NOT NULL COMMENT '剂量对应单位，例：ml、g',
-  `medication_amount` float NOT NULL COMMENT '用药总量，包含实际总使用量和损耗丢弃量。单位以对应消耗品在inv库存表中的unit属性为准，可以是：盒、ml、kg等',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
-  `id_batch` varchar(45) NOT NULL COMMENT '养殖批次',-->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
+<script type="text/javascript">
+    $(function(){
+        //ajax函数，添加数据
+        function addEpidemic(){
+            //var str=JSON.stringify({"record_date":$("#record_date").val(),"id_batch":$("#id_batch").val(),"num_processed":$("#num_processed").val(),"processing_mode":$("#processing_mode").val(),"id_recorder":$("#id_recorder").val(),"id_charge":$("#id_charge").val(),"remark":$("#remark").val()});
+            $.ajax({
+                type:"post",
+                url:"/waterfowl/epidemic/save",
+                data:{
+                    "date":$("#record_date").val(),
+                    "idFowlery":$("#id_fowlery").val(),
+                    "sign":$("#sign").val(),
+                    "diseaes":$("#diseaes").val(),
+                    "numInfected":$("#num_infected").val(),
+                    "processingMode":$("#processing_mode").val(),
+                    "medicationMode":$("#medication_mode").val(),
+                    "dose":$("#dose").val(),
+                    "idOutstorage":$("#id_outstorage").val(),
+                    "doseUnit":$("#dose_unit").val(),
+                    "idRecorder":$("#id_recorder").val(),
+                    "idCharge":$("#id_charge").val(),
+                    "remark":$("#remark").val(),
+                },
+                dataType:"json",//回调数据的格式
+                success:function(data){
+                    alert("调用ajax函数");
+                    if(data.status==="1"){
+                        alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+            });
+        }
+
+        //点击添加数据的按钮
+        $(".btn").click(function(){
+            //调用ajax添加函数
+            addEpidemic();
+        });
+    });
+</script>
 <body>
-<table>
+  <table>
     <tr>
         <th>记录日期</th>
-        <th>养殖批次</th>
         <th>禽舍编号</th>
-        <th>库存编号</th>
         <th>免疫、疫病标志</th>
         <th>疾病</th>
-        <th>个体总数</th>
         <th>染病个体数</th>
         <th>处理方式</th>
         <th>给药方式</th>
         <th>剂量</th>
         <th>剂量单位</th>
-        <th>用药总量</th>
+        <th>出仓表编号</th>
         <th>记录者编号</th>
         <th>负责人编号</th>
         <th>备注</th>
         <th>操作</th>
     </tr>
-    <tr>
+      <tr>
         <td><input type="date" id="record_date"></td>
-        <td><input type="text" id="id_batch" placeholder="养殖批次" ></td>
-        <td><input type="text" id="fowlery_id" placeholder="禽舍编号" ></td>
-        <td><input type="text" id="inventory_id" placeholder="库存编号"></td>
+        <td><input type="text" id="id_fowlery" placeholder="禽舍编号" ></td>
         <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
         <td><input type="text" id="diseaes" placeholder="疾病"></td>
-        <td><input type="text" id="num_total" placeholder="个体总数"></td>
         <td><input type="text" id="num_infected" placeholder="染病个体数"></td>
         <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
         <td><input type="text" id="medication_mode" placeholder="给药方式"></td>
         <td><input type="text" id="dose" placeholder="剂量"></td>
         <td><input type="text" id="dose_unit" placeholder="剂量单位"></td>
-        <td><input type="text" id="medication_amount" placeholder="用药总量"></td>
+        <td><input type="text" id="id_outstorage" placeholder="出仓表编号"></td>
         <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
         <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><button class="btn">提交</button></td>
+        <td><input type="button" class="btn" value="提交"></td>
     </tr>
-</table>
+  </table>
+
 </body>
 </html>

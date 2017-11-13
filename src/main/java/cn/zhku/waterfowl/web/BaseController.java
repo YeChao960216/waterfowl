@@ -17,6 +17,7 @@ import javax.validation.Validator;
 
 import cn.zhku.waterfowl.util.BeanValidators;
 import cn.zhku.waterfowl.util.DateUtils;
+import cn.zhku.waterfowl.util.modle.Message;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
@@ -80,42 +81,42 @@ public class BaseController {
 	
 	protected final static String USER_PARAMS_TOKEN  = "token";
 
-	/**
-	 * 服务端参数有效性验证
-	 * @param object 验证的实体对象
-	 * @param groups 验证组
-	 * @return 验证成功：返回true；严重失败：将错误信息添加到 message 中
-	 */
-	protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
-		try{
-			BeanValidators.validateWithException(validator, object, groups);
-		}catch(ConstraintViolationException ex){
-			List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
-			list.add(0, "数据验证失败：");
-			addMessage(model, list.toArray(new String[]{}));
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * 服务端参数有效性验证
-	 * @param object 验证的实体对象
-	 * @param groups 验证组
-	 * @return 验证成功：返回true；严重失败：将错误信息添加到 flash message 中
-	 */
-	protected boolean beanValidator(RedirectAttributes redirectAttributes, Object object, Class<?>... groups) {
-		try{
-			BeanValidators.validateWithException(validator, object, groups);
-		}catch(ConstraintViolationException ex){
-			List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
-			list.add(0, "数据验证失败：");
-			addMessage(redirectAttributes, list.toArray(new String[]{}));
-			return false;
-		}
-		return true;
-	}
-	
+//	/**
+//	 * 服务端参数有效性验证
+//	 * @param object 验证的实体对象
+//	 * @param groups 验证组
+//	 * @return 验证成功：返回true；严重失败：将错误信息添加到 message 中
+//	 */
+//	protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
+//		try{
+//			BeanValidators.validateWithException(validator, object, groups);
+//		}catch(ConstraintViolationException ex){
+//			List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
+//			list.add(0, "数据验证失败：");
+//			addMessage(model, list.toArray(new String[]{}));
+//			return false;
+//		}
+//		return true;
+//	}
+//
+//	/**
+//	 * 服务端参数有效性验证
+//	 * @param object 验证的实体对象
+//	 * @param groups 验证组
+//	 * @return 验证成功：返回true；严重失败：将错误信息添加到 flash message 中
+//	 */
+//	protected boolean beanValidator(RedirectAttributes redirectAttributes, Object object, Class<?>... groups) {
+//		try{
+//			BeanValidators.validateWithException(validator, object, groups);
+//		}catch(ConstraintViolationException ex){
+//			List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
+//			list.add(0, "数据验证失败：");
+//			addMessage(redirectAttributes, list.toArray(new String[]{}));
+//			return false;
+//		}
+//		return true;
+//	}
+//
 	/**
 	 * 服务端参数有效性验证
 	 * @param object 验证的实体对象
@@ -126,17 +127,18 @@ public class BaseController {
 		BeanValidators.validateWithException(validator, object, groups);
 	}
 	
-	/**
-	 * 添加Model消息
-	 * @param
-	 */
-	protected void addMessage(Model model, String... messages) {
-		StringBuilder sb = new StringBuilder();
-		for (String message : messages){
-			sb.append(message).append(messages.length>1?"<br/>":"");
-		}
-		model.addAttribute("message", sb.toString());
-	}
+//	/**
+//	 * 添加Model消息
+//	 * @param
+//	 */
+//	protected Message addMessage(Model model, String... messages) {
+//		StringBuilder sb = new StringBuilder();
+//		for (String message : messages){
+//			sb.append(message).append(messages.length>1?"<br/>":"");
+//		}
+//		model.addAttribute("message", sb.toString());
+//
+//	}
 	
 	/**
 	 * 添加Flash消息
