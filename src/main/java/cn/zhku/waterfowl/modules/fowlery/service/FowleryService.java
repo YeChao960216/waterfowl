@@ -96,4 +96,32 @@ public class FowleryService implements IBaseService<Fowler> {
         }
         return fowleryMapper.selectByExample(fowleryExample);
     }
+
+    /**
+     * 通过id查找鸡舍
+     * @param type
+     * @return id
+     */
+    public String getType(String type) {
+
+        return fowleryMapper.findFowleryIdByType(type);
+    }
+
+    /**
+     * 查找禽舍最大的容纳量
+     * @param id
+     * @return
+     */
+    public Integer findMaxNumById(String id) {
+        return fowleryMapper.findMaxNumById(id);
+    }
+
+    /**
+     * 查看已经存放的有多少
+     * @param id
+     * @return 存放的数量
+     */
+    public Integer findUsedNumById(String id) {
+        return fowleryMapper.findUsedNumById(id);
+    }
 }

@@ -2,8 +2,9 @@ package cn.zhku.waterfowl.pojo.mapper;
 
 import cn.zhku.waterfowl.pojo.entity.Fowler;
 import cn.zhku.waterfowl.pojo.entity.FowleryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FowleryMapper {
     /**
@@ -93,4 +94,25 @@ public interface FowleryMapper {
      * @mbggenerated Thu Oct 26 20:43:45 CST 2017
      */
     int updateByPrimaryKey(Fowler record);
+
+    /**
+     * 通过类型查找禽舍的id
+     * @param type
+     * @return  禽舍的id
+     */
+    String findFowleryIdByType(String type);
+
+    /**
+     * 通过id查找禽舍的可存放最大数
+     * @param id
+     * @return 数量
+     */
+    Integer findMaxNumById(String id);
+
+    /**
+     * 通过id查找已经别存放的数量
+     * @param id
+     * @return  已经被存放是数量
+     */
+    Integer findUsedNumById(String id);
 }

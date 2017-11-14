@@ -315,4 +315,17 @@
       id_charge = #{idCharge,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="findFowleryIdByType" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT a.id FROM fowlery a WHERE type = #{type}
+
+  </select>
+
+  <select id="findMaxNumById" parameterType="java.lang.String" resultType="java.lang.Integer">
+      SELECT num_max from fowlery WHERE id=#{id}
+  </select>
+
+  <select id="findUsedNumById" parameterType="java.lang.String" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM epidemic WHERE id_fowlery=#{id};
+  </select>
 </mapper>

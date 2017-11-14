@@ -41,12 +41,13 @@ public class FowleryController {
      * @return 状态码，1为成功，0为失败
      */
     @ResponseBody
-    @RequestMapping("delete")
+    @RequestMapping("delete/{id}")
     public int deleteFowlery(@PathVariable String id) throws Exception {
         Fowler fowlery=new Fowler();
         fowlery.setId(id);
        return fowleryService.delete(fowlery);
     }
+
 
     /**
      * 展示鸡舍
@@ -90,4 +91,49 @@ public class FowleryController {
         return new PageInfo<Fowler>(fowleryList);
     }
 
+    //一个鸡舍种类的接口,通过type查找id
+    @ResponseBody
+    @RequestMapping("list/{type}")
+    public String listFowleryType(@PathVariable String type){
+
+        return fowleryService.getType(type);
+    }
+
+    /**
+     * 判断个数是否超过禽舍的最大数
+     * @param id
+     * @param sum  前端的数量
+     * @return 1:可以使用，0：不能使用
+     */
+    @ResponseBody
+    @RequestMapping("findMaxNum/{id}")
+    public int IsOverMaxNum(@PathVariable String id, Integer sum){
+        Integer maxnum=fowleryService.findMaxNumById(id);
+        if(maxnum>=sum){
+            return 1;            //小于数据库中查询到的最大数，可以使用
+        }else{
+            return 0;             //大于数据库中查询到的最大数，不能使用
+        }
+    }
+
+    /**
+     * 禽舍剩余的数量
+     * @param id
+     * @return 可用数量
+     */
+    @ResponseBody
+    @RequestMapping("findSpace/{id}")
+    public int FindSpaceById(@PathVariable String id){
+        //禽舍可以存放的最大数量
+        Integer maxnum= fowleryService.findMaxNumById(id);
+        //禽舍已经被存放的数量
+        Integer num=fowleryService.findUsedNumById(id);
+        if(maxnum>num){
+            //可以存放的数量
+            Integer ableuse=maxnum-num;
+            return ableuse;
+        }else{
+            return 0;
+        }
+    }
 }
