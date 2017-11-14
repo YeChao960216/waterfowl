@@ -7,25 +7,30 @@
 </head>
 <body>
 <table>
+
     <tr>
 
         <td><button class="btn">查询条件</button></td>
-        <td><input type="date" placeholder="请选择查询日期" ></td>
-        <td><input type="text" placeholder="请输入记录者编号" ></td>
-        <td><input type="text" placeholder="请输入负责人编号" ></td>
+        <td><input id="dateEstablish" type="date" placeholder="请选择查询日期" ></td>
+        <td><input id="idRecorder" type="text" placeholder="请输入记录者编号" ></td>
+        <td><input id="idRharge" type="text" placeholder="请输入负责人编号" ></td>
+        <td><input id="type" type="text" placeholder="请输入养殖类型" ></td>
         <td><button class="btn">查询</button></td>
     </tr>
 
     <tr>
         <th><input type="checkbox">全选</th>
+        <th>禽舍管理编号</th>
         <th>建立日期</th>
+        <th>地址</th>
         <th>最大纳员数</th>
         <th>负责人编号</th>
         <th>记录者编号</th>
+        <th>养殖类型</th>
         <th>备注</th>
         <th>操作</th>
     </tr>
-
+    <tbody id="tbody"></tbody>
     <tr>
         <td><input type="checkbox"></td>
         <td></td>
@@ -34,8 +39,13 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
+        <td></td>
+        <td><input type="button" class="btn btns"></td>
     </tr>
 
 </table>
 </body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" href="./js/delete.js"></script>
 </html>
