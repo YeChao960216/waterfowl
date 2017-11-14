@@ -85,7 +85,7 @@ import java.util.UUID;
         * */
         @ResponseBody
         @RequestMapping("editFlagById")
-        public Message editFlagById(List<String> idList){
+        public Message editFlagById(String []idList){
                 if (epidemicService.updateFlag(idList)==1)
                     return new Message("1","提交疾病/免疫记录表成功");
                 else
