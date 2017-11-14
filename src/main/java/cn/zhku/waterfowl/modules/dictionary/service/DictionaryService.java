@@ -5,6 +5,7 @@ import cn.zhku.waterfowl.pojo.entity.DictionaryExample;
 import cn.zhku.waterfowl.pojo.mapper.DictionaryMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @version : 2017/11/13 23:12.
  * 说明：
  */
+@Service
 public class DictionaryService  implements IBaseService<Dictionary> {
 
     @Autowired
