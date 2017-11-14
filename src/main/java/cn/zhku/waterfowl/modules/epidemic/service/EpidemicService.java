@@ -22,8 +22,9 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
     }
     /**
     *根据id修改提交状态为已经提交
-    * */
-    public  int updateFlag(List<String> idList){
+    *
+     * @param idList*/
+    public  int updateFlag(String[] idList){
 
             try {
                 for (String id:idList
