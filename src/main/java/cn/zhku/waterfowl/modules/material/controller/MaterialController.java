@@ -8,6 +8,8 @@ import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 说明：
  */
 @RestController
+@RequestMapping("/material/")
 public class MaterialController implements IBaseController<Material> {
     @Autowired
     MaterialService materialService;
@@ -30,6 +33,7 @@ public class MaterialController implements IBaseController<Material> {
      * @return Message
      * @throws Exception sql、bean检验
      */
+    @RequestMapping("new")
     @Override
     public Message add(Material entity) throws Exception {
         if (materialService.add(entity) == 1)
@@ -46,8 +50,10 @@ public class MaterialController implements IBaseController<Material> {
      * @return Message
      * 1     * @throws Exception   sql、bean检验
      */
+    @RequestMapping("delete/{id}")
     @Override
-    public Message delete(Material entity) throws Exception {
+    public Message delete(@PathVariable String id, Material entity) throws Exception {
+        entity.setIdMaterial(id);
         if (materialService.delete(entity) == 1)
             return new Message("1","成功删除材料");
         else
@@ -59,8 +65,9 @@ public class MaterialController implements IBaseController<Material> {
      * @return Message
      * @throws Exception sql、bean检验
      */
+    @RequestMapping("edit/{id}")
     @Override
-    public Message update(Material entity) throws Exception {
+    public Message update(@PathVariable String id, Material entity) throws Exception {
         if (materialService.update(entity) == 1)
             return new Message("1","更新材料信息成功");
         else
@@ -74,8 +81,9 @@ public class MaterialController implements IBaseController<Material> {
      * @return Message
      * @throws Exception sql、bean检验
      */
+    @RequestMapping("show/{id}")
     @Override
-    public Material get(String id) throws Exception {
+    public Material get(@PathVariable String id) throws Exception {
         return materialService.get(id);
     }
 
@@ -87,6 +95,7 @@ public class MaterialController implements IBaseController<Material> {
      * @return PageInfo分页类
      * @throws Exception sql、bean检验
      */
+    @RequestMapping("list")
     @Override
     public PageInfo<Material> list(Material entity, CommonQo commonQo) throws Exception {
         PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),"date desc");
