@@ -1,10 +1,11 @@
 package cn.zhku.waterfowl.modules.fowlery.controller;
 
 import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
-import cn.zhku.waterfowl.pojo.entity.Fowler;
+import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("new")
-    public int addFowlery(Fowler fowlery) throws Exception {
+    public int addFowlery(Fowlery fowlery) throws Exception {
         fowlery.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
         return fowleryService.add(fowlery);
     }
@@ -43,7 +44,7 @@ public class FowleryController {
     @ResponseBody
     @RequestMapping("delete/{id}")
     public int deleteFowlery(@PathVariable String id) throws Exception {
-        Fowler fowlery=new Fowler();
+        Fowlery fowlery=new Fowlery();
         fowlery.setId(id);
        return fowleryService.delete(fowlery);
     }
@@ -56,7 +57,7 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("show/{id}")
-    public Fowler showFowlery(@PathVariable String id) throws Exception {
+    public Fowlery showFowlery(@PathVariable String id) throws Exception {
         return fowleryService.get(id);
     }
 
@@ -68,7 +69,7 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("edit/{id}")
-    public int editFowlery(@PathVariable String id, Fowler fowlery) throws Exception {
+    public int editFowlery(@PathVariable String id, Fowlery fowlery) throws Exception {
         fowlery.setId(id);
         return fowleryService.update(fowlery);
     }
@@ -82,21 +83,21 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("list")
-    public PageInfo<Fowler> listFowlery(Fowler fowlery, CommonQo commonQo) throws Exception {
+    public PageInfo<Fowlery> listFowlery(Fowlery fowlery, CommonQo commonQo) throws Exception {
         //设置页码
         PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),"id desc");
         //通过服务层获取鸡舍列表
-        List<Fowler> fowleryList = fowleryService.findList(fowlery);
+        List<Fowlery> fowleryList = fowleryService.findList(fowlery);
         //返回pagebean对象
-        return new PageInfo<Fowler>(fowleryList);
+        return new PageInfo<Fowlery>(fowleryList);
     }
 
     //一个鸡舍种类的接口,通过type查找id
     @ResponseBody
-    @RequestMapping("list/{type}")
+    @RequestMapping("findtype/{type}")
     public String listFowleryType(@PathVariable String type){
-
-        return fowleryService.getType(type);
+        Gson gson = new Gson();
+        return gson.toJson(fowleryService.getType(type));
     }
 
     /**

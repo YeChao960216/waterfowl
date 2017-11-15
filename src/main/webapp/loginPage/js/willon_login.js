@@ -2,7 +2,14 @@
     var cellphone = W('#cellphone'),
          password = W('#password'),
          remeber = W('#remeber'),
+         login  = W('#login'),
          flag = {};
+    var getLocalInfo = function(key){
+        return localStorage.getItem(key)|| getCookie(key);
+    }
+    var removeLocalInfo = function(key){
+        localStorage.removeItem(key);
+    }
     var save = function(key,val){
         if(val&&remeber.checked){
             if(localStorage){
@@ -55,10 +62,10 @@
                     save('willon_phone',phone,'请填写手机号');
                     save('willon_passw',passw,'请填写密码'); 
                 }
-                ajax.post('/user/login',{'phone':phone,'password':passw},function(data){
-                    if(data.status==0){
-                        sessionStorage.setItem('system_user',data.username);
-                        window.location.href='/index.html';
+                $.post('/waterfowl/user/login',{'phone':phone,'password':md5(passw)},function(data){
+                    if(data.status==1){
+                        //sessionStorage.setItem('system_user',data.username);
+                        window.location.href='/waterfowl/index.html';
                     }
                 })
             }else{
@@ -71,10 +78,10 @@
                 save('willon_phone',phone,'请填写手机号');
                 save('willon_passw',passw,'请填写密码'); 
             }
-            ajax.post('/user/login',{'phone':phone,'password':passw},function(data){
-                if(data.status==0){
-                    sessionStorage.setItem('user',data.username);
-                    window.location.href='/index.html';
+           $.post('/waterfowl/user/login',{'phone':phone,'password':md5(passw)},function(data){
+                if(data.status==1){
+                    //sessionStorage.setItem('user',data.username);
+                    window.location.href='/waterfowl/index.html';
                 }
             })
         }

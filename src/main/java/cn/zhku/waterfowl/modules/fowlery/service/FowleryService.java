@@ -1,6 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.service;
 
-import cn.zhku.waterfowl.pojo.entity.Fowler;
+import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.FowleryExample;
 import cn.zhku.waterfowl.pojo.mapper.FowleryMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
@@ -11,14 +11,15 @@ import java.util.List;
 
 /**
  * Created by jin on 2017/10/24.
+ *
  */
 @Service
-public class FowleryService implements IBaseService<Fowler> {
+public class FowleryService implements IBaseService<Fowlery> {
     @Autowired
     private FowleryMapper fowleryMapper;
 
     @Override
-    public int add(Fowler entity) throws Exception {
+    public int add(Fowlery entity) throws Exception {
         return fowleryMapper.insert(entity);
     }
 
@@ -30,7 +31,7 @@ public class FowleryService implements IBaseService<Fowler> {
      * @throws Exception
      */
     @Override
-    public int update(Fowler entity) throws Exception {
+    public int update(Fowlery entity) throws Exception {
         return fowleryMapper.updateByPrimaryKeySelective(entity);
     }
 
@@ -42,7 +43,7 @@ public class FowleryService implements IBaseService<Fowler> {
      * @throws Exception
      */
     @Override
-    public int delete(Fowler entity) throws Exception {
+    public int delete(Fowlery entity) throws Exception {
         return fowleryMapper.updateByPrimaryKey(entity);
     }
 
@@ -54,22 +55,22 @@ public class FowleryService implements IBaseService<Fowler> {
      * @throws Exception
      */
     @Override
-    public Fowler get(String id) throws Exception {
+    public Fowlery get(String id) throws Exception {
         return fowleryMapper.selectByPrimaryKey(id);
     }
 
     /**
-     *
+     *通过地址查找禽舍
      * @param entity
      *            映射数据库单表的实体类
      * @return
      * @throws Exception
      */
     @Override
-    public Fowler get(Fowler entity) throws Exception {
+    public Fowlery get(Fowlery entity) throws Exception {
         FowleryExample fowleryExample=new FowleryExample();
         if(entity.getIdCharge()!=null){
-            fowleryExample.or().andIdChargeEqualTo(fowleryExample);   //?????
+            fowleryExample.or().andIdChargeEqualTo(entity.getAddress());
             return fowleryMapper.selectByExample(fowleryExample).get(0);
         }else{
             return null;
@@ -84,7 +85,7 @@ public class FowleryService implements IBaseService<Fowler> {
      * @throws Exception
      */
     @Override
-    public List<Fowler> findList(Fowler entity) throws Exception {
+    public List<Fowlery> findList(Fowlery entity) throws Exception {
         FowleryExample fowleryExample=new FowleryExample();
         FowleryExample.Criteria criteria=fowleryExample.createCriteria();
 
@@ -102,8 +103,7 @@ public class FowleryService implements IBaseService<Fowler> {
      * @param type
      * @return id
      */
-    public String getType(String type) {
-
+    public List<String> getType(String type) {
         return fowleryMapper.findFowleryIdByType(type);
     }
 

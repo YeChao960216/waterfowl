@@ -18,6 +18,6 @@ public interface UserDao {
      * @param id  user表用户的id
      * @return
      */
-    @Select("select * from user_role where user_id = (select id from user where id = #{id})")
-    List<Role> findRoleById (String id) ;
+    @Select("select * from role where id in (select role_id from user_role where user_id = #{id})")
+    List<Role> findRolesById (String id) ;
 }

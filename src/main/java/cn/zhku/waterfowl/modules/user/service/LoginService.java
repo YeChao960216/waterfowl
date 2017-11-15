@@ -6,8 +6,6 @@ import cn.zhku.waterfowl.pojo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 /**
  * @author : 钱伟健 gonefuture@qq.com
  * @version : 2017/10/23 21:50.
@@ -24,14 +22,14 @@ public class LoginService {
      * @param form  user ,必须参数:phone，password
      * @return True：成功 False：失败
      */
-    public boolean login(User form) {
+    public User login(User form) {
         UserExample userExample = new UserExample();
         userExample.or().andPhoneEqualTo(form.getPhone());
         User user = userMapper.selectByExample(userExample).get(0);
-        if (user.getPassword().equals(form.getPassword()))
-            return Boolean.TRUE;
+        if (user != null && user.getPassword().equals(form.getPassword()))
+            return user;
         else
-            return Boolean.FALSE;
+            return null;
     }
 
     //检验手机号
@@ -44,7 +42,7 @@ public class LoginService {
     public boolean CheckPhone(User user) {
         UserExample userExample = new UserExample();
         userExample.or().andPhoneEqualTo(user.getPhone());
-        if(userMapper.selectByExample(userExample) != null)
+        if(userMapper.selectByExample(userExample).size() > 0)
             return false;   //  若有相同手机号的用户，返回false
         else
             return true;    //   否则返回true
@@ -70,7 +68,7 @@ public class LoginService {
     public boolean registerCheckUsername(String username) {
         UserExample userExample = new UserExample();
         userExample.or().andUsernameEqualTo(username);
-        if(userMapper.selectByExample(userExample) != null)
+        if(userMapper.selectByExample(userExample).size() > 0)
             return false;   //  若有相同用户名的用户，返回false
         else
             return true;    //   否则返回true

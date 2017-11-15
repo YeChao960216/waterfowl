@@ -1,8 +1,8 @@
 ﻿/*
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-10-25 14:56:54 
- * @Last Modified by:   伟龙-Willon 
- * @Last Modified time: 2017-10-25 14:56:54 
+ * @Last Modified by: 伟龙-Willon
+ * @Last Modified time: 2017-11-04 17:56:07
  */
 /*
  * @Author: 伟龙-Willon qq:1061258787 
@@ -28,16 +28,48 @@ var viewCommand = (function(msg){
          option:[
              '<option value={#value#}>{#text#}</option>'
          ].join(''),
-         employeeInfo:[
+         empInfo:[
             '<tr>',
-                '<td>{#phone#}</td>',
-                '<td>{#username#}</td>',
-                '<td>{"#password"#}</td>',
-                '<td>{#name#}</td>',
-                '<td>{#gender#}</td>',
-                '<td>{#entry#}</td>',
-                '<td>{#sign#}</td>',
-                '<td>{#role_id#}</td>',
+                '<td >{#phone#}</td>',
+                '<td >{#name#}</td>',
+                '<td >{#gender#}</td>',
+                '<td >{#entry#}</td>',
+                '<td >{#sign#}</td>',
+                '<td >{#role_id#}</td>',
+                '<td ><button id="show{#id#}" class="btn">详情</button></td>',
+            '</tr>'
+         ].join(''),
+         addEmp:[
+            '<tr>',
+                '<td >{#phone#}</td>',
+                '<td >{#name#}</td>',
+                '<td >{#gender#}</td>',
+                '<td >{#entry#}</td>',
+                '<td >{#sign#}</td>',
+                '<td ><button id="add{#id#}" class="btn">办理入职</button></td>',
+            '</tr>'
+         ].join(''),
+         del_fireEmp:[
+            '<tr>',
+                '<td >{#phone#}</td>',
+                '<td >{#name#}</td>',
+                '<td >{#gender#}</td>',
+                '<td >{#entry#}</td>',
+                '<td >{#sign#}</td>',
+                '<td >{#role_id#}</td>',
+                '<td ><button id="fire{#id#}" class="btn">解雇</button></td>',
+                '<td ><button id="del{#id#}" class="btn">删除信息</button></td>',
+            '</tr>'
+         ].join(''),
+         powerForEmp:[
+            '<tr>',
+                '<td >{#phone#}</td>',
+                '<td >{#name#}</td>',
+                '<td >{#gender#}</td>',
+                '<td >{#entry#}</td>',
+                '<td >{#sign#}</td>',
+                '<td >{#role_id#}</td>',//点击后弹窗赋予select角色
+                '<td ><button id="powerFor{#id#}" class="btn">赋予角色</button></td>',
             '</tr>'
          ].join(''),
      };

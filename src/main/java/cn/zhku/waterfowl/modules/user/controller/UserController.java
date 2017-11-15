@@ -6,12 +6,13 @@ import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,6 @@ import java.util.UUID;
  * 对用户user状态操作的controller,继承BaseController以便使用全局变量和参数绑定
  */
 @Controller
-@RequestMapping("{adminPath}/user/")
 public class UserController extends BaseController {
     //  注入user表的服务
     @Autowired
@@ -44,7 +44,7 @@ public class UserController extends BaseController {
      * @throws Exception sql
      */
     @ResponseBody
-    @RequestMapping("new")
+    @RequestMapping("{adminPath}/user/new")
     public Message addUser(User user) throws Exception {
         user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
         if(userService.add(user) == 1)
@@ -62,7 +62,7 @@ public class UserController extends BaseController {
      * @throws Exception sql
      */
     @ResponseBody
-    @RequestMapping("delete/{id}")
+    @RequestMapping("{adminPath}/user/delete/{id}")
     public Message deleteUser(@PathVariable String id) throws Exception {
         User user = new User();
         user.setId(id);
@@ -82,7 +82,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("edit/{id}")
+    @RequestMapping("{adminPath}/user/edit/{id}")
     public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
         if(userService.update(user) == 1)
@@ -100,7 +100,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("show/{id}")
+    @RequestMapping("{adminPath}/user/show/{id}")
     public User showUser(@PathVariable String id) throws Exception {
         return userService.get(id);
     }
@@ -114,7 +114,7 @@ public class UserController extends BaseController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("list")
+    @RequestMapping("{adminPath}/user/list")
     public PageInfo<User> listUser(User user, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
@@ -124,37 +124,66 @@ public class UserController extends BaseController {
         return new PageInfo<User>(userList);
     }
 
+    /**
+     *  解雇用户
+     * @param id    用户id
+     * @return  message
+     * @throws Exception    sql
+     */
+    @RequestMapping("{adminPath}/user/fire/{id}")
+    @ResponseBody
+    public Message fire(@PathVariable String id) throws Exception {
+        User user = new User();
+        user.setId(id);
+        user.setSign("2");
+        if (userService.update(user) == 1 ) {
+            return new Message("1","该用户已经解雇");
+        } else {
+            return new Message("2","解雇该用户失败");
+        }
+    }
 
+    @RequestMapping("{adminPath}/user/entry/{id}")
+    @ResponseBody
+    public Message entry(@PathVariable String id) throws Exception {
+        User user = new User();
+        user.setId(id);
+        user.setSign("1");
+        if (userService.update(user) == 1 ) {
+            return new Message("1","该用户入职成功");
+        } else {
+            return new Message("2","该用户入职失败");
+        }
+    }
+
+
+
+
+
+
+    // 接受一个新Excel
     /**
      *  导入用excel
      * @param request      请求域
-     * @param excelFile excel文件，用MultipartFile
+     * @param excelFile excel文件，前端用multipart/form-data类型上传
      * @return Message
      */
-    @RequestMapping(value = "excel/new",method= RequestMethod.POST)
+    @RequestMapping(value = "{adminPath}/user/excel/new")
     @ResponseBody
-    public Message uploadUsers(HttpServletRequest request,MultipartFile excelFile)  {
-        System.out.println("================== 方法开始 =====================");
-        //手工导入
+    public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
             if(excelFile != null){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
-
-                    //储存图片的物理路径
-                    String realPath = request.getServletContext().getRealPath("/WEB-INF/xml/user");
-
+                    //  储存图片的物理路径
+                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
+                    //  获取上传文件的文件类型名
                     String originalFileName = excelFile.getOriginalFilename();
-
-                    //新的的图片名称
+                    //  新的的图片名称,用UUID做文件名防止重复
                     String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
                     //新图片文件
                     File newFile = new File(realPath+newFileName);
-
                     //将内存中的数据写入磁盘
-                    System.out.println("================== 这里尚未写入=====================");
                     excelFile.transferTo(newFile);
-
-                    System.out.println("=================="+newFile+"=====================");
                     //将新图片名称写到repair中
                     //repair.setRepairPic(newFileName);
                 if(true){
@@ -170,5 +199,7 @@ public class UserController extends BaseController {
 
         }
     }
+
+
 
 }
