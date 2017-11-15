@@ -6,8 +6,6 @@ import cn.zhku.waterfowl.pojo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 /**
  * @author : 钱伟健 gonefuture@qq.com
  * @version : 2017/10/23 21:50.

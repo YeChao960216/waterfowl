@@ -330,4 +330,17 @@
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="findFowleryIdByType" parameterType="java.lang.String" resultType="cn.zhku.waterfowl.pojo.entity.Fowlery">
+    select a.id from fowlery AS a where type = ANY (select b.id from dictionary AS b where name like '%${value}%')
+
+  </select>
+
+  <select id="findMaxNumById" parameterType="java.lang.String" resultType="java.lang.Integer">
+      SELECT num_max from fowlery WHERE id=#{id}
+  </select>
+
+  <select id="findUsedNumById" parameterType="java.lang.String" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM epidemic WHERE id_fowlery=#{id};
+  </select>
 </mapper>
