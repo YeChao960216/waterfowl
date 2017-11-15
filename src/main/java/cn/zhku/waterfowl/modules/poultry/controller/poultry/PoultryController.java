@@ -28,12 +28,12 @@ public class PoultryController  implements IBaseController<Poultry>{
     /**
      * 删除一条记录
      *
-     * @param id 表主键
+     * @param  entity id 表主键
      * @return Message
      * 1     * @throws Exception   sql、bean检验
      */
     @Override
-    public Message delete(String id) throws Exception {
+    public Message delete(Poultry entity) throws Exception {
         return null;
     }
 

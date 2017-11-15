@@ -23,11 +23,11 @@ public interface IBaseController<T> {
 
     /**
      *  删除一条记录
-     * @param id    表主键
+     * @param entity    带表主键的实体类
      * @return  Message
 1     * @throws Exception   sql、bean检验
      */
-    Message delete(String id) throws Exception ;
+    Message delete(T entity) throws Exception ;
 
 
     /**
