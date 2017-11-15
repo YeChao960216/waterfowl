@@ -113,6 +113,6 @@
     </mvc:cors>
 
     <!-- 默认首页 -->
-    <mvc:view-controller path="/" view-name="/index.html"/>
+    <mvc:view-controller path="/" view-name="/index"/>
 
 </beans>

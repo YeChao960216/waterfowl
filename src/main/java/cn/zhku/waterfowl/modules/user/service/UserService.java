@@ -114,7 +114,7 @@ public class UserService  implements IBaseService<User> {
         //  Criteria是Example的静态子类，里面有条件的jva代码表达方式
         UserExample.Criteria criteria = userExample.createCriteria();
 
-        if (entity.getUsername() != null)   // 如果username参数不为空，则查询时添加在sql上，
+        if (entity.getUsername()!= null)   // 如果username参数不为空，则查询时添加在sql上，
             //  相当于 where username like %entity.getUsername()%
             criteria.andUsernameLike("%"+entity.getUsername()+"%");
         if (entity.getName() != null)
@@ -126,6 +126,9 @@ public class UserService  implements IBaseService<User> {
         if (entity.getGender() != null)
             //  相当于 duty = entity.getDuty()
             criteria.andGenderEqualTo(entity.getGender());
+        if (entity.getSign() != null)
+            //  相当于 Sign = entity.getSign()
+            criteria.andSignEqualTo(entity.getSign());
 
         return userMapper.selectByExample(userExample);
     }

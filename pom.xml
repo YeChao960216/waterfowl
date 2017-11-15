@@ -75,65 +75,12 @@
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
 	<repositories>
 		<repository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
-        </repository>
-        
-        <repository>
-            <id>java-repos</id>
-            <name>Java Repository</name>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
-        
-        <repository>
-            <id>springsource-repos</id>
-            <name>SpringSource Repository</name>
-            <url>http://repo.spring.io/release/</url>
-        </repository>
-        
-		<repository>
-			<id>central-repos</id>
-			<name>Central Repository</name>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-		
-		<repository>
-			<id>central-repos2</id>
-			<name>Central Repository 2</name>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		
-	 <repository> 
-			<id>thinkgem-repos</id> 
-			<name>ThinkGem Repository</name>
-			<url>http://git.oschina.net/thinkgem/repos/raw/master</url>
-		</repository>
-		
-		<repository> 
-			<id>thinkgem-repos2</id> 
-			<name>ThinkGem Repository 2</name>
-			<url>https://raw.github.com/thinkgem/repository/master</url>
-		</repository>  
-
-        <repository>
-            <id>compass-project.org</id>
-            <name>Compass</name>
-            <url>http://repo.compass-project.org</url>
+			<id>alimaven</id>
+			<name>aliyun maven</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
         </repository>
 	</repositories>
-	
-	<!-- 设定插件仓库 -->
-	<!-- <pluginRepositories>
-		
-		<pluginRepository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
-        </pluginRepository>
-		
-	</pluginRepositories>  -->
-	
+
 	
 	<dependencies>
 	<dependency>
@@ -527,37 +474,7 @@
 		
 		<!-- GENERAL UTILS end -->
 		
-		<!-- CKFinder begin -->
-		<dependency>
-			<groupId>net.coobird</groupId>
-			<artifactId>thumbnailator</artifactId>
-			<version>0.4.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>apache-ant-zip</artifactId>
-			<version>${ckfinder.version}</version>
-		</dependency>
-		 
-	<!-- 	<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>connector</artifactId>
-			<version>${ckfinder.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinder-2.3.jar</systemPath>
-		</dependency> -->
-		
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>ckfinderplugin-fileeditor</artifactId>
-			<version>${ckfinder.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>ckfinderplugin-imageresize</artifactId>
-			<version>${ckfinder.version}</version>
-		</dependency>
-		<!-- CKFinder end -->
+
 
         <!-- lucene begin -->
         <dependency>
@@ -596,16 +513,12 @@
 		</dependency>
 
 
-		<!-- mybatis缓存 -->
+		<!--mybatiss缓存-->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-
-
-
-
 
 
 	</dependencies>
@@ -623,15 +536,8 @@
 					<include>**/*.xml</include>
 				</includes>
 			</resource>
-			<!--	编译为resources目录下的全部文件	-->
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.* </include>
-				</includes>
-			</resource>
 		</resources>
-		<plugins> 
+		<plugins>
 			 <!--Compiler 插件, 设定JDK版本-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -677,7 +583,7 @@
 					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Eclipse 插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -704,74 +610,50 @@
 			</plugin>
 
 
-			
+
 			<!-- tomcat6插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat6-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
+
 			<!-- tomcat7插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
- 
+
+
 			<!-- resource插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
-			
+
 			<!-- install插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
 				<version>${maven.plugin.verion}</version>
 			</plugin>
-			
+
 			<!-- clean插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${project.basedir}/src/main/webapp/WEB-INF/lib</directory>
-							<includes>
-								<include>**/*.jar</include>
-							</includes>
-							<excludes>
-								<exclude>**/ckfinder*.jar</exclude>
-							</excludes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			
-			<!-- ant插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-			</plugin>
-			
+
+
+
 			<!-- dependency插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -779,7 +661,7 @@
 				<version>${maven.plugin.verion}</version>
 			</plugin>
 
-		<!--mybatis代码自动生成器插件-->
+		<!--mybatis插件-->
 		<plugin>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-maven-plugin</artifactId>
