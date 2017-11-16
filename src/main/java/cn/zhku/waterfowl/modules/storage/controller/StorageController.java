@@ -63,14 +63,14 @@ public class StorageController extends BaseController {
     }
     /** 根据id修改免疫记录
      *  测试成功
-     * @param   idStorage,Storage 不包括记录表的各个Storage实体类字段
+     * @param   id 不包括记录表的各个Storage实体类字段
      * @return  message
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("edit/{idStorage,storage}")
-    public Message editStorage(@PathVariable String idStorage, Storage storage) throws Exception {
-        storage.setIdStorage(idStorage);
+    @RequestMapping("edit/{id}")
+    public Message editStorage(@PathVariable String id, Storage storage) throws Exception {
+        storage.setIdStorage(id);
         if(storageService.update(storage) == 1)
             return new Message("1","修改库存记录成功");
         else
