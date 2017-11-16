@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-16 17:15:21
+Date: 2017-11-16 18:47:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -55,6 +55,7 @@ CREATE TABLE `aquaculture` (
   `id` varchar(45) NOT NULL COMMENT '养殖记录表',
   `name` varchar(45) DEFAULT NULL COMMENT '禽舍类型',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
   `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
   `feed_type` varchar(45) DEFAULT NULL COMMENT '饲料种类',
@@ -72,18 +73,19 @@ CREATE TABLE `aquaculture` (
   KEY `fk_aquaculture_outstorage1_idx1` (`id_outstorage`),
   KEY `type_dictionary_id` (`name`),
   KEY `status_dictionary_id` (`status`),
-  CONSTRAINT `type_dic_id` FOREIGN KEY (`name`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `FK_aqua_patch_id` (`id_patch`),
+  CONSTRAINT `FK_aqua_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `aquaculture_ibfk_3` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `aquaculture_ibfk_4` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `aqu_id_fowl_dic_id` FOREIGN KEY (`id_fowlery`) REFERENCES `patch` (`id_fowlery`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_aquaculture_outstorage1` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `type_dic_id` FOREIGN KEY (`name`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('0', '0', '0', '2017-11-16 15:12:52', '1', '1', '1', '0', '1', '1', '1', '0');
+INSERT INTO `aquaculture` VALUES ('0', '0', '0', '0', '2017-11-16 18:47:17', '1', '1', '1', '0', '1', '1', '1', '0');
 
 -- ----------------------------
 -- Table structure for ddl
@@ -91,7 +93,7 @@ INSERT INTO `aquaculture` VALUES ('0', '0', '0', '2017-11-16 15:12:52', '1', '1'
 DROP TABLE IF EXISTS `ddl`;
 CREATE TABLE `ddl` (
   `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
-  `id_fowlery` varchar(45) NOT NULL COMMENT '养殖禽舍编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '养殖禽舍编号',
   `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `num_processed` int(11) NOT NULL COMMENT '需处理个体数量',
   `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
@@ -100,10 +102,10 @@ CREATE TABLE `ddl` (
   `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
   `flag` int(11) NOT NULL DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   PRIMARY KEY (`id`),
-  KEY `fk_ddl_poultry1_idx` (`id_fowlery`),
+  KEY `fk_ddl_poultry1_idx` (`id_patch`),
   KEY `fk_ddl_user1_idx` (`id_recorder`),
   KEY `fk_ddl_user2_idx` (`id_charge`),
-  CONSTRAINT `FK_ddl_aqua_fowlery` FOREIGN KEY (`id_fowlery`) REFERENCES `aquaculture` (`id_fowlery`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ddl_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ddl_ibfk_2` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ddl_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -152,7 +154,7 @@ INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 DROP TABLE IF EXISTS `epidemic`;
 CREATE TABLE `epidemic` (
   `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `id_fowlery` varchar(45) NOT NULL COMMENT '禽舍编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '禽舍编号',
   `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
   `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
   `diseaes` varchar(45) NOT NULL COMMENT '疾病',
@@ -166,11 +168,11 @@ CREATE TABLE `epidemic` (
   `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
   `flag` int(11) NOT NULL DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   PRIMARY KEY (`id`),
-  KEY `fk_epidemic_fowlery1_idx` (`id_fowlery`),
+  KEY `fk_epidemic_fowlery1_idx` (`id_patch`),
   KEY `fk_epidemic_user1_idx` (`id_recorder`),
   KEY `fk_epidemic_user2_idx` (`id_charge`),
   KEY `epidemic_unit_dictionary_id` (`dose_unit`),
-  CONSTRAINT `epidemic_ibfk_2` FOREIGN KEY (`id_fowlery`) REFERENCES `aquaculture` (`id_fowlery`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `epidemic_ibfk` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_4` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_5` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_unit_dictionary_id` FOREIGN KEY (`dose_unit`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -278,7 +280,7 @@ CREATE TABLE `out_poultry` (
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批次数量',
   `unit` varchar(45) DEFAULT NULL COMMENT '单位',
-  `id_fowlery` varchar(45) DEFAULT NULL COMMENT '出厂批次',
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '出厂批次',
   `firm` varchar(45) DEFAULT NULL COMMENT '出厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
@@ -289,10 +291,11 @@ CREATE TABLE `out_poultry` (
   KEY `FK_out_poul_dic_type` (`type`),
   KEY `FK_out_poultry_user_charge` (`id_charge`),
   KEY `FK_out_poultry_user_record` (`id_record`),
-  KEY `FK_out_aqua_fowlery_id` (`id_fowlery`),
-  CONSTRAINT `FK_out_aqua_fowlery_id` FOREIGN KEY (`id_fowlery`) REFERENCES `aquaculture` (`id_fowlery`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `FK_out_aqua_fowlery_id` (`id_patch`),
+  CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_out_poul_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_out_poul_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -300,7 +303,6 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
-INSERT INTO `out_poultry` VALUES ('0', '0', '1', '0', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for patch
