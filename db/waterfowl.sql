@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-16 18:47:46
+Date: 2017-11-16 22:56:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -154,7 +154,7 @@ INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 DROP TABLE IF EXISTS `epidemic`;
 CREATE TABLE `epidemic` (
   `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '禽舍编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '批次编号',
   `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
   `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
   `diseaes` varchar(45) NOT NULL COMMENT '疾病',
@@ -172,7 +172,7 @@ CREATE TABLE `epidemic` (
   KEY `fk_epidemic_user1_idx` (`id_recorder`),
   KEY `fk_epidemic_user2_idx` (`id_charge`),
   KEY `epidemic_unit_dictionary_id` (`dose_unit`),
-  CONSTRAINT `epidemic_ibfk` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `epidemic_ibfk_2` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_4` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_5` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_unit_dictionary_id` FOREIGN KEY (`dose_unit`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -246,10 +246,10 @@ INSERT INTO `material` VALUES ('1', '2017-11-14 21:38:30', null, null, null, nul
 -- ----------------------------
 DROP TABLE IF EXISTS `outstorage`;
 CREATE TABLE `outstorage` (
-  `id_outstorage` varchar(45) NOT NULL COMMENT '物资使用表',
+  `id_outstorage` varchar(45) NOT NULL COMMENT '物资使用表——自动生成用户不填',
   `id_storage` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL COMMENT '材料名称——name发送到storage获取库存数据，供用户下拉框选择我',
   `record_date` timestamp NULL DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
   `quantity` varchar(45) DEFAULT NULL COMMENT '材料数量.用药总量，包含实际总使用量和损耗丢弃量。',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
@@ -269,7 +269,7 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '1', '2017-11-16 14:50:45', '84消毒液', '50', '0', null, '1', '1');
+INSERT INTO `outstorage` VALUES ('1', '1', '84消毒液', '2017-11-16 14:50:45', '50', '0', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -346,39 +346,6 @@ CREATE TABLE `patch` (
 INSERT INTO `patch` VALUES ('0', '0', '0', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
--- Table structure for poultry
--- ----------------------------
-DROP TABLE IF EXISTS `poultry`;
-CREATE TABLE `poultry` (
-  `id_poultry` varchar(45) NOT NULL COMMENT '家禽批次记录表',
-  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
-  `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
-  `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
-  `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
-  `phone` varchar(45) DEFAULT NULL COMMENT '关联厂商电话',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  PRIMARY KEY (`id_poultry`),
-  UNIQUE KEY `Id_UNIQUE` (`id_poultry`),
-  KEY `fk_material_user1_idx` (`id_recorder`),
-  KEY `fk_material_user2_idx` (`id_charge`),
-  KEY `poultry_name_dictionary_id` (`type`),
-  KEY `FK_poultry_dic_unit` (`unit`),
-  CONSTRAINT `FK_poultry_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `poultry_id_dic_id` FOREIGN KEY (`id_poultry`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `poultry_name_dictionary_id` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of poultry
--- ----------------------------
-INSERT INTO `poultry` VALUES ('0', '2017-11-16 15:10:04', '0', '1', '0', '0', '0', '0', '1', '1');
-
--- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
@@ -415,16 +382,16 @@ CREATE TABLE `role_permission` (
 DROP TABLE IF EXISTS `storage`;
 CREATE TABLE `storage` (
   `id_storage` varchar(45) NOT NULL COMMENT '库存表',
-  `expiration_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期',
+  `id_material` varchar(45) DEFAULT NULL COMMENT '从材料入厂表获得或直接通过新增入厂记录页面传值获取',
+  `expiration_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
   `quantity` varchar(45) DEFAULT NULL COMMENT '库存材料数量',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
+  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位——字典查给用户选',
   `storage_site` varchar(45) DEFAULT NULL COMMENT '储存地点',
   `mode` varchar(45) DEFAULT NULL COMMENT '储存方式',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `id_material` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_storage`),
   KEY `fk_storage_user1_idx` (`id_recorder`),
   KEY `fk_storage_user2_idx` (`id_charge`),
@@ -441,7 +408,7 @@ CREATE TABLE `storage` (
 -- ----------------------------
 -- Records of storage
 -- ----------------------------
-INSERT INTO `storage` VALUES ('1', '2017-11-16 14:47:12', '84消毒液', '100', '0', '东112柜', '0', null, '1', '1', '1');
+INSERT INTO `storage` VALUES ('1', '1', '2017-11-16 14:47:12', '84消毒液', '100', '0', '东112柜', '0', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for user
