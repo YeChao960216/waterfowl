@@ -4,6 +4,7 @@ import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.MaterialExample;
 import cn.zhku.waterfowl.pojo.mapper.MaterialMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import cn.zhku.waterfowl.util.modle.CommonQo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,10 +90,26 @@ public class MaterialService  implements IBaseService<Material>{
      */
     @Override
     public List<Material> findList(Material entity) throws Exception {
+       return null;
+    }
+
+    /**
+     *  多条件查询类
+     * @param entity    实体类的各个属性
+     * @param commonQo  通用查询类
+     * @return  材料列表
+     * @throws Exception   抛出参数错误、SQL操作等异常
+     */
+    public List<Material> list(Material entity, CommonQo commonQo) throws Exception{
         MaterialExample materialExample = new MaterialExample();
         MaterialExample.Criteria criteria = materialExample.createCriteria();
 
-        return materialMapper.selectByExample(materialExample);
+        //  根据时间区间来查找
+        if (commonQo.getStart() != null)
+            criteria.andDateLessThanOrEqualTo(commonQo.getStart());
+        if (commonQo.getEnd() != null)
+            criteria.andDateGreaterThanOrEqualTo(commonQo.getEnd());
+            return materialMapper.selectByExample(materialExample);
     }
 
 

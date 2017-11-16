@@ -27,6 +27,9 @@ public class CommonQo {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end;
 
+
+    private String sort = "1";
+
     public int getPageNum() {
         return pageNum;
     }
@@ -59,6 +62,15 @@ public class CommonQo {
         this.end = end;
     }
 
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+
     @Override
     public String toString() {
         return "CommonQo{" +
@@ -66,6 +78,7 @@ public class CommonQo {
                 ", pageSize=" + pageSize +
                 ", start=" + start +
                 ", end=" + end +
+                ", sort='" + sort + '\'' +
                 '}';
     }
 }
