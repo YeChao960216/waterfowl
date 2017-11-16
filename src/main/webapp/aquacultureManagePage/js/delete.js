@@ -13,6 +13,7 @@ $(function () {
             }
         }
     }
+
     /*ajax请求*/
     $('#btn').click(function () {
 

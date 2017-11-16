@@ -74,7 +74,7 @@ $(function () {
         //eval将字符转化为对象数组
         //var json = eval(data)//数组
         var html = '';
-        $.each(json,function (index,item) {
+    $.each(json,function (index,item) {
             //循坏数据
             alert(item);
             var  id=item.id;
@@ -85,9 +85,14 @@ $(function () {
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
             var  remark=item.remark;
-            var  html="<tr><td><input type='text'>"+id+"</td><td><input type='text'>"+dateEstablish+"</td><td><input type='text'>"+address+"</td><td><input type='text'>"+numMax+"</td><td><input type='text'>"+ type+"</td><td><input type='text'>"+idCharge+"</td><td><input type='text'>"+idRecorder+"</td><td><input type='text'>"+remark+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+            html+="<tr><td><input type='checkbox'></td><td>"+id+"</td><td>"+ dateEstablish+"</td><td>"+address+"</td><td>"+ numMax+"</td><td>"+type+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td>"+remark+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
         });
-        $('#tbody').html(html);
+        console.log($('#tboby')[0]);
+        $('#tbody')[0].innerHTML = html;
     }
-
+    $('.delete').click(function () {
+        $('#tbody').innerHTML='';
+    });
 });
+
+console.log($('#tbody')[0]);

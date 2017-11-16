@@ -13,29 +13,24 @@
         <td><input type="date" placeholder="请选择查询日期" ></td>
         <td><input type="text" placeholder="请输入记录者编号" ></td>
         <td><input type="text" placeholder="请输入负责人编号" ></td>
-        <td><button class="btn">查询</button></td>
+        <td><button class="btn" id="btn">查询</button></td>
     </tr>
 
     <tr>
+        <th>禽舍管理编号</th>
         <th>建立日期</th>
-        <th>最大纳员数</th>
+        <th>地址</th>
+        <th>最大纳员数量</th>
+        <th>养殖类型</th>
         <th>负责人编号</th>
         <th>记录者编号</th>
         <th>备注</th>
         <th>操作</th>
     </tr>
 
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><input type="button" class="btn btns" value="修改"></td>
-    </tr>
-
+    <tbody id="tbody"></tbody>
 </table>
 </body>
 <script src="../static/jquery/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" href="./js/edit.js"></script>
+<script src="./js/edit.js"></script>
 </html>

@@ -1,4 +1,5 @@
 //alert($);
+/*var maxNum=100;
 var oMaxNum=document.getElementById(dateEstablish);
 function findMaxNum() {
     if(oMaxNum.innerHTML>maxNum){
@@ -6,15 +7,17 @@ function findMaxNum() {
     }
 }
 
-findMaxNum();
+findMaxNum();*/
 $(function () {
     $('#btn').click(function () {
+        alert(1111);
         $.ajax({
             /*请求的HTML页的URL地址*/
             url: "",
             /*data发送至服务器的key/value数据*/
             data: {
-                "dateEstablish":$('#dateEstablish').val()h,
+                "id":$('#id').val(),
+                "dateEstablish":$('#dateEstablish').val(),
                 "address":$('#address').val(),
                 "numMax":$('#numMax').val(),
                 "type":$('#type').val(),
@@ -27,13 +30,15 @@ $(function () {
             dataType: "json",
             /*请求完成时的回调函数*/
             success: function (msg) {
-                if (msg=='1'){
+               /* if (msg=='1'){
                     alert("您好,新增禽舍成功！！！");
                 }else{
-                    alert("抱歉，新增禽舍失败！！！");
-            }
+                    alert("抱歉，新增禽舍失败！！！");}*/
+
+                alert(1111);
+
             }
         })
 
     })
-})
+});
