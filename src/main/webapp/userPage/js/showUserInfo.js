@@ -1,20 +1,20 @@
 ﻿(function() {
-    const oURL = {
+    const oUrl = {
         PRONAME:'/waterfowl',
-        GETINFOBYID:PRONAME+' ?id='+sessionStorage.getItem(willon_id),
+        GETINFO:'/user/nowUserInfo'
     }
     // var get = function (id) {
     //     return document.getElementById(id);
     // }
-    $.get(oURL.GETINFOBYID,function (data) {
+    $.get(oUrl.PRONAME+oUrl.GETINFO,function (data) {
         if(data){
-            $('#cellphone')[0].innerHTML = data.cellphone;
-            $('#username')[0].innerHTML = data.username;
-            $('#name')[0].innerHTML = data.name;
-            $('#gender')[0].innerHTML = data.gender;
-            $('#entry')[0].innerHTML = data.entry;
-            $('#sign')[0].innerHTML = data.sign;
-            $('#remark')[0].innerHTML = data.remark;
+            $('#cellphone')[0].innerHTML = data.phone || '信息未完善';
+            $('#username')[0].innerHTML = data.username || '信息未完善';
+            $('#name')[0].innerHTML = data.name || '信息未完善';
+            $('#gender')[0].innerHTML = data.gender || '信息未完善';
+            $('#entry')[0].innerHTML = new Date(data.entry).toLocaleString() || '信息未完善';
+            $('#sign')[0].innerHTML = (data.sign)? '在职':'离职';
+            $('#remark')[0].innerHTML = data.remark || '信息未完善' ;
         }
     })
 })();
