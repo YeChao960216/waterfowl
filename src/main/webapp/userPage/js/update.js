@@ -1,9 +1,9 @@
-﻿(function(){
+﻿$(function(){
     const oUrl = {
         PRONAME:'/waterfowl',
-        READYUPDATEINFO:PRONAME+'',
-        UPDATEINFO:PRONAME+''
-    }
+        READYUPDATEINFO:'/user/nowUserInfo',
+        UPDATEINFO:'/user/updateInfo'
+    };
     var oPerson = { 
         _phone :'',
         _username : '',
@@ -23,38 +23,35 @@
             }
             this._gender = gender;
         }
-    }
-    // oPerson.gender = '女';
-    // $.get(oUrl.READYUPDATEINFO,function(data){
-    //     if(data){  //补全对象,显示
-    //         $('#phone')[0].innerHTML = oPerson._phone = data.phone;
-    //         $('#username')[0].innHTML = oPerson._username = data.username;
-    //         $('#gender')[0].innerHTML = oPerson.gender = data.gender;
-    //         $('#name')[0].innerHTML = oPerson._name = data.name;
-            // $('#remark')[0].innerHTML = oPerson._remark = data.remark;
-    //         
-    //     }else{
-    //         throw new Error('获取用户信息失败');
-    //     }
-    // });
-    //  $.post(oUrl.UPDATEINFO,{
-    //      //     if(data){  //补全对象,显示
-    //         phone:oPerson._phone,
-    //         username:oPerson._username,
-    //         gender:oPerson.gender,
-    //         name:oPerson._name,
-    //         remark:oPerson._remark,
-    // },function(data){
-    //     if(data){
-    //         alert(data.msg);
-    //     }else{
-    //         throw new Error('修改失败！！！');
-    //     }
-    // });
-    //         
-    //     }else{
-    //         throw new Error('获取用户信息失败');
-    //     }
-    // });
-    
-})();
+    };
+
+    $.get(oUrl.PRONAME+oUrl.READYUPDATEINFO,function(data){
+        //补全对象,显示
+        if(data){
+            $('#phone')[0].value = oPerson._phone = data.phone;
+            $('#username')[0].value = oPerson._username = data.username;
+            oPerson.gender = data.gender;
+            $('#name')[0].value = oPerson._name = data.name;
+            oPerson._remark = data.remark;
+            $('#remark')[0].value = (oPerson._remark)? oPerson._remark : '';
+        }else{
+            throw new Error('获取用户信息失败');
+        }
+    });
+    $('#submit').click(function () {
+        console.log('post');
+        $.post(oUrl.PRONAME+oUrl.UPDATEINFO,{
+            phone:oPerson._phone,
+            username:oPerson._username,
+            gender:oPerson.gender,
+            name:oPerson._name,
+            remark:oPerson._remark,
+        },function(data){
+            if(data){
+                alert(data.msg);
+            }else{
+                throw new Error('修改失败！！！');
+            }
+        });
+    })
+});
