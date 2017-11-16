@@ -1,14 +1,12 @@
 ﻿(function(){
     const oURL = {
         PRONAME:'/waterfowl',
-        //GETINFOBYID:PRONAME+' ?id='+sessionStorage.getItem(willon_id),
-        //resetPassw:PRONAME+'',
+        resetPassw:'/user/resetPassw',
     }
-    $.post(oURL.resetPassw,{"password":$('#password2').val()},function(data){
+    $.post(oURL.PRONAME+oURL.resetPassw,{"password":$('#password2').val()},function(data){
         if(data){
             alert(data.msg);
         }
     });
-    
 
 })();
