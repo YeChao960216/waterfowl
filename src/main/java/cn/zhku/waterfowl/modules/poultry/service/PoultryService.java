@@ -1,6 +1,5 @@
-package cn.zhku.waterfowl.modules.poultry.controller.service;
+package cn.zhku.waterfowl.modules.poultry.service;
 
-import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.pojo.entity.PoultryExample;
 import cn.zhku.waterfowl.pojo.mapper.PoultryMapper;

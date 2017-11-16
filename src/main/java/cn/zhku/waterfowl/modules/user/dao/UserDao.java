@@ -24,9 +24,9 @@ public interface UserDao {
 
     /**
      *  通过手机号查找用户
-     * @param Phone 手机号
+     * @param phone 手机号
      * @return  User
      */
-    @Select("select * from user where phone = #{}")
-    User findUserByPhone(String Phone);
+    @Select("select * from user where phone = #{phone}")
+    User findUserByPhone(String phone);
 }

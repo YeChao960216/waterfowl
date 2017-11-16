@@ -1,6 +1,6 @@
-package cn.zhku.waterfowl.modules.poultry.controller.poultry;
+package cn.zhku.waterfowl.modules.poultry.controller;
 
-import cn.zhku.waterfowl.modules.poultry.controller.service.PoultryService;
+import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseController;
 import cn.zhku.waterfowl.util.modle.CommonQo;
