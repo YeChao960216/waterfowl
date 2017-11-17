@@ -47,7 +47,7 @@ var viewCommand = (function(msg){
                 '<td >{#entry#}</td>',
                 '<td >{#sign#}</td>',
                 '<td >{#role_id#}</td>',
-                '<td ><button id="add{#id#}" class="btn">办理入职</button></td>',
+                '<td ><button data-id="add{#id#}" class="btn">办理入职</button></td>',
             '</tr>'
          ].join(''),
          del_fireEmp:[

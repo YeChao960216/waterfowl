@@ -25,6 +25,7 @@ DataFilter.prototype = {
             val.gender = (  parseInt(val.gender) === 1) ?  '男':  '女';
             val.entry = val.entry ? new Date(val.entry).toLocaleString():'未办理入职 ';
             val.sign = ( parseInt(val.sign) === 1) ? "<span style='color:#21ce21'>在职</span>":'离职';
+            val.rode_id = val.rode_id ? val.rode_id : "<span style='color:#800000'>暂无</span>";
         });
         return this.data;
     },
