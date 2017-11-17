@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-16 22:56:02
+Date: 2017-11-17 17:29:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,6 +46,9 @@ CREATE TABLE `affiliation` (
 -- Records of affiliation
 -- ----------------------------
 INSERT INTO `affiliation` VALUES ('0', '0', '0', '0', '0', '1', '1');
+INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '0', '1', '1');
+INSERT INTO `affiliation` VALUES ('2', '0', '0', '0', '0', '1', '1');
+INSERT INTO `affiliation` VALUES ('3', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for aquaculture
@@ -209,7 +212,10 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('0', '0', '0', '0', '1', '1');
+INSERT INTO `fowlery` VALUES ('0', '0', '0', '2', '1', '1');
+INSERT INTO `fowlery` VALUES ('1', null, null, null, null, null);
+INSERT INTO `fowlery` VALUES ('2', '0', '0', '0', '1', '1');
+INSERT INTO `fowlery` VALUES ('3', '0', '0', '2', '1', '1');
 
 -- ----------------------------
 -- Table structure for material
@@ -343,7 +349,42 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('0', '0', '0', '0', '0', '0', '0', '1', '1');
+INSERT INTO `patch` VALUES ('0', '0', '0', '0', '0', '2', '0', '1', '1');
+INSERT INTO `patch` VALUES ('1', '0', '0', '0', '0', '2', '3', '1', '1');
+INSERT INTO `patch` VALUES ('3', '0', '0', '0', '0', '2', '1', '1', '1');
+
+-- ----------------------------
+-- Table structure for poultry
+-- ----------------------------
+DROP TABLE IF EXISTS `poultry`;
+CREATE TABLE `poultry` (
+  `id_poultry` varchar(45) NOT NULL COMMENT '家禽批次记录表',
+  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
+  `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
+  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
+  `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
+  `phone` varchar(45) DEFAULT NULL COMMENT '关联厂商电话',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  PRIMARY KEY (`id_poultry`),
+  UNIQUE KEY `Id_UNIQUE` (`id_poultry`),
+  KEY `fk_material_user1_idx` (`id_recorder`),
+  KEY `fk_material_user2_idx` (`id_charge`),
+  KEY `poultry_name_dictionary_id` (`type`),
+  KEY `FK_poultry_dic_unit` (`unit`),
+  CONSTRAINT `FK_poultry_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `poultry_id_dic_id` FOREIGN KEY (`id_poultry`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `poultry_name_dictionary_id` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of poultry
+-- ----------------------------
+INSERT INTO `poultry` VALUES ('0', '2017-11-16 15:10:04', '0', '1', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for role
