@@ -64,7 +64,7 @@ public class UserService  implements IBaseService<User> {
      */
     @Override
     public int delete(User entity) throws Exception {
-        return userMapper.updateByPrimaryKey(entity);
+        return userMapper.deleteByPrimaryKey(entity.getId());
     }
 
 

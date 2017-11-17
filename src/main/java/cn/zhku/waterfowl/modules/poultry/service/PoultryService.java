@@ -1,10 +1,10 @@
-package cn.zhku.waterfowl.modules.poultry.controller.service;
+package cn.zhku.waterfowl.modules.poultry.service;
 
-import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.pojo.entity.PoultryExample;
 import cn.zhku.waterfowl.pojo.mapper.PoultryMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import cn.zhku.waterfowl.util.modle.CommonQo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,7 +82,7 @@ public class PoultryService implements IBaseService<Poultry>{
         return null;
     }
 
-    /**
+    /** 暂时不用
      * 通过查询条件获取某个实体对象（相对应的表）列表操作
      *
      * @param entity 映射数据库单表的实体类
@@ -91,9 +91,24 @@ public class PoultryService implements IBaseService<Poultry>{
      */
     @Override
     public List<Poultry> findList(Poultry entity) throws Exception {
+        return null;
+    }
+
+    /**
+     *  多条件查询
+     * @param entity    实体类
+     * @param commonQo  通用查询类
+     * @return  List<Poultry>
+     */
+    public List<Poultry> list(Poultry entity, CommonQo commonQo) {
         PoultryExample poultryExample = new PoultryExample();
         PoultryExample.Criteria criteria = poultryExample.createCriteria();
 
+        //  根据时间区间来查找
+        if (commonQo.getStart() != null)
+            criteria.andRecordDateLessThanOrEqualTo(commonQo.getStart());
+        if (commonQo.getEnd() != null)
+            criteria.andRecordDateGreaterThan(commonQo.getEnd());
         return poultryMapper.selectByExample(poultryExample);
     }
 }

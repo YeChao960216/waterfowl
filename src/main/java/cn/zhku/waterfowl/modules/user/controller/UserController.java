@@ -6,16 +6,16 @@ import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
