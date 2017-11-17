@@ -70,7 +70,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
      */
     public int delete(Epidemic entity) throws Exception {
         if (checkFlag(entity)==0) {
-            epidemicMapper.deleteByPrimaryKey(entity.getIdEpidemic());
+            epidemicMapper.deleteByPrimaryKey(entity.getId());
             return 1;
         }else {
             return 0;
@@ -91,7 +91,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
      */
     public Epidemic get(Epidemic entity) throws Exception {
         EpidemicExample epidemicExample =new EpidemicExample();
-        epidemicExample.or().andIdEpidemicEqualTo(entity.getIdEpidemic());
+        epidemicExample.or().andIdEqualTo(entity.getId());
         if (epidemicExample!=null) {
             return epidemicMapper.selectByExample(epidemicExample).get(0);
         }else {
@@ -110,11 +110,11 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         if(entity.getFlag()!=null)
             criteria.andFlagEqualTo(entity.getFlag());
         //禽舍编号
-        if(entity.getIdFowlery()!=null)
-            criteria.andIdFowleryEqualTo(entity.getIdFowlery());
+        if(entity.getIdPatch()!=null)
+            criteria.andIdPatchEqualTo(entity.getIdPatch());
         //  日期
-        if (entity.getDate()!=null)
-            criteria.andDateEqualTo(entity.getDate());
+        if (entity.getRecordDate()!=null)
+            criteria.andRecordDateEqualTo(entity.getRecordDate());
         //疾病
         if (entity.getDiseaes()!=null)
             criteria.andDiseaesLike("%"+entity.getDiseaes()+"%");
