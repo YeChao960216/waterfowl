@@ -65,8 +65,8 @@
                 $.post(
                     "/waterfowl/epidemic/showByFlag/0",
                     {
-                        "date":$("#record_date").val(),
-                        "epidemic_id":$("#epidemic_id").val(),
+                        "recordDate":$("#record_date").val(),
+                        "id":$("#id").val(),
                         "processing_mode":$("#processing_mode").val(),
                         "id_recorder":$("#id_recorder").val(),
                         "id_charge":$("#id_charge").val(),
@@ -80,8 +80,8 @@
                             o =data.list[i];
                             content+='<tr>'+
                                 '<td><input type="checkbox" class="select"><input type="hidden" value='+o.idEpidemic+'></td>'+//隐藏域获取id
-                                '<td>'+o.date+'</td>'+
-                                '<td>'+o.idFowlery+'</td>'+
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
                                 '<td>'+o.sign+'</td>'+
                                 '<td>'+o.diseaes+'</td>'+
                                 '<td>'+o.numInfected+'</td>'+
@@ -122,7 +122,7 @@
         <input type="date" id="record_date">
         <input type="text" id="diseaes" placeholder="所患疾病">
         <input type="text" id="processing_mode" placeholder="处理方式">
-        <input type="text" id="id_fowlery" placeholder="禽舍编号">
+        <input type="text" id="id_patch" placeholder="禽舍编号">
         <input type="text" id="id_recorder" placeholder="记录者">
         <input type="text" id="id_charge" placeholder="负责人">
         <input type="button" value="查询" class="btn" id="search">
@@ -134,7 +134,7 @@
         <tr>
             <th><input type="checkbox" id="selectAll">全选</th>
             <th>记录日期</th>
-            <th>禽舍编号</th>
+            <th>批次编号</th>
             <th>免疫、疫病标志</th>
             <th>疾病</th>
             <th>染病个体数</th>

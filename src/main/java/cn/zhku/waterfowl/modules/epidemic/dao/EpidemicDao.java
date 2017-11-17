@@ -9,6 +9,6 @@ public interface EpidemicDao {
      * @param id
      * @return
      */
-    @Update("update epidemic set flag=1 where id_epidemic = #{id}")
+    @Update("update epidemic set flag=1 where id = #{id}")
     int updateFlagById(String id);
 }
