@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -31,14 +32,10 @@ public class DdlController extends BaseController{
     public Message addDdl(Ddl ddl) throws Exception {
         ddl.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
         ddl.setFlag(0);
-       try {
-            ddlService.add(ddl);
-            return  new Message("1", "增加病死淘记录表成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return  new Message("0", "增加病死淘记录表失败");
-        }
-
+        if (ddlService.add(ddl)==1) {
+            return new Message("1", "增加病死淘记录表成功");
+        } else
+            return new Message("2","增加病死淘记录表失败，已经提交的数据无法删除");
     }
     /**
      * 删除未提交Ddl表记录
@@ -63,28 +60,14 @@ public class DdlController extends BaseController{
      * */
     @ResponseBody
     @RequestMapping("editFlagById")
-    public Message editFlagById(List<String> idList){
+    public Message editFlagById(@RequestParam(value ="idList[]")String []idList) throws Exception {
 
         if (ddlService.updateFlag(idList)==1)
             return new Message("1","提交疾病/免疫记录表成功");
         else
-            return new Message("2","提交疾病/免疫记录表成失败,已经提交的数据无法删除");
+            return new Message("2","提交疾病/免疫记录表成失败");
     }
     /**
-     * 根据多个id更改提交状态为已提交
-     * @param id
-     * @return Message
-     * @throws Exception sql
-     * */
-    @ResponseBody
-    @RequestMapping("editFlagById/{id}")
-    public Message editFlagById(@PathVariable String id) throws Exception {
-
-        if (ddlService.updateFlag(id)==1)
-            return new Message("1","提交疾病/免疫记录表成功");
-        else
-            return new Message("2","提交疾病/免疫记录表成失败,已经提交的数据无法删除");
-    }
     /**
      * 修改未提交Ddl表记录
      *  @param ddl

@@ -1,5 +1,79 @@
-
+(function (w) {
     var zhanjia ={
+        /**
+         * 从url地址中截取参数
+         * @param name：str 参数名
+         */
+        getQueryString:function () {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null){
+                return  unescape(r[2]);
+            }
+            return null;
+        },
+        /**
+         * 上传记录方法
+         * @param ele:element 上传按钮
+         */
+        upLoadList:
+            function (ele) {
+                ele.onclick =function () {
+                var selectArr =document.getElementsByClassName("select");
+                var idList =[];
+                for(var i=0;i<selectArr.length;i++) {
+                    //如果被选中
+                    if(selectArr[i].checked ===true){
+                        idList.push(selectArr[i].parentNode.lastChild.value);
+                    }
+                }
+                $.post("/waterfowl/ddl/editFlagById",idList,function () {
+                    alert("上传数据成功!")
+                })
+                console.log(idList);
+            }
+        },
+        /**
+         * 展示分页函数
+         * @param currentPage:int  当前页数
+         * @param totalPage   总分页数
+         * @param showList   展示列表页面函数
+         */
+        showPageCut:
+            function(currentPage,totalPage,showList){
+                $("#first").click(function () {
+                    if(currentPage != 1){//如果当前页不是首页，则执行
+                        showList(1);
+                    }
+                })
+                $("#last").click(function () {
+                    if(currentPage != totalPage){//如果当前页不是尾页，则执行
+                        showList(totalPage);
+                    }
+                })
+                $("#pre").click(function () {
+                    if(currentPage != 1){ //如果当前页不是第一页
+                        showList(currentPage-1);
+                    }
+                })
+                $("#next").click(function () {
+                    if(currentPage != totalPage){//如果当前页不是尾页
+                        showList(currentPage+1);
+                    }
+                })
+                $("#pageNum").val(currentPage)
+                $("#pages").html("共"+totalPage+"页");
+                $("#pageNum").blur(function () {
+                    if($("#pageNum").val() !=currentPage){//失去焦点后，若判断为填入页数非当前页，则执行
+                        showList($("#pageNum").val());
+                    }
+                })
+            },
+        /**
+         * 详情弹出层方法
+         * @description: 已弃用
+         * @param length
+         */
         popLayer:function (length) {
             //获取元素
             var remarkArr =document.querySelectorAll(".remark");
@@ -44,10 +118,16 @@
                 }
             }
         },
-        selectAll:function () {
+
+        /**
+         * 全选全不选方法
+         * @param selectAll  全选dom元素
+         * @param selectArr  子选框dom元素数组
+         */
+        selectAll:function (selectAll,selectArr) {
             //获取元素
-            var selectAll =document.querySelector("#selectAll");
-            var selectArr =document.querySelectorAll(".record_form td input");
+            /*selectAll =document.getElementById("selectAll");
+            selectArr =document.getElementsByClassName("select");*/
             //绑定事件
             selectAll.onclick =function () {
                 if(true===selectAll.checked){
@@ -61,6 +141,7 @@
                 }
             }
             for(var i=0;i<selectArr.length;i++){
+                //绑定单项选定事件
                 selectArr[i].onclick =function () {
                     for(var j=0;j<selectArr.length;j++){
                         if(selectArr[j].checked ===false){//如果有其中一项单选项没选中，则取消全选
@@ -73,4 +154,9 @@
             }
         }
     }
+
+    //暴露出去
+    w.zhanjia =zhanjia;
+}(window))
+
 

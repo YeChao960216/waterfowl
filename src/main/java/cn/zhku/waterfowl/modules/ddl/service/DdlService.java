@@ -4,6 +4,7 @@ import cn.zhku.waterfowl.pojo.entity.Ddl;
 import cn.zhku.waterfowl.pojo.entity.DdlExample;
 import cn.zhku.waterfowl.pojo.mapper.DdlMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,21 +106,21 @@ public class DdlService implements IBaseService<Ddl> {
     public List<Ddl> findList(Ddl entity) throws Exception {
         DdlExample ddlExample = new DdlExample();
         DdlExample.Criteria criteria = ddlExample.createCriteria();
-        if (entity.getIdCharge() != null&&entity.getIdCharge().trim()!="")
+        if (entity.getIdCharge() != null&&!entity.getIdCharge().equals(""))
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getIdPoultry() != null&&entity.getIdPoultry().trim()!="")
+        if (entity.getIdPoultry() != null&&!entity.getIdPoultry().equals(""))
             criteria.andIdPoultryEqualTo(entity.getIdPoultry());
-        if (entity.getIdRecorder() != null&&entity.getIdRecorder().trim()!="")
+        if (entity.getIdRecorder() != null&&!entity.getIdRecorder().equals(""))
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getFlag() != null)
             criteria.andFlagEqualTo(entity.getFlag());
         if (entity.getNumProcessed()!= null)
             criteria.andNumProcessedEqualTo(entity.getNumProcessed());
-        if (entity.getRecordDate()!= null)
+        if (entity.getRecordDate()!= null&&!entity.getRecordDate().equals(""))
             criteria.andRecordDateEqualTo(entity.getRecordDate());
-        if (entity.getRemark() != null&&entity.getRemark().trim()!="")
+        if (entity.getRemark() != null&&!entity.getRemark().equals(""))
             criteria.andRemarkLike("%" + entity.getRemark() + "%");
-        if (entity.getProcessingMode() != null&&entity.getProcessingMode().trim()!="")
+        if (entity.getProcessingMode() != null&&!entity.getProcessingMode().equals(""))
             criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
         return ddlMapper.selectByExample(ddlExample);
     }
@@ -128,8 +129,15 @@ public class DdlService implements IBaseService<Ddl> {
     *检查提交状态
     * 其中1为已经提交, 0为未提交
     * */
-    private int checkFlag(Ddl entity) throws Exception {
-        Ddl ddl = get(entity);
+    private int checkFlag(Ddl entity) {
+
+        Ddl ddl = null;
+        try {
+            ddl = get(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("该实体不存在");
+        }
         if (ddl.getFlag() == 1) {
             return 1;
         } else return 0;
@@ -143,34 +151,25 @@ public class DdlService implements IBaseService<Ddl> {
     }
  /**
  * 根据id修改提交状态为已经提交
- * */
-    public int updateFlag(List<String> idList) {
+ *
+  * @param idList*/
+    public int updateFlag(String[] idList) {
         Ddl ddl = new Ddl();
+        System.out.println(idList[0]);
         try {
             for (String id : idList
                     ) {
                 ddl.setId(id);
                 ddl.setFlag(1);
-                update(ddl);
+                if ( update(ddl)==1){
+                   System.out.println(ddl);
+                }else { return 0;
+                }
             }
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
-
-    }
-    public int updateFlag(String id) throws Exception {
-        Ddl ddl = new Ddl();
-        ddl.setId(id);
-        ddl.setFlag(1);
-        try {
-            update(ddl);
-            return 1;
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-
     }
 }
