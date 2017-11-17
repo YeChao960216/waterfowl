@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +87,7 @@ public class UserController extends BaseController {
     @RequestMapping("{adminPath}/user/edit/{id}")
     public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
+        user.setPassword(null);
         if(userService.update(user) == 1)
             return new Message("1","修改用户成功");
         else
@@ -157,8 +160,19 @@ public class UserController extends BaseController {
     }
 
 
-
-
+    @RequestMapping("/user/resetPassword")
+    @ResponseBody
+    public Message resetPassword(HttpSession httpSession, @RequestParam String password) throws Exception {
+        User userSession = (User) httpSession.getAttribute("User");
+        User user = new User();
+        user.setId(userSession.getId());
+        user.setPassword(password);
+        if (userService.update(user) == 1) {
+            return new Message("1","当前用户修改密码成功");
+        } else {
+            return new Message("2","当前用户修改密码失败");
+        }
+    }
 
 
     // 接受一个新Excel
@@ -199,7 +213,6 @@ public class UserController extends BaseController {
 
         }
     }
-
 
 
 }
