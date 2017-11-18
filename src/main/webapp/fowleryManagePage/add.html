@@ -10,22 +10,37 @@
 <body>
 <table>
     <tr>
-        <th>禽舍管理编号</th>
-        <th>建立日期</th>
-        <th>地址</th>
-        <th>最大纳员数量</th>
-        <th>养殖类型</th>
+        <th>规格</th>
+        <th>使用状态</th>
+        <th>归属的大禽舍</th>
         <th>负责人编号</th>
         <th>记录者编号</th>
-        <th>备注</th>
         <th>操作</th>
     </tr>
     <tr>
-        <td><input id="id" type="text" placeholder="禽舍管理编号"></td>
-        <td><input id="dateEstablish" type="text" placeholder="建立日期" ></td>
-        <td><input id="address" type="text" placeholder="地址" ></td>
-        <td><input id="numMax" type="text" placeholder="最大纳员数量"></td>
-        <td><input id="type" type="text" placeholder="养殖类型"></td>
+        <td>
+            <select>
+                <option>规格</option>
+                <option>规格1</option>
+                <option>规格2</option>
+                <option>规格3</option>
+            </select>
+        </td>
+
+        <td>
+            可使用<input id="yes" type="radio" checked>
+            不可使用<input id="no" type="radio">
+        </td>
+
+        <!--affiliation对应affiliation的id；当用户填写该表的affiliation字段时，下拉框选项为affiliation表的所有id，-->
+        <td>
+            <select>
+                <option>大禽舍</option>
+                <option>大禽舍id1</option>
+                <option>大禽舍id2</option>
+                <option>大禽舍id3</option>
+            </select>
+        </td>
         <td><input id="idRharge" type="text" placeholder="负责人编号"></td>
         <td><input id="idRecorder" type="text"  placeholder="记录者编号"></td>
         <td><input id="remark" type="text"  placeholder="备注"></td>
