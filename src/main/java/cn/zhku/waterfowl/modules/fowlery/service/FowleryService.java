@@ -60,7 +60,7 @@ public class FowleryService implements IBaseService<Fowlery> {
     }
 
     /**
-     *通过地址查找禽舍
+     * 通过实体映射
      * @param entity
      *            映射数据库单表的实体类
      * @return
@@ -68,14 +68,9 @@ public class FowleryService implements IBaseService<Fowlery> {
      */
     @Override
     public Fowlery get(Fowlery entity) throws Exception {
-        FowleryExample fowleryExample=new FowleryExample();
-        if(entity.getIdCharge()!=null){
-            fowleryExample.or().andIdChargeEqualTo(entity.getAddress());
-            return fowleryMapper.selectByExample(fowleryExample).get(0);
-        }else{
-            return null;
-        }
+        return null;
     }
+
 
     /**
      * 展示，多条件查询,模糊查询
@@ -89,39 +84,23 @@ public class FowleryService implements IBaseService<Fowlery> {
         FowleryExample fowleryExample=new FowleryExample();
         FowleryExample.Criteria criteria=fowleryExample.createCriteria();
 
+        //通过size
+        if(entity.getSize()!=null){
+            criteria.andSizeEqualTo(entity.getSize());
+        }
+        //通过状态
+        if(entity.getStatus()!=null){
+            criteria.andStatusEqualTo(entity.getStatus());
+        }
+        //通过idcharge
         if(entity.getIdCharge()!=null){
             criteria.andIdChargeLike("%"+entity.getIdCharge()+"%");
         }
-        if(entity.getAddress()!=null){
-            criteria.andAddressLike("%"+entity.getAddress()+"%");
+        //通过idrecord
+        if(entity.getIdRecord()!=null){
+            criteria.andIdChargeLike( "%"+entity.getIdRecord()+"%");
         }
+
         return fowleryMapper.selectByExample(fowleryExample);
-    }
-
-    /**
-     * 通过id查找鸡舍
-     * @param type
-     * @return id
-     */
-    public List<String> getType(String type) {
-        return fowleryMapper.findFowleryIdByType(type);
-    }
-
-    /**
-     * 查找禽舍最大的容纳量
-     * @param id
-     * @return
-     */
-    public Integer findMaxNumById(String id) {
-        return fowleryMapper.findMaxNumById(id);
-    }
-
-    /**
-     * 查看已经存放的有多少
-     * @param id
-     * @return 存放的数量
-     */
-    public Integer findUsedNumById(String id) {
-        return fowleryMapper.findUsedNumById(id);
     }
 }
