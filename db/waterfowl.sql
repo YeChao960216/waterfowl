@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-17 23:44:44
+Date: 2017-11-18 10:38:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -105,7 +105,7 @@ CREATE TABLE `ddl` (
   KEY `fk_ddl_poultry1_idx` (`id_patch`),
   KEY `fk_ddl_user1_idx` (`id_recorder`),
   KEY `fk_ddl_user2_idx` (`id_charge`),
-  CONSTRAINT `FK_ddl_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ddl_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ddl_ibfk_2` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ddl_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -153,25 +153,29 @@ INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 -- ----------------------------
 DROP TABLE IF EXISTS `epidemic`;
 CREATE TABLE `epidemic` (
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '批次编号',
+  `name` varchar(45) DEFAULT NULL COMMENT '药品名称',
+  `id_outstorage` varchar(45) DEFAULT NULL,
+  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
+  `sign` varchar(45) DEFAULT NULL COMMENT '免疫、疫病标志',
+  `diseaes` varchar(45) DEFAULT NULL COMMENT '疾病',
+  `num_infected` int(11) DEFAULT NULL COMMENT '染病个体数',
+  `processing_mode` varchar(45) DEFAULT NULL COMMENT '处理方式',
+  `medication_mode` varchar(45) DEFAULT NULL COMMENT '给药方式',
+  `dose` float DEFAULT NULL COMMENT '剂量',
+  `dose_unit` varchar(45) DEFAULT NULL COMMENT '剂量对应单位',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  `flag` int(11) DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '批次编号',
-  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
-  `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
-  `diseaes` varchar(45) NOT NULL COMMENT '疾病',
-  `num_infected` int(11) NOT NULL COMMENT '染病个体数',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
-  `medication_mode` varchar(45) NOT NULL COMMENT '给药方式',
-  `dose` float NOT NULL COMMENT '剂量',
-  `dose_unit` varchar(45) NOT NULL COMMENT '剂量对应单位',
-  `remark` varchar(200) NOT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
-  `flag` int(11) NOT NULL DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   PRIMARY KEY (`id`),
   KEY `fk_epidemic_fowlery1_idx` (`id_patch`),
   KEY `fk_epidemic_user1_idx` (`id_recorder`),
   KEY `fk_epidemic_user2_idx` (`id_charge`),
   KEY `epidemic_unit_dictionary_id` (`dose_unit`),
+  KEY `epid_outstorage_id_storage` (`id_outstorage`),
+  CONSTRAINT `epid_outstorage_id_storage` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_2` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_4` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `epidemic_ibfk_5` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -313,8 +317,7 @@ INSERT INTO `out_poultry` VALUES ('1', '0', '1', '0', '1', '1', '1', '1', '1', '
 -- ----------------------------
 DROP TABLE IF EXISTS `patch`;
 CREATE TABLE `patch` (
-  `id` varchar(45) NOT NULL COMMENT '禽舍管理表',
-  `id_poultry` varchar(45) DEFAULT NULL COMMENT '养殖批次',
+  `id_poultry` varchar(45) DEFAULT NULL COMMENT '入厂批次',
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `position` varchar(45) DEFAULT NULL COMMENT '方位',
   `size` varchar(45) DEFAULT NULL COMMENT '规格',
@@ -322,6 +325,8 @@ CREATE TABLE `patch` (
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id` varchar(45) NOT NULL COMMENT '禽舍管理表',
+  `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
   PRIMARY KEY (`id`),
   KEY `fk_fowlery_user1_idx` (`id_recorder`),
   KEY `fk_fowlery_user2_idx` (`id_charge`),
@@ -347,7 +352,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('1', '1', '0', '0', '0', '1', '1', '1', '1');
+INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for poultry
