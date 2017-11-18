@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-18 11:35:04
+Date: 2017-11-18 13:52:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -359,9 +359,6 @@ CREATE TABLE `patch` (
   CONSTRAINT `FK_fowlery_fowl_id` FOREIGN KEY (`id_fowlery`) REFERENCES `fowlery` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_fowlery_poultry` FOREIGN KEY (`id_poultry`) REFERENCES `poultry` (`id_poultry`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_patch_affil_id` FOREIGN KEY (`id_affilation`) REFERENCES `affiliation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_patch_affil_position` FOREIGN KEY (`position`) REFERENCES `affiliation` (`position`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_patch_affil_size` FOREIGN KEY (`size`) REFERENCES `affiliation` (`size`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_patch_affil_type` FOREIGN KEY (`type`) REFERENCES `affiliation` (`type`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_patch_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_patch_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_patch_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
