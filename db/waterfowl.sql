@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-18 10:38:00
+Date: 2017-11-18 11:35:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,21 +132,41 @@ CREATE TABLE `dictionary` (
 INSERT INTO `dictionary` VALUES ('0', '测试', '0', 'test');
 INSERT INTO `dictionary` VALUES ('1000', '禽舍状态', '0', 'status');
 INSERT INTO `dictionary` VALUES ('10000', '导航栏', '0', 'navigation');
-INSERT INTO `dictionary` VALUES ('10001', '仓库', '10000', null);
-INSERT INTO `dictionary` VALUES ('10002', '禽舍', '10000', null);
-INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', null);
-INSERT INTO `dictionary` VALUES ('20001', '千克(kg)', '20000', 'unit');
+INSERT INTO `dictionary` VALUES ('10001', '仓库管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10002', '禽舍管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10003', '禽类进厂管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10004', '禽舍分配管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10005', '虚拟禽舍管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10006', '养殖管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10007', '禽类出厂管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10008', '免疫病情管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10009', '死淘管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('1001', '可使用', '1000', '0');
+INSERT INTO `dictionary` VALUES ('10010', '用户管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10011', '角色管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10012', '字典管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10013', '出库管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('1002', '不可使用', '1000', '1');
+INSERT INTO `dictionary` VALUES ('2000', '存储方式', '0', 'mode');
+INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', 'unit');
+INSERT INTO `dictionary` VALUES ('20001', '千克', '20000', 'kg');
+INSERT INTO `dictionary` VALUES ('2001', '冷藏', '2000', null);
+INSERT INTO `dictionary` VALUES ('3000', '剂量单位', '0', 'dose_unit');
 INSERT INTO `dictionary` VALUES ('30000', '家禽养殖阶段', '0', 'status');
 INSERT INTO `dictionary` VALUES ('30001', '幼鸡', '30000', null);
 INSERT INTO `dictionary` VALUES ('40000', '禽舍类型', '0', 'type');
 INSERT INTO `dictionary` VALUES ('40001', '鸭舍', '40000', null);
+INSERT INTO `dictionary` VALUES ('40002', '鸡舍', '40000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
 INSERT INTO `dictionary` VALUES ('60000', '家禽种类', '0', 'type');
 INSERT INTO `dictionary` VALUES ('60001', '鹅', '60000', null);
+INSERT INTO `dictionary` VALUES ('60002', '鸭', '60000', null);
+INSERT INTO `dictionary` VALUES ('60003', '鸡', '60000', null);
 INSERT INTO `dictionary` VALUES ('70000', '方位', '0', 'position');
 INSERT INTO `dictionary` VALUES ('70001', '南', '70000', null);
 INSERT INTO `dictionary` VALUES ('80000', '规格', '0', 'size');
 INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
+INSERT INTO `dictionary` VALUES ('90001', '微信', '90000', 'wechat');
 
 -- ----------------------------
 -- Table structure for epidemic
