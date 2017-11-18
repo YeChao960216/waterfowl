@@ -16,8 +16,8 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
     private AquacultureMapper aquacultureMapper;
 
-    @Autowired
-    private OutstorageMapper outstorageMapper;
+//    @Autowired
+//    private OutstorageMapper outstorageMapper;
 
     /**
      * 增加记录
@@ -66,7 +66,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     }
 
     /**
-     *   根据IdBatch属性查找记录
+     *   根据IdPatch属性查找记录
      * @param entity
      *            映射数据库单表的实体类
      * @return
@@ -75,11 +75,12 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     @Override
     public Aquaculture get(Aquaculture entity) throws Exception {
         AquacultureExample aquacultureExample = new AquacultureExample();   //   多条件查询时使用的
-        if (entity.getIdPoultry() != null) {
+        if (entity.getIdPatch() != null) {
             //   相当于where username = entity.getUsername()
-            aquacultureExample.or().andIdPoultryEqualTo(entity.getIdPoultry());
+            aquacultureExample.or().andIdPatchEqualTo(entity.getIdPatch());
             //  使用get(0)的原因是Example参数的东西是集合，但我们只要一个符合条件的记录
             Aquaculture aquaculture = aquacultureMapper.selectByExample(aquacultureExample).get(0);
+
 //           AquacultureVo aquacultureVo = new AquacultureVo();
 //           aquacultureVo.setAquaculture(aquaculture);
 //
@@ -106,9 +107,9 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         //  Criteria是Example的静态子类，里面有条件的jva代码表达方式
         AquacultureExample.Criteria criteria = aquacultureExample.createCriteria();
 
-        if (entity.getIdPoultry() != null)   // 如果IdBatch参数不为空，则查询时添加在sql上，
+        if (entity.getIdPatch() != null)   // 如果IdBatch参数不为空，则查询时添加在sql上，
             //  相当于 where IdBatch like %entity.getIdBatch()%
-            criteria.andIdPoultryLike("%"+entity.getIdPoultry()+"%");
+            criteria.andIdPatchLike("%"+entity.getIdPatch()+"%");
         if (entity.getIdFowlery() != null)
             //  相当于 type = entity.getFowleryId()
             criteria.andIdFowleryLike("%"+entity.getIdFowlery()+"%");
@@ -121,9 +122,6 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         if (entity.getIdCharge() != null)
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getType() != null)
-            //  相当于 duty = entity.getType()
-            criteria.andTypeLike("%"+entity.getType()+"%");
 
 
         return aquacultureMapper.selectByExample(aquacultureExample);

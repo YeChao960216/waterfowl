@@ -1,8 +1,7 @@
-package cn.zhku.waterfowl.modules.aquaculture.controller;
+package cn.zhku.waterfowl.modules.outPoultry.controller;
 
-
-import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
-import cn.zhku.waterfowl.pojo.entity.Aquaculture;
+import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
+import cn.zhku.waterfowl.pojo.entity.OutPoultry;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
@@ -17,22 +16,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/aquaculture")
-public class AquacultureController{
+@RequestMapping("/outpoultry")
+public class OutPoultryController {
     @Autowired
-    AquacultureService aquacultureService;
+    OutPoultryService outPoultryService;
 
     /**
-     * 增加记录
-     * @param aquaculture
+     * 增加一条记录
+     * @param outPoultry
      * @return
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("add")
-    public Message addAquaculture(Aquaculture aquaculture) throws Exception {
-        aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-        if(aquacultureService.add(aquaculture)==1)
+    @RequestMapping("/add")
+    public Message addOutPoultry(OutPoultry outPoultry) throws Exception{
+        outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
+        if(outPoultryService.add(outPoultry)==1)
             return new Message("1","成功增加1条记录");
         else
             return new Message("2","增加记录失败");
@@ -46,10 +45,10 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("delete/{id}")
-    public Message deleteAquaculture(@PathVariable String id) throws Exception {
-        Aquaculture aquaculture = new Aquaculture();
-        aquaculture.setId(id);
-        if (aquacultureService.delete(aquaculture)==1)
+    public Message deleteOutPoultry(@PathVariable String id) throws Exception {
+        OutPoultry outPoultry = new OutPoultry();
+        outPoultry.setId(id);
+        if (outPoultryService.delete(outPoultry)==1)
             return new Message("1","成功删除1条记录");
         else
             return new Message("2","删除记录失败");
@@ -58,15 +57,15 @@ public class AquacultureController{
     /**
      * 修改记录
      * @param id
-     * @param aquaculture
+     * @param outPoultry
      * @return 状态码  0 为失败， 1为成功
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping("edit/{id}")
-    public Message editAquaculture(@PathVariable String id,Aquaculture aquaculture) throws Exception {
-        aquaculture.setId(id);
-        if (aquacultureService.update(aquaculture)==1)
+    public Message editOutPoultry(@PathVariable String id,OutPoultry outPoultry) throws Exception {
+        outPoultry.setId(id);
+        if (outPoultryService.update(outPoultry)==1)
             return new Message("1","修改记录成功");
         else
             return new Message("2","修改记录失败");
@@ -76,31 +75,32 @@ public class AquacultureController{
     /**
      * 展示一条记录
      * @param id
-     * @return aquaculture
+     * @return
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping("show/{id}")
-    public Aquaculture showAquaculture(@PathVariable String id) throws Exception {
-        return aquacultureService.get(id);
+    public OutPoultry showOutPoultry(@PathVariable String id) throws Exception {
+        return outPoultryService.get(id);
     }
 
 
     /**
      * 分页展示所有记录
-     * @param aquaculture
+     * @param outPoultry
      * @param commonQo
      * @return
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping("list")
-    public PageInfo<Aquaculture> listAquaculture(Aquaculture aquaculture, CommonQo commonQo) throws Exception {
+    public PageInfo<OutPoultry> listOutPoultry(OutPoultry outPoultry, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
         //  通过服务层获取查询后的用户列表
-        List<Aquaculture> aquacultureList =  aquacultureService.findList(aquaculture);
+        List<OutPoultry> outPoultryList =  outPoultryService.findList(outPoultry);
         //  返回 pageBean
-        return new PageInfo<Aquaculture>(aquacultureList);
+        return new PageInfo<OutPoultry>(outPoultryList);
     }
+
 }
