@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-18 15:27:37
+Date: 2017-11-18 16:43:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -154,11 +154,8 @@ INSERT INTO `dictionary` VALUES ('2001', '冷藏', '2000', null);
 INSERT INTO `dictionary` VALUES ('3000', '剂量单位', '0', 'dose_unit');
 INSERT INTO `dictionary` VALUES ('30000', '家禽养殖阶段', '0', 'status');
 INSERT INTO `dictionary` VALUES ('30001', '幼鸡', '30000', null);
-INSERT INTO `dictionary` VALUES ('40000', '禽舍类型', '0', 'type');
-INSERT INTO `dictionary` VALUES ('40001', '鸭舍', '40000', null);
-INSERT INTO `dictionary` VALUES ('40002', '鸡舍', '40000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
-INSERT INTO `dictionary` VALUES ('60000', '家禽种类', '0', 'type');
+INSERT INTO `dictionary` VALUES ('60000', '家禽种类(禽舍类型)', '0', 'type');
 INSERT INTO `dictionary` VALUES ('60001', '鹅', '60000', null);
 INSERT INTO `dictionary` VALUES ('60002', '鸭', '60000', null);
 INSERT INTO `dictionary` VALUES ('60003', '鸡', '60000', null);
