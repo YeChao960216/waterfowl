@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-18 13:52:28
+Date: 2017-11-18 15:27:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -345,6 +345,7 @@ CREATE TABLE `patch` (
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
   `id` varchar(45) NOT NULL COMMENT '禽舍管理表',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
   PRIMARY KEY (`id`),
@@ -369,7 +370,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 23:37:33', '1', '1');
 
 -- ----------------------------
 -- Table structure for poultry
