@@ -28,8 +28,8 @@
         </td>
 
         <td>
-            可使用<input id="yes" type="radio" checked>
-            不可使用<input id="no" type="radio">
+            可用<input id="yes" type="radio" checked>
+            不可用<input id="no" type="radio">
         </td>
 
         <!--affiliation对应affiliation的id；当用户填写该表的affiliation字段时，下拉框选项为affiliation表的所有id，-->
@@ -41,12 +41,14 @@
                 <option>大禽舍id3</option>
             </select>
         </td>
-        <td><input id="idRharge" type="text" placeholder="负责人编号"></td>
-        <td><input id="idRecorder" type="text"  placeholder="记录者编号"></td>
-        <td><input id="remark" type="text"  placeholder="备注"></td>
-        <td><button class="btn">提交</button></td>
-    </tr>
 
+        <td><input id="idRharge" type="text" placeholder="负责人编号"></td>
+
+        <td><input id="idRecorder" type="text"  placeholder="记录者编号"></td>
+
+        <td><button class="btn">增加</button></td>
+    </tr>
+    <tbody id="tbody"></tbody>
 </table>
 </body>
 <script src="../static/jquery/jquery-1.9.1.min.js"></script>
