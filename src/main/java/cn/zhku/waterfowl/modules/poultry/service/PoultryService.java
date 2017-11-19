@@ -106,9 +106,9 @@ public class PoultryService implements IBaseService<Poultry>{
 
         //  根据时间区间来查找
         if (commonQo.getStart() != null)
-            criteria.andRecordDateLessThanOrEqualTo(commonQo.getStart());
+            criteria.andRecordDateGreaterThanOrEqualTo(commonQo.getStart());
         if (commonQo.getEnd() != null)
-            criteria.andRecordDateGreaterThan(commonQo.getEnd());
+            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
         return poultryMapper.selectByExample(poultryExample);
     }
 }

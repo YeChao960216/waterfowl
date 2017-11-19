@@ -1,7 +1,10 @@
 package cn.zhku.waterfowl.modules.material.service;
 
+import cn.zhku.waterfowl.modules.material.dao.MaterialDao;
 import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.MaterialExample;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.MaterialMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -20,7 +23,8 @@ public class MaterialService  implements IBaseService<Material>{
 
     @Autowired
     private MaterialMapper materialMapper;
-
+    @Autowired
+    private MaterialDao materialDao;
     /**
      * 对某个实体对象（相对应的表）添加操作
      *
@@ -92,7 +96,10 @@ public class MaterialService  implements IBaseService<Material>{
     public List<Material> findList(Material entity) throws Exception {
        return null;
     }
-
+    public List<Material> showAll() {
+        MaterialExample materialExample = new MaterialExample();
+        return materialMapper.selectByExample(materialExample);
+    }
     /**
      *  多条件查询类
      * @param entity    实体类的各个属性
@@ -104,11 +111,10 @@ public class MaterialService  implements IBaseService<Material>{
         MaterialExample materialExample = new MaterialExample();
         MaterialExample.Criteria criteria = materialExample.createCriteria();
         //  根据时间区间来查找
-//        if (commonQo.getStart() != null)
-//            criteria.andDateLessThanOrEqualTo(commonQo.getStart());
-//        if (commonQo.getEnd() != null)
-//            criteria.(commonQo.getEnd());
-
+        if (commonQo.getStart() != null)
+            criteria.andDateGreaterThanOrEqualTo(commonQo.getStart());
+        if (commonQo.getEnd() != null)
+            criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
             return materialMapper.selectByExample(materialExample);
     }
 

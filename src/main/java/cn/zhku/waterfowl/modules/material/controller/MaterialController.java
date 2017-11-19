@@ -94,7 +94,7 @@ public class MaterialController implements IBaseController<Material> {
      * @return PageInfo分页类
      * @throws Exception sql、bean检验
      */
-    @RequestMapping("list")
+    @RequestMapping("show")
     @Override
     public PageInfo<Material> list(Material entity, CommonQo commonQo) throws Exception {
         //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
