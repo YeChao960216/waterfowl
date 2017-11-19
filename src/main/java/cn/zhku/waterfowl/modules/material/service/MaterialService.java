@@ -104,11 +104,7 @@ public class MaterialService  implements IBaseService<Material>{
         MaterialExample materialExample = new MaterialExample();
         MaterialExample.Criteria criteria = materialExample.createCriteria();
 
-        //  根据时间区间来查找
-        if (commonQo.getStart() != null)
-            criteria.andDateLessThanOrEqualTo(commonQo.getStart());
-        if (commonQo.getEnd() != null)
-            criteria.andDateGreaterThanOrEqualTo(commonQo.getEnd());
+
             return materialMapper.selectByExample(materialExample);
     }
 
