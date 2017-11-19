@@ -30,7 +30,7 @@
                     "/waterfowl/ddl/findList",
                     {
                         "record_date":$("#record_date").val(),
-                        "epidemic_id":$("#epidemic_id").val(),
+                        "id":$("#id_patch").val(),
                         "processing_mode":$("#processing_mode").val(),
                         "id_recorder":$("#id_recorder").val(),
                         "id_charge":$("#id_charge").val(),
@@ -45,7 +45,7 @@
                             o =data.list[i];
                             content+='<tr>'+
                                 '<td>'+o.recordDate+'</td>'+
-                                '<td>'+o.idPoultry+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
                                 '<td>'+o.numProcessed+'</td>'+
                                 '<td>'+o.processingMode+'</td>'+
                                 '<td>'+o.idRecorder+'</td>'+
@@ -72,7 +72,7 @@
 <body>
     <div id="action">
         <input type="date" id="record_date">
-        <input type="text" id="epidemic_id" placeholder="疾控批次">
+        <input type="text" id="id_patch" placeholder="疾控批次">
         <input type="text" id="processing_mode" placeholder="处理方式">
         <input type="text" id="id_recorder" placeholder="记录者">
         <input type="text" id="id_charge" placeholder="负责人">
