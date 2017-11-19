@@ -16,7 +16,7 @@
                 "/waterfowl/epidemic/show/"+id,
                 function (data) {
                     $("#record_date").val(data.recordDate)
-                    $("#id_fowlery").val(data.idFowlery),
+                    $("#id_patch").val(data.idPatch),
                         $("#sign").val(data.sign),
                         $("#diseaes").val(data.diseaes),
                         $("#num_infected").val(data.numInfected),
@@ -36,8 +36,8 @@
                 console.log(id);
                 var data ={
                         "id":id,
-                        "date": $("#record_date").val(),
-                        "idPoultry": $("#id_fowlery").val(),
+                        "recordDate": $("#record_date").val(),
+                        "idPoultry": $("#id_patch").val(),
                         "numProcessed": $("#sign").val(),
                         "diseaes": $("#diseaes").val(),
                         "numInfected": $("#num_infected").val(),
@@ -55,8 +55,8 @@
                     "/waterfowl/epidemic/edit/"+id,
                     {
                         "id":id,
-                        "date": $("#record_date").val(),
-                        "idPoultry": $("#id_fowlery").val(),
+                        "recordDate": $("#record_date").val(),
+                        "idPatch": $("#id_patch").val(),
                         "numProcessed": $("#sign").val(),
                         "diseaes": $("#diseaes").val(),
                         "numInfected": $("#num_infected").val(),
@@ -107,7 +107,7 @@
     </tr>
     <tr>
         <td><input type="date" id="record_date"></td>
-        <td><input type="text" id="id_fowlery" placeholder="禽舍编号" ></td>
+        <td><input type="text" id="id_patch" placeholder="批次编号" ></td>
         <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
         <td><input type="text" id="diseaes" placeholder="疾病"></td>
         <td><input type="text" id="num_infected" placeholder="染病个体数"></td>

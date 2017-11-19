@@ -38,7 +38,7 @@ import java.util.UUID;
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
 
-            epidemic.setIdEpidemic(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+            epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             epidemic.setFlag(0);
             if(epidemicService.add(epidemic) == 1)
                 return new Message("1","添加疾病/免疫记录表成功");
@@ -56,7 +56,7 @@ import java.util.UUID;
         @RequestMapping("delete/{id}")
         public Message deleteEpidemic(@PathVariable String id) throws Exception {
             Epidemic epidemic =  new Epidemic();
-            epidemic.setIdEpidemic(id);
+            epidemic.setId(id);
             if(epidemicService.delete(epidemic) == 1)
                 return new Message("1","删除疾病/免疫记录表成功");
             else
@@ -64,14 +64,14 @@ import java.util.UUID;
         }
         /** 根据id修改免疫记录
          *  测试成功
-         * @param   idEpidemic 不包括记录表的各个Epidemic实体类字段
+         * @param   id 不包括记录表的各个Epidemic实体类字段
          * @return  message
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("edit/{idEpidemic}")
-        public Message editEpidemic(@PathVariable String idEpidemic, Epidemic epidemic) throws Exception {
-            epidemic.setIdEpidemic(idEpidemic);
+        @RequestMapping("edit/{id}")
+        public Message editEpidemic(@PathVariable String id, Epidemic epidemic) throws Exception {
+            epidemic.setId(id);
             if(epidemicService.update(epidemic) == 1)
                 return new Message("1","修改疾病/免疫记录表成功");
             else

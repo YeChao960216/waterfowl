@@ -1,6 +1,6 @@
-package cn.zhku.waterfowl.modules.poultry.controller.poultry;
+package cn.zhku.waterfowl.modules.poultry.controller;
 
-import cn.zhku.waterfowl.modules.poultry.controller.service.PoultryService;
+import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseController;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * @author : 钱伟健 gonefuture@qq.com
@@ -34,6 +36,7 @@ public class PoultryController  implements IBaseController<Poultry>{
     @RequestMapping("/new")
     @Override
     public Message add(Poultry entity) throws Exception {
+        entity.setIdPoultry(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
         if (poultryService.add(entity) == 1)
             return new Message("1","增加家禽成功");
         else
@@ -97,7 +100,10 @@ public class PoultryController  implements IBaseController<Poultry>{
     @RequestMapping("/list")
     @Override
     public PageInfo<Poultry> list(Poultry entity, CommonQo commonQo) throws Exception {
+        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
+        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
+            commonQo.setSort("date desc");
         PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),"date desc");
-        return new PageInfo<>(poultryService.findList(entity));
+        return new PageInfo<>(poultryService.list(entity,commonQo));
     }
 }

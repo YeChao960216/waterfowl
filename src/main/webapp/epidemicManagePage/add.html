@@ -17,8 +17,8 @@
                 type:"post",
                 url:"/waterfowl/epidemic/save",
                 data:{
-                    "date":$("#record_date").val(),
-                    "idFowlery":$("#id_fowlery").val(),
+                    "recordDate":$("#record_date").val(),
+                    "idPatch":$("#id_patch").val(),
                     "sign":$("#sign").val(),
                     "diseaes":$("#diseaes").val(),
                     "numInfected":$("#num_infected").val(),
@@ -88,7 +88,7 @@
     </tr>
       <tr>
         <td><input type="date" id="record_date"></td>
-        <td><input type="text" id="id_fowlery" placeholder="禽舍编号" ></td>
+        <td><input type="text" id="id_patch" placeholder="禽舍编号" ></td>
         <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
         <td><input type="text" id="diseaes" placeholder="疾病"></td>
         <td><input type="text" id="num_infected" placeholder="染病个体数"></td>
