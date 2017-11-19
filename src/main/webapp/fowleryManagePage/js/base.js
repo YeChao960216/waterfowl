@@ -3,14 +3,12 @@
 2.点击查询按钮查询
  */
 var data=[{
-    id:"0011",
-    dateEstablish:"2017-11-13",
-    address:"仲恺养鸡场",
-    numMax:1000,
-    type:"幼鸡",
+    size:100,
+    status:"可用",
+    affiliation:"归属的大禽舍1",
     idRecorder:"wenzhi",
-    idCharge:"zhuowenzhi",
-    remark:"你最帅了"}];
+    idCharge:"zhuowenzhi"
+}];
 
 
 console.log(data);
@@ -22,8 +20,9 @@ $(function () {
             type:"post",
             dataType:"json",
             data: {
-                "dateEstablish":$('#dateEstablish').val(),
-                "type":$('#type').val(),
+                "size":$('#size').val(),
+                "status":$('#status').val(),
+                "affiliation":$("#affiliation"),
                 "idRecorder":$('#idRecorder').val(),
                 "idCharge": $('#idCharge').val()
             },
@@ -56,8 +55,7 @@ $(function () {
 
         //eval将字符转化为对象数组 eval('1'+'2') //3
         var json = data1;
-        //alert("fowerly:dateEstablish"+json.dateEstablish+",address"+json.address+",numMax"+json.numMax+json.idCharge+json.type+json.remark+json.idRecorder);
-
+       /*
         //日期处理函数
         var date = new Date(parseInt(json.date,14));
         function getDateTime() {
@@ -70,22 +68,19 @@ $(function () {
             return year+"-"+month+"-"+day+"-"+hh+"-"+mm+"-"+ss;
         };
         json.dateEstablish=getDateTime;
-
+        */
         //eval将字符转化为对象数组
         //var json = eval(data)//数组
         var html = '';
     $.each(json,function (index,item) {
             //循坏数据
             alert(item);
-            var  id=item.id;
-            var  dateEstablish=item.dateEstablish;
-            var  address=item.address;
-            var  numMax=item.numMax;
-            var  type=item.type;
+            var  size=item.size;
+            var  status=item.status;
+            var  affiliation=item.affiliation;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            var  remark=item.remark;
-            html+="<tr><td><input type='checkbox'></td><td>"+id+"</td><td>"+ dateEstablish+"</td><td>"+address+"</td><td>"+ numMax+"</td><td>"+type+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td>"+remark+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+            html+="<tr><td><input type='checkbox' class='checkArr' name='checkAll'></td><td>"+size+"</td><td>"+status+"</td><td>"+affiliation+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
         });
         console.log($('#tboby')[0]);
         $('#tbody')[0].innerHTML = html;
@@ -94,5 +89,3 @@ $(function () {
         $('#tbody').innerHTML='';
     });
 });
-
-console.log($('#tbody')[0]);

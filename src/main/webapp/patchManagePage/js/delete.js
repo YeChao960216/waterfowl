@@ -1,7 +1,10 @@
 var data=[{
+    idPoultry:1111,
+    type:"鸭子",
+    position:"东",
     size:100,
-    status:"可用",
     affiliation:"归属的大禽舍1",
+    idFowlery:"归属的禽舍1",
     idRecorder:"wenzhi",
     idCharge:"zhuowenzhi"
 }];
@@ -10,16 +13,20 @@ var data=[{
 console.log(data);
 $(function () {
     $('#btn').click(function () {
+        alert("111");
         $.ajax({
             url:"",
             type:"post",
             dataType:"json",
             data: {
-                "size":$('#size').val(),
-                "status":$('#status').val(),
-                "affiliation":$("#affiliation"),
-                "idRecorder":$('#idRecorder').val(),
-                "idCharge": $('#idCharge').val()
+                "idPoultry":$('#idPoultry').val(),//养殖批次
+                "type":$('#type').val(),//类型
+                "position":$('#position').val(),//方位
+                "size":$('#size').val(),//规格
+                "affiliation":$('#affiliation').val(),//归属的大禽舍
+                "idFowlery":$('#idFowlery').val(),//使用状态
+                " idCharge": $('#idCharge').val(),//负责人编号
+                "idRecorder":$('#idRecorder').val(),//记录者编号
             },
         })
     });
@@ -70,22 +77,22 @@ $(function () {
         $.each(json,function (index,item) {
             //循坏数据
             alert(item);
+            var  idPoultry=item.idPoultry;
+            var  type=item.type;
+            var  position=item.position;
             var  size=item.size;
-            var  status=item.status;
             var  affiliation=item.affiliation;
+            var  idFowlery=item.idFowlery;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            html+="<tr><td><input type='checkbox' class='checkArr'></td><td>"+size+"</td><td>"+status+"</td><td>"+affiliation+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+            var  html="<tr><td><input type='checkbox' class='selectArr'></td><td>"+idPoultry+"</td><td>"+type+"</td><td>"+position+"</td><td>"+size+"</td><td>"+affiliation+"</td><td>"+idFowlery+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
         });
-        console.log($('#tboby')[0]);
-        $('#tbody')[0].innerHTML = html;
+        $('#tbody').html(html);
     }
     $('.delete').click(function () {
         $('#tbody').innerHTML='';
     });
 });
-
-
 
 /*
 *点击删除按钮

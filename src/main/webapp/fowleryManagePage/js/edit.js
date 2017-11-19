@@ -22,8 +22,9 @@ $(function () {
             type:"post",
             dataType:"json",
             data: {
-                "dateEstablish":$('#dateEstablish').val(),
-                "type":$('#type').val(),
+                "size":$('#size').val(),
+                "status":$('#status').val(),
+                "affiliation":$("#affiliation"),
                 "idRecorder":$('#idRecorder').val(),
                 "idCharge": $('#idCharge').val()
             },
@@ -59,7 +60,7 @@ $(function () {
         //alert("fowerly:dateEstablish"+json.dateEstablish+",address"+json.address+",numMax"+json.numMax+json.idCharge+json.type+json.remark+json.idRecorder);
 
         //日期处理函数
-        var date = new Date(parseInt(json.date,14));
+       /* var date = new Date(parseInt(json.date,14));
         function getDateTime() {
             var year = date.getFullYear();
             var month = date.getMonth();
@@ -69,23 +70,20 @@ $(function () {
             var ss = date.getSeconds();
             return year+"-"+month+"-"+day+"-"+hh+"-"+mm+"-"+ss;
         };
-        json.dateEstablish=getDateTime;
+        json.dateEstablish=getDateTime;*/
 
         //eval将字符转化为对象数组
-        //var json = eval(data)//数组
+
         var html = '';
         $.each(json,function (index,item) {
             //循坏数据
             alert(item);
-            var  id=item.id;
-            var  dateEstablish=item.dateEstablish;
-            var  address=item.address;
-            var  numMax=item.numMax;
-            var  type=item.type;
+            var  size=item.size;
+            var  status=item.status;
+            var  affiliation=item.affiliation;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            var  remark=item.remark;
-            var  html="<tr><td><input type='text'>"+id+"</td><td><input type='text'>"+dateEstablish+"</td><td><input type='text'>"+address+"</td><td><input type='text'>"+numMax+"</td><td><input type='text'>"+ type+"</td><td><input type='text'>"+idCharge+"</td><td><input type='text'>"+idRecorder+"</td><td><input type='text'>"+remark+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+            var  html="<tr><td><input type='text'>"+size+"</td><td><input type='text'>"+status+"</td><td><input type='text'>"+affiliation+"</td><td><input type='text'>"+idCharge+"</td><td><input type='text'>"+idRecorder+"</td><td><input type='button' value='修改' class='btn edit'></td></tr>";
         });
         $('#tbody').html(html);
     }

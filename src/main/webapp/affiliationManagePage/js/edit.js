@@ -1,7 +1,9 @@
 var data=[{
+    type:"鸭子",
+    size:100,
+    position:"东",
     size:100,
     status:"可用",
-    affiliation:"归属的大禽舍1",
     idRecorder:"wenzhi",
     idCharge:"zhuowenzhi"
 }];
@@ -10,16 +12,18 @@ var data=[{
 console.log(data);
 $(function () {
     $('#btn').click(function () {
+        alert("111");
         $.ajax({
             url:"",
             type:"post",
             dataType:"json",
             data: {
-                "size":$('#size').val(),
-                "status":$('#status').val(),
-                "affiliation":$("#affiliation"),
-                "idRecorder":$('#idRecorder').val(),
-                "idCharge": $('#idCharge').val()
+                "type":$('#type').val(),//养殖类型
+                "position":$('#position'),//方位
+                "size":$('#size').val(),//规格
+                "status":$('#status').val(),//使用状态
+                " idCharge": $('#idCharge').val(),//负责人编号
+                "idRecorder":$('#idRecorder').val(),//记录者编号
             },
         })
     });
@@ -70,56 +74,19 @@ $(function () {
         $.each(json,function (index,item) {
             //循坏数据
             alert(item);
+            var  type=item.type;
+            var  position=item.position;
             var  size=item.size;
             var  status=item.status;
-            var  affiliation=item.affiliation;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            html+="<tr><td><input type='checkbox' class='checkArr'></td><td>"+size+"</td><td>"+status+"</td><td>"+affiliation+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+            var  html="<tr><td><input type='text'>"+type+"</td><td><input type='text'>"+position+"</td><td><input type='text'>"+size+"</td><td><input type='text'>"+status+"</td><td><input type='text'>"+idCharge+"</td><td><input type='text'>"+idRecorder+"</td><td><input type='button' value='修改' class='btn edit'></td></tr>";
         });
-        console.log($('#tboby')[0]);
-        $('#tbody')[0].innerHTML = html;
+        $('#tbody').html(html);
     }
     $('.delete').click(function () {
         $('#tbody').innerHTML='';
     });
 });
 
-
-
-/*
-*点击删除按钮
-*/
-//处理全选/不选
-document.getElementById('checkAll').onclick=function () {
-    //获取所有的复选框
-    var checkElements = document.querySelectorAll('[type=checkbox]');
-    console.log(checkElements,checkElements.length);
-    if (this.checked)
-    {
-        for (var i=1;i<checkElements.length;i++)
-        {
-            var checkElement=checkElements[i];
-            //方法一
-            // chenkElement.setAttribute('checked','checked');
-            //方法二
-            checkElement.checked=true;
-        }
-    }
-    else
-    {
-
-        for (var i=1;i<checkElements.length;i++)
-        {
-            var checkElement=checkElements[i];
-            //方法一
-            // chenkElement.setAttribute('checked','checked');
-            //方法二
-            checkElement.checked=false;
-        }
-    }
-}
-
-$('#deleteAll').onclick=function () {
-    $('#tbody td').innerHTML="";
-}
+console.log($('#tbody')[0]);
