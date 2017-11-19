@@ -64,14 +64,14 @@ import java.util.UUID;
         }
         /** 根据id修改免疫记录
          *  测试成功
-         * @param   idEpidemic 不包括记录表的各个Epidemic实体类字段
+         * @param   id 不包括记录表的各个Epidemic实体类字段
          * @return  message
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("edit/{idEpidemic}")
-        public Message editEpidemic(@PathVariable String idEpidemic, Epidemic epidemic) throws Exception {
-            epidemic.setId(idEpidemic);
+        @RequestMapping("edit/{id}")
+        public Message editEpidemic(@PathVariable String id, Epidemic epidemic) throws Exception {
+            epidemic.setId(id);
             if(epidemicService.update(epidemic) == 1)
                 return new Message("1","修改疾病/免疫记录表成功");
             else

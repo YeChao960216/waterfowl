@@ -29,9 +29,56 @@ var zNodes = [
         {   //列出所有员工，但是，员工的密码是没办法看到的
             name:"员工信息管理", open:true, tid:'./empManagePage/showEmp.html',children:
             [   //办理入职的时候，主要罗列出处于离职状态的员工，为其办理入职手续
-                {name:"办理入职",tid:'./empManagePage/addEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'},
+                {name:"办理入职",tid:'./empManagePage/addEmp.html',pName:"员工信息管理",pUrl:'./empManagePage/showEmp.html'},
                 //解雇/删除，主要罗列出处于入职状态的员工，办理离职手续手续
-                {name:"解雇/删除员工信息",tid:'./empManagePage/del_fireEmp.html',pName:"员工管理",pUrl:'./empManagePage/showEmp.html'}
+                {name:"解雇/删除员工信息",tid:'./empManagePage/del_fireEmp.html',pName:"员工信息管理",pUrl:'./empManagePage/showEmp.html'}
+            ]
+        },
+        {
+            name:"养殖记录管理", open:true, tid:'./aquacultureManagePage/delete.html',children:
+            [
+                {name:"增加",tid:'./aquacultureManagePage/add.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'},
+
+                {name:"删除",tid:'./aquacultureManagePage/delete.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'},
+
+                {name:"修改",tid:'./aquacultureManagePage/edit.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'}
+            ]
+        },
+        {
+            name:"死淘管理", open:true, tid:'./ddlManagePage/add.html',children:
+            [
+                {name:"增加",tid:'./ddlManagePage/add.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
+
+                {name:"修改",tid:'./ddlManagePage/edit.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
+
+                {name:"已上传的死逃信息",tid:'./ddlManagePage/hasUploadList.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
+
+                {name:"待上传的死逃信息",tid:'./ddlManagePage/waitUploadList.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
+
+            ]
+        },
+        {
+            name:"免疫隔离管理", open:true, tid:'./epidemicManagePage/add.html',children:
+            [
+                {name:"增加",tid:'./epidemicManagePage/add.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
+
+                {name:"修改",tid:'./epidemicManagePage/edit.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
+
+                {name:"已上传的免疫隔离信息",tid:'./epidemicManagePage/hasUploadList.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
+
+                {name:"待上传的免疫隔离信息",tid:'./epidemicManagePage/waitUploadList.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
+
+            ]
+        },
+        {
+            name:"禽舍管理", open:true, tid:'./fowleryManagePage/add.html',children:
+            [
+                {name:"增加",tid:'./fowleryManagePage/add.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage/add.html'},
+
+                {name:"删除",tid:'./fowleryManagePage/delete.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage/add.html'},
+
+                {name:"修改",tid:'./fowleryManagePage/edit.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage/add.html'},
+
             ]
         },
         

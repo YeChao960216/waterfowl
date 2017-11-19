@@ -28,7 +28,7 @@
                 $.post(
                     "/waterfowl/epidemic/showByFlag/1",
                     {
-                        "date":$("#record_date").val(),
+                        "recordDate":$("#record_date").val(),
                         "diseaes":$("#diseaes").val(),
                         "processingMode":$("#processing_mode").val(),
                         "idFowlery":$("#id_fowlery").val(),
@@ -44,8 +44,8 @@
                         for(var i=0;i<data.list.length;i++){
                             o =data.list[i];
                             content+='<tr>'+
-                                '<td>'+o.date+'</td>'+
-                                '<td>'+o.idFowlery+'</td>'+
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
                                 '<td>'+o.sign+'</td>'+
                                 '<td>'+o.diseaes+'</td>'+
                                 '<td>'+o.numInfected+'</td>'+

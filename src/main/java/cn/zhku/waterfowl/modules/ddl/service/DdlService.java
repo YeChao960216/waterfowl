@@ -108,8 +108,8 @@ public class DdlService implements IBaseService<Ddl> {
         DdlExample.Criteria criteria = ddlExample.createCriteria();
         if (entity.getIdCharge() != null&&!entity.getIdCharge().equals(""))
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getIdPoultry() != null&&!entity.getIdPoultry().equals(""))
-            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
+        if (entity.getIdPatch() != null&&!entity.getIdPatch().equals(""))
+            criteria.andIdPatchEqualTo(entity.getIdPatch());
         if (entity.getIdRecorder() != null&&!entity.getIdRecorder().equals(""))
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getFlag() != null)
