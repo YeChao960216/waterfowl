@@ -50,8 +50,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     /**
      * 根据id得到epdemic实体类
      */
-    public Outstorage get(String idOutstorage) throws Exception {
-        return outstorageMapper.selectByPrimaryKey(idOutstorage);
+    public Outstorage get(String id) throws Exception {
+        return outstorageMapper.selectByPrimaryKey(id);
     }
 
     @Override
