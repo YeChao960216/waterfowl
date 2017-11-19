@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.service;
 
+import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.FowleryExample;
 import cn.zhku.waterfowl.pojo.mapper.FowleryMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 public class FowleryService implements IBaseService<Fowlery> {
     @Autowired
     private FowleryMapper fowleryMapper;
+    private FowleryDao dao;
 
     @Override
     public int add(Fowlery entity) throws Exception {
@@ -102,5 +104,30 @@ public class FowleryService implements IBaseService<Fowlery> {
         }
 
         return fowleryMapper.selectByExample(fowleryExample);
+    }
+
+    /**
+     * 通过affiliation的id查找的到对应的fowlery
+     * @param id
+     * @return
+     */
+    public List<Fowlery> findFowleryByAId(String id) {
+        Fowlery fowlery=new Fowlery();
+        fowlery.setAffiliation(id);
+
+        return dao.findFowleryByAId(id);
+    }
+
+    /**
+     * 通过affiliation的id获取fowlery
+     * @param affiliation
+     * @return
+     */
+    public List<Fowlery> selectFowlery(String affiliation) {
+        return dao.findFowleryByAId(affiliation);
+    }
+
+    public String selectFowleryStatus(String id) {
+        return  dao.selectFowleryStatus(id);
     }
 }

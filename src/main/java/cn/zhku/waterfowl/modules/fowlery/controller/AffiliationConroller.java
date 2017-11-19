@@ -1,7 +1,9 @@
 package cn.zhku.waterfowl.modules.fowlery.controller;
 
 import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
+import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
+import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,6 +25,7 @@ import java.util.UUID;
 public class AffiliationConroller {
     @Autowired
     AffiliationService affiliationService;    //大禽舍
+    FowleryService fowleryService;      //小禽舍
 
     /**
      * 通过id查找大禽舍
@@ -94,5 +97,39 @@ public class AffiliationConroller {
         Affiliation affiliation=new Affiliation();
         affiliation.setId(id);
         return affiliationService.delete(affiliation);
+    }
+
+
+    /**
+     * 确定affiliation的状态
+     * @param id
+     * @return affiliation
+     */
+    @ResponseBody
+    @RequestMapping("selectStatus/{id}")
+    public Affiliation selectStatusByFowlery(@PathVariable String id) {
+        Affiliation affiliation=new Affiliation();
+        affiliation.setId(id);
+
+        Fowlery fowlery = new Fowlery();
+        fowlery.setAffiliation(id);
+
+        //通过affiliation的id查找到fowlery
+        List<Fowlery> fowleryList = fowleryService.findFowleryByAId(id);
+
+        //判断fowlery的状态是否都是0，如果是，则归属表的状态也是0，如果不是，则状态为1
+        String status = null;
+        for (int i = 0; i < fowleryList.size(); i++) {
+            if (fowleryList.get(i).getStatus().equals('1')) {
+                //如果都是1，表示小禽舍都满员
+                status="1";             //1表示不可使用
+            } else {
+                status="0";             //0，可以使用
+            }
+        }
+
+        affiliation.setSize(status);
+
+        return affiliation;
     }
 }

@@ -92,4 +92,22 @@ public class FowleryController {
         fowlery.setId(id);
        return fowleryService.delete(fowlery);
     }
+
+    /**
+     * 确定fowlery的状态
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectFowlryStatus/{id}")
+    public String selectFowleryStatus(@PathVariable String id){
+        String outpoultryid=fowleryService.selectFowleryStatus(id);
+
+        //判断
+        if(outpoultryid==null){
+            return "1";        //不可使用
+        }else{
+            return "0";       //可使用
+        }
+    }
 }
