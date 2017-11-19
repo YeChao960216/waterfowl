@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 /**
- * @author : 钱伟健 gonefuture@qq.com
+ * @author : 叶超 yc755909707@foxmail.com
  * @version : 2017/11/14 18:23.
  * 说明：
  */
@@ -24,10 +24,6 @@ import java.util.UUID;
 public class MaterialController implements IBaseController<Material> {
     @Autowired
     MaterialService materialService;
-
-
-
-
     /**
      * 增加一条数据
      *
@@ -38,7 +34,7 @@ public class MaterialController implements IBaseController<Material> {
     @RequestMapping("new")
     @Override
     public Message add(Material entity) throws Exception {
-        entity.setIdMaterial(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
+        entity.setIdStorage(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位长度的UUID来设置用户id
         if (materialService.add(entity) == 1)
             return new Message("1","插入材料成功");
         else
@@ -56,7 +52,7 @@ public class MaterialController implements IBaseController<Material> {
     @RequestMapping("delete/{id}")
     @Override
     public Message delete(@PathVariable String id, Material entity) throws Exception {
-        entity.setIdMaterial(id);
+        entity.setIdStorage(id);
         if (materialService.delete(entity) == 1)
             return new Message("1","成功删除材料");
         else

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author : 钱伟健 gonefuture@qq.com
+ * @author : 叶超 yc755909707@foxmail.com
  * @version : 2017/11/14 18:24.
- * 说明： 材料表服务
+ * 说明： 物资表服务
  */
 @Service
 public class MaterialService  implements IBaseService<Material>{
@@ -54,7 +54,7 @@ public class MaterialService  implements IBaseService<Material>{
      */
     @Override
     public int delete(Material entity) throws Exception {
-        return materialMapper.deleteByPrimaryKey(entity.getIdMaterial());
+        return materialMapper.deleteByPrimaryKey(entity.getIdStorage());
     }
 
     /**
