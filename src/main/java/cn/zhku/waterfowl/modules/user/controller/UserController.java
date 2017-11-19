@@ -1,8 +1,11 @@
 package cn.zhku.waterfowl.modules.user.controller;
 
 
+import cn.zhku.waterfowl.modules.user.model.UserExcel;
+import cn.zhku.waterfowl.modules.user.model.UserUtilExcel;
 import cn.zhku.waterfowl.modules.user.service.UserService;
 import cn.zhku.waterfowl.pojo.entity.User;
+
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -186,27 +190,37 @@ public class UserController extends BaseController {
     @ResponseBody
     public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
-            if(excelFile != null){
+            if(excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
-                    //  储存图片的物理路径
-                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
-                    //  获取上传文件的文件类型名
-                    String originalFileName = excelFile.getOriginalFilename();
-                    //  新的的图片名称,用UUID做文件名防止重复
-                    String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
-                    //新图片文件
-                    File newFile = new File(realPath+newFileName);
-                    //将内存中的数据写入磁盘
-                    excelFile.transferTo(newFile);
-                    //将新图片名称写到repair中
-                    //repair.setRepairPic(newFileName);
+                //  储存图片的物理路径
+                String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
+                //  获取上传文件的文件类型名
+                String originalFileName = excelFile.getOriginalFilename();
+                //  新的的图片名称,用UUID做文件名防止重复
+                String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
+                //新图片文件
+                File newFile = new File(realPath+newFileName);
+                //将内存中的数据写入磁盘
+                excelFile.transferTo(newFile);
+                //将新图片名称写到repair中
+                //repair.setRepairPic(newFileName);
+                System.out.println(newFile.toString());
+
+                UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
+                //userExcelUtil.setEntityMap();
+                Map<Integer, UserExcel> map = userExcelUtil.getMap();
+
+                System.out.println("===================="+map.get(0));
+
+
+
                 if(true){
                     return new Message("1","名单导入成功");
                 }else{
                     return new Message("2","名单导入失败");
                 }
             }else{
-                return new Message("2","上传失败");
+                return new Message("2","上传失败或者上传的文件后缀不是'xls'或'xlsx'");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

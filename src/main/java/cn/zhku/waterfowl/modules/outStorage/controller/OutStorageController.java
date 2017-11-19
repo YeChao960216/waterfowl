@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 对存储storage状态操作的controller,继承BaseController以便使用全局变量和参数绑定
+ * 对出库outstorage状态操作的controller,继承BaseController以便使用全局变量和参数绑定
  */
 @Controller
 @RequestMapping("/outstorage/")
@@ -31,7 +31,7 @@ public class OutStorageController extends BaseController{
         @Autowired
         OutStorageService outStorageService;
 
-        /** 增加存储记录
+        /** 增加出库记录
          * 测试完成
          * @param  outstorage 实体类的各种字段，如
          * @return storage
@@ -39,13 +39,13 @@ public class OutStorageController extends BaseController{
          */
         @ResponseBody
         @RequestMapping("add")
-        public Message addStorage(@PathVariable Outstorage outstorage) throws Exception {
-
-            outstorage.setIdStorage(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+        public Message addOutstorage(Outstorage outstorage) throws Exception {
+            outstorage.setIdOutstorage(
+                    UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             if(outStorageService.add(outstorage) == 1)
-                return new Message("1","添加库存记录成功");
+                return new Message("1","添加出库记录成功");
             else
-                return new Message("1","添加库存记录失败");
+                return new Message("1","添加出库记录失败");
         }
 
         /** 根据记录表id删除对象
@@ -56,40 +56,40 @@ public class OutStorageController extends BaseController{
          */
         @ResponseBody
         @RequestMapping("delete/{idOutStorage}")
-        public Message deleteStorage(@PathVariable String idOutStorage) throws Exception {
+        public Message deleteOutstorage(@PathVariable String idOutStorage) throws Exception {
             Outstorage outstorage =  new Outstorage();
             outstorage.setIdStorage(idOutStorage);
             if(outStorageService.delete(outstorage) == 1)
-                return new Message("1","删除库存记录成功");
+                return new Message("1","删除出库记录成功");
             else
-                return new Message("2","删除库存记录失败");
+                return new Message("2","删除出库记录失败");
         }
-        /** 根据id修改免疫记录
+        /** 根据id修改出库记录
          *  测试成功
-         * @param   idOutStorage,Storage 不包括记录表的各个Storage实体类字段
+         * @param   id,Storage 不包括记录表的各个Outstorage实体类字段
          * @return  message
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("edit/{idOutStorage,Storage}")
-        public Message editStorage(@PathVariable String idOutStorage, Outstorage outstorage) throws Exception {
-            outstorage.setIdOutstorage(idOutStorage);
+        @RequestMapping("edit/{id}")
+        public Message editOutstorage(@PathVariable String id, Outstorage outstorage) throws Exception {
+            outstorage.setIdOutstorage(id);
             if(outStorageService.update(outstorage) == 1)
-                return new Message("1","修改库存记录成功");
+                return new Message("1","修改出库记录成功");
             else
-                return new Message("2","修改库存记录失败");
+                return new Message("2","修改出库记录失败");
         }
 
-        /** 根据id展示库存信息
+        /** 根据id展示出库信息
          * 测试完成
-         * @param idOutStorage   只需记录表id
+         * @param id   只需记录表id
          * @return OutStorage实体
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("show/{idOutStorage}")
-        public Outstorage showById(@PathVariable String idOutStorage) throws Exception {
-            return outStorageService.get(idOutStorage);
+        @RequestMapping("select/{id}")
+        public Outstorage selectById(@PathVariable String id) throws Exception {
+            return outStorageService.get(id);
         }
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
@@ -108,16 +108,16 @@ public class OutStorageController extends BaseController{
             //  返回 pageBean实体
             return new PageInfo<Outstorage>(outstorageList);
         }
-        //分页展示库存记录
+        //分页展示出库记录
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
          * @param commonQo   通用查询类，拥有pageSize,
-         * @return  PageInfo<Storage> 一个带有List<Storage>的pageBean
+         * @return  PageInfo<Outstorage> 一个带有List<Outstorage>的pageBean
          * @throws Exception    sql
          */
 
         @ResponseBody
-        @RequestMapping("showAll")
+        @RequestMapping("show")
         public PageInfo<Outstorage> select(CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize());
