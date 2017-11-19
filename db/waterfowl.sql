@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-18 16:43:20
+Date: 2017-11-19 18:07:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,21 +132,31 @@ CREATE TABLE `dictionary` (
 INSERT INTO `dictionary` VALUES ('0', '测试', '0', 'test');
 INSERT INTO `dictionary` VALUES ('1000', '禽舍状态', '0', 'status');
 INSERT INTO `dictionary` VALUES ('10000', '导航栏', '0', 'navigation');
-INSERT INTO `dictionary` VALUES ('10001', '仓库管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10002', '禽舍管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10003', '禽类进厂管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10004', '禽舍分配管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10005', '虚拟禽舍管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10006', '养殖管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10007', '禽类出厂管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10008', '免疫病情管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10009', '死淘管理', '10000', null);
+INSERT INTO `dictionary` VALUES ('10001', '物资管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10002', '禽舍管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10003', '基础信息管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10004', '养殖管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10005', '疫病防治管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10006', '人员管理', '10000', '0');
+INSERT INTO `dictionary` VALUES ('10007', '字典管理', '10000', '0');
 INSERT INTO `dictionary` VALUES ('1001', '可使用', '1000', '0');
-INSERT INTO `dictionary` VALUES ('10010', '用户管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10011', '角色管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10012', '字典管理', '10000', null);
-INSERT INTO `dictionary` VALUES ('10013', '出库管理', '10000', null);
 INSERT INTO `dictionary` VALUES ('1002', '不可使用', '1000', '1');
+INSERT INTO `dictionary` VALUES ('10100', '物资入库管理', '10001', '10000');
+INSERT INTO `dictionary` VALUES ('10101', '物资出库管理', '10001', '10000');
+INSERT INTO `dictionary` VALUES ('10200', '禽舍管理', '10002', '10000');
+INSERT INTO `dictionary` VALUES ('10201', '逻辑禽舍管理', '10002', '10000');
+INSERT INTO `dictionary` VALUES ('10202', '批次管理', '10002', '10000');
+INSERT INTO `dictionary` VALUES ('10300', '禽类入厂管理', '10002', '10000');
+INSERT INTO `dictionary` VALUES ('10301', '禽类出厂管理', '10003', '10000');
+INSERT INTO `dictionary` VALUES ('10400', '养殖管理', '10004', '10000');
+INSERT INTO `dictionary` VALUES ('10500', '免疫防治管理', '10005', '10000');
+INSERT INTO `dictionary` VALUES ('10501', '死淘管理', '10005', '10000');
+INSERT INTO `dictionary` VALUES ('10600', '人员管理', '10006', '10000');
+INSERT INTO `dictionary` VALUES ('10601', '角色管理', '10006', '10000');
+INSERT INTO `dictionary` VALUES ('10602', '人员与角色管理', '10006', '10000');
+INSERT INTO `dictionary` VALUES ('10603', '角色与权限管理', '10006', '10000');
+INSERT INTO `dictionary` VALUES ('10604', '登陆管理', '10006', '10000');
+INSERT INTO `dictionary` VALUES ('10700', '字典管理', '10007', '10000');
 INSERT INTO `dictionary` VALUES ('2000', '存储方式', '0', 'mode');
 INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', 'unit');
 INSERT INTO `dictionary` VALUES ('20001', '千克', '20000', 'kg');
@@ -265,6 +275,7 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
+INSERT INTO `material` VALUES ('1', '1', '84消毒液', '2017-11-19 16:02:35', '1', '1', '1', '1', '0', null, '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for outstorage
@@ -294,6 +305,9 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
+INSERT INTO `outstorage` VALUES ('1', '2', '3', '1', '2017-11-19 16:03:37', '1', '0', '1', '1');
+INSERT INTO `outstorage` VALUES ('2', '2', '2', '1', null, '1', '0', '1', '1');
+INSERT INTO `outstorage` VALUES ('F988A9C039464EC88C5D00B633D62550', '2', '3', null, null, '1', '0', null, null);
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -456,6 +470,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '叶超', '123', null, null, null, '2017-11-17 23:34:39', null, '2017-11-17 23:34:42', null, null);
+INSERT INTO `user` VALUES ('CEDF4020E44F4109A99534E7173CC566', 'Sun Nov 19 16:00:00 CST 2017', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for user_auths
