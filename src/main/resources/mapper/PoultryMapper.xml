@@ -363,4 +363,5 @@
       id_charge = #{idCharge,jdbcType=VARCHAR}
     where id_poultry = #{idPoultry,jdbcType=VARCHAR}
   </update>
+
 </mapper>

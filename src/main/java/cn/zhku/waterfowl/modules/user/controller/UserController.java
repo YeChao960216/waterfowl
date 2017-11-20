@@ -6,12 +6,19 @@ import cn.zhku.waterfowl.modules.user.model.UserUtilExcel;
 import cn.zhku.waterfowl.modules.user.service.UserService;
 import cn.zhku.waterfowl.pojo.entity.User;
 
+import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static com.sun.tools.doclint.Entity.copy;
 
 /**
  * @author  : 钱伟健 gonefutre
@@ -204,28 +215,63 @@ public class UserController extends BaseController {
                 excelFile.transferTo(newFile);
                 //将新图片名称写到repair中
                 //repair.setRepairPic(newFileName);
-                System.out.println(newFile.toString());
+                System.out.println("================"+newFile.toString());
 
                 UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();
-                Map<Integer, UserExcel> map = userExcelUtil.getMap();
-
-                System.out.println("===================="+map.get(0));
-
-
-
-                if(true){
-                    return new Message("1","名单导入成功");
-                }else{
-                    return new Message("2","名单导入失败");
-                }
+                Map<Integer, UserExcel> userMap = userExcelUtil.getMap();
+                if (userMap == null)
+                    return new Message("2","名单导入失败，请检查excel表与模板的不同");
+                //  java8 lambda遍历
+                userMap.forEach((key,value) ->{
+                    //  复制UserExcel对象到user类中
+                    User user = new User();
+                    BeanUtils.copyProperties(value,user);
+                    user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                    try {
+                        userService.add(user);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return new Message("1","名单导入成功");
             }else{
                 return new Message("2","上传失败或者上传的文件后缀不是'xls'或'xlsx'");
             }
         } catch (Exception e) {
+            //return new Message("2","名单导入失败，请检查excel表与模板的不同");
             throw new RuntimeException(e);
-
         }
+    }
+
+
+
+    @RequestMapping("/user/excel/down")
+    public ResponseEntity<byte[]> exportExcel(User user) throws Exception {
+        ExportExcelUtil<User> exportExcelUtil = new ExportExcelUtil<>();
+
+        List<User> userList = userService.findList(user);
+        Workbook wb = exportExcelUtil.expExcel("用户表单",userList);
+        HttpHeaders headers = new HttpHeaders();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            wb.write(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //  设置请求头
+        String fileName = new String("测试.xls".getBytes("UTF-8"), "iso-8859-1");//为了解决中文名称乱码问题
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        ResponseEntity<byte[]> filebyte = new ResponseEntity<byte[]>(out.toByteArray(),headers, HttpStatus.CREATED);
+        try {
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return filebyte;
+
     }
 
 

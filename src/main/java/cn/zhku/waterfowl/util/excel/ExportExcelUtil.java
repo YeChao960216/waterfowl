@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.util.excel;
 
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,10 +9,13 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author : 钱伟健 gonefuture@qq.com
@@ -53,13 +57,53 @@ public class ExportExcelUtil<T> {
                 try {
                     Class clazz = entity.getClass();
                     Method getMethod = clazz.getMethod(getMethodName,new Class[] {});
+                    System.out.println("======================="+getMethod);
                     Object value = getMethod.invoke(entity,new Object[] {});
 
                     //  判断值的类型后进行强制类型转换
                     String textValue = null;
 
-                    if (value instanceof Date) {
+                    // if (value instanceof Integer) {
+                    // int intValue = (Integer) value;
+                    // cell.setCellValue(intValue);
+                    // } else if (value instanceof Float) {
+                    // float fValue = (Float) value;
+                    // textValue = new HSSFRichTextString(
+                    // String.valueOf(fValue));
+                    // cell.setCellValue(textValue);
+                    // } else if (value instanceof Double) {
+                    // double dValue = (Double) value;
+                    // textValue = new HSSFRichTextString(
+                    // String.valueOf(dValue));
+                    // cell.setCellValue(textValue);
+                    // } else if (value instanceof Long) {
+                    // long longValue = (Long) value;
+                    // cell.setCellValue(longValue);
+                    // }
 
+                    if (value instanceof Date) {
+                        Date date = (Date) value;
+                        SimpleDateFormat sdf = new SimpleDateFormat();
+                        textValue = sdf.format(date);
+                    } else {
+                        //  其他数据类型当作字符串简单处理
+                        textValue = value.toString();
+                    }
+                    //  利用正则表达式判断textValue是否全部由数字组成
+                    if (textValue != null) {
+                        Pattern pattern = Pattern.compile("^//d+(//.//d+)?$");
+                        Matcher matcher = pattern.matcher(textValue);
+                        if (matcher.matches()) {
+                            //  是数字当作double处理
+                            cell.setCellValue(Double.valueOf(textValue));
+                        } else {
+                            //
+                            HSSFRichTextString richTextString = new HSSFRichTextString(textValue);
+                            HSSFFont font = workbook.createFont();
+                            font.setColor(HSSFColor.BLUE.index);
+                            richTextString.applyFont(font);
+                            cell.setCellValue(richTextString);
+                        }
                     }
 
                 } catch (NoSuchMethodException e) {

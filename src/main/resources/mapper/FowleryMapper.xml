@@ -300,4 +300,5 @@
       id_charge = #{idCharge,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
 </mapper>
