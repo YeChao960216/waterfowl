@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-19 18:17:40
+Date: 2017-11-19 22:11:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -275,6 +275,7 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '1', '2017-11-19 21:59:14', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for outstorage
@@ -304,6 +305,7 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
+INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-19 22:00:12', '1', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -311,6 +313,7 @@ CREATE TABLE `outstorage` (
 DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
   `id` varchar(45) NOT NULL COMMENT '出厂编号',
+  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批次数量',
   `unit` varchar(45) DEFAULT NULL COMMENT '单位',
@@ -337,7 +340,7 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
-INSERT INTO `out_poultry` VALUES ('1', '0', '1', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `out_poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for patch
