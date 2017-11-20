@@ -139,7 +139,7 @@ import java.util.UUID;
         @RequestMapping("showByFlag/{flag}")
         public PageInfo<Epidemic> showByFlag(@PathVariable int flag,CommonQo commonQo){
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id_epidemic desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
             //  通过服务层获取查询后的用户列表
             List<Epidemic> epidemicList =  epidemicService.showAllByFlag(flag);
             //  返回 pageBean
@@ -158,9 +158,10 @@ import java.util.UUID;
         @RequestMapping("findList")
         public PageInfo<Epidemic> findList(Epidemic epidemic, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id_epidemic desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
             //  通过服务层获取查询后的用户列表
             List<Epidemic> epidemicList =  epidemicService.findList(epidemic);
+
             //  返回 pageBean实体
             return new PageInfo<Epidemic>(epidemicList);
         }

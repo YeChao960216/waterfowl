@@ -64,10 +64,11 @@
             function showList(pageNum) {
                 //$.post(url,[data],[callback],[datatype])
                 $.post(
-                    "/waterfowl/epidemic/showByFlag/0",
+                    "/waterfowl/epidemic/findList",
                     {
                         "recordDate":$("#record_date").val(),
                         "id":$("#id").val(),
+                        "diseaes":$("#diseaes"),
                         "processing_mode":$("#processing_mode").val(),
                         "id_recorder":$("#id_recorder").val(),
                         "id_charge":$("#id_charge").val(),
