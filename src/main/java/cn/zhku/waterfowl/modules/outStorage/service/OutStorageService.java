@@ -5,6 +5,7 @@ import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import cn.zhku.waterfowl.util.modle.CommonQo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +17,18 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     private OutstorageMapper outstorageMapper;
     @Autowired
     private OutStorageDao outStorageDao;
-    @Override
+
     /**
-     * 根据storage实体插入
+     * 根据outstorage实体插入
      */
+    @Override
     public int add(Outstorage entity) throws Exception {
         return outstorageMapper.insert(entity);
     }
 
     @Override
     /**
-     * 根据storage实体更新
+     * 根据outstorage实体更新
      * @param entity 映射数据库单表的实体类
      * @return
      */
@@ -36,7 +38,7 @@ public class OutStorageService  implements IBaseService<Outstorage> {
 
     @Override
     /**
-     *根据storage实体类id删除
+     *根据outstorage实体类id删除
      * @param entity 映射数据库单表的实体类
      * @return
      */
@@ -50,8 +52,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     /**
      * 根据id得到epdemic实体类
      */
-    public Outstorage get(String idOutstorage) throws Exception {
-        return outstorageMapper.selectByPrimaryKey(idOutstorage);
+    public Outstorage get(String id) throws Exception {
+        return outstorageMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class OutStorageService  implements IBaseService<Outstorage> {
 
     @Override
     /**
-     * 根据storage实体多条件查询
+     * 根据outstorage实体多条件查询
      */
     public List<Outstorage> findList(Outstorage entity) throws Exception {
         OutstorageExample outstorageExample =new OutstorageExample();
@@ -95,12 +97,26 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         return outstorageMapper.selectByExample(outstorageExample);
     }
-
-    public List<Outstorage> showAll() {
+    public List<Outstorage> showAll(Outstorage entity, CommonQo commonQo) {
         OutstorageExample outstorageExample =new OutstorageExample();
+        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
+        //  根据时间区间来查找
+        if (commonQo.getStart() != null)
+            criteria.andRecordDateGreaterThanOrEqualTo(commonQo.getStart());
+        if (commonQo.getEnd() != null)
+            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
         return outstorageMapper.selectByExample(outstorageExample);
     }
-
+//    public List<Outstorage> list(Outstorage entity, CommonQo commonQo) {
+//        OutstorageExample outstorageExample =new OutstorageExample();
+//        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
+//        //  根据时间区间来查找
+//        if (commonQo.getStart() != null)
+//            criteria.andRecordDateGreaterThanOrEqualTo(commonQo.getStart());
+//        if (commonQo.getEnd() != null)
+//            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
+//        return outstorageMapper.selectByExample(outstorageExample);
+//    }
 
 
 }
