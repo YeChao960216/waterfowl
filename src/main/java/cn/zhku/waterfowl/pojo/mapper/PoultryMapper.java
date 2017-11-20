@@ -2,8 +2,9 @@ package cn.zhku.waterfowl.pojo.mapper;
 
 import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.pojo.entity.PoultryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PoultryMapper {
     /**
@@ -93,4 +94,5 @@ public interface PoultryMapper {
      * @mbggenerated Sun Nov 19 21:07:40 CST 2017
      */
     int updateByPrimaryKey(Poultry record);
+
 }

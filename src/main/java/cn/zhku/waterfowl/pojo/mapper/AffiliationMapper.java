@@ -2,8 +2,9 @@ package cn.zhku.waterfowl.pojo.mapper;
 
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.AffiliationExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AffiliationMapper {
     /**

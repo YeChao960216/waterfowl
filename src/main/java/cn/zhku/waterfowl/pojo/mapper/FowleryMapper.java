@@ -2,8 +2,9 @@ package cn.zhku.waterfowl.pojo.mapper;
 
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.FowleryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FowleryMapper {
     /**
@@ -93,4 +94,5 @@ public interface FowleryMapper {
      * @mbggenerated Sun Nov 19 21:07:40 CST 2017
      */
     int updateByPrimaryKey(Fowlery record);
+
 }
