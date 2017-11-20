@@ -96,6 +96,8 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
             criteria.andTypeLike("%"+entity.getType()+"%");
         if (entity.getFirm() != null)
             criteria.andFirmLike("%"+entity.getFirm()+"%");
+        if (entity.getRecordDate() != null)
+            criteria.andRecordDateEqualTo(entity.getRecordDate());
         if (entity.getIdRecord() != null)
             criteria.andIdRecordEqualTo(entity.getIdRecord());
         if (entity.getIdCharge() != null)

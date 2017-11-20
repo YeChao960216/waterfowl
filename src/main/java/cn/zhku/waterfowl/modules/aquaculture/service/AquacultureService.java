@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
@@ -76,7 +77,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     public Aquaculture get(Aquaculture entity) throws Exception {
         AquacultureExample aquacultureExample = new AquacultureExample();   //   多条件查询时使用的
         if (entity.getIdPatch() != null) {
-            //   相当于where username = entity.getUsername()
+            //   相当于where dipatch = entity.getIdPatch()
             aquacultureExample.or().andIdPatchEqualTo(entity.getIdPatch());
             //  使用get(0)的原因是Example参数的东西是集合，但我们只要一个符合条件的记录
             Aquaculture aquaculture = aquacultureMapper.selectByExample(aquacultureExample).get(0);
@@ -116,13 +117,18 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         if (entity.getRecordDate() != null)
             //  相当于 duty = entity.getFowleryId()
             criteria.andRecordDateEqualTo(entity.getRecordDate());
+        if (entity.getStatus() != null)
+            //  相当于 duty = entity.getStatus()
+            criteria.andStatusEqualTo(entity.getStatus());
+        if (entity.getName() != null)
+            //  相当于 duty = entity.getName()
+            criteria.andNameEqualTo(entity.getName());
         if (entity.getIdRecorder() != null)
             //  相当于 duty = entity.getIdRecorder()
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getIdCharge() != null)
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-
 
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
