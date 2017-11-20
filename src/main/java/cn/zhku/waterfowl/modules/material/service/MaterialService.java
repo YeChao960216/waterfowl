@@ -3,8 +3,6 @@ package cn.zhku.waterfowl.modules.material.service;
 import cn.zhku.waterfowl.modules.material.dao.MaterialDao;
 import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.MaterialExample;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
-import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.MaterialMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -82,7 +80,13 @@ public class MaterialService  implements IBaseService<Material>{
      */
     @Override
     public Material get(Material entity) throws Exception {
-        return null;
+        MaterialExample materialExample =new MaterialExample();
+        materialExample.or().andIdStorageEqualTo(entity.getIdStorage());
+        if (materialExample!=null) {
+            return materialMapper.selectByExample(materialExample).get(0);
+        }else {
+            return null;
+        }
     }
 
     /**
@@ -94,29 +98,80 @@ public class MaterialService  implements IBaseService<Material>{
      */
     @Override
     public List<Material> findList(Material entity) throws Exception {
-       return null;
-    }
-    public List<Material> showAll() {
-        MaterialExample materialExample = new MaterialExample();
-        return materialMapper.selectByExample(materialExample);
-    }
-    /**
-     *  多条件查询类
-     * @param entity    实体类的各个属性
-     * @param commonQo  通用查询类
-     * @return  材料列表
-     * @throws Exception   抛出参数错误、SQL操作等异常
-     */
-    public List<Material> list(Material entity, CommonQo commonQo) throws Exception{
         MaterialExample materialExample = new MaterialExample();
         MaterialExample.Criteria criteria = materialExample.createCriteria();
-        //  根据时间区间来查找
+        // 物资名称
+        if (entity.getName()!=null)
+            criteria.andNameLike("%"+entity.getName()+"%");
+        // 关联厂商名称
+        if (entity.getAssociatedFirm()!=null)
+            criteria.andAssociatedFirmLike("%"+entity.getAssociatedFirm()+"%");
+        // 联系电话
+        if (entity.getPhone()!=null)
+            criteria.andPhoneLike("%"+entity.getPhone()+"%");
+        //生产厂家
+        if (entity.getRemark()!=null)
+            criteria.andRemarkLike("%"+entity.getRemark()+"%");
+        //物资类型
+        if (entity.getType()!=null)
+            criteria.andTypeLike("%"+entity.getType()+"%");
+        //物资类型
+        if (entity.getStorageSite()!=null)
+            criteria.andStorageSiteLike("%"+entity.getStorageSite()+"%");
+        //物资类型
+        if (entity.getMode()!=null)
+            criteria.andModeLike("%"+entity.getMode()+"%");
+//        //库存编号
+//        if (entity.getIdStorage()!=null)
+//            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
+////        //备注
+////        if (entity.getRemark()!=null)
+////            criteria.andRemarkLike("%"+entity.getRemark()+"%");
+        //负责人编号
+        if (entity.getIdCharge()!=null)
+            criteria.andIdChargeEqualTo(entity.getIdCharge());
+        //记录者编号
+        if (entity.getIdRecorder()!=null)
+            criteria.andIdRecorderEqualTo(entity.getIdRecorder());
+        return materialMapper.selectByExample(materialExample);
+    }
+    public List<Material> showAll(Material entity, CommonQo commonQo) {
+        MaterialExample materialExample = new MaterialExample();
+        MaterialExample.Criteria criteria = materialExample.createCriteria();
+        //  根据入厂时间区间来查找
         if (commonQo.getStart() != null)
             criteria.andDateGreaterThanOrEqualTo(commonQo.getStart());
         if (commonQo.getEnd() != null)
             criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
-            return materialMapper.selectByExample(materialExample);
+        return materialMapper.selectByExample(materialExample);
     }
+    public List<Material> listAll(Material entity, CommonQo commonQo) {
+        MaterialExample materialExample = new MaterialExample();
+        MaterialExample.Criteria criteria = materialExample.createCriteria();
+        //  根据入厂时间区间来查找
+        if (commonQo.getStart() != null)
+            criteria.andExpirationDateGreaterThanOrEqualTo(commonQo.getStart());
+        if (commonQo.getEnd() != null)
+            criteria.andExpirationDateLessThanOrEqualTo(commonQo.getEnd());
+        return materialMapper.selectByExample(materialExample);
+    }
+//    /**
+//     *  多条件查询类
+//     * @param entity    实体类的各个属性
+//     * @param commonQo  通用查询类
+//     * @return  材料列表
+//     * @throws Exception   抛出参数错误、SQL操作等异常
+//     */
+//    public List<Material> list(Material entity, CommonQo commonQo) throws Exception{
+//        MaterialExample materialExample = new MaterialExample();
+//        MaterialExample.Criteria criteria = materialExample.createCriteria();
+//        //  根据时间区间来查找
+//        if (commonQo.getStart() != null)
+//            criteria.andDateGreaterThanOrEqualTo(commonQo.getStart());
+//        if (commonQo.getEnd() != null)
+//            criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
+//            return materialMapper.selectByExample(materialExample);
+//    }
 
 
 }
