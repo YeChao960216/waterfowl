@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-19 18:07:17
+Date: 2017-11-19 22:11:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -248,7 +248,7 @@ INSERT INTO `fowlery` VALUES ('1', '0', '0', '1', '1', '1');
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE `material` (
   `id_storage` varchar(45) NOT NULL COMMENT '库存表',
-  `date` varchar(45) DEFAULT NULL COMMENT '进厂时间',
+  `date` datetime DEFAULT NULL COMMENT '进厂时间',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
   `expiration_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
   `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
@@ -275,7 +275,7 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
-INSERT INTO `material` VALUES ('1', '1', '84消毒液', '2017-11-19 16:02:35', '1', '1', '1', '1', '0', null, '0', '1', '1', '1');
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '1', '2017-11-19 21:59:14', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for outstorage
@@ -305,9 +305,7 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '2', '3', '1', '2017-11-19 16:03:37', '1', '0', '1', '1');
-INSERT INTO `outstorage` VALUES ('2', '2', '2', '1', null, '1', '0', '1', '1');
-INSERT INTO `outstorage` VALUES ('F988A9C039464EC88C5D00B633D62550', '2', '3', null, null, '1', '0', null, null);
+INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-19 22:00:12', '1', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -315,6 +313,7 @@ INSERT INTO `outstorage` VALUES ('F988A9C039464EC88C5D00B633D62550', '2', '3', n
 DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
   `id` varchar(45) NOT NULL COMMENT '出厂编号',
+  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批次数量',
   `unit` varchar(45) DEFAULT NULL COMMENT '单位',
@@ -341,7 +340,7 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
-INSERT INTO `out_poultry` VALUES ('1', '0', '1', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `out_poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for patch
