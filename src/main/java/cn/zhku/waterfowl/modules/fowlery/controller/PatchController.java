@@ -158,7 +158,7 @@ public class PatchController {
 
 
     /*
-    用于判断是否还可以再选
+    判断是否还可以再选
      */
     @ResponseBody
     @RequestMapping("isFull/{id_poultry}")
