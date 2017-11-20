@@ -103,9 +103,14 @@ public class MaterialService  implements IBaseService<Material>{
     public List<Material> list(Material entity, CommonQo commonQo) throws Exception{
         MaterialExample materialExample = new MaterialExample();
         MaterialExample.Criteria criteria = materialExample.createCriteria();
+        //  根据时间区间来查找
+        if (commonQo.getEnd() != null)
+            criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
+        if (commonQo.getStart() != null)
+            criteria.andDateGreaterThanOrEqualTo(commonQo.getStart());
 
 
-            return materialMapper.selectByExample(materialExample);
+        return materialMapper.selectByExample(materialExample);
     }
 
 
