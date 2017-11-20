@@ -26,6 +26,7 @@
                     editBtns[i].onclick =function () {
                         //获取本记录的id
                         var id =this.parentNode.parentNode.firstChild.lastChild.value;
+                        console.log(id);
                         if(id!=null){
                             //跳转到编辑页面
                             window.location.href ="/waterfowl/epidemicManagePage/edit.html?id="+id;
@@ -63,10 +64,11 @@
             function showList(pageNum) {
                 //$.post(url,[data],[callback],[datatype])
                 $.post(
-                    "/waterfowl/epidemic/showByFlag/0",
+                    "/waterfowl/epidemic/findList",
                     {
                         "recordDate":$("#record_date").val(),
                         "id":$("#id").val(),
+                        "diseaes":$("#diseaes"),
                         "processing_mode":$("#processing_mode").val(),
                         "id_recorder":$("#id_recorder").val(),
                         "id_charge":$("#id_charge").val(),
@@ -79,7 +81,7 @@
                         for(var i=0;i<data.list.length;i++){
                             o =data.list[i];
                             content+='<tr>'+
-                                '<td><input type="checkbox" class="select"><input type="hidden" value='+o.idEpidemic+'></td>'+//隐藏域获取id
+                                '<td><input type="checkbox" class="select"><input type="hidden" value='+o.id+'></td>'+//隐藏域获取id
                                 '<td>'+o.recordDate+'</td>'+
                                 '<td>'+o.idPatch+'</td>'+
                                 '<td>'+o.sign+'</td>'+
