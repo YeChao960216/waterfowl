@@ -146,7 +146,7 @@ public class MaterialController extends BaseController {
 //        return new PageInfo<>(materialService.list(entity,commonQo));
 //    }
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"date desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"expiration_date desc");
         //  通过服务层获取查询后的用户列表
         List<Material> materialList =  materialService.listAll(entity,commonQo);
         //  返回 pageBean实体
