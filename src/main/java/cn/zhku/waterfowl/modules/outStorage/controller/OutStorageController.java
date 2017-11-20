@@ -102,7 +102,7 @@ public class OutStorageController extends BaseController{
         @RequestMapping("selectBy")
         public PageInfo<Outstorage> select(Outstorage outstorage, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"recordDate desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
             //  通过服务层获取查询后的用户列表
             List<Outstorage> outstorageList =  outStorageService.findList(outstorage);
             //  返回 pageBean实体
@@ -120,7 +120,7 @@ public class OutStorageController extends BaseController{
         @RequestMapping("show")
         public PageInfo<Outstorage> list(Outstorage entity,CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"recordDate desc");
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
             //  通过服务层获取查询后的用户列表
             List<Outstorage> outstorageList =  outStorageService.showAll(entity,commonQo);
             //  返回 pageBean实体
