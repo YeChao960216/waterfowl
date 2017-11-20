@@ -104,7 +104,7 @@ public class PatchController {
 
 
     /**
-     * 通过type,position,size这三个条件去选取大禽舍
+     * 通过type,position,size去选取大禽舍
      * @param type
      * @param position
      * @param size
