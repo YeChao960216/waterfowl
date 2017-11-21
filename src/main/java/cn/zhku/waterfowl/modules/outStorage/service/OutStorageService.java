@@ -50,8 +50,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     /**
      * 根据id得到epdemic实体类
      */
-    public Outstorage get(String idOutstorage) throws Exception {
-        return outstorageMapper.selectByPrimaryKey(idOutstorage);
+    public Outstorage get(String id) throws Exception {
+        return outstorageMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -75,24 +75,24 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     public List<Outstorage> findList(Outstorage entity) throws Exception {
         OutstorageExample outstorageExample =new OutstorageExample();
         OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
-//        // 材料名称
-//        if (entity.getName()!=null)
-//            criteria.andNameLike("%"+entity.getName()+"%");
-//        //储存地点
-//        if (entity.getStorageSite()!=null)
-//            criteria.andStorageSiteLike("%"+entity.getStorageSite()+"%");
-//        //储存方式
-//        if (entity.getMode()!=null)
-//            criteria.andModeLike("%"+entity.getMode()+"%");
+        // 材料名称
+        if (entity.getName()!=null)
+            criteria.andNameLike("%"+entity.getName()+"%");
+        //生产厂家
+        if (entity.getRemark()!=null)
+            criteria.andRemarkLike("%"+entity.getRemark()+"%");
+        //库存编号
+        if (entity.getIdStorage()!=null)
+            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
 //        //备注
 //        if (entity.getRemark()!=null)
 //            criteria.andRemarkLike("%"+entity.getRemark()+"%");
-//        //负责人编号
-//        if (entity.getIdCharge()!=null)
-//            criteria.andIdChargeEqualTo(entity.getIdCharge());
-//        //记录者编号
-//        if (entity.getIdRecorder()!=null)
-//            criteria.andIdRecorderEqualTo(entity.getIdRecorder());
+           //负责人编号
+        if (entity.getIdCharge()!=null)
+            criteria.andIdChargeEqualTo(entity.getIdCharge());
+        //记录者编号
+        if (entity.getIdRecorder()!=null)
+            criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         return outstorageMapper.selectByExample(outstorageExample);
     }
 

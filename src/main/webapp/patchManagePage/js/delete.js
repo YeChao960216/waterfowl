@@ -13,66 +13,96 @@ var data=[{
 console.log(data);
 $(function () {
     $('#btn').click(function () {
-        alert("111");
+        ///生成下拉框的
+        $.ajax({
+            url: "",
+            type: "post",
+            dataType: "json",
+            success: function () {
+                console.log("发送成功！！！");
+                $('#idpoultry').append("<input type='text' placeholder='输入养殖批次'>");
+                $('#type').append("<option>"+type+"</option>");
+                $('#position').append("<option>"+position+"</option>");
+                $('#size').append("<option>"+size+"</option>");
+                $('#affiliation').append("<option>"+affiliation+"</option>");
+            }
+        })
+        //发送数据到养殖批次表
+        $.ajax({
+            url: "",
+            data: {
+                "idPoultry":$('#idPoultry').val(),//养殖批次
+            },
+            type: "post",
+            dataType: "json",
+            success: function () {
+                console.log("发送成功！！！");
+            }
+        })
+
+        //发送数据到字典的
+        $.ajax({
+            url: "",
+            data: {
+                "type":$('#type').val(),//类型
+                "position":$('#position').val(),//方位
+                "size":$('#size').val(),//规格
+            },
+            type: "post",
+            dataType: "json",
+            success: function () {
+                console.log("发送成功！！！");
+            }
+        })
+        //发送数据到禽舍表的
+        $.ajax({
+            url: "",
+            data: {
+                "idFowlery":$('#idFowlery').val(),//使用状态
+            },
+            type: "post",
+            dataType: "json",
+            success: function () {
+                console.log("发送成功！！！");
+            }
+        })
+
+        //发送数据到user表的
+        $.ajax({
+            url: "",
+            data: {
+                "idCharge": $('#idCharge').val(),//负责人编号
+                "idRecorder":$('#idRecorder').val(),//记录者编号
+            },
+            type: "post",
+            dataType: "json",
+            success: function () {
+                console.log("发送成功！！！");
+            }
+        });
+
+        //加载整个页面
         $.ajax({
             url:"",
             type:"post",
             dataType:"json",
-            data: {
-                "idPoultry":$('#idPoultry').val(),//养殖批次
-                "type":$('#type').val(),//类型
-                "position":$('#position').val(),//方位
-                "size":$('#size').val(),//规格
-                "affiliation":$('#affiliation').val(),//归属的大禽舍
-                "idFowlery":$('#idFowlery').val(),//使用状态
-                " idCharge": $('#idCharge').val(),//负责人编号
-                "idRecorder":$('#idRecorder').val(),//记录者编号
-            },
+            // data: {
+            //     "idPoultry":$('#idPoultry').val(),//养殖批次
+            //     "type":$('#type').val(),//类型
+            //     "position":$('#position').val(),//方位
+            //     "size":$('#size').val(),//规格
+            //     "affiliation":$('#affiliation').val(),//归属的大禽舍
+            //     "idFowlery":$('#idFowlery').val(),//使用状态
+            //     " idCharge": $('#idCharge').val(),//负责人编号
+            //     "idRecorder":$('#idRecorder').val(),//记录者编号
+            // },
         })
     });
-    /*$.ajax({
-            /!*请求的HTML页的URL地址*!/
-            url: "",
-            /!*data发送至服务器的key/value数据*!/
-            data: {
-                "id":$('# id').val(),
-                "dateEstablish":$('#dateEstablish').val(),
-                "address":$('#address').val(),
-                "numMax":$('#numMax').val(),
-                "type":$('#type').val(),
-                "idCharge": $('#idCharge').val(),
-                "idRecorder":$('#idRecorder').val(),
-                "remark":$('#remark').val()
-            },
-            /!*客户端请求的类型*!/
-            type: "post",
-            dataType: "json",
-            /!*请求完成时的回调函数*!/
-            success:succFunction(data1)//成功执行函数
-        }),*/
+
     succFunction(data);
     function succFunction(data1) {
-
-
-
-        //eval将字符转化为对象数组 eval('1'+'2') //3
         var json = data1;
-        /*
-         //日期处理函数
-         var date = new Date(parseInt(json.date,14));
-         function getDateTime() {
-             var year = date.getFullYear();
-             var month = date.getMonth();
-             var day = date.getDate();
-             var hh = date.getHours();
-             var mm = date.getMinutes();
-             var ss = date.getSeconds();
-             return year+"-"+month+"-"+day+"-"+hh+"-"+mm+"-"+ss;
-         };
-         json.dateEstablish=getDateTime;
-         */
-        //eval将字符转化为对象数组
-        //var json = eval(data)//数组
+
         var html = '';
         $.each(json,function (index,item) {
             //循坏数据
@@ -85,7 +115,7 @@ $(function () {
             var  idFowlery=item.idFowlery;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            var  html="<tr><td><input type='checkbox' class='selectArr'></td><td>"+idPoultry+"</td><td>"+type+"</td><td>"+position+"</td><td>"+size+"</td><td>"+affiliation+"</td><td>"+idFowlery+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete'></td></tr>";
+           html="<tr><td><input type='checkbox' class='selectArr'></td><td>"+idPoultry+"</td><td>"+type+"</td><td>"+position+"</td><td>"+size+"</td><td>"+affiliation+"</td><td>"+idFowlery+"</td><td>"+idCharge+"</td><td>"+idRecorder+"</td><td><input type='button' value='删除' class='btn delete' onclick='deleteBtn(this)'></td></tr>";
         });
         $('#tbody').html(html);
     }
@@ -127,6 +157,9 @@ document.getElementById('checkAll').onclick=function () {
     }
 }
 
-$('#deleteAll').onclick=function () {
-    $('#tbody td').innerHTML="";
+//点击按钮删除
+function deleteBtn(obj)
+{
+    var tr=obj.parentNode.parentNode;//得到按钮[obj]的父元素[td]的父元素[tr]
+    tr.parentNode.removeChild(tr);//从tr的父元素[tbody]移除tr
 }

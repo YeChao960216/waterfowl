@@ -22,22 +22,22 @@ public class DictionaryService  implements IBaseService<Dictionary> {
 
     @Override
     public int add(Dictionary entity) throws Exception {
-        return 0;
+        return dictionaryMapper.insert(entity);
     }
 
     @Override
     public int update(Dictionary entity) throws Exception {
-        return 0;
+        return dictionaryMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
     public int delete(Dictionary entity) throws Exception {
-        return 0;
+        return dictionaryMapper.deleteByPrimaryKey(entity.getId());
     }
 
     @Override
     public Dictionary get(String id) throws Exception {
-        return null;
+        return dictionaryMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -49,7 +49,8 @@ public class DictionaryService  implements IBaseService<Dictionary> {
     public List<Dictionary> findList(Dictionary entity) throws Exception {
         DictionaryExample dictionaryExample = new DictionaryExample();
         DictionaryExample.Criteria criteria = dictionaryExample.createCriteria();
-
+        if (entity.getPid() == null)
+            criteria.andPidEqualTo(entity.getPid());
         return dictionaryMapper.selectByExample(dictionaryExample);
     }
 }

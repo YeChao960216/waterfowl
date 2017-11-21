@@ -1,34 +1,70 @@
 /*
     增加禽舍
  */
-$(function () {
-    $('#add').click(function () {
-        alert(1111);
-        $.ajax({
-            /*请求的HTML页的URL地址*/
-            url: "",
-            /*data发送至服务器的key/value数据*/
-            data: {
-                "size":$('#size').val(),//规格
-                "status":$('#status').val(),//使用状态
-                "affiliation":$('#affiliation').val(),//归属的大禽舍
-                " idCharge": $('#idCharge').val(),//负责人编号
-                "idRecorder":$('#idRecorder').val(),//记录者编号
-            },
-            /*客户端请求的类型*/
-            type: "post",
-            dataType: "json",
-            /*请求完成时的回调函数*/
-            success: function (msg) {
-               /* if (msg=='1'){
-                    alert("您好,新增禽舍成功！！！");
-                }else{
-                    alert("抱歉，新增禽舍失败！！！");}*/
+var data=[{
+    size:100,
+    status:"可用",
+    affiliation:"归属的大禽舍1",
+    idRecorder:"wenzhi",
+    idCharge:"zhuowenzhi"
+}];
 
-                alert(1111);
+$(function () {
+    //Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框
+    $.ajax({
+        url:"",
+        type:"POST",
+        seccess:function (data) {
+            console.log("Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框");
+            console.log("-------success----");
+            $('#size').append("<option value='"+size+"'>"+"规格"+size+"</option>");
+        }
+    });
+
+    //把size发送到字典，返回数据生成下拉框，status只允许显示，不能修改
+    $('#add').click(function () {
+        $.ajax({
+            url:"",
+            type:"POST",
+            datatype:"json",
+            data:{
+                "size":$('#size').val(),//规格字典查
+                "status":$('#status').val(),
+            },
+            success:function(data){
+               console.log("传送规格成功");
+            }
+        });
+
+        //归属的大禽舍,大禽舍表查
+        $.ajax({
+            url:"",
+            type:"POST",
+            datatype:"json",
+            data:{
+                "affiliation":$('#affiliation').val(),//归属的大禽舍,大禽舍表查
+            },
+            success:function(data){
+                console.log("传送归属的大禽舍成功");
+                $('#affiliation').append("<option value='"+affiliation+"'>"+"大禽舍"+affiliation+"</option>");
 
             }
-        })
+        });
 
+        //负责人编号，user表查,记录者编号，user表查,返回所有表格的数据
+        $.ajax({
+            url:"",
+            type:"POST",
+            datatype:"json",
+            data:{
+                "idCharge": $('#idCharge').val(),//负责人编号，user表查
+                "idRecorder":$('#idRecorder').val(),//记录者编号，user表查
+            },
+            success:function(data){
+                console.log("传送归属的负责人编号成功,记录者编号");
+            }
+        });
+
+        alert(data);
     })
 });
