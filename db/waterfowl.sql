@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-21 22:13:44
+Date: 2017-11-21 22:41:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `affiliation`
+-- Table structure for affiliation
 -- ----------------------------
 DROP TABLE IF EXISTS `affiliation`;
 CREATE TABLE `affiliation` (
@@ -48,12 +48,12 @@ CREATE TABLE `affiliation` (
 INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
--- Table structure for `aquaculture`
+-- Table structure for aquaculture
 -- ----------------------------
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
   `id` varchar(45) NOT NULL COMMENT '养殖记录表',
-  `name` varchar(45) DEFAULT NULL COMMENT '禽舍类型',
+  `name` varchar(45) DEFAULT NULL COMMENT '养殖天数',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
   `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
@@ -78,8 +78,7 @@ CREATE TABLE `aquaculture` (
   CONSTRAINT `aquaculture_ibfk_4` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_aquaculture_outstorage1` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_aqua_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `type_dic_id` FOREIGN KEY (`name`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -88,7 +87,7 @@ CREATE TABLE `aquaculture` (
 INSERT INTO `aquaculture` VALUES ('1', '0', '1', '1', '2017-11-17 23:43:10', '1', '1', '1', '1', '1', '1', null, '0');
 
 -- ----------------------------
--- Table structure for `ddl`
+-- Table structure for ddl
 -- ----------------------------
 DROP TABLE IF EXISTS `ddl`;
 CREATE TABLE `ddl` (
@@ -115,7 +114,7 @@ CREATE TABLE `ddl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `dictionary`
+-- Table structure for dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
@@ -178,7 +177,7 @@ INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 INSERT INTO `dictionary` VALUES ('90001', '微信', '90000', 'wechat');
 
 -- ----------------------------
--- Table structure for `epidemic`
+-- Table structure for epidemic
 -- ----------------------------
 DROP TABLE IF EXISTS `epidemic`;
 CREATE TABLE `epidemic` (
@@ -216,7 +215,7 @@ CREATE TABLE `epidemic` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `fowlery`
+-- Table structure for fowlery
 -- ----------------------------
 DROP TABLE IF EXISTS `fowlery`;
 CREATE TABLE `fowlery` (
@@ -245,7 +244,7 @@ CREATE TABLE `fowlery` (
 INSERT INTO `fowlery` VALUES ('1', '0', '0', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for `material`
+-- Table structure for material
 -- ----------------------------
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE `material` (
@@ -280,7 +279,7 @@ CREATE TABLE `material` (
 INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '1', '2017-11-19 21:59:14', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for `outstorage`
+-- Table structure for outstorage
 -- ----------------------------
 DROP TABLE IF EXISTS `outstorage`;
 CREATE TABLE `outstorage` (
@@ -310,7 +309,7 @@ CREATE TABLE `outstorage` (
 INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-19 22:00:12', '1', '0', '1', '1');
 
 -- ----------------------------
--- Table structure for `out_poultry`
+-- Table structure for out_poultry
 -- ----------------------------
 DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
@@ -345,7 +344,7 @@ CREATE TABLE `out_poultry` (
 INSERT INTO `out_poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for `patch`
+-- Table structure for patch
 -- ----------------------------
 DROP TABLE IF EXISTS `patch`;
 CREATE TABLE `patch` (
@@ -385,7 +384,7 @@ CREATE TABLE `patch` (
 INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 23:37:33', '1', '1');
 
 -- ----------------------------
--- Table structure for `poultry`
+-- Table structure for poultry
 -- ----------------------------
 DROP TABLE IF EXISTS `poultry`;
 CREATE TABLE `poultry` (
@@ -417,7 +416,7 @@ CREATE TABLE `poultry` (
 INSERT INTO `poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for `role`
+-- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -431,7 +430,7 @@ CREATE TABLE `role` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `role_permission`
+-- Table structure for role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
@@ -448,7 +447,7 @@ CREATE TABLE `role_permission` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `user`
+-- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -474,7 +473,7 @@ INSERT INTO `user` VALUES ('1', '叶超', '123', null, null, null, '2017-11-17 2
 INSERT INTO `user` VALUES ('CEDF4020E44F4109A99534E7173CC566', 'Sun Nov 19 16:00:00 CST 2017', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, null, null, null, null, null);
 
 -- ----------------------------
--- Table structure for `user_auths`
+-- Table structure for user_auths
 -- ----------------------------
 DROP TABLE IF EXISTS `user_auths`;
 CREATE TABLE `user_auths` (
@@ -495,7 +494,7 @@ CREATE TABLE `user_auths` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `user_role`
+-- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
@@ -512,7 +511,7 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `weather`
+-- Table structure for weather
 -- ----------------------------
 DROP TABLE IF EXISTS `weather`;
 CREATE TABLE `weather` (
