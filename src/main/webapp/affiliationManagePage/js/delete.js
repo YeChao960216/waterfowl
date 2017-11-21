@@ -1,6 +1,5 @@
 var data=[{
     type:"鸭子",
-    size:100,
     position:"东",
     size:100,
     status:"满员",
@@ -58,9 +57,9 @@ $(function () {
         })
     });
     succFunction(data);
-    function succFunction(data) {
+    function succFunction(data1) {
 
-        var json = data;
+        var json = data1;
         var html = '';
         $.each(json,function (index,item) {
             //循坏数据
@@ -79,7 +78,7 @@ $(function () {
                 "<td>"+status +"</td>" +
                 "<td>"+idCharge+"</td>" +
                 "<td>"+idRecorder+"</td>" +
-                "<td><input type='button' value='删除' class='btn delete' onclick='deleteBtn(this)' name='delete'></td></tr>";
+                "<td><input type='button' value='' class='btn delete' onclick='deleteBtn(this)' name='delete'></td></tr>";
         });
         $('#tbody').html(html);
     }
@@ -129,8 +128,33 @@ function deleteBtn(obj)
 }
 
 //全部删除
-function deleteAll(id)
-{
-    var aDeleteBtn = document.getElementsByClassName('delete');
-    deleteBtn(obj);
-};
+
+function batchDelete() {
+    //判断至少选择一项
+    var checkedNum = $("input[name='delete']:checked").length;
+    if(checkedNum == 0)
+    {
+        alert("至少选择一项删除!");
+        return;
+    }
+    if(confirm("确定删除数据？"))
+    {
+        var deleteList = new Array();
+        $("input[name='delete']:checked").each(function () {
+            deleteList.push($(this).val());
+        })
+    }
+    $.ajax({
+        type:"POST",
+        url:"",
+        data:{deleteList:deleteList.toString()},
+        success:function ()
+        {
+            alert("删除成功");
+            location.reload();
+        },
+        error:function () {
+            alert("删除失败!");
+        }
+    })
+}

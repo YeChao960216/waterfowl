@@ -1,6 +1,5 @@
 var data=[{
     type:"鸭子",
-    size:100,
     position:"东",
     size:100,
     status:"可用",
@@ -57,8 +56,8 @@ $(function () {
         })
     });
     succFunction(data);
-    function succFunction(data) {
-        var json = data;
+    function succFunction(data1) {
+        var json = data1;
         $.each(json,function (index,item) {
             //循坏数据
             alert(item);

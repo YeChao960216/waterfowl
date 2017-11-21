@@ -97,7 +97,7 @@ $(function () {
             // },
         })
     });
-
+    var html='';
     succFunction(data);
     function succFunction(data1) {
         var json = data1;
@@ -112,9 +112,10 @@ $(function () {
             var  idFowlery=item.idFowlery;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            var  html="<tr>" +
+            html="<tr>" +
+                "<td><input type='checkbox'></td>"+
                 "<td><input type='text' value='"+idPoultry+"'></td>" +
-                "<td><input type='text'>"+type+"</td>" +
+                "<td><input type='text' value='"+type+"'></td>" +
                 "<td><input type='text' value='"+position+"'></td>" +
                 "<td><input type='text' value='"+size+"'></td>" +
                 "<td><input type='text' value='"+affiliation+"'></td>" +
