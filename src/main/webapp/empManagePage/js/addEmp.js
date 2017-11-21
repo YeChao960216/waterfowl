@@ -30,6 +30,7 @@
                     data:data.list,
                     type:'userInfo'
                 });
+
                 viewCommand({
                     command:'display',
                     param:[oContent,data,'addEmp']
@@ -43,8 +44,9 @@
      * 办理入职操作
      *
      */
-    $('#content').on("click","[id*=add]",function(){
-        var emp_id = $(this).attr(id).substr(2);
+    $('#content').on("click","[data-id*=add]",function(){
+        var emp_id = $(this).attr('data-id').substr(3);
+        console.log(emp_id);
         $.post(oURL.PRONAME+oURL.ADDEMP+emp_id,function(data){
             if(data.status==1){//修改成功
                 initView();

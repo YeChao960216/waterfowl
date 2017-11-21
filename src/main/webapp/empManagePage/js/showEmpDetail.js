@@ -6,7 +6,7 @@
      * @constructor
      */
     const oURL = (function () {
-            var emp_id = getRequest()[id];
+            var emp_id = getRequest()['id'];
             function getRequest() {
                 var url = location.search;
                 var theRequest = new Object();
@@ -22,15 +22,20 @@
             return {
                 EMP_ID : emp_id,
                 PORNAME:'/waterfowl',
-                SHOWEMPDETAILINFO:'admin/user/show/'+this.EMP_ID
+                SHOWEMPDETAILINFO:'../../../admin/user/show/'
             }
     })();
     /**
      *呈现职员详细信息
      */
-    $.get(oURL.PRONAME+oURL.SHOWEMPDETAILINFO,function (data) {
+    $.get(oURL.PRONAME+oURL.SHOWEMPDETAILINFO+oURL.EMP_ID,function (data) {
         if(data){
-            $('#cellphone')[0].innerHTML = data.cellphone;
+            data = new DataFilter({
+                data:[data],
+                type:'userInfo'
+            })[0];
+
+            $('#cellphone')[0].innerHTML = data.phone;
             $('#username')[0].innerHTML = data.username;
             $('#name')[0].innerHTML = data.name;
             $('#gender')[0].innerHTML = data.gender;

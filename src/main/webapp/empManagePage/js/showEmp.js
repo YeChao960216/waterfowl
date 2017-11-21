@@ -37,7 +37,7 @@
                  */
                 viewCommand({
                     command:'display',
-                    param:[oContent,data,'addEmp']
+                    param:[oContent,data,'empInfo']
                 })
             }
         })
@@ -49,7 +49,7 @@
      *
      */
     $('#content').on("click","[id*=show]",function(){
-        var emp_id = $(this).attr(id).substr(3);
+        var emp_id = $(this).attr('id').substr(4);
         console.log(emp_id);
         window.location.href="./showEmpDetail.html?id="+emp_id;
     });

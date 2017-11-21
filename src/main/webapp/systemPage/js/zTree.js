@@ -35,13 +35,12 @@ var zNodes = [
             ]
         },
         {
-            name:"养殖记录管理", open:true, tid:'./aquacultureManagePage/delete.html',children:
+            name:"养殖管理", open:true, tid:'./aquaculture/find.html',children:
             [
-                {name:"增加",tid:'./aquacultureManagePage/add.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'},
+                {name:"增加",tid:'./aquaculture/aqua_add.html',pName:"养殖管理",pUrl:'./aquaculture/find.html'},
 
-                {name:"删除",tid:'./aquacultureManagePage/delete.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'},
+                {name:"删除",tid:'./aquaculture/del.html',pName:"养殖管理",pUrl:'./aquaculture/find.html'},
 
-                {name:"修改",tid:'./aquacultureManagePage/edit.html',pName:"养殖记录管理",pUrl:'./aquacultureManagePage/delete.html'}
             ]
         },
         {
@@ -78,6 +77,15 @@ var zNodes = [
                 {name:"删除",tid:'./fowleryManagePage/delete.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage/add.html'},
 
                 {name:"修改",tid:'./fowleryManagePage/edit.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage/add.html'},
+
+            ]
+        },
+        {
+            name:"出库管理", open:true, tid:'./outPoultry/find.html',children:
+             [
+                {name:"增加",tid:'./outPoultry/add.html',pName:"出库管理",pUrl:'./outPoultry/find.html'},
+
+                {name:"删除",tid:'./outPoultry/del.html',pName:"出库管理",pUrl:'./outPoultry/find.html'},
 
             ]
         },

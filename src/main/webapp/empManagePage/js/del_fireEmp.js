@@ -12,9 +12,9 @@
      */
     const oURL = {
         PORNAME:'/waterfowl',
-        WORKEMPINFO:'amdin/user/getWorker',
-        FIREEMP : 'admin/user/fire/',
-        DELEMP:'admin/user/delete/',
+        WORKEMPINFO:'../../../admin/user/list?sign=1',
+        FIREEMP : '../../../admin/user/fire/',
+        DELEMP:'../../../admin/user/delete/',
     }
     /**
      * 马上渲染试图
@@ -23,13 +23,19 @@
     var initUpdate_fireView = function(){
         $.get(oURL.PRONAME+oURL.WORKEMPINFO,function(data){
             if(data){
+                data = new DataFilter({
+                    data:data.list,
+                    type:'userInfo'
+                });
                 viewCommand({
                     command:'display',
                     param:[$('#content')[0],data,'del_fireEmp']
                 })
             }
         });
-    }();
+    };
+    initUpdate_fireView();
+
     /**
      * 对应着两个option操作
      * @param {*} url 
@@ -38,7 +44,7 @@
      */
     var option = function(url,id,cb){
         $.get(url+id,function(data){
-            if(data.status==1){//成功
+            if(data.status === '1'){//成功
                 cb&&cb();
             }
         });
@@ -48,14 +54,14 @@
      */
     $('#content').on("click","[id*='fire']",function(){
         if(confirm('确认解雇该员工吗？')){
-            var id = $(this).id.substr(3);
+            var id = $(this).attr('id').substr(4);
             option(oURL.PRONAME+oURL.FIREEMP,id,initUpdate_fireView);
         }
     });
 
     $('#content').on("click","[id*='del']",function(){
         if(confirm('确认删除该员工的所有信息吗？')){
-            var id = $(this).id.substr(2);
+            var id = $(this).attr('id').substr(3);
             option(oURL.PRONAME+oURL.DELEMP,id,initUpdate_fireView);
         }
     });
