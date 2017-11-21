@@ -1,24 +1,25 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
+import cn.zhku.waterfowl.modules.aquaculture.dao.GetDicNameDao;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.AquacultureMapper;
-import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+/**
+ * @author 成君
+ * @date 21:43 2017/11/21 0021
+ * @E-mail 943193747@qq.com
+ */
 @Service
 public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
     private AquacultureMapper aquacultureMapper;
 
-//    @Autowired
-//    private OutstorageMapper outstorageMapper;
 
     /**
      * 增加记录
@@ -132,7 +133,5 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
 
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
-
-
 
 }

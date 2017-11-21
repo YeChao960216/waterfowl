@@ -3,6 +3,7 @@ package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
+import cn.zhku.waterfowl.pojo.entity.Dictionary;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
@@ -108,4 +109,5 @@ public class AquacultureController{
         //  返回 pageBean
         return new PageInfo<Aquaculture>(aquacultureList);
     }
+
 }
