@@ -13,7 +13,7 @@
      * @constructor
      */
     const oURL = (function () {
-            var emp_id = getRequest()['id'];
+            var id = getRequest()['id'];
             function getRequest() {
                 var url = location.search;
                 var theRequest = new Object();
@@ -27,16 +27,16 @@
                 return theRequest; //返回出去
             }
             return {
-                EMP_ID : emp_id,
+                ID : id,
                 PORNAME:'/waterfowl',
-                GETAQUACULTUREDETAILINFO:'../../../aquaculture/getById'
+                GETAQUACULTUREDETAILINFO:'../../../aquaculture/show/'
             }
     })();
 
     /**
      *呈现该禽舍详细信息
      */
-    $.get(oURL.PRONAME+oURL.GETAQUACULTUREDETAILINFO+oURL.EMP_ID,function (res) {
+    $.get(oURL.PRONAME+oURL.GETAQUACULTUREDETAILINFO+oURL.ID,function (res) {
         if(res){
             /**
              * 数据适配
@@ -46,19 +46,19 @@
             //     type:'userInfo'
             // })[0];
             
-            var data = res.data;
-            $('#name')[0].innerHTML = data.name;
-            $('#id_fowlery')[0].innerHTML = data.id_fowlery;
-            $('#id_patch')[0].innerHTML = data.id_patch;
-            $('#num_total')[0].innerHTML = data.num_total;
-            $('#feed_type')[0].innerHTML = data.feed_type;
-            $('#feed_weight')[0].innerHTML = data.feed_weight;
-            $('#record_date')[0].innerHTML = data.record_date;
-            $('#id_recorder')[0].innerHTML = data.id_recorder;
-            $('#id_charge')[0].innerHTML = data.id_charge;
-            $('#id_outstorage')[0].innerHTML = data.id_outstorage;
-            $('#status')[0].innerHTML = data.status;
-            $('#remark')[0].value = data.remark;
+            var data = res;
+            $('#name')[0].innerHTML = data.name || "<span class='red'>空</span>";
+            $('#id_fowlery')[0].innerHTML = data.idFowlery  || "<span class='red'>空</span>";
+            $('#id_patch')[0].innerHTML = data.idPatch  || "<span class='red'>空</span>";
+            $('#num_total')[0].innerHTML = data.numTotal  || "<span class='red'>空</span>";
+            $('#feed_type')[0].innerHTML = data.feedType  || "<span class='red'>空</span>";
+            $('#feed_weight')[0].innerHTML = data.feedWeight  || "<span class='red'>空</span>";
+            $('#record_date')[0].innerHTML = new Date(data.recordDate).toLocaleString()  || "<span class='red'>空</span>";
+            $('#id_recorder')[0].innerHTML = data.idRecorder  || "<span class='red'>空</span>";
+            $('#id_charge')[0].innerHTML = data.idCharge  || "<span class='red'>空</span>";
+            $('#id_outstorage')[0].innerHTML = data.idOutstorage  || "<span class='red'>空</span>";
+            $('#status')[0].innerHTML = data.status  || "<span class='red'>空</span>";
+            $('#remark')[0].value = data.remark || '';
             
         }else{
             console.error('获取禽舍详细信息失败');

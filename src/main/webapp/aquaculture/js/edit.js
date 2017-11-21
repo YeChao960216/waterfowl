@@ -6,8 +6,8 @@
      */
     const oURL = {
         PRONAME:'/waterfowl',
-        ID = getRequest()['id'],
-        GETAQUACULTUREDETAILINFO:'/aquaculture/getById',
+        ID : getRequest()['id'],
+        GETAQUACULTUREDETAILINFO:'/aquaculture/show/',
         EDIT:'/aquaculture/edit',
         GETNAME : '/aquaculture/getName',//获取禽舍类型
         GETOURSTRORAGE : '/aquaculture/getOutStorage',//?s = 获取出库编号
@@ -97,7 +97,7 @@
     /**
      * 提交修改
      */
-    document.getElementById('#submit').onclick = function(){
+    $('#submit')[0].onclick = function(){
         var json = JSON.stringify(queryParse.call($('form')));
             $.post(oURL.PRONAME+oURL.EDIT,json,function(res){
                 if(res.status){

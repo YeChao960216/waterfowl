@@ -11,9 +11,9 @@
      * oURL 对象
      */
     const oURL = {
-        PRONAME:'',
-        GETAQUACULTURELIST:'',
-        DEL:'',
+        PRONAME:'/waterfowl',
+        GETAQUACULTURELIST:'/aquaculture/list',
+        DEL:'/aquaculture/delete/',
     };
 
     /**
@@ -23,10 +23,14 @@
     var initView = function(){
 
         $.get(oURL.PRONAME+oURL.GETAQUACULTURELIST,function(res){
-            if(res.status){
+            if(res){
+                var data = new DataFilter({
+                    type:'filterTimeAndNull',
+                    data:res.list
+                });
                 viewCommand({
                     command:'display',
-                    param:[$('#content')[0],res.list,'del_aquaculture']
+                    param:[$('#content')[0],data,'del_aquaculture']
                 });
             }else{
                 alert('获取禽舍信息失败');
@@ -40,8 +44,8 @@
         1、删除成功后，初始化视图
       */
       $('#content').on('click',"[data-id*='del']",function(){
-         var id = $(this).arrt('data-id').strsub(3);
-         $.get(oURL.PRONAME+oURL.DEL,function(res){
+          var id = $(this).attr('data-id').substr(3);
+         $.get(oURL.PRONAME+oURL.DEL+id,function(res){
             if(res.status){
                 initView();
             }else{

@@ -20,33 +20,10 @@
     $(function(){
         //ajax函数，添加数据
         function add(){
-            //var str=JSON.stringify({"record_date":$("#record_date").val(),"id_batch":$("#id_batch").val(),"num_processed":$("#num_processed").val(),"processing_mode":$("#processing_mode").val(),"id_recorder":$("#id_recorder").val(),"id_charge":$("#id_charge").val(),"remark":$("#remark").val()});
-
-            /*$.ajax({
-                type:"post",
-                url:"/waterfowl/ddl/save",
-                data:data/!*{
-                    "date":$("#record_date").val(),
-                    "idPoultry":$("#id_poultry").val(),
-                    "numProcessed":$("#num_processed").val(),
-                    "processingMode":$("#processing_mode").val(),
-                    "idRecorder":$("#id_recorder").val(),
-                    "idCharge":$("#id_charge").val(),
-                    "remark":$("#remark").val()
-                }*!/,
-                dataType:"json",//回调数据的格式
-                success:function(data){
-                    if(data.status==="1"){
-                        alert("123");
-                    }else{
-                        alert("111");
-                    }
-                },
-            });*/
             $.post(
                 "/waterfowl/ddl/save",
                 {
-                    "date": $("#record_date").val(),
+                    "recorDate": $("#record_date").val(),
                     "idPoultry": $("#id_poultry").val(),
                     "numProcessed": $("#num_processed").val(),
                     "processingMode": $("#processing_mode").val(),
@@ -54,7 +31,12 @@
                     "idCharge": $("#id_charge").val(),
                     "remark": $("#remark").val()
                 },
-                function () {
+                function (data) {
+                    if(data.status==="1"){
+                        alert("增加成功");
+                    }else{
+                        alert("增加失败");
+                    }
                     window.location.href ="/waterfowl/ddlManagePage/add.html"
                 },
                 "json"

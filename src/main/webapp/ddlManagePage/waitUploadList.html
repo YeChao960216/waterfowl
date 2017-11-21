@@ -19,7 +19,7 @@
             })
 
             //上传所选记录:因为在注册事件里面才获取动态加载的元素，所以不用放在回调函数中
-            zhanjia.upLoadList(document.getElementById("upLoad"))
+            zhanjia.upLoadList(document.getElementById("upload"))
 
             //修改方法
             function edit() {
@@ -82,8 +82,8 @@
                    flag: 0,
                    pageNum: pageNum//表示将要跳转的页数
                };
-               if($("#id_pultry").val()){
-                   obj.idPoultry =$("#id_pultry").val();
+               if($("#id_patch").val()){
+                   obj.idPatch =$("#id_patch").val();
                }else if($("#id_recorder").val()){
                    obj.idRecorder =$("#id_recorder").val();
                }else if($("#id_charge").val()){
@@ -102,7 +102,7 @@
                             content += '<tr>' +
                                 '<td><input type="checkbox" class="select"><input type="hidden" value=' + o.id + '></td>' +//隐藏域获取id
                                 '<td>' + o.recordDate + '</td>' +
-                                '<td>' + o.idPoultry + '</td>' +
+                                '<td>' + o.idPatch + '</td>' +
                                 '<td>' + o.numProcessed + '</td>' +
                                 '<td>' + o.processingMode + '</td>' +
                                 '<td>' + o.idRecorder + '</td>' +
@@ -140,13 +140,15 @@
 <body>
     <div id="action">
         <input type="date" id="record_date">
-        <input type="text" id="id_pultry" placeholder="家禽批次">
+        <input type="text" id="id_patch" placeholder="家禽批次">
         <input type="text" id="processing_mode" placeholder="处理方式">
         <input type="text" id="id_recorder" placeholder="记录者">
         <input type="text" id="id_charge" placeholder="负责人">
         <input type="button" value="查询" class="btn" id="search">
         <span>|</span>
-        <input type="button" value="上传记录" class="btn" id="upLoad">
+        <input type="button" value="上传记录" class="btn" id="upload">
+        <span>|</span>
+        <input type="button" value="删除记录" class="btn" id="delete">
     </div>
     <table>
         <tr>

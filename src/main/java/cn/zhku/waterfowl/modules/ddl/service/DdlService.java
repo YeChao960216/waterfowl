@@ -155,7 +155,6 @@ public class DdlService implements IBaseService<Ddl> {
   * @param idList*/
     public int updateFlag(String[] idList) {
         Ddl ddl = new Ddl();
-        System.out.println(idList[0]);
         try {
             for (String id : idList
                     ) {

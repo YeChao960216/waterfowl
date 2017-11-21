@@ -11,8 +11,8 @@
          * oURL 对象
          */
         const oURL = {
-            PRONAME:'',
-            GETAQUACULTURELIST:'',
+            PRONAME:'/waterfowl',
+            GETAQUACULTURELIST:'/aquaculture/list?pageNum=1&pageSize=10',
         };
     
         /**
@@ -22,10 +22,14 @@
         var initView = function(){
     
             $.get(oURL.PRONAME+oURL.GETAQUACULTURELIST,function(res){
-                if(res.status){
+                if(res.list.length>=1){
+                   var data = new DataFilter({
+                        type:'filterTimeAndNull',
+                        data:res.list
+                   });
                     viewCommand({
                         command:'display',
-                        param:[$('#content')[0],res.list,'find_edit_aquaculture']
+                        param:[$('#content')[0],data,'find_edit_aquaculture']
                     });
                 }else{
                     alert('获取禽舍信息失败');

@@ -29,4 +29,16 @@ DataFilter.prototype = {
         });
         return this.data;
     },
+    filterTimeAndNull:function (data) {
+        data.forEach(function (val){
+            for(var item in val) {
+                if (item === 'recordDate'&& val[item]) {
+                    val[item] = new Date(val[item]).toLocaleString();
+                } else if (!val[item]) {
+                    val[item] = "<span style='color:#800000'>空</span>";
+                }
+            }
+        });
+        return data;
+    }
 }
