@@ -27,8 +27,11 @@
                         idList.push(selectArr[i].parentNode.lastChild.value);
                     }
                 }
-                $.post("/waterfowl/ddl/editFlagById",idList,function () {
-                    alert("上传数据成功!")
+                $.post("/waterfowl/ddl/editFlagById",idList,function (data) {
+                    if (data.status===1)
+                    alert("上传数据成功!");
+                    else
+                     alert("上传数据失败！");
                 })
                 console.log(idList);
             }

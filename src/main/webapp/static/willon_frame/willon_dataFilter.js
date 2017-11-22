@@ -25,7 +25,20 @@ DataFilter.prototype = {
             val.gender = (  parseInt(val.gender) === 1) ?  '男':  '女';
             val.entry = val.entry ? new Date(val.entry).toLocaleString():'未办理入职 ';
             val.sign = ( parseInt(val.sign) === 1) ? "<span style='color:#21ce21'>在职</span>":'离职';
+            val.rode_id = val.rode_id ? val.rode_id : "<span style='color:#800000'>暂无</span>";
         });
         return this.data;
     },
+    filterTimeAndNull:function (data) {
+        data.forEach(function (val){
+            for(var item in val) {
+                if (item === 'recordDate'&& val[item]) {
+                    val[item] = new Date(val[item]).toLocaleString();
+                } else if (!val[item]) {
+                    val[item] = "<span style='color:#800000'>空</span>";
+                }
+            }
+        });
+        return data;
+    }
 }

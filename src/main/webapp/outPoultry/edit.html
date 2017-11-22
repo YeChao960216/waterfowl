@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form >
+    <table>
+            <tr>
+                <th>条目</th>
+                <th>信息</th>
+            </tr>
+            <tr style="display:none">
+                <td>id</td>
+                <td><input  name="id" id="id" ></td>
+            </tr>
+            <tr>
+                <td>禽舍类型</td>
+                <td><select  name="name" id="name" class="select-fix-input" ></select></td>
+            </tr>
+            <tr>
+                <td>禽舍编号</td>
+                <td><input type="text" name="id_fowlery" id="id_fowlery" placeholder="禽舍编号"></td>
+            </tr>
+            <tr>
+                <td>养殖批次编号</td>
+                <td><input type="text" name="id_patch" id="id_patch" placeholder="养殖批次编号"></td>
+            </tr>
+            <tr>
+                <td>圈养个体数</td>
+                <td><input type="number" min="0" name="num_total" id="num_total" placeholder="圈养个体数"></td>
+            </tr>
+            <tr>
+                <td>饲料种类</td>
+                <td><input type="text" name="feed_type" id="feed_type" placeholder="饲料种类" ></td>
+            </tr>
+            <tr>
+                <td>饲料投放量(单位/kg)</td>
+                <td><input type="number" name="feed_weight" id="feed_weight" min="0" placeholder="投放量(单位/kg)"></td>
+            </tr>
+            <tr>
+                <td>记录员编号</td>
+                <td><input type="text" name="id_reacorder" id="id_reacorder" placeholder="记录员编号"></td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td><input type="text" name="id_charge" id="id_charge" placeholder="负责人编号"></td>
+            </tr>
+            <tr>
+                <td>出库编号</td>
+                <td><select name="id_outstorage" id="id_outstorage" class="select-fix-input"></select></td>
+            </tr>
+            <tr>
+                <td>禽类养殖阶段标识</td>
+                <td><select name="status" id="status" class="select-fix-input"></select></td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>
+            </tr>
+            <tr>
+                <td>操作</td>
+                <td><input type="submit" id="submit" class="btn" onclick="return false" value="确认"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="./js/edit.js"></script>
+</html>

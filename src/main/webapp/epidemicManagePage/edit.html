@@ -12,6 +12,7 @@
             //获取url中的参数
             var id =getQueryString("id");
             //根据id从数据库中获取修改前的值
+            console.log(id);
             $.post(
                 "/waterfowl/epidemic/show/"+id,
                 function (data) {

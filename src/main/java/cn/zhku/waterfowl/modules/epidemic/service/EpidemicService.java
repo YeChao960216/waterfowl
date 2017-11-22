@@ -142,6 +142,8 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //染病个体数
         if (entity.getNumInfected()!=null)
             criteria.andNumInfectedEqualTo(entity.getNumInfected());
+        if (entity.getName()!=null)
+            criteria.andNameLike("%"+entity.getName()+"%");
         return epidemicMapper.selectByExample(epidemicExample);
     }
 
