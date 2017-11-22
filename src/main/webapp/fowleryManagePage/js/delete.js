@@ -89,8 +89,8 @@ $(function () {
         })
     });
     var html = '';
-    succFunction(data1);
-    function succFunction(data1) {
+    succFunction(data);
+    function succFunction(obj) {
         var json = data;
 
         $.each(json,function (index,item) {

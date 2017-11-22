@@ -2,14 +2,33 @@
     增加禽舍
  */
 
-var data=[{
-    type:"鸭子",
-    size:100,
-    position:"东",
-    idRecorder:"wenzhi",
-    idCharge:"zhuowenzhi"
+var datatype=[{
+    type:["鸭子1","鸭子2","鸭子3"]
+
+}];
+var data2=[{
+    size:[99,100,101],
+    position:["东","西","南"]
 }];
 
+var data3=[{
+    type:"鸭子1",
+    size:99,
+    position:"东"
+}]
+
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function () {
+        $('#type select').each(function (index,data) {
+            $('option').each(function (data,text) {
+                $('#type').append("<option>"+datatype.type+"</option>");
+            })
+        });
+
+    }
+})
 $(function () {
 
     //数据字典查出type，position，size，status生成下拉框
