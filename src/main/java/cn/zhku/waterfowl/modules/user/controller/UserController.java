@@ -6,12 +6,18 @@ import cn.zhku.waterfowl.modules.user.model.UserUtilExcel;
 import cn.zhku.waterfowl.modules.user.service.UserService;
 import cn.zhku.waterfowl.pojo.entity.User;
 
+import cn.zhku.waterfowl.util.QRCode.QRCodeUtil;
+import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.zxing.WriterException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -204,29 +213,58 @@ public class UserController extends BaseController {
                 excelFile.transferTo(newFile);
                 //将新图片名称写到repair中
                 //repair.setRepairPic(newFileName);
-                System.out.println(newFile.toString());
+                System.out.println("================"+newFile.toString());
 
                 UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();
-                Map<Integer, UserExcel> map = userExcelUtil.getMap();
-
-                System.out.println("===================="+map.get(0));
-
-
-
-                if(true){
-                    return new Message("1","名单导入成功");
-                }else{
-                    return new Message("2","名单导入失败");
-                }
+                Map<Integer, UserExcel> userMap = userExcelUtil.getMap();
+                if (userMap == null)
+                    return new Message("2","名单导入失败，请检查excel表与模板的不同");
+                //  java8 lambda遍历
+                userMap.forEach((key,value) ->{
+                    //  复制UserExcel对象到user类中
+                    User user = new User();
+                    BeanUtils.copyProperties(value,user);
+                    user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                    try {
+                        userService.add(user);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return new Message("1","名单导入成功");
             }else{
                 return new Message("2","上传失败或者上传的文件后缀不是'xls'或'xlsx'");
             }
         } catch (Exception e) {
+            //return new Message("2","名单导入失败，请检查excel表与模板的不同");
             throw new RuntimeException(e);
-
         }
     }
+
+
+
+    @RequestMapping("/user/excel/down")
+    public ResponseEntity<byte[]> exportExcel(User user) throws Exception {
+        ExportExcelUtil<User> exportExcelUtil = new ExportExcelUtil<>();
+
+        List<User> userList = userService.findList(user);
+        String[] headers = {"用户id","用户账号","用户密码","员工职责","员工姓名","性别","入职时间","入职状态"};
+        //  通过标题和数据库数据生成XLS文件
+        //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
+        // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
+        return exportExcelUtil.exportXLSXOutput("用户列表",headers,userList);
+    }
+
+
+    @RequestMapping("/user/qrcode/{id}")
+    public ResponseEntity<byte[]> downloadIOSAPPController(@PathVariable String id, HttpServletRequest request)
+            throws WriterException, IOException {
+
+        String contextpath = request.getScheme() +"://" + request.getServerName()  + ":" +request.getServerPort() +request.getContextPath();
+        return QRCodeUtil.getResponseEntity(contextpath+"/admin/user/show/"+id, 150, 150, "png");
+    }
+
 
 
 }

@@ -17,7 +17,7 @@
                 "/waterfowl/ddl/show/"+id,
                 function (data) {
                     $("#record_date").val(data.recordDate)
-                    $("#id_poultry").val(data.idPoultry)
+                    $("#id_patch").val(data.idPatch)
                     $("#num_processed").val(data.numProcessed)
                     $("#processing_mode").val(data.processingMode)
                     $("#id_recorder").val(data.idRecorder)
@@ -31,8 +31,8 @@
                    "/waterfowl/ddl/edit",
                    {
                        "id":id,
-                       "date": $("#record_date").val(),
-                       "idPoultry": $("#id_poultry").val(),
+                       "recordDate": $("#record_date").val(),
+                       "idPatch": $("#id_patch").val(),
                        "numProcessed": $("#num_processed").val(),
                        "processingMode": $("#processing_mode").val(),
                        "idRecorder": $("#id_recorder").val(),
@@ -74,7 +74,7 @@
         <tbody>
             <tr>
                 <td><input type="date" id="record_date"></td>
-                <td><input type="text" id="id_poultry" placeholder="所属批次" ></td>
+                <td><input type="text" id="id_patch" placeholder="所属批次" ></td>
                 <td><input type="text" id="num_processed" placeholder="处理数量" ></td>
                 <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
                 <td><input type="text" id="id_recorder" placeholder="记录者"></td>

@@ -60,8 +60,8 @@ public class DdlController extends BaseController{
      * */
     @ResponseBody
     @RequestMapping("editFlagById")
-    public Message editFlagById(@RequestParam(value ="idList[]")String []idList) throws Exception {
-
+    public Message editFlagById(String []idList) throws Exception {
+        System.out.println(idList);
         if (ddlService.updateFlag(idList)==1)
             return new Message("1","提交疾病/免疫记录表成功");
         else
