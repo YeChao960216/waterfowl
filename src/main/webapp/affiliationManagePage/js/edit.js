@@ -7,7 +7,7 @@ var data=[{
     idCharge:"zhuowenzhi"
 }];
 
-console.log(data);
+
 $(function () {
     $('#btn').click(function () {
         //发送到字典的
@@ -55,6 +55,7 @@ $(function () {
             },
         })
     });
+    var html='';
     succFunction(data);
     function succFunction(data1) {
         var json = data1;
@@ -67,7 +68,7 @@ $(function () {
             var  status=item.status;
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
-            var  html="<tr>" +
+              html="<tr>" +
                 "<td><input type='text' value='"+type+"'></td>" +
                 "<td><input type='text' value='"+position+"'></td>" +
                 "<td><input type='text' value='"+size+"'></td>" +

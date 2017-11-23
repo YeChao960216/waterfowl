@@ -127,8 +127,8 @@ function deleteBtn(obj)
     tr.parentNode.removeChild(tr);//从tr的父元素[tbody]移除tr
 }
 
-//全部删除
-
+/*全部删除*/
+/*
 function batchDelete() {
     //判断至少选择一项
     var checkedNum = $("input[name='delete']:checked").length;
@@ -157,4 +157,4 @@ function batchDelete() {
             alert("删除失败!");
         }
     })
-}
+}*/

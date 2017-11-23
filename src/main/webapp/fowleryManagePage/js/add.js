@@ -46,7 +46,7 @@ $(function () {
             },
             success:function(data){
                 console.log("传送归属的大禽舍成功");
-                $('#affiliation').append("<option value='"+affiliation+"'>"+"大禽舍"+affiliation+"</option>");
+                $('#affiliation').append("<option value='"+affiliation+"'>"+affiliation+"</option>");
 
             }
         });

@@ -22,11 +22,24 @@ $(function () {
             seccess:function (data) {
                 console.log("Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框");
                 console.log("-------success----");
-                $('#size').append("<option value='"+size+"'>"+"规格"+size+"</option>");
+                for (var i=0;i<size.length;i++)
+                {
+                    $('#size').append("<option value='"+size[i]+"'>"+"规格"+size+"</option>");
+                }
                 $('#status').append("<option value='"+status+"'>"+"使用状态"+size+"</option>");
-                $('#affiliation').append("<option value='"+affiliation+"'>"+"大禽舍"+affiliation+"</option>");
-                $('#idCharge').append("<option value='"+idCharge+"'>"+"负责人"+idCharge+"</option>");
-                $('#idRecorder').append("<option value='"+idRecorder+"'>"+"记录者"+idRecorder+"</option>");
+
+                for(var j=0;k<affiliation.length;j++)
+                {
+                    $('#affiliation').append("<option value='"+affiliation[j]+"'>"+"大禽舍"+affiliation+"</option>");
+                }
+                for (var m=0;m<idCharge.length;m++)
+                {
+                    $('#idCharge').append("<option value='"+idCharge+"'>"+"负责人"+idCharge+"</option>");
+                }
+                for(var n=0;n<idRecorder.length;n++)
+                {
+                    $('#idRecorder').append("<option value='"+idRecorder+"'>"+"记录者"+idRecorder+"</option>");
+                }
             }
         });
 

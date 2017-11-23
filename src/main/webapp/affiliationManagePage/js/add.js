@@ -21,12 +21,10 @@ $.ajax({
     url:"",
     datatype:"post",
     success:function () {
-        $('#type select').each(function (index,data) {
-            $('option').each(function (data,text) {
-                $('#type').append("<option>"+datatype.type+"</option>");
-            })
-        });
-
+        for(var i=0;i<datatype.length;i++)
+        {
+            $("#type").append("<option>"+type+"</option>");
+        }
     }
 })
 $(function () {
@@ -35,7 +33,7 @@ $(function () {
     $.ajax({
         url:"",
         type:"POST",
-        datatype:json,
+        datatype:"json",
         success:function (data) {
             console.log("-------success-----");
             $("#type").append("<option>"+type+"</option>");
