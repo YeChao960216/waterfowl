@@ -45,6 +45,13 @@ public class DictionaryService  implements IBaseService<Dictionary> {
         return dictionaryMapper.deleteByPrimaryKey(entity.getId());
     }
 
+    /**
+     *  通过字典id获取id
+     * @param id
+     *            主键ID
+     * @return 字典
+     * @throws Exception    sql
+     */
     @Override
     public Dictionary get(String id) throws Exception {
         return dictionaryMapper.selectByPrimaryKey(id);
