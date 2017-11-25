@@ -7,35 +7,39 @@
 </head>
 <body>
 <table>
-    <tr>
+    <div>
+        <!--查询规格-->
+        <select id="size">
+            <!--<option>规格</option>-->
+            <!--<option>规格1</option>-->
+            <!--<option>规格2</option>-->
+        </select>
 
-        <td><button class="btn">查询条件</button></td>
-        <td><input type="date" placeholder="请选择查询日期" ></td>
-        <td><input type="text" placeholder="请输入记录者编号" ></td>
-        <td><input type="text" placeholder="请输入负责人编号" ></td>
-        <td><button class="btn">查询</button></td>
-    </tr>
+        <!--查询使用状态-->
+        <select id="status">
+            <!--<option>使用状态</option>-->
+            <!--<option>可用</option>-->
+            <!--<option>不可用</option>-->
+        </select>
+
+        <input id="idRecorder" type="text" placeholder="请输入记录者编号" >
+        <input id="idRharge" type="text" placeholder="请输入负责人编号" >
+        <button class="btn" id="btn">查询</button>
+
+    </div>
 
     <tr>
-        <th>建立日期</th>
-        <th>最大纳员数</th>
+        <th>规格</th>
+        <th>使用状态</th>
+        <th>归属的大禽舍</th>
         <th>负责人编号</th>
         <th>记录者编号</th>
-        <th>备注</th>
         <th>操作</th>
     </tr>
 
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><input type="button" class="btn btns" value="修改"></td>
-    </tr>
-
+    <tbody id="tbody"></tbody>
 </table>
 </body>
 <script src="../static/jquery/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" href="./js/edit.js"></script>
+<script src="./js/edit.js"></script>
 </html>

@@ -1,14 +1,14 @@
-//alert($);
-var oMaxNum=document.getElementById(dateEstablish);
+/*var oMaxNum=document.getElementById(dateEstablish);
 //判断是否超过最大的纳员数
 function findMaxNum() {
     if(oMaxNum.innerHTML>maxNum){
         alert("抱歉，您输入的数量已超过最大纳员数");
     }
-}
-//Ajax请求
+}*/
+
+
 $(function () {
-    $('#btn').click(function () {
+    $('.btn').click(function () {
 
         $.ajax({
             /*请求的HTML页的URL地址*/
@@ -31,12 +31,14 @@ $(function () {
             dataType: "json",
             /*请求完成时的回调函数*/
             success: function (data) {
-                if (msg=='1'){
-                    alert("您好,新增养殖记录成功！！！");
-                }else{
-                    alert("抱歉，新增养殖记录失败！！！");
-                }
+                // if (msg=='1'){
+                //     alert("您好,新增养殖记录成功！！！");
+                // }else{
+                //     alert("抱歉，新增养殖记录失败！！！");
+                // }
+                alert(data);
             }
+
         })
 
     })
