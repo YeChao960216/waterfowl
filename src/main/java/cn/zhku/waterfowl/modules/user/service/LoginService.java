@@ -1,11 +1,12 @@
 package cn.zhku.waterfowl.modules.user.service;
 
-import cn.zhku.waterfowl.modules.user.dao.UserDao;
 import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.pojo.entity.UserExample;
 import cn.zhku.waterfowl.pojo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author : 钱伟健 gonefuture@qq.com
@@ -17,8 +18,7 @@ public class LoginService {
     @Autowired
     UserMapper userMapper;
 
-    @Autowired
-    UserDao userDao;
+
 
 
     /**
@@ -27,10 +27,17 @@ public class LoginService {
      * @return True：成功 False：失败
      */
     public User login(User form) {
-
-        User user = userDao.findUserByPhone(form.getPhone());
-        if (user != null && user.getPassword().equals(form.getPassword()))
-            return user;
+        UserExample userExample = new UserExample();
+        userExample.or().andPhoneEqualTo(form.getPhone());
+        //  根据手机号查询用户
+        List<User> userList = userMapper.selectByExample(userExample);
+        //  如果用户不存在,则返回null
+        if (userList.size() == 0) {
+            return null;
+        }
+        //  userList.get(0)  取结果集的第一个用户
+        if (userList.get(0) != null && userList.get(0).getPassword().equals(form.getPassword()))
+            return userList.get(0);
         else
             return null;
     }
