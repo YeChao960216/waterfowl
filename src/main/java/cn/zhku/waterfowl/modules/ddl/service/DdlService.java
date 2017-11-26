@@ -106,21 +106,21 @@ public class DdlService implements IBaseService<Ddl> {
     public List<Ddl> findList(Ddl entity) throws Exception {
         DdlExample ddlExample = new DdlExample();
         DdlExample.Criteria criteria = ddlExample.createCriteria();
-        if (entity.getIdCharge() != null&&entity.getIdCharge().trim()!="")
+        if (entity.getIdCharge() != null&&!entity.getIdCharge().equals(""))
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getIdPoultry() != null&&entity.getIdPoultry().trim()!="")
-            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
-        if (entity.getIdRecorder() != null&&entity.getIdRecorder().trim()!="")
+        if (entity.getIdPatch() != null&&!entity.getIdPatch().equals(""))
+            criteria.andIdPatchEqualTo(entity.getIdPatch());
+        if (entity.getIdRecorder() != null&&!entity.getIdRecorder().equals(""))
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getFlag() != null)
             criteria.andFlagEqualTo(entity.getFlag());
         if (entity.getNumProcessed()!= null)
             criteria.andNumProcessedEqualTo(entity.getNumProcessed());
-        if (entity.getRecordDate()!= null)
+        if (entity.getRecordDate()!= null&&!entity.getRecordDate().equals(""))
             criteria.andRecordDateEqualTo(entity.getRecordDate());
-        if (entity.getRemark() != null&&entity.getRemark().trim()!="")
+        if (entity.getRemark() != null&&!entity.getRemark().equals(""))
             criteria.andRemarkLike("%" + entity.getRemark() + "%");
-        if (entity.getProcessingMode() != null&&entity.getProcessingMode().trim()!="")
+        if (entity.getProcessingMode() != null&&!entity.getProcessingMode().equals(""))
             criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
         return ddlMapper.selectByExample(ddlExample);
     }
@@ -155,7 +155,6 @@ public class DdlService implements IBaseService<Ddl> {
   * @param idList*/
     public int updateFlag(String[] idList) {
         Ddl ddl = new Ddl();
-        System.out.println(idList[0]);
         try {
             for (String id : idList
                     ) {

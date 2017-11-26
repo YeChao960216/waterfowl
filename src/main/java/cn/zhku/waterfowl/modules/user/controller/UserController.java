@@ -1,23 +1,38 @@
 package cn.zhku.waterfowl.modules.user.controller;
 
 
+import cn.zhku.waterfowl.modules.user.model.UserExcel;
+import cn.zhku.waterfowl.modules.user.model.UserUtilExcel;
 import cn.zhku.waterfowl.modules.user.service.UserService;
 import cn.zhku.waterfowl.pojo.entity.User;
+
+import cn.zhku.waterfowl.util.QRCode.QRCodeUtil;
+import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.zxing.WriterException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -85,6 +100,7 @@ public class UserController extends BaseController {
     @RequestMapping("{adminPath}/user/edit/{id}")
     public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
+        user.setPassword(null);
         if(userService.update(user) == 1)
             return new Message("1","修改用户成功");
         else
@@ -157,8 +173,19 @@ public class UserController extends BaseController {
     }
 
 
-
-
+    @RequestMapping("/user/resetPassword")
+    @ResponseBody
+    public Message resetPassword(HttpSession httpSession, @RequestParam String password) throws Exception {
+        User userSession = (User) httpSession.getAttribute("User");
+        User user = new User();
+        user.setId(userSession.getId());
+        user.setPassword(password);
+        if (userService.update(user) == 1) {
+            return new Message("1","当前用户修改密码成功");
+        } else {
+            return new Message("2","当前用户修改密码失败");
+        }
+    }
 
 
     // 接受一个新Excel
@@ -172,32 +199,70 @@ public class UserController extends BaseController {
     @ResponseBody
     public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
-            if(excelFile != null){
+            if(excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
-                    //  储存图片的物理路径
-                    String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
-                    //  获取上传文件的文件类型名
-                    String originalFileName = excelFile.getOriginalFilename();
-                    //  新的的图片名称,用UUID做文件名防止重复
-                    String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
-                    //新图片文件
-                    File newFile = new File(realPath+newFileName);
-                    //将内存中的数据写入磁盘
-                    excelFile.transferTo(newFile);
-                    //将新图片名称写到repair中
-                    //repair.setRepairPic(newFileName);
-                if(true){
-                    return new Message("1","名单导入成功");
-                }else{
-                    return new Message("2","名单导入失败");
-                }
+                //  储存图片的物理路径
+                String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/user/");
+                //  获取上传文件的文件类型名
+                String originalFileName = excelFile.getOriginalFilename();
+                //  新的的图片名称,用UUID做文件名防止重复
+                String newFileName = UUID.randomUUID().toString().replace("-","").toUpperCase()+originalFileName.substring(originalFileName.lastIndexOf("."));
+                //新图片文件
+                File newFile = new File(realPath+newFileName);
+                //将内存中的数据写入磁盘
+                excelFile.transferTo(newFile);
+                //将新图片名称写到repair中
+                //repair.setRepairPic(newFileName);
+                System.out.println("================"+newFile.toString());
+
+                UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
+                //userExcelUtil.setEntityMap();
+                Map<Integer, UserExcel> userMap = userExcelUtil.getMap();
+                if (userMap == null)
+                    return new Message("2","名单导入失败，请检查excel表与模板的不同");
+                //  java8 lambda遍历
+                userMap.forEach((key,value) ->{
+                    //  复制UserExcel对象到user类中
+                    User user = new User();
+                    BeanUtils.copyProperties(value,user);
+                    user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                    try {
+                        userService.add(user);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return new Message("1","名单导入成功");
             }else{
-                return new Message("2","上传失败");
+                return new Message("2","上传失败或者上传的文件后缀不是'xls'或'xlsx'");
             }
         } catch (Exception e) {
+            //return new Message("2","名单导入失败，请检查excel表与模板的不同");
             throw new RuntimeException(e);
-
         }
+    }
+
+
+
+    @RequestMapping("/user/excel/down")
+    public ResponseEntity<byte[]> exportExcel(User user) throws Exception {
+        ExportExcelUtil<User> exportExcelUtil = new ExportExcelUtil<>();
+
+        List<User> userList = userService.findList(user);
+        String[] headers = {"用户id","用户账号","用户密码","员工职责","员工姓名","性别","入职时间","入职状态"};
+        //  通过标题和数据库数据生成XLS文件
+        //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
+        // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
+        return exportExcelUtil.exportXLSXOutput("用户列表",headers,userList);
+    }
+
+
+    @RequestMapping("/user/qrcode/{id}")
+    public ResponseEntity<byte[]> downloadIOSAPPController(@PathVariable String id, HttpServletRequest request)
+            throws WriterException, IOException {
+
+        String contextpath = request.getScheme() +"://" + request.getServerName()  + ":" +request.getServerPort() +request.getContextPath();
+        return QRCodeUtil.getResponseEntity(contextpath+"/admin/user/show/"+id, 150, 150, "png");
     }
 
 

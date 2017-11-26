@@ -6,154 +6,174 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>待上传记录列表</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <!--此处引入base.js>-->
-    <script src="js/base.js"></script>
     <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript">
         $(function () {
-            /*查询方法
-            *pageNum为页数
-            * flag为提交状态码,其中1表示已经上传,0表示未上传
-            * */
-            function search(pageNum,flag) {
-                $("#tbody tr").each(function(i){
-                    $("#tbody").find("tr").eq(0).remove();
-                });
-                $.ajax({
-                    type:"post",
-                    url:"/waterfowl/ddl/findList",
-                    data:{
-                        "recordDate":$("#record_date").val(),//日期查询
-                        "idPoultry":$("#id_poultry").val(),//批次查询
-                        "processingMode":$("#processing_mode").val(),//处理方式查询
-                        "idRecorder":$("#id_recorder").val(),//记录者编号查询
-                        "idCharge":$("#id_charge").val(),//负责人编号查询
-                        "pageNum":pageNum,//当前页
-                        "flag":flag
-                    },
-                    dataType:"json",
-                    success:function (data) {
-                        $(data.list).each(function(i,n){
-                            $("#tbody").append(
-                                 "<tr><td><input type='checkbox'></td>"
-                                +"<td>"+n.recordDate+"</td>"
-                                +"<td>"+n.idPoultry+"</td>"
-                                +"<td>"+n.numProcessed+"</td>"
-                                +"<td>"+n.processingMode+"</td>"
-                                +"<td>"+n.idRecorder+"</td>"
-                                +"<td>"+n.idCharge+"</td>"
-                                +"<td class='remark'>"+n.remark+"</td>"
-                                +"<td><button class='btn edit'>修改</button><button class='btn delete'>删除</button></td></tr>");
-                            $("#tbody").find("tr").eq(i).find("td").eq(0).find("input").attr("value",n.id);
-                            $("#tbody").find("tr").eq(i).find("td").eq(8).find("button").eq(0).click(function(){editDdL(n.id)});
-                            $("#tbody").find("tr").eq(i).find("td").eq(8).find("button").eq(1).click(function(){deleteDdL(n.id)});
-                        });
-                        $(".pageNum").html(data.pageNum);//当前页
-                        $(".pages").html(data.pages);//总页数
-                        $(".total").html(data.total);//总数量
-//                        $(".prePage").html(data.prpPage);//上一页
-//                        $(".nextPage").html(data.nextPage);//下一页
-                        zhanjia.popLayer(25);//干啥子
-                        zhanjia.selectAll();//干啥子
-                    }
-                })
-            };
-            //页面第一次加载时，调用ajax函数加载数据
-            search(1,0);
-//            上一页  ---判断是否为首页
-            $(".prePage").click(function () {
-                var opageNum=$(".opageNum").html();
-                opageNum--;
-                if(opageNum===0){
-                    alert("已经是首页了！");
-                    return;
-                }else {
-                    search(opageNum, 0);
-                }
-            });
-            //下一页  ---判断是否是尾页
-            $(".nextPage").click(function () {
-                var opageNum=$(".opageNum").html();
-                var opages = $(".pages").html();
-                if(opageNum>=opages) {
-                    alert("已经是最后一页了！");
-                    return;
-                }
-                    opageNum=parseInt(opageNum)+1;
-                    search(opageNum,0);
+            //页面初始化时获取数据
+            showList(1);
 
-            });
-            //多条件查询
-            $("#find").click(function(){
-                search(1,0);
-            });
-            function editDdL(id) {
-                //带着id转发到edit.html去
-            }
-            function deleteDdL(id) {
-                $.ajax({
-                    type:"get",
-                    url:'/ddl/delete/'+id,
-                    dataType:"json",
-                    success:function (data) {
-                        //根据删除状态返回
-                        if (data.status===1){
-                            alert(data.msg);
-                        }else{
-                            alert(data.msg);
+            //查询：绑定事件
+            $("#search").click(function () {
+                console.log("1111")
+                showList(1);
+            })
+
+            //上传所选记录:因为在注册事件里面才获取动态加载的元素，所以不用放在回调函数中
+            zhanjia.upLoadList(document.getElementById("upload"))
+
+            //修改方法
+            function edit() {
+                var editBtns =document.getElementsByClassName("edit");
+                for(var i=0;i<editBtns.length;i++){
+                    editBtns[i].onclick =function () {
+                        //获取本记录的id
+                        var id =this.parentNode.parentNode.firstChild.lastChild.value;
+                        if(id!=null){
+                            //跳转到编辑页面
+                            window.location.href ="/waterfowl/ddlManagePage/edit.html?id="+id;
                         }
-                        //刷新数据
-                        search($(".pageNum").html(),0);
                     }
-                })
+                }
             }
-        });
+            //删除方法
+            function deleteFun() {
+                var deleteBtns =document.getElementsByClassName("delete");
+                for(var i=0;i<deleteBtns.length;i++) {
+                    deleteBtns[i].onclick = function () {
+                        //获取本记录的id
+                        var id = this.parentNode.parentNode.firstChild.lastChild.value;
+                        if (id != null && confirm("确定要删除？")) {
+                            //跳转到编辑页面
+                            //window.location.href ="/waterfowl/ddlManagePage/edit.html?id="+id;
+                            $.post(
+                                "/waterfowl/ddl/delete/"+id,
+                                //{"id": id},
+                                function () {
+                                    alert("删除成功！")
+                                    showList(document.getElementById("pageNum").value)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            /**
+             * 展示查询列表函数
+             * @param pageNum：int  将要跳转的页数
+             */
+            function showList(pageNum) {
+                //$.post(url,[data],[callback],[datatype])
+               /* var data ={
+                    "record_date":$("#record_date").val(),
+                    "epidemic_id":$("#epidemic_id").val(),
+                    "processing_mode":$("#processing_mode").val(),
+                    "id_recorder":$("#id_recorder").val(),
+                    "id_charge":$("#id_charge").val(),
+                    "flag":0,
+                    "pageNum":pageNum//表示将要跳转的页数
+                };*/
+
+               var obj ={
+                   processingMode:$("#processing_mode").val(),
+                   //idPoultry: $("#id_pultry").val(),
+                   //idRecorder: $("#id_recorder").val(),
+                   //idCharge: $("#id_charge").val(),
+                   flag: 0,
+                   pageNum: pageNum//表示将要跳转的页数
+               };
+               if($("#id_patch").val()){
+                   obj.idPatch =$("#id_patch").val();
+               }else if($("#id_recorder").val()){
+                   obj.idRecorder =$("#id_recorder").val();
+               }else if($("#id_charge").val()){
+                   obj.idCharge =$("#id_charge").val();
+               }
+                console.log(obj);
+                $.post(
+                    "/waterfowl/ddl/findList",
+                    obj,
+                    function (data) {
+                        console.log(data);
+                        var content = ""
+                        var o = null;
+                        for (var i = 0; i < data.list.length; i++) {
+                            o = data.list[i];
+                            content += '<tr>' +
+                                '<td><input type="checkbox" class="select"><input type="hidden" value=' + o.id + '></td>' +//隐藏域获取id
+                                '<td>' + o.recordDate + '</td>' +
+                                '<td>' + o.idPatch + '</td>' +
+                                '<td>' + o.numProcessed + '</td>' +
+                                '<td>' + o.processingMode + '</td>' +
+                                '<td>' + o.idRecorder + '</td>' +
+                                '<td>' + o.idCharge + '</td>' +
+                                '<td>' + o.remark + '</td>' +
+                                '<td><button class="btn edit">修改</button><button class="btn delete">删除</button></td>' +
+                                '</tr>' + ' '
+                        }
+                        //向tbody中插入内容
+                        $("#content").html(content);
+
+                        //保存page对象的currentPage值和totalPage值
+                        zhanjia.showPageCut(data.pageNum, data.pages, showList);//调用展示分页函数,传入当前页数和总页数
+
+                        //全选全不选方法
+                        zhanjia.selectAll(document.getElementById("selectAll"), document.getElementsByClassName("select"))
+
+                        //edit方法
+                        edit();
+
+                        //删除方法
+                        deleteFun();
+                    },
+                    "json"
+                );
+            }
+        })
     </script>
     <style>
         body,html {
             height: 100%;
         }
-        .head_form {
-            margin:10px;
-        }
-        .head_form input {
-            margin-right:30px;
-        }
     </style>
 </head>
 <body>
-<form action="" class="head_form">
-    <span>查询日期：</span><input type="date" id="record_date">
-    <span>家禽记录批次：</span><input type="text" id="id_poultry" placeholder="家禽记录批次">
-    <span>处理方式：</span><input type="text" id="processing_mode" placeholder="输入处理方式">
-    <span>记录者编号：</span><input type="text" id="id_recorder" placeholder="记录者编号">
-    <span>负责人编号：</span><input type="text" id="id_charge" placeholder="负责人编号">
-    <input type="submit" id="find" value="查询">
-</form>
-<span>单项操作</span><button class="btn upload">上传选中</button><button class="btn delete">删除选中</button>
-<form>
+    <div id="action">
+        <input type="date" id="record_date">
+        <input type="text" id="id_patch" placeholder="家禽批次">
+        <input type="text" id="processing_mode" placeholder="处理方式">
+        <input type="text" id="id_recorder" placeholder="记录者">
+        <input type="text" id="id_charge" placeholder="负责人">
+        <input type="button" value="查询" class="btn" id="search">
+        <span>|</span>
+        <input type="button" value="上传记录" class="btn" id="upload">
+        <span>|</span>
+        <input type="button" value="删除记录" class="btn" id="delete">
+    </div>
     <table>
-        <thead>
         <tr>
-            <th><input type="checkbox" id="selectAll" />全选</th>
+            <th><input type="checkbox" id="selectAll">全选</th>
             <th>记录日期</th>
-            <th>家禽记录批次</th>
+            <th>疾控批次</th>
             <th>处理数量</th>
             <th>处理方式</th>
-            <th>记录者编号</th>
-            <th>负责人编号</th>
+            <th>记录者</th>
+            <th>负责人</th>
             <th>备注</th>
             <th>操作</th>
         </tr>
-        </thead>
-        <tbody id="tbody">
+        <tbody id="content">
 
         </tbody>
     </table>
-    <ul id="ul">
-        <li>共<span class="total"></span>条记录，当前页为<span class="pageNum"></span>/<span class="pages"></span></li>
-        <li><span class="prePage" ></span>上一页<span class="nextPage" >下一页</span></li>
-    </ul>
-</form>
+    <div id="pageCut">
+        <span id="first">首页</span>
+        <span id="pre">&lt;&lt;</span>
+        <span>第</span> <input type="text" id="pageNum"><span>页</span>
+        <span id="pages"></span>
+        <span id="next">&gt;&gt;</span>
+        <span id="last">尾页</span>
+    </div>
 </body>
+<script src="js/base.js"></script>
 </html>

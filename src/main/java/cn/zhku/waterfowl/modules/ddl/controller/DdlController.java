@@ -32,14 +32,10 @@ public class DdlController extends BaseController{
     public Message addDdl(Ddl ddl) throws Exception {
         ddl.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
         ddl.setFlag(0);
-       try {
-            ddlService.add(ddl);
-            return  new Message("1", "增加病死淘记录表成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return  new Message("0", "增加病死淘记录表失败");
-        }
-
+        if (ddlService.add(ddl)==1) {
+            return new Message("1", "增加病死淘记录表成功");
+        } else
+            return new Message("2","增加病死淘记录表失败，已经提交的数据无法删除");
     }
     /**
      * 删除未提交Ddl表记录
@@ -64,8 +60,8 @@ public class DdlController extends BaseController{
      * */
     @ResponseBody
     @RequestMapping("editFlagById")
-    public Message editFlagById(@RequestParam(value ="idList[]")String []idList) throws Exception {
-
+    public Message editFlagById(String []idList) throws Exception {
+        System.out.println(idList);
         if (ddlService.updateFlag(idList)==1)
             return new Message("1","提交疾病/免疫记录表成功");
         else

@@ -6,23 +6,87 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>修改记录</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <!-- `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `fowlery_id` varchar(45) NOT NULL COMMENT '禽舍编号',
-  `inventory_id` varchar(45) DEFAULT NULL COMMENT '库存表编号',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
-  `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
-  `diseaes` varchar(45) NOT NULL COMMENT '疾病',
-  `num_total` int(11) NOT NULL COMMENT '个体总数',
-  `num_infected` int(11) NOT NULL COMMENT '染病个体数',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
-  `medication_mode` varchar(45) NOT NULL COMMENT '给药方式',
-  `dose` float NOT NULL COMMENT '剂量',
-  `dose_unit` varchar(45) NOT NULL COMMENT '剂量对应单位，例：ml、g',
-  `medication_amount` float NOT NULL COMMENT '用药总量，包含实际总使用量和损耗丢弃量。单位以对应消耗品在inv库存表中的unit属性为准，可以是：盒、ml、kg等',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
-  `id_batch` varchar(45) NOT NULL COMMENT '养殖批次',-->
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        $(function () {
+            //获取url中的参数
+            var id =getQueryString("id");
+            //根据id从数据库中获取修改前的值
+            console.log(id);
+            $.post(
+                "/waterfowl/epidemic/show/"+id,
+                function (data) {
+                    $("#record_date").val(data.recordDate)
+                    $("#id_patch").val(data.idPatch),
+                        $("#sign").val(data.sign),
+                        $("#diseaes").val(data.diseaes),
+                        $("#num_infected").val(data.numInfected),
+                        $("#processing_mode").val(data.processingMode),
+                        $("#medication_mode").val(data.medicationMode),
+                        $("#dose").val(data.dose),
+                        $("#dose_unit").val(data.doseUnit),
+                        $("#id_outstorage").val(data.idOutstorage),
+                        $("#id_recorder").val(data.idRecorder),
+                        $("#id_charge").val(data.idCharge),
+                     $("#remark").val(data.remark)
+                },
+                "json"
+            )
+            //edit按钮绑定事件
+            $("#edit").click(function () {
+                console.log(id);
+                var data ={
+                        "id":id,
+                        "recordDate": $("#record_date").val(),
+                        "idPoultry": $("#id_patch").val(),
+                        "numProcessed": $("#sign").val(),
+                        "diseaes": $("#diseaes").val(),
+                        "numInfected": $("#num_infected").val(),
+                        "processingMode": $("#processing_mode").val(),
+                        "medicationMode": $("#medication_mode").val(),
+                        "dose": $("#dose").val(),
+                        "doseUnit": $("#dose_unit").val(),
+                        "idOutstorage": $("#id_outstorage").val(),
+                        "idRecorder": $("#id_recorder").val(),
+                        "idCharge": $("#id_charge").val(),
+                        "remark": $("#remark").val()
+                    }
+                console.log(data);
+                $.post(
+                    "/waterfowl/epidemic/edit/"+id,
+                    {
+                        "id":id,
+                        "recordDate": $("#record_date").val(),
+                        "idPatch": $("#id_patch").val(),
+                        "numProcessed": $("#sign").val(),
+                        "diseaes": $("#diseaes").val(),
+                        "numInfected": $("#num_infected").val(),
+                        "processingMode": $("#processing_mode").val(),
+                        "medicationMode": $("#medication_mode").val(),
+                        "dose": $("#dose").val(),
+                        "doseUnit": $("#dose_unit").val(),
+                        "idOutstorage": $("#id_outstorage").val(),
+                        "idRecorder": $("#id_recorder").val(),
+                        "idCharge": $("#id_charge").val(),
+                        "remark": $("#remark").val()
+                    },
+                    function () {
+                        window.location.href ="/waterfowl/epidemicManagePage/waitUploadList.html";
+                    },
+                    "json"
+                )
+            })
+        })
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null){
+                return  unescape(r[2]);
+            }
+            return null;
+        }
+    </script>
 </head>
 <body>
 <table>
@@ -44,7 +108,7 @@
     </tr>
     <tr>
         <td><input type="date" id="record_date"></td>
-        <td><input type="text" id="id_fowlery" placeholder="禽舍编号" ></td>
+        <td><input type="text" id="id_patch" placeholder="批次编号" ></td>
         <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
         <td><input type="text" id="diseaes" placeholder="疾病"></td>
         <td><input type="text" id="num_infected" placeholder="染病个体数"></td>
@@ -53,10 +117,10 @@
         <td><input type="text" id="dose" placeholder="剂量"></td>
         <td><input type="text" id="dose_unit" placeholder="剂量单位"></td>
         <td><input type="text" id="id_outstorage" placeholder="出仓表编号"></td>
-        <td><input type="text" id="id_recorder" placeholder="记录者编号"></td>
-        <td><input type="text" id="id_charge" placeholder="负责人编号"></td>
+        <td><input type="text" id="id_recorder" placeholder="记录者"></td>
+        <td><input type="text" id="id_charge" placeholder="负责人"></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><input type="button" class="btn" value="修改"></td>
+        <td><input type="button" class="btn" value="修改" id="edit"></td>
     </tr>
 </table>
 </body>

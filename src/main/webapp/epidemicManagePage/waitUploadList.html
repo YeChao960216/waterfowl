@@ -4,148 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>已上传记录列表</title>
+    <title>未上传记录列表</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <!--此处引入base.js-->
-    <script src="js/base.js"></script>
-    <script>
-        window.onload =function () {
-            zhanjia.popLayer(15);
-            zhanjia.selectAll();
-        }
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //页面初始化时获取数据
+            showList(1);
+
+            //查询：绑定事件
+            $("#search").click(function () {
+                showList();
+            })
+
+            //上传所选记录:因为在注册事件里面才获取动态加载的元素，所以不用放在回调函数中
+            zhanjia.upLoadList(document.getElementById("upLoad"))
+
+            function edit() {
+                var editBtns =document.getElementsByClassName("edit");
+                for(var i=0;i<editBtns.length;i++){
+                    editBtns[i].onclick =function () {
+                        //获取本记录的id
+                        var id =this.parentNode.parentNode.firstChild.lastChild.value;
+                        console.log(id);
+                        if(id!=null){
+                            //跳转到编辑页面
+                            window.location.href ="/waterfowl/epidemicManagePage/edit.html?id="+id;
+                        }
+                    }
+                }
+            }
+
+            function deleteFun() {
+                var deleteBtns =document.getElementsByClassName("delete");
+                for(var i=0;i<deleteBtns.length;i++) {
+                    deleteBtns[i].onclick = function () {
+                        //获取本记录的id
+                        var id = this.parentNode.parentNode.firstChild.lastChild.value;
+                        if (id != null && confirm("确定要删除？")) {
+                            //跳转到编辑页面
+                            //window.location.href ="/waterfowl/ddlManagePage/edit.html?id="+id;
+                            console.log(id);
+                            $.post(
+                                "/waterfowl/epidemic/delete/"+id,
+                                function () {
+                                    alert("删除成功！");
+                                    showList(document.getElementById("pageNum").value)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            /**
+             * 展示查询列表函数
+             * @param pageNum：int  将要跳转的页数
+             */
+            function showList(pageNum) {
+                //$.post(url,[data],[callback],[datatype])
+                $.post(
+                    "/waterfowl/epidemic/findList",
+                    {
+                        "recordDate":$("#record_date").val(),
+                        "id":$("#id").val(),
+                        "diseaes":$("#diseaes"),
+                        "processing_mode":$("#processing_mode").val(),
+                        "id_recorder":$("#id_recorder").val(),
+                        "id_charge":$("#id_charge").val(),
+                        "flag":0,
+                        "pageNum":pageNum//表示将要跳转的页数
+                    },
+                    function (data) {
+                        var content =""
+                        var o =null;
+                        for(var i=0;i<data.list.length;i++){
+                            o =data.list[i];
+                            content+='<tr>'+
+                                '<td><input type="checkbox" class="select"><input type="hidden" value='+o.id+'></td>'+//隐藏域获取id
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
+                                '<td>'+o.sign+'</td>'+
+                                '<td>'+o.diseaes+'</td>'+
+                                '<td>'+o.numInfected+'</td>'+
+                                '<td>'+o.processingMode+'</td>'+
+                                '<td>'+o.medicationMode+'</td>'+
+                                '<td>'+o.dose+'</td>'+
+                                '<td>'+o.doseUnit+'</td>'+
+                                '<td>'+o.idOutstorage+'</td>'+
+                                '<td>'+o.idRecorder+'</td>'+
+                                '<td>'+o.idCharge+'</td>'+
+                                '<td>'+o.remark+'</td>'+
+                                '<td><button class="btn edit">修改</button><button class="btn delete">删除</button></td>'+
+                                '</tr>'+' '
+                        }
+                        //向tbody中插入内容
+                        $("#content").html(content);
+
+                        //保存page对象的currentPage值和totalPage值
+                        zhanjia.showPageCut(data.pageNum,data.pages,showList);//调用展示分页函数,传入当前页数和总页数
+
+                        //全选全不选方法
+                        zhanjia.selectAll(document.getElementById("selectAll"),document.getElementsByClassName("select"))
+
+                        //edit方法
+                        edit();
+
+                        //删除方法
+                        deleteFun();
+                    },
+                    "json"
+                )
+            }
+        })
     </script>
-    <!-- `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
-  `fowlery_id` varchar(45) NOT NULL COMMENT '禽舍编号',
-  `inventory_id` varchar(45) DEFAULT NULL COMMENT '库存表编号',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
-  `sign` varchar(45) NOT NULL COMMENT '免疫、疫病标志',
-  `diseaes` varchar(45) NOT NULL COMMENT '疾病',
-  `num_total` int(11) NOT NULL COMMENT '个体总数',
-  `num_infected` int(11) NOT NULL COMMENT '染病个体数',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
-  `medication_mode` varchar(45) NOT NULL COMMENT '给药方式',
-  `dose` float NOT NULL COMMENT '剂量',
-  `dose_unit` varchar(45) NOT NULL COMMENT '剂量对应单位，例：ml、g',
-  `medication_amount` float NOT NULL COMMENT '用药总量，包含实际总使用量和损耗丢弃量。单位以对应消耗品在inv库存表中的unit属性为准，可以是：盒、ml、kg等',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
-  `id_batch` varchar(45) NOT NULL COMMENT '养殖批次',-->
-    <style>
-        body,html {
-            height: 100%;
-        }
-        .head_form {
-            margin:10px;
-        }
-        .head_form input {
-            margin-right:30px;
-        }
-    </style>
 </head>
 <body>
-<form action="/waterfowl/showAllByFlag/0" class="head_form">
-    <span>查询日期：</span><input type="date" id="record_date">
-    <span>所患疾病：</span><input type="text" id="diseaes" placeholder="输入所患疾病">
-    <span>处理方式：</span><input type="text" id="processing_mode" placeholder="输入处理方式">
-    <span>养殖批次：</span><input type="text" id="id_batch" placeholder="输入养殖批次">
-    <span>出库编号：</span><input type="text" id="inventory_id" placeholder="输入库存编号"><br>
-    <span>记录者编号：</span><input type="text" id="id_recorder" placeholder="输入记录者编号">
-    <span>负责人编号：</span><input type="text" id="id_charge" placeholder="输入负责人编号">
-    <input type="submit" value="查询"><br>
-    <span>单项操作：</span><button class="btn">删除选中</button>
-    <button class="btn">修改选中</button>
-</form>
-<table>
-    <tr>
-        <th><input type="checkbox" id="selectAll">全选</th>
-        <th>记录日期</th>
-        <th>养殖批次</th>
-        <th>禽舍编号</th>
-        <th>库存编号</th>
-        <th>免疫、疫病标志</th>
-        <th>疾病</th>
-        <th>个体总数</th>
-        <th>染病个体数</th>
-        <th>处理方式</th>
-        <th>给药方式</th>
-        <th>剂量</th>
-        <th>剂量单位</th>
-        <th>用药总量</th>
-        <th>记录者编号</th>
-        <th>负责人编号</th>
-        <th>备注</th>
-        <th>操作</th>
-    </tr>
-    <tr>
-        <td><input type="checkbox"></td>
-        <td>2017-10-26</td>
-        <td>养殖批次</td>
-        <td>禽舍编号</td>
-        <td>库存编号</td>
-        <td>免疫、疫病标志</td>
-        <td>疾病</td>
-        <td>个体总数</td>
-        <td>染病个体数</td>
-        <td>处理方式</td>
-        <td>给药方式</td>
-        <td>剂量</td>
-        <td>剂量单位</td>
-        <td>用药总量</td>
-        <td>记录者编号</td>
-        <td>负责人编号</td>
-        <td class="remark">我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人</td>
-        <td>
-            <button class="btn">修改</button>
-            <button class="btn">删除</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox"></td>
-        <td>2017-10-26</td>
-        <td>养殖批次</td>
-        <td>禽舍编号</td>
-        <td>库存编号</td>
-        <td>免疫、疫病标志</td>
-        <td>疾病</td>
-        <td>个体总数</td>
-        <td>染病个体数</td>
-        <td>处理方式</td>
-        <td>给药方式</td>
-        <td>剂量</td>
-        <td>剂量单位</td>
-        <td>用药总量</td>
-        <td>记录者编号</td>
-        <td>负责人编号</td>
-        <td class="remark">我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人</td>
-        <td>
-            <button class="btn">修改</button>
-            <button class="btn">删除</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox"></td>
-        <td>2017-10-26</td>
-        <td>养殖批次</td>
-        <td>禽舍编号</td>
-        <td>库存编号</td>
-        <td>免疫、疫病标志</td>
-        <td>疾病</td>
-        <td>个体总数</td>
-        <td>染病个体数</td>
-        <td>处理方式</td>
-        <td>给药方式</td>
-        <td>剂量</td>
-        <td>剂量单位</td>
-        <td>用药总量</td>
-        <td>记录者编号</td>
-        <td>负责人编号</td>
-        <td class="remark">我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人，我是中国人</td>
-        <td>
-            <button class="btn">修改</button>
-            <button class="btn">删除</button>
-        </td>
-    </tr>
-</table>
+    <div id="action">
+        <input type="date" id="record_date">
+        <input type="text" id="diseaes" placeholder="所患疾病">
+        <input type="text" id="processing_mode" placeholder="处理方式">
+        <input type="text" id="id_patch" placeholder="禽舍编号">
+        <input type="text" id="id_recorder" placeholder="记录者">
+        <input type="text" id="id_charge" placeholder="负责人">
+        <input type="button" value="查询" class="btn" id="search">
+        <span>|</span>
+        <input type="button" value="上传记录" class="btn" id="upLoad">
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll">全选</th>
+            <th>记录日期</th>
+            <th>批次编号</th>
+            <th>免疫、疫病标志</th>
+            <th>疾病</th>
+            <th>染病个体数</th>
+            <th>处理方式</th>
+            <th>给药方式</th>
+            <th>剂量</th>
+            <th>剂量单位</th>
+            <th>出仓表编号</th>
+            <th>记录者编号</th>
+            <th>负责人编号</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="content">
+
+        </tbody>
+    </table>
+    <div id="pageCut">
+        <span id="first">首页</span>
+        <span id="pre">&lt;&lt;</span>
+        <span>第</span> <input type="text" id="pageNum"><span>页</span>
+        <span id="pages"></span>
+        <span id="next">&gt;&gt;</span>
+        <span id="last">尾页</span>
+    </div>
 </body>
+<script src="../ddlManagePage/js/base.js"></script>
 </html>

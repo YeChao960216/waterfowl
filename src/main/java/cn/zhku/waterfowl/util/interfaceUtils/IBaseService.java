@@ -15,8 +15,7 @@ public interface  IBaseService<T> {
      * @param entity
      *            映射数据库单表的实体类
      * @return 影响行数
-     * @throws Exception
-     *             抛出参数错误、SQL操作等异常
+     * @throws Exception     抛出参数错误、SQL操作等异常
      */
     public int add(T entity) throws Exception;
 
@@ -26,8 +25,7 @@ public interface  IBaseService<T> {
      * @param entity
      *            映射数据库单表的实体类
      * @return 影响行数
-     * @throws Exception
-     *             抛出参数错误、SQL操作等异常
+     * @throws Exception     抛出参数错误、SQL操作等异常
      */
     public int update(T entity) throws Exception;
 
@@ -37,8 +35,7 @@ public interface  IBaseService<T> {
      * @param entity
      *            映射数据库单表的实体类
      * @return 影响行数
-     * @throws Exception
-     *             抛出参数错误、SQL操作等异常
+     * @throws Exception     抛出参数错误、SQL操作等异常
      */
     public int delete(T entity) throws Exception;
 
@@ -47,8 +44,8 @@ public interface  IBaseService<T> {
      *
      * @param id
      *            主键ID
-     * @return
-     * @throws Exception
+     * @return      实体
+     * @throws Exception      抛出参数错误、SQL操作等异常
      */
     public T get(String id) throws Exception;
 
@@ -58,8 +55,7 @@ public interface  IBaseService<T> {
      * @param entity
      *            映射数据库单表的实体类
      * @return 影响行数
-     * @throws Exception
-     *             抛出参数错误、SQL操作等异常
+     * @throws Exception     抛出参数错误、SQL操作等异常
      */
     public T get(T entity) throws Exception;
 
@@ -69,8 +65,7 @@ public interface  IBaseService<T> {
      * @param entity
      *            映射数据库单表的实体类
      * @return 影响行数
-     * @throws Exception
-     *             抛出参数错误、SQL操作等异常
+     * @throws Exception    抛出参数错误、SQL操作等异常
      */
     public List<T> findList(T entity) throws Exception;
 }
