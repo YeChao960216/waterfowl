@@ -40,5 +40,6 @@ DataFilter.prototype = {
             }
         });
         return data;
-    }
+    },
+
 }
