@@ -61,7 +61,7 @@ public interface FowleryDao {
      * @return
      */
     @Select("SELECT remark from dictionary where id=#{s}")
-    String selectSizeByDic(String s);
+    String  selectSizeByDic(String s);
 
     @Select("SELECT id from out_poultry where id_patch=(SELECT  id from patch where id_fowlery=#{id})")
     String selectFowleryStatus(String id);

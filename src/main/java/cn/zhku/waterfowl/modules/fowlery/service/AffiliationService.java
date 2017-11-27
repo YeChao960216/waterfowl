@@ -118,7 +118,7 @@ public class AffiliationService implements IBaseService<Affiliation> {
     }
 
     /**
-     * 通过这三个查找数据
+     * 通过这三个查 找数据
      * @param type
      * @param position
      * @param size
@@ -128,6 +128,6 @@ public class AffiliationService implements IBaseService<Affiliation> {
         AffiliationExample affiliationExample=new AffiliationExample();
         AffiliationExample.Criteria criteria=affiliationExample.createCriteria();
         criteria.andTypeEqualTo(type).andPositionEqualTo(position).andSizeEqualTo(size);
-        return affiliationMapper.selectByExample(affiliationExample);
+        return  affiliationMapper.selectByExample(affiliationExample);
     }
 }

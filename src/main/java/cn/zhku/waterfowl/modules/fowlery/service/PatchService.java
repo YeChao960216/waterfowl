@@ -109,7 +109,7 @@ public class PatchService implements IBaseService<Patch>{
      * @param
      * @return
      */
-    public String selectSizeByDic(String s) {
+    public  String selectSizeByDic(String s) {
         return dao.selectSizeByDic(s);
     }
 
