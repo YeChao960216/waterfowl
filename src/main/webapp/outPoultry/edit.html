@@ -10,6 +10,7 @@
 <body>
     <form >
     <table>
+        <caption>修改出库信息</caption>
             <tr>
                 <th>条目</th>
                 <th>信息</th>
@@ -17,17 +18,21 @@
             <tr style="display:none">
                 <td>id</td>
                 <td><input  name="id" id="id" ></td>
+                </tr>
+            <tr>
+                <td>出厂编号</td>
+                <td><select name="id_outstorage" id="id_outstorage" class="select-fix-input"></select></td>
             </tr>
             <tr>
-                <td>禽舍类型</td>
-                <td><select  name="name" id="name" class="select-fix-input" ></select></td>
+                <td>家禽种类</td>
+                <td><select  name="type" id="type" class="select-fix-input" ></select></td>
             </tr>
             <tr>
                 <td>禽舍编号</td>
                 <td><input type="text" name="id_fowlery" id="id_fowlery" placeholder="禽舍编号"></td>
             </tr>
             <tr>
-                <td>养殖批次编号</td>
+                <td>批次号</td>
                 <td><input type="text" name="id_patch" id="id_patch" placeholder="养殖批次编号"></td>
             </tr>
             <tr>
@@ -50,14 +55,7 @@
                 <td>负责人编号</td>
                 <td><input type="text" name="id_charge" id="id_charge" placeholder="负责人编号"></td>
             </tr>
-            <tr>
-                <td>出库编号</td>
-                <td><select name="id_outstorage" id="id_outstorage" class="select-fix-input"></select></td>
-            </tr>
-            <tr>
-                <td>禽类养殖阶段标识</td>
-                <td><select name="status" id="status" class="select-fix-input"></select></td>
-            </tr>
+
             <tr>
                 <td>备注</td>
                 <td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>

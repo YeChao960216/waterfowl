@@ -1,6 +1,5 @@
-﻿(function(global){
+﻿(function(){
 
-    var document = global.document;
     /**
      * url对象
      */
@@ -8,8 +7,8 @@
         PRONAME:'/waterfowl',
         ID : getRequest()['id'],
         GETINFOBYID:'/outpoultry/show',
-        GETNAME : '/outpoultry/list',//获取禽舍类型
-        GETPATCH : '/outpoultry/list',//?s = 获取出厂批次
+        GETTYPE : '/getDicName/getBreedingType',//获取家禽种类
+        GETPATCH : '/outstorage/show',//?s = 获取出厂批次
         EDIT:'/outpoultry/edit'
     };
 
@@ -17,11 +16,11 @@
      /**
      * 列出家禽种类
      */
-    $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
+    $.get(oURL.PRONAME+oURL.GETTYPE,function(res){
+        if(res){
             viewCommand({
                 command:'display',
-                param:[$('type')[0],res.list,'option']
+                param:[$('#type')[0],res,'option']
             });
         }else{
             alert('获取家禽种类失败');
@@ -29,16 +28,16 @@
     });
 
      /**
-      * 列出出库编号
+      * 列出出厂批次
       */
       $.get(oURL.PRONAME+oURL.GETPATCH,function(res){
-        if(res.status){
+        if(res){
             viewCommand({
                 command:'display',
-                param:[$('id_patch')[0],res.list,'option']
+                param:[$('#id_outstorage')[0],res.list,'outStorage']
             });
         }else{
-            alert('获取批次编号');
+            alert('获取批次编号失败');
         }
     });
 
@@ -61,14 +60,14 @@
             // })[0];
             
             var data = res.data;
-            $('#type')[0].innerHTML = data.type;
-            $('#id_patch')[0].innerHTML = data.id_patch;
-            $('#quantity')[0].innerHTML = data.quantity;
-            $('#unit')[0].innerHTML = data.unit;
-            $('#firm')[0].innerHTML = data.firm;
-            $('#phone')[0].innerHTML = data.phone;
-            $('#id_recorde')[0].innerHTML = data.id_recorde;
-            $('#id_charge')[0].innerHTML = data.id_charge;
+            $('#type')[0].value = data.type;
+            $('#id_patch')[0].value = data.idPatch;
+            $('#quantity')[0].value = data.quantity;
+            $('#unit')[0].value = data.unit;
+            $('#firm')[0].value = data.firm;
+            $('#phone')[0].value = data.phone;
+            $('#id_recorde')[0].value = data.idRecorde;
+            $('#id_charge')[0].value = data.idCharge;
             $('#remark')[0].value = data.remark;
             
         }else{
@@ -79,7 +78,7 @@
     /**
      * 提交修改
      */
-    document.getElementById('#submit').onclick = function(){
+    $('#submit')[0].onclick = function(){
         var json = JSON.stringify(queryParse.call($('form')));
             $.post(oURL.PRONAME+oURL.EDIT,json,function(res){
                 if(res.status){
@@ -90,7 +89,7 @@
             });
     }
 
-})(this);
+})();
 
     
 

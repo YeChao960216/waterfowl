@@ -23,10 +23,7 @@ var Page = function(dom,tpl){
 					// 		console.err('获取分页数据失败');
 					// 	}
 					// }
-					console.log("第"+num+"页正在请求......");
-					cache[num]= [{text:'1'},{text:'222222222'}];
-					console.log("请求成功,第"+num+"页已经被缓存");
-					console.log("已在页面显示");
+
 					this.displayPage(num);
 				}
 
