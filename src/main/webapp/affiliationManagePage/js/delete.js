@@ -120,7 +120,7 @@ $.ajax({
             var  idCharge=item.idCharge;
             var  idRecorder=item.idRecorder;
             html="<tr>" +
-                "<td><input type='checkbox' class='selectArr'></td>" +
+                "<td><input type='checkbox' class='selectArr' name='check[]'></td>" +
                 "<td>"+type+"</td>" +
                 "<td>"+position+"</td>" +
                 "<td>"+size+"</td>" +
@@ -207,3 +207,35 @@ function batchDelete() {
         }
     })
 }*/
+
+
+//批量删除
+$('#deleteChecked').click(function () {
+
+        //判断是否选择一项
+        var checks = $("input[name='check[]']:checked").length;
+        if(checks.length == 0)
+        {
+            alert('未选择任何项!');
+            return false;
+        }
+
+    if (confirm('确定要删除选择项吗?'))
+    {
+        //批量选择
+        var checkedList = new Array();
+        $("input[name='check[]']:checked").each(function () {
+            checkedList.push($(this).val());
+        });
+    }
+
+    $.ajax({
+        type:"POST",
+        url:"",
+        data:{'item':checkedList},
+        success:function (result) {
+            alert(result);
+            window.location.reload();
+        }
+    })
+});

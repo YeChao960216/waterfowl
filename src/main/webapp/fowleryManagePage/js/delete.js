@@ -193,4 +193,34 @@ function deleteBtn(obj)
     tr.parentNode.removeChild(tr);//从tr的父元素[tbody]移除tr
 }
 
-//全部删除
+
+//批量删除
+$('#deleteChecked').click(function () {
+
+    //判断是否选择一项
+    var checks = $("input[name='check[]']:checked").length;
+    if(checks.length == 0)
+    {
+        alert('未选择任何项!');
+        return false;
+    }
+
+    if (confirm('确定要删除选择项吗?'))
+    {
+        //批量选择
+        var checkedList = new Array();
+        $("input[name='check[]']:checked").each(function () {
+            checkedList.push($(this).val());
+        });
+    }
+
+    $.ajax({
+        type:"POST",
+        url:"",
+        data:{'item':checkedList},
+        success:function (result) {
+            alert(result);
+            window.location.reload();
+        }
+    })
+});
