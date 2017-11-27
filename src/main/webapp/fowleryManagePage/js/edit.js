@@ -9,47 +9,40 @@ var data=[{
     idRecorder:"wenzhi",
     idCharge:"zhuowenzhi"
 }];
-var size=[{
-    size:[99,100,101]
-
-}];
-var status=[{
-    status:["满员","未满员"]
-
-}];
-var affiliation=[{
-    affiliation:["东1","西2","南3"]
-}]
-var data3=[{
-    size:99,
-    affiliation:"东1"
-}]
-
 
 //先从数据字典获取所有的数据生成下拉框
 $.ajax({
     url:"",
     datatype:"post",
-    success:function (data3) {
-        for (var j=0;j<size.length;j++)
-        {
-            $("#size").append("<option>"+size[j]+"</option>");
-        }
-        for (var j=0;j<status.length;j++)
-        {
-            $("#status").append("<option>"+status[j]+"</option>");
-        }
+    success:function (data) {
+        $('#size').each(function (i,n) {
+            $("#size").append("<option value='+size.n+'>"+size.n+"</option>");
+        })
+    }
+})
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $('#affiliation').each(function (i,n) {
+            $("#affiliation").append("<option value='+affiliation.n+'>"+affiliation.n+"</option>");
+        })
 
-        for(var n=0;n<affiliation;n++)
-        {
-            $("#affiliation").append("<option>"+affiliation[n]+"</option>");
-        }
+    }
+})
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $('#status').each(function (i,n) {
+            $("#status").append("<option value='+status.n+'>"+status.n+"</option>");
+        })
+
     }
 })
 
-
-
-$(function () {
     //查询按钮
     $('#btn').click(function () {
 
@@ -101,7 +94,7 @@ $(function () {
             alert(data);
         })
 
-    });
+
     //修改按钮
     $('.edit').click(function () {
         //把size发送到字典，返回数据生成下拉框，status只允许显示，不能修改

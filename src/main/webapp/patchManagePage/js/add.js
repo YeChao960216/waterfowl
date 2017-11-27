@@ -12,35 +12,48 @@ var data=[{
     idCharge:"zhuowenzhi"
 }];
 
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#type").each(function (i,n) {
+            $("#type").append("<option>"+type.n+"</option>");
+        })
+    }
+});
 
-var type=[{
-    type:["鸭子1","鸭子2","鸭子3"]
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#position").each(function (i,n) {
+            $("#position").append("<option>"+position.n+"</option>");
+        })
+    }
+});
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#size").each(function (i,n) {
+            $("#size").append("<option>"+size.n+"</option>");
+        })
+    }
+});
 
-}];
-
-var position=[{
-    position:["东","西","南"]
-}];
-var size=[{
-    size:[99,100,101]
-
-}];
-var affiliation=[{
-    affiliation:["归属的大禽舍1","归属的大禽舍2","归属的大禽舍3"]
-}];
-
-var idFowlery=[{
-    idFowlery:["idFowlery1","idFowlery2","idFowlery3"]
-}];
-var data3=[{
-    type:"鸭子1",
-    position:"东",
-    size:100,
-    affiliation:"归属的大禽舍1",
-    idFowlery:"idFowlery1",
-    idRecorder:"wenzhi",
-    idCharge:"zhuowenzhi"
-}]
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#affiliation").each(function (i,n) {
+            $("#affiliation").append("<option>"+affiliation.n+"</option>");
+        })
+    }
+});
 
 //生成下拉框的
 $.ajax({
@@ -48,33 +61,13 @@ $.ajax({
     type: "post",
     dataType: "json",
     success: function () {
-        console.log("发送成功！！！");
-        for(var i=0;i<type.length;i++)
-        {
-            $("#type").append("<option>"+type[i]+"</option>");
-        }
-        for(var j=0;j<position.length;j++)
-        {
-            $("#position").append("<option>"+position[j]+"</option>");
-        }
-        for (var k=0;k<size.length;k++)
-        {
-            $("#size").append("<option>"+size[k]+"</option>");
-        }
-        for(var m=0;m<affiliation.length;m++)
-        {
-            $("#affiliation").append("<option>"+affiliation[m]+"</option>");
-        }
-        for(var n=0;n<idFowlery.length;n++)
-        {
-            $("#idFowlery").append("<option>"+idFowlery[n]+"</option>");
-        }
-
+        $("#idFowlery").each(function (i,n) {
+            $("#idFowlery").append("<option>"+idFowlery.n+"</option>");
+        })
     }
-})
-
+});
 //增加按钮增加批次
-$(function () {
+
     $('#add').click(function () {
 
         //发送数据到养殖批次表
@@ -88,7 +81,7 @@ $(function () {
             success: function () {
                 console.log("发送成功！！！");
             }
-        })
+        });
 
         //发送数据到字典的
         $.ajax({
@@ -103,7 +96,8 @@ $(function () {
             success: function () {
                 console.log("发送成功！！！");
             }
-        })
+        });
+
         //发送数据到禽舍表的
         $.ajax({
             url: "",
@@ -115,7 +109,7 @@ $(function () {
             success: function () {
                 console.log("发送成功！！！");
             }
-        })
+        });
 
         //发送数据到user表的
         $.ajax({
@@ -131,5 +125,4 @@ $(function () {
             }
         })
 
-    })
-});
+    });

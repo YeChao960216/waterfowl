@@ -7,54 +7,50 @@ var data=[{
     idCharge:"zhuowenzhi"
 }];
 
-var type=[{
-    type:["鸭子1","鸭子2","鸭子3"]
-
-}];
-var size=[{
-    size:[99,100,101]
-
-}];
-var position=[{
-    position:["东","西","南"]
-}]
-var status=[{
-    status:["满员","不满员"]
-}]
-var data3=[{
-    type:"鸭子1",
-    size:99,
-    position:"东"
-}]
-
 
 //先从数据字典获取所有的数据生成下拉框
 $.ajax({
     url:"",
     datatype:"post",
-    success:function (data3) {
-        for(var i=0;i<type.length;i++)
-        {
-            $("#type").append("<option>"+type[i]+"</option>");
-        }
-        for (var j=0;j<size.length;j++)
-        {
-            $("#size").append("<option>"+size[j]+"</option>");
-        }
-        for(var m=0;m<status;m++)
-        {
-            $("#status").append("<option>"+status[m]+"</option>");
-        }
-        for(var n=0;n<position;n++)
-        {
-            $("#position").append("<option>"+position[n]+"</option>");
-        }
+    success:function (data) {
+        $("#type").each(function (i,n) {
+            $("#type").append("<option>"+type.n+"</option>");
+        })
+    }
+})
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#size").each(function (i,n) {
+            $("#size").append("<option>"+size.n+"</option>");
+        })
+    }
+})
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#position").each(function (i,n) {
+            $("#position").append("<option>"+position.n+"</option>");
+        })
+    }
+})
+
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data) {
+        $("#status").each(function (i,n) {
+            $("#status").append("<option>"+status.n+"</option>");
+        })
     }
 })
 
 
-
-    //查询按钮发送的数据
+//查询按钮发送的数据
     $('#btn').click(function () {
         //发送到字典的
         $.ajax({
