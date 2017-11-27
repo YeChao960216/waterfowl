@@ -7,9 +7,64 @@ var data=[{
     idCharge:"zhuowenzhi"
 }];
 
+var data1=[{
+    type:["鸭子1","鸭子2","鸭子3"],
+    size:[99,100,101],
+    position:["东","西","南"],
+    status:["满员","不满员"]
+}]
+var type=[{
+    type:["鸭子1","鸭子2","鸭子3"]
 
-console.log(data);
-$(function () {
+}];
+var size=[{
+    size:[99,100,101]
+
+}];
+var position=[{
+    position:["东","西","南"]
+}]
+var status=[{
+    status:["满员","不满员"]
+}]
+var data3=[{
+    type:"鸭子1",
+    size:99,
+    position:"东"
+}]
+
+
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data1) {
+        console.log(1);
+        for(var i=0;i<type.length;i++)
+        {
+            $("#type").append("<option>"+type[i]+"</option>");
+        }
+        for (var j=0;j<size.length;j++)
+        {
+            $("#size").append("<option>"+size[j]+"</option>");
+        }
+        for(var m=0;m<status;m++)
+        {
+            $("#status").append("<option>"+status[m]+"</option>");
+        }
+        for(var n=0;n<position;n++)
+        {
+            $("#position").append("<option>"+position[n]+"</option>");
+        }
+    },
+    error:function(){
+        console.log(1);
+    }
+})
+
+
+
+    //点击查询按钮的
     $('#btn').click(function () {
         //发送到字典的
         $.ajax({
@@ -18,7 +73,7 @@ $(function () {
             dataType:"json",
             data: {
                 "type":$('#type').val(),//养殖类型
-                "position":$('#position'),//方位
+                "position":$('#position').val(),//方位
                 "size":$('#size').val(),//规格
                 "status":$('#status').val(),//使用状态
             },
@@ -41,21 +96,15 @@ $(function () {
             }
         });
 
-        // 加载整个页面的
-        $.ajax({
-            url:"",
-            type:"post",
-            dataType:"json",
-            data: {
-                "type":$('#type').val(),//养殖类型
-                "position":$('#position'),//方位
-                "size":$('#size').val(),//规格
-                "status":$('#status').val(),//使用状态
-                " idCharge": $('#idCharge').val(),//负责人编号
-                "idRecorder":$('#idRecorder').val(),//记录者编号
-            },
-        })
-    });
+
+
+    // 加载整个页面的
+    $.ajax({
+        url:"",
+        type:"post",
+        dataType:"json",
+        success:succFunction(data)
+    })
     succFunction(data);
     function succFunction(data1) {
 

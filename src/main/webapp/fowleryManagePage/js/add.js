@@ -9,6 +9,37 @@ var data=[{
     idCharge:"zhuowenzhi"
 }];
 
+
+var size=[{
+    size:[99,100,101]
+
+}];
+var affiliation=[{
+    affiliation:["东1","西2","南3"]
+}];
+var data3=[{
+    size:99,
+    affiliation:"东1"
+}]
+
+
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data3) {
+
+        for (var j=0;j<size.length;j++)
+        {
+            $("#size").append("<option>"+size[j]+"</option>");
+        }
+        for(var n=0;n<affiliation;n++)
+        {
+            $("#affiliation").append("<option>"+affiliation[n]+"</option>");
+        }
+    }
+})
+
 $(function () {
     //Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框
     $.ajax({

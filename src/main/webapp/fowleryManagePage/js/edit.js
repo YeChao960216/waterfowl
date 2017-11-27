@@ -9,42 +9,52 @@ var data=[{
     idRecorder:"wenzhi",
     idCharge:"zhuowenzhi"
 }];
+var size=[{
+    size:[99,100,101]
+
+}];
+var status=[{
+    status:["满员","未满员"]
+
+}];
+var affiliation=[{
+    affiliation:["东1","西2","南3"]
+}]
+var data3=[{
+    size:99,
+    affiliation:"东1"
+}]
 
 
-console.log(data);
+//先从数据字典获取所有的数据生成下拉框
+$.ajax({
+    url:"",
+    datatype:"post",
+    success:function (data3) {
+        for (var j=0;j<size.length;j++)
+        {
+            $("#size").append("<option>"+size[j]+"</option>");
+        }
+        for (var j=0;j<status.length;j++)
+        {
+            $("#status").append("<option>"+status[j]+"</option>");
+        }
+
+        for(var n=0;n<affiliation;n++)
+        {
+            $("#affiliation").append("<option>"+affiliation[n]+"</option>");
+        }
+    }
+})
+
+
+
 $(function () {
-    //查询
+    //查询按钮
     $('#btn').click(function () {
-        //Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框，负责人，记录人
-        $.ajax({
-            url:"",
-            type:"POST",
-            seccess:function (data) {
-                console.log("Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框");
-                console.log("-------success----");
-                for (var i=0;i<size.length;i++)
-                {
-                    $('#size').append("<option value='"+size[i]+"'>"+"规格"+size+"</option>");
-                }
-                $('#status').append("<option value='"+status+"'>"+"使用状态"+size+"</option>");
-
-                for(var j=0;k<affiliation.length;j++)
-                {
-                    $('#affiliation').append("<option value='"+affiliation[j]+"'>"+"大禽舍"+affiliation+"</option>");
-                }
-                for (var m=0;m<idCharge.length;m++)
-                {
-                    $('#idCharge').append("<option value='"+idCharge+"'>"+"负责人"+idCharge+"</option>");
-                }
-                for(var n=0;n<idRecorder.length;n++)
-                {
-                    $('#idRecorder').append("<option value='"+idRecorder+"'>"+"记录者"+idRecorder+"</option>");
-                }
-            }
-        });
 
         //把size发送到字典，返回数据生成下拉框，status只允许显示，不能修改
-        $('#add').click(function () {
+        $('#btn').click(function () {
             $.ajax({
                 url:"",
                 type:"POST",
@@ -91,53 +101,72 @@ $(function () {
             alert(data);
         })
 
-        //显示页面的所有记录
-        $.ajax({
-            url:"",
-            type:"post",
-            dataType:"json",
-            data: {
-                "size":$('#size').val(),
-                "status":$('#status').val(),
-                "affiliation":$("#affiliation"),
-                "idRecorder":$('#idRecorder').val(),
-                "idCharge": $('#idCharge').val()
-            },
-            success:function (){
-                alert(1111);
-            }
+    });
+    //修改按钮
+    $('.edit').click(function () {
+        //把size发送到字典，返回数据生成下拉框，status只允许显示，不能修改
+        $('#btn').click(function () {
+            $.ajax({
+                url:"",
+                type:"POST",
+                datatype:"json",
+                data:{
+                    "size":$('#size').val(),//规格字典查
+                    "status":$('#status').val(),
+                },
+                success:function(data){
+                    console.log("传送规格成功");
+                    console.log("传送状态成功");
+                }
+            });
 
+            //归属的大禽舍,大禽舍表查
+            $.ajax({
+                url:"",
+                type:"POST",
+                datatype:"json",
+                data:{
+                    "affiliation":$('#affiliation').val(),//归属的大禽舍,大禽舍表查
+                },
+                success:function(data){
+                    console.log("传送归属的大禽舍成功");
+                    $('#affiliation').append("<option value='"+affiliation+"'>"+"大禽舍"+affiliation+"</option>");
+
+                }
+            });
+
+            //负责人编号，user表查,记录者编号，user表查,返回所有表格的数据
+            $.ajax({
+                url:"",
+                type:"POST",
+                datatype:"json",
+                data:{
+                    "idCharge": $('#idCharge').val(),//负责人编号，user表查
+                    "idRecorder":$('#idRecorder').val(),//记录者编号，user表查
+                },
+                success:function(data){
+                    console.log("传送归属的负责人编号成功,记录者编号");
+                }
+            });
+
+            alert(data);
         })
     });
-    //修改
-    $('#edit').click(function () {
-        alert("111");
-        $.ajax({
-            url:"",
-            type:"post",
-            dataType:"json",
-            data: {
-                "size":$('#size').val(),
-                "status":$('#status').val(),
-                "affiliation":$("#affiliation"),
-                "idRecorder":$('#idRecorder').val(),
-                "idCharge": $('#idCharge').val()
-            },
-            success:function(){
-                alert(111);
-            }
 
-        })
-    });
+
+    //显示页面的所有记录
+    $.ajax({
+        url:"",
+        type:"post",
+        dataType:"json",
+        success:succFunction(data)
+    })
     var html = '';
     succFunction(data);
     function succFunction(data1) {
-        //eval将字符转化为对象数组 eval('1'+'2') //3
         var json = data1;
         $.each(json,function (index,item) {
             //循坏数据
-            var html='';
-            alert(item);
             var  size=item.size;
             var  status=item.status;
             var  affiliation=item.affiliation;
