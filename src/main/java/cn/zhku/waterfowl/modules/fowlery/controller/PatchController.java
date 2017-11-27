@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.controller;
 
+import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
 import cn.zhku.waterfowl.modules.fowlery.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
@@ -23,6 +24,8 @@ import java.util.List;
 public class PatchController {
     @Autowired
     PatchService patchService;    //批次号
+    @Autowired
+    AffiliationService affiliationService;
 
     /**
      * 通过id展示批次列表
@@ -63,7 +66,7 @@ public class PatchController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("editPatch")
+    @RequestMapping("editPatch/{id}")
     public int editPatch(@PathVariable String id,Patch patch) throws Exception {
         patch.setId(id);
         return patchService.update(patch);
@@ -112,14 +115,11 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("selectAffliation")
-    public List<Affiliation> selectAffiliation(@PathVariable  String type,String position,String size){
-        Affiliation affiliation=new Affiliation();
+    public List<Affiliation> selectAffiliation(String type, String position, String size){
 
-        affiliation.setType(type);
-        affiliation.setPosition(position);
-        affiliation.setSize(size);
+        //前端输进来的是数据字典的name的字段，我们要保存的是数据字典中的id
+        List<Affiliation> affiliationList=affiliationService.selectAffiliation(type,position,size);
 
-        List<Affiliation> affiliationList=patchService.selectAffiliation(type,position,size);
 
         //如果该归属表是还没有被使用的话
         for(int i=0;i<affiliationList.size();i++){
@@ -128,7 +128,6 @@ public class PatchController {
                 affiliationList.remove(i);      //如果归属表被使用了，移除
             }
         }
-
         return affiliationList;
     }
 
@@ -157,6 +156,31 @@ public class PatchController {
     }
 
 
+    /**
+     * 根据被选择的小禽舍去修改状态
+     * @param id 小禽舍的id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("updateStatusByid/{id}")
+    public int updateStatusByid(@PathVariable String id){
+        //修改小禽舍的状态
+        patchService.updateStatusByid(id);
+
+        int i=0;
+        //修改后执行大禽舍状态的改变
+        if(patchService.updateAffStatus(id)==null){
+            //全部都是1的状态，没有0的状态，则要改变大禽舍的状态为1
+            i=patchService.changeAffStatus(id);
+        }else {
+            //含有0，不用修改大禽舍的状态
+            i=0;
+        }
+        return i;
+    }
+
+
+
     /*
     判断是否还可以再选
      */
@@ -176,9 +200,9 @@ public class PatchController {
         for(int i=0;i<sizeList.size();i++){
             String size=patchService.selectSizeByDic(sizeList.get(i));
 
-            int s=Integer.parseInt(size);    //解析
+            int s=Integer.parseInt(size);
 
-            su=su+s;   //求 和
+            su=su+s;   //求和
         }
 
         if(sum>su){
@@ -186,5 +210,15 @@ public class PatchController {
         }else{
             return 0;    //不能继续查找
         }
+    }
+
+    /**
+     * 获取禽舍中最新的条记录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getNewPatch")
+    public Patch getNewPatch(){
+        return patchService.getNewPatch();
     }
 }

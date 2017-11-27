@@ -119,7 +119,7 @@ public class FowleryService implements IBaseService<Fowlery> {
     }
 
     /**
-     * 通过affiliation的id获 取fowlery
+     * 通过affiliation的id获取fowlery
      * @param affiliation
      * @return
      */
