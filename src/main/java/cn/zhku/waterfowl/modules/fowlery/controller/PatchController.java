@@ -198,7 +198,7 @@ public class PatchController {
         //遍历集合，达到结果后去查询数据字典，再相加
         int su=0;
         for(int i=0;i<sizeList.size();i++){
-            String  size=patchService.selectSizeByDic(sizeList.get(i));
+            String size=patchService.selectSizeByDic(sizeList.get(i));
 
             int s=Integer.parseInt(size);
 

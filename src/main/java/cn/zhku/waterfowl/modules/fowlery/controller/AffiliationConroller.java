@@ -97,7 +97,7 @@ public class AffiliationConroller {
     @RequestMapping("newAffiliation")
     public int addAffiliation(Affiliation affiliation) throws Exception {
         affiliation.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        return  affiliationService.add(affiliation);
+        return affiliationService.add(affiliation);
     }
 
     /**

@@ -127,7 +127,7 @@ public class FowleryService implements IBaseService<Fowlery> {
         return dao.findFowleryByAId(affiliation);
     }
 
-    public String  selectFowleryStatus(String id) {
+    public String selectFowleryStatus(String id) {
         return  dao.selectFowleryStatus(id);
     }
 }
