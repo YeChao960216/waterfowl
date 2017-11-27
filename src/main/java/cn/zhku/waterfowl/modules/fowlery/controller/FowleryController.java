@@ -81,7 +81,7 @@ public class FowleryController {
 
 
     /**
-     * 删除小禽舍
+     * 删除小 禽舍
      * @param id
      * @return 状态码，1为成功，0为失败
      */

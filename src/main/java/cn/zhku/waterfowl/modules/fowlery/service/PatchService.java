@@ -87,7 +87,7 @@ public class PatchService implements IBaseService<Patch>{
     }
 
     /**
-     * 通过affiliation查找到小禽舍信息
+     * 通过affiliation查找到 小禽舍信息
      * @param affiliation
      * @return
      */

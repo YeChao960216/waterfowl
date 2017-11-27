@@ -54,7 +54,7 @@ public interface FowleryDao {
     List<String> getFowlerySize(String id_poultry);
 
     /**
-     * 根据size查找数据字典
+     * 根据size查 找数据字典
      * @param s
      * @return
      */

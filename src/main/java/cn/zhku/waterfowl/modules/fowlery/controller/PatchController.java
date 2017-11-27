@@ -178,7 +178,7 @@ public class PatchController {
 
             int s=Integer.parseInt(size);    //解析
 
-            su=su+s;   //求和
+            su=su+s;   //求 和
         }
 
         if(sum>su){

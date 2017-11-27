@@ -84,7 +84,7 @@ public class AffiliationService implements IBaseService<Affiliation> {
         if (entity.getIdCharge() != null) {
             criteria.andIdChargeLike("%" + entity.getIdCharge() + "%");
         }
-        //通过idrecord
+        //通过idre cord
         if (entity.getIdRecord() != null) {
             criteria.andIdRecordLike("%" + entity.getIdRecord() + "%");
         }

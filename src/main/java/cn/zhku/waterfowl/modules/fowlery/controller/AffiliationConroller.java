@@ -28,7 +28,7 @@ public class AffiliationConroller {
     FowleryService fowleryService;      //小禽舍
 
     /**
-     * 通过id查找大禽舍
+     * 通过id查找大 禽舍
      * @param id
      * @return
      * @throws Exception
