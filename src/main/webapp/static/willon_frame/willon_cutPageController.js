@@ -10,7 +10,7 @@
  var Page_controller = function(dom,tpl){
     this.nowPage = 1;
     this.allPage = '';
-    this.count = 15;//默认15条一页；
+    this.count = 10;//默认15条一页；
     this.page_officer = new Page(dom,tpl);
     this.next = function(){
         this.nowPage = Math.min(this.nowPage+1,this.allPage);
@@ -82,7 +82,7 @@
     var content = get('content'),
         nextBtn = get('next'),
         preBtn = get('pre'),
-        jeepToBtn = get('jeepTo');
+        jeepToBtn = get('jeepTo'),
         pController = new Page_controller(content,'tplName');//绑定视图模板
         nextBtn.onclick = pController.next;
         preBtn.onclick = pController.pre;
