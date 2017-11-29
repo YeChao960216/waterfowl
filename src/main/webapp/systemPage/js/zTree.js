@@ -88,7 +88,37 @@ var zNodes = [
                 {name:"删除",tid:'./outPoultry/del.html',pName:"出库管理",pUrl:'./outPoultry/find.html'},
 
             ]
-        },
+        },{
+        name:"物资入厂管理", open:true, tid:'./materialManagePage/show.html',children:
+            [
+                {name:"增加",tid:'./materialManagePage/new.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
+
+                {name:"删改",tid:'./materialManagePage/show.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
+
+            ]
+    },
+    {
+        name:"物资出库管理", open:true, tid:'./outStorageManagePage/show.html',children:
+        [
+            {name:"基础实现",tid:'./materialManagePage/base.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
+
+            {name:"增加",tid:'./outStorageManagePage/new.html',pName:"物资出库管理",pUrl:'./outStorageManagePage/show.html'},
+
+            {name:"删改",tid:'./outStorageManagePage/show.html',pName:"物资出库管理",pUrl:'./outStorageManagePage/show.html'},
+
+            {name:"【临时】修改",tid:'./outStorageManagePage/edit.html',pName:"物资出库管理",pUrl:'./outStorageManagePage/show.html'},
+
+        ]
+    },
+    {
+        name:"禽类入厂管理", open:true, tid:'./poultryManagePage/show.html',children:
+        [
+            {name:"增加",tid:'./poultryManagePage/new.html',pName:"禽类入厂管理",pUrl:'./poultryManagePage/show.html'},
+
+            {name:"删改",tid:'./poultryManagePage/show.html',pName:"禽类入厂管理",pUrl:'./poultryManagePage/show.html'},
+
+        ]
+    },
         
    ];
 var zTree = '';
