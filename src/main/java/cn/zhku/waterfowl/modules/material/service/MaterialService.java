@@ -114,7 +114,7 @@ public class MaterialService  implements IBaseService<Material>{
             criteria.andRemarkLike("%"+entity.getRemark()+"%");
         //物资类型
         if (entity.getType()!=null)
-            criteria.andTypeLike("%"+entity.getType()+"%");
+            criteria.andTypeEqualTo(entity.getType());
         //物资类型
         if (entity.getStorageSite()!=null)
             criteria.andStorageSiteLike("%"+entity.getStorageSite()+"%");
