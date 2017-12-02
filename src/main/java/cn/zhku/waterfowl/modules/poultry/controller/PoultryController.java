@@ -205,7 +205,7 @@ public class PoultryController extends BaseController {
         ExportExcelUtil<Poultry> exportExcelUtil = new ExportExcelUtil<>();
 
         List<Poultry> poultryList = poultryService.findList(poultry);
-        String[] headers = {"入库编号", "记录时间", "家禽类型", "数量", "单位", "关联厂商", "联系电话", "备注", "记录者编号", "负责人编号"};
+        String[] headers = {"入库编号", "记录时间", "家禽类型", "数量", "单位", "关联厂商", "联系电话", "备注", "记录者编号", "登录者编号"};
         //  通过标题和数据库数据生成XLS文件
         //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
