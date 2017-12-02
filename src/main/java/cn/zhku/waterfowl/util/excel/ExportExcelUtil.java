@@ -37,7 +37,7 @@ public final class ExportExcelUtil<T> {
     private Logger logger = LoggerFactory.getLogger(ExportExcelUtil.class);
 
     /**
-     *      生成XLS格式的xls
+     *      生成XLS格式的excel对象
      * @param title     文件名字
      * @param headers   表格属性列名数组
      * @param dataSet 数据集
@@ -49,7 +49,7 @@ public final class ExportExcelUtil<T> {
     }
 
     /**
-     *
+     *  生成XLS格式的excel对象
      * @param title 文件名字
      * @param headers   表格属性列名数组
      * @param dataSet   数据集
@@ -62,7 +62,7 @@ public final class ExportExcelUtil<T> {
     }
 
     /**
-     *
+     *  生成XLS格式的excel文件字节流
      * @param title 文件名字
      * @param headers   表格属性列名数组
      * @param dataSet   数据集
@@ -75,7 +75,7 @@ public final class ExportExcelUtil<T> {
     }
 
     /**
-     *
+     *  生成XLSX格式的excel文件字节流
      * @param title 文件名字
      * @param headers   表格属性列名数组
      * @param dataSet   数据集
@@ -101,7 +101,7 @@ public final class ExportExcelUtil<T> {
      *            需要显示的数据集合,集合中一定要放置符合javabean风格的类的对象。此方法支持的
      *            javabean属性的数据类型有基本数据类型及String,Date,byte[](图片数据)
      */
-    private Workbook exportExcel(Workbook workbook,String title,String[] headers, Collection<T> dataSet) {
+     Workbook exportExcel(Workbook workbook,String title,String[] headers, Collection<T> dataSet) {
 
         Sheet sheet = workbook.createSheet(title);
         // 设置表格默认列宽度为15个字节
