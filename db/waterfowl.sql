@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-26 23:14:29
+Date: 2017-12-02 20:44:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,6 +160,7 @@ INSERT INTO `dictionary` VALUES ('10700', '字典管理', '10007', '10000');
 INSERT INTO `dictionary` VALUES ('2000', '存储方式', '0', 'mode');
 INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', 'unit');
 INSERT INTO `dictionary` VALUES ('20001', '千克', '20000', 'kg');
+INSERT INTO `dictionary` VALUES ('20002', '只', '20000', null);
 INSERT INTO `dictionary` VALUES ('2001', '冷藏', '2000', null);
 INSERT INTO `dictionary` VALUES ('3000', '剂量单位', '0', 'dose_unit');
 INSERT INTO `dictionary` VALUES ('30000', '家禽养殖阶段', '0', 'status');
@@ -277,7 +278,7 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
-INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '1', '2017-11-26 21:44:40', '1', '1', '未过期', '1', '0', '1', '0', '1', '1', '1');
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '81消毒液', '2017-12-01 23:11:41', '1', '1', '已过期', '1', '0', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for outstorage
@@ -307,7 +308,7 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1');
+INSERT INTO `outstorage` VALUES ('1', '81消毒液', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -393,7 +394,7 @@ CREATE TABLE `poultry` (
   `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
+  `unit` varchar(45) DEFAULT '只' COMMENT '计数单位',
   `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '关联厂商电话',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
@@ -405,7 +406,6 @@ CREATE TABLE `poultry` (
   KEY `fk_material_user2_idx` (`id_charge`),
   KEY `poultry_name_dictionary_id` (`type`),
   KEY `FK_poultry_dic_unit` (`unit`),
-  CONSTRAINT `FK_poultry_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `poultry_name_dictionary_id` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
