@@ -22,7 +22,7 @@ import java.util.UUID;
  */
 @Controller
 @RequestMapping("{adminPath}/affiliation/")
-public class AffiliationConroller {
+public class  AffiliationConroller {
     @Autowired
     AffiliationService affiliationService;    //大禽舍
     FowleryService fowleryService;      //小禽舍
@@ -40,7 +40,7 @@ public class AffiliationConroller {
     }
 
     /**
-     * 多条件查询
+     * 多条件查询n
      * @param affiliation
      * @param commonQo
      * @return
