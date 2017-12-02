@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手动修改大禽舍</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+
+</head>
+<body>
+<table>
+
+
+<!--查询-->
+<div>
+    <!--查询养殖类型-->
+    <select id="type">
+        <!--<option value="1">类型</option>-->
+        <!--<option>鸡</option>-->
+        <!--<option>鸡</option>-->
+        <!--<option>鸡</option>-->
+    </select>
+
+    <!--查询方位-->
+    <select id="position">
+        <!--<option>方位</option>-->
+        <!--<option>东</option>-->
+        <!--<option>西</option>-->
+        <!--<option>南</option>-->
+        <!--<option>北</option>-->
+    </select>
+
+    <!--查询规格-->
+    <select id="size">
+        <!--<option>规格</option>-->
+        <!--<option>100</option>-->
+        <!--<option>200</option>-->
+        <!--<option>300</option>-->
+    </select>
+
+    <!--查询使用状态-->
+    <select id="ststus">
+        <!--<option>满员</option>-->
+        <!--<option>未满员</option>-->
+    </select>
+
+    <input  id="idCharge" placeholder="请输入负责人编号">
+    <input  id="idRecorder" placeholder="请输入记录者编号">
+    <button class="btn" id="btn">查询</button>
+
+</div>
+    <!--加载大禽舍的记录-->
+    <tr>
+        <th>养殖类型</th>
+        <th>方位</th>
+        <th>规格</th>
+        <th>是否满员</th>
+        <th>负责人编号</th>
+        <th>记录者编号</th>
+        <th>操作</th>
+    </tr>
+    <tbody id="tbody"></tbody>
+</table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/edit.js"></script>
+</html>

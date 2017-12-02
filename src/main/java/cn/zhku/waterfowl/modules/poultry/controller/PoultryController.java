@@ -1,19 +1,30 @@
 package cn.zhku.waterfowl.modules.poultry.controller;
 
+
+import cn.zhku.waterfowl.modules.poultry.model.PoultryExcel;
+import cn.zhku.waterfowl.modules.poultry.model.PoultryUtilExcel;
 import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
+import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.tools.doclets.formats.html.PackageFrameWriter;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -132,4 +143,73 @@ public class PoultryController extends BaseController {
             //  返回 pageBean实体
             return new PageInfo<Poultry>(poultryList);
         }
+
+    /**
+     * 导入用excel
+     *
+     * @param request   请求域
+     * @param excelFile excel文件，前端用multipart/form-data类型上传
+     * @return Message
+     */
+    @ResponseBody
+    @RequestMapping("excel/pull")
+
+    public Message pullPoultryExcel(HttpServletRequest request, MultipartFile excelFile) {
+        try {
+            if (excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")) {
+                //List<MaterialModel> models=userService.insertUserByExcel(excelFile);
+                //  储存图片的物理路径
+                String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/poultry/");
+                //  获取上传文件的文件类型名
+                String originalFileName = excelFile.getOriginalFilename();
+                //  新的的图片名称,用UUID做文件名防止重复
+                String newFileName = UUID.randomUUID().toString().replace("-", "").toUpperCase() + originalFileName.substring(originalFileName.lastIndexOf("."));
+                //新图片文件
+                File newFile = new File(realPath + newFileName);
+                //将内存中的数据写入磁盘
+                excelFile.transferTo(newFile);
+                //将新图片名称写到repair中
+                //repair.setRepairPic(newFileName);
+                System.out.println("================" + newFile.toString());
+
+                PoultryUtilExcel poultryUtilExcel = new PoultryUtilExcel(newFile.toString());
+                //userExcelUtil.setEntityMap();
+                Map<Integer,PoultryExcel> poultryExcelMap = poultryUtilExcel.getMap();
+                if (poultryExcelMap == null)
+                    return new Message("2", "物资导入失败，请检查excel表与模板的不同");
+                //  java8 lambda遍历
+                poultryExcelMap.forEach((key, value) -> {
+                    //  复制UserExcel对象到user类中
+                    Poultry poultry= new Poultry();
+                    BeanUtils.copyProperties(value, poultry);
+                    poultry.setIdPoultry(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+                    try {
+                        poultryService.add(poultry);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return new Message("1", "物资导入成功");
+            } else {
+                return new Message("2", "上传失败或者上传的文件后缀不是'xls'或'xlsx'");
+            }
+        } catch (Exception e) {
+            //return new Message("2","名单导入失败，请检查excel表与模板的不同");
+            throw new RuntimeException(e);
+        }
     }
+
+
+    @RequestMapping("excel/push")
+    public ResponseEntity<byte[]> pushExcel(Poultry poultry) throws Exception {
+        ExportExcelUtil<Poultry> exportExcelUtil = new ExportExcelUtil<>();
+
+        List<Poultry> poultryList = poultryService.findList(poultry);
+        String[] headers = {"入库编号", "记录时间", "家禽类型", "数量", "单位", "关联厂商", "联系电话", "备注", "记录者编号", "负责人编号"};
+        //  通过标题和数据库数据生成XLS文件
+        //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
+        // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
+        return exportExcelUtil.exportXLSXOutput("禽类入库表", headers, poultryList);
+    }
+
+}

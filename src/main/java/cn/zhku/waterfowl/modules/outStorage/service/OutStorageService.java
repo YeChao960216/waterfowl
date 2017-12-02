@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.outStorage.service;
 
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
+import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
@@ -106,6 +107,10 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         if (commonQo.getEnd() != null)
             criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
         return outstorageMapper.selectByExample(outstorageExample);
+    }
+
+    public List<Material>listMatericalByName(String name) throws Exception {
+        return outStorageDao.listMatericalByName(name);
     }
 //    public List<Outstorage> list(Outstorage entity, CommonQo commonQo) {
 //        OutstorageExample outstorageExample =new OutstorageExample();

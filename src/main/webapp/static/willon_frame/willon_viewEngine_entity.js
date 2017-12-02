@@ -26,7 +26,10 @@ var viewCommand = (function(msg){
              '<li>{#text#}</li>'
          ].join(''),
          option:[
-             '<option value={#value#}>{#text#}</option>'
+             "<option value='{#name#}'>{#name#}</option>"
+         ].join(''),
+         outStorage:[
+             "<option value='{#idOutstorage#}'>{#idOutstorage#}</option>"
          ].join(''),
          empInfo:[
             '<tr>',
@@ -102,8 +105,8 @@ var viewCommand = (function(msg){
              '<td >{#idCharge#}</td>',
              '<td >{#idOutstorage#}</td>',
              '<td >{#status#}</td>',
-             '<td ><a class="btn" href="./detail.html?id={#id#}" >详情</a></td>',
-             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
+             "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
              '</tr>'
          ].join(''),
          del_out_poultry:[
@@ -129,8 +132,8 @@ var viewCommand = (function(msg){
             '<td >{#phone#}</td>',
             '<td >{#id_recorder#}</td>',
             '<td >{#id_charge#}</td>',
-            '<td ><a class="btn" href="./detail.html?id={#id#}" >详情</a></td>',
-            '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
+             "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
             '</tr>'
         ].join(''),
      };

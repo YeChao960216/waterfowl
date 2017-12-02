@@ -90,8 +90,10 @@ public class DictionaryService  implements IBaseService<Dictionary> {
     public List<Dictionary> findList(Dictionary entity) throws Exception {
         DictionaryExample dictionaryExample = new DictionaryExample();
         DictionaryExample.Criteria criteria = dictionaryExample.createCriteria();
-        if (entity.getPid() == null)
+        if (entity.getPid() != null)
             criteria.andPidEqualTo(entity.getPid());
+        if (entity.getName() != null)
+            criteria.andNameEqualTo(entity.getName());
         return dictionaryMapper.selectByExample(dictionaryExample);
     }
 }

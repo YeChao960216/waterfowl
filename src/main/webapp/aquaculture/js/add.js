@@ -5,43 +5,47 @@
  * @Last Modified time: 2017-11-19 20:39:18
  */
 
- (function(global){
+ (function(){
 
-    var document = global.document;
     /**
      * url 对象
      */
     const oURL = {
         PRONAME : '/waterfowl' ,
         POST : '/admin/aquaculture/add',//最终数据提交路径
-        GETNAME : '/aquaculture/getName',//获取禽舍类型
-        GETOURSTRORAGE : '/aquaculture/getOutStorage',//?s = 获取出库编号
-        GETSTATUSLIST:'/aquaculture/getStatusList'//获取禽类养殖标识
-        
+        GETOURSTRORAGE : '/outstorage/show',// 获取出库编号
+        GETSTATUSLIST:'/getDicName/getStatus',//获取禽类养殖标识
+        GETPATCH:'/admin/patch/getNewPatch', //获取批次号
     }
 
-    /**
-     * 列出禽舍类型
-     */
-    $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('name')[0],res.list,'option']
-            })
-        }else{
-            alert('获取禽舍类型失败');
+    $('#id_fowlery')[0].onkeyup = function () {
+        if($(this).val().length>4){
+
+            /**
+             * 列出批次号
+             */
+            $.get(oURL.PRONAME+oURL.GETPATCH,function(res){
+                if(res){
+                    viewCommand({
+                        command:'display',
+                        param:[$('#id_patch')[0],res,'option']
+                    })
+                }else{
+                    alert('获取批次号失败');
+                }
+            });
         }
-    });
+    }
 
      /**
       * 列出出库编号
       */
-      $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
+      $.get(oURL.PRONAME+oURL.GETOURSTRORAGE,function(res){
+        if(res){
+
             viewCommand({
                 command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
+                param:[$('#id_outstorage')[0],res.list,'outStorage']
             })
         }else{
             alert('获取出库编号');
@@ -52,10 +56,11 @@
      * 列出禽类养殖标识
      */
     $.get(oURL.PRONAME+oURL.GETSTATUSLIST,function(res){
-        if(res.status){
+        if(res){
+
             viewCommand({
                 command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
+                param:[$('#status')[0],res,'option']
             })
         }else{
             alert('获取禽舍养殖标识失败');
@@ -65,7 +70,7 @@
     /** 
      * 提交表单
      */
-    document.getElementById('#submit').onclick = function(){
+    $('#submit')[0].onclick = function(){
 
         var json = JSON.stringify(queryParse.call($('form')));
             $.post(oURL.PRONAME+oURL.POST,json,function(res){
@@ -77,4 +82,4 @@
             });
     }
     
- })(this);
+ })();

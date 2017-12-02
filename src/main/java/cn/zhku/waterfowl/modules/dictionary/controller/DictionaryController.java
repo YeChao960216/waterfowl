@@ -24,10 +24,10 @@ public class DictionaryController {
     private DictionaryService dictionaryService;
 
     /**
-     *  查找字典
-     * @param dict 参数 pid 字典父节点
-     * @return
-     * @throws Exception
+     *  多条件查找字典
+     * @param dict 参数 :pid 字典父节点, name 字典名字
+     * @return  字典数组
+     * @throws Exception    sql
      */
     @RequestMapping("/dict/list")
     public List<Dictionary> list(Dictionary dict) throws Exception {
@@ -37,15 +37,21 @@ public class DictionaryController {
     /**
      *  查找单个字典
      * @param id    字典主键
-     * @return
-     * @throws Exception
+     * @return  message
+     * @throws Exception    sql
      */
     @RequestMapping("/dict/show/{id}")
     public Dictionary show(@PathVariable String id) throws Exception {
         return dictionaryService.get(id);
     }
 
-
+    /**
+     *   删除字典
+     * @param id    主键id
+     * @param dictionary   无需
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/admin/delete/{id}")
     public Message delete(@PathVariable String id, Dictionary dictionary) throws Exception {
         dictionary.setId(id);
@@ -55,7 +61,13 @@ public class DictionaryController {
             return new Message("2","删除字典失败");
     }
 
-
+    /**
+     *  修改字典
+     * @param id    主键
+     * @param dictionary    name,pid
+     * @return message
+     * @throws Exception sql
+     */
     @RequestMapping("/admin/edit/{id}")
     public Message edit(@PathVariable String id, Dictionary dictionary) throws Exception {
         dictionary.setId(id);
@@ -65,18 +77,19 @@ public class DictionaryController {
             return new Message("2","更新字典失败");
     }
 
-
+    /**
+     *  增加字典,不能增加名字相同或主键id相同的字典
+     * @param dictionary    字典的所有属性
+     * @return  message
+     * @throws Exception    sql
+     */
     @RequestMapping("/admin/new")
-    public Message add(@PathVariable String id, Dictionary dictionary) throws Exception {
-        dictionary.setId(id);
+    public Message add(Dictionary dictionary) throws Exception {
         if (dictionaryService.update(dictionary) == 1)
             return new Message("1","增加字典成功");
         else
-            return new Message("2","增加字典失败");
+            return new Message("2","增加字典失败,请检查主键或名字是否重复");
     }
-
-
-
 
 
 
