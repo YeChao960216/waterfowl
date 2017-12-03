@@ -227,11 +227,13 @@ public class MaterialController extends BaseController {
         ExportExcelUtil<Material> exportExcelUtil = new ExportExcelUtil<>();
 
         List<Material> materialList = materialService.findList(material);
-        String[] headers = {"物资编号", "进厂时间", "物资名称", "物资有效期", "关联厂商", "联系电话", "是否过期", "物资数量", "计数单位", "存储地点", "存储方式", "备注", "记录者编号", "负责人编号"};
+        String[] headers = {"物资编号", "进厂时间", "物资名称", "物资有效期", "关联厂商", "联系电话", "是否过期", "物资数量", "计数单位", "存储地点", "存储方式", "备注", "记录者编号", "登录者编号"};
         //  通过标题和数据库数据生成XLS文件
         //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
         return exportExcelUtil.exportXLSXOutput("物资列表", headers, materialList);
     }
+
+
 
 }

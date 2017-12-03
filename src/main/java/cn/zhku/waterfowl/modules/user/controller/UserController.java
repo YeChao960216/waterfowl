@@ -199,6 +199,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public Message uploadUserExcel(HttpServletRequest request,MultipartFile excelFile)  {
         try {
+            //  判断上传文件是否为空,或者上传文件格式是否为"xls"或"xlsx"
             if(excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")){
                 //List<UserModel> models=userService.insertUserByExcel(excelFile);
                 //  储存图片的物理路径

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @author : 钱伟健 gonefuture@qq.com
  * @version : 2017/11/18 10:05.
- * 说明：
+ * 说明：用于接收EXCEL文件的数据
  */
 public class UserExcel {
     @EntiName(id=true)

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-11-26 23:14:29
+Date: 2017-12-03 15:50:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `affiliation` (
   `type` varchar(45) DEFAULT NULL COMMENT '养殖类型',
   `position` varchar(45) DEFAULT NULL COMMENT '方位',
   `size` varchar(45) DEFAULT NULL COMMENT '规格',
-  `status` varchar(45) DEFAULT NULL COMMENT '是否满员',
+  `status` varchar(45) DEFAULT '未满员' COMMENT '是否满员',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
   PRIMARY KEY (`id`),
@@ -36,7 +36,6 @@ CREATE TABLE `affiliation` (
   KEY `FK_affi_user_charge` (`id_charge`),
   CONSTRAINT `FK_affi_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_affi_dic_status` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -45,7 +44,7 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 -- Records of affiliation
 -- ----------------------------
-INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '0', '1', '1');
+INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '未满员', '1', '1');
 
 -- ----------------------------
 -- Table structure for aquaculture
@@ -53,10 +52,10 @@ INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '0', '1', '1');
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
   `id` varchar(45) NOT NULL COMMENT '养殖记录表',
-  `name` varchar(45) DEFAULT NULL COMMENT '养殖天数',
+  `name` varchar(45) DEFAULT NULL COMMENT '养殖类型',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
-  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `record_date` timestamp NULL DEFAULT NULL COMMENT '记录日期',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
   `feed_type` varchar(45) DEFAULT NULL COMMENT '饲料种类',
   `feed_weight` float DEFAULT NULL COMMENT '饲料重量：单位为千克',
@@ -65,6 +64,7 @@ CREATE TABLE `aquaculture` (
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
   `id_outstorage` varchar(45) DEFAULT NULL COMMENT '出库编号',
   `status` varchar(45) DEFAULT NULL COMMENT '禽类的阶段标识',
+  `weight` float DEFAULT NULL COMMENT '生长重量，单位:kg',
   PRIMARY KEY (`id`),
   KEY `fk_aquaculture_user1_idx` (`id_recorder`),
   KEY `fk_aquaculture_user2_idx` (`id_charge`),
@@ -84,8 +84,7 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('1', '0', '1', '1', '2017-11-17 23:43:10', '1', '1', '1', '1', '1', '1', null, '0');
-INSERT INTO `aquaculture` VALUES ('2', null, null, null, '2017-11-22 22:53:51', null, null, null, null, null, null, null, null);
+INSERT INTO `aquaculture` VALUES ('1', '1', '1', '1', '2017-12-03 12:32:36', '1', '1', '7', '1', '1', '1', '1', '0', '1');
 
 -- ----------------------------
 -- Table structure for ddl
@@ -93,14 +92,14 @@ INSERT INTO `aquaculture` VALUES ('2', null, null, null, '2017-11-22 22:53:51', 
 DROP TABLE IF EXISTS `ddl`;
 CREATE TABLE `ddl` (
   `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '养殖禽舍编号',
-  `record_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
-  `num_processed` int(11) NOT NULL COMMENT '需处理个体数量',
-  `processing_mode` varchar(45) NOT NULL COMMENT '处理方式',
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖禽舍编号',
+  `record_date` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `num_processed` int(11) DEFAULT NULL COMMENT '需处理个体数量',
+  `processing_mode` varchar(45) DEFAULT NULL COMMENT '处理方式',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) NOT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) NOT NULL COMMENT '负责人编号',
-  `flag` int(11) NOT NULL DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
+  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  `flag` int(11) DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   PRIMARY KEY (`id`),
   KEY `fk_ddl_poultry1_idx` (`id_patch`),
   KEY `fk_ddl_user1_idx` (`id_recorder`),
@@ -160,12 +159,14 @@ INSERT INTO `dictionary` VALUES ('10700', '字典管理', '10007', '10000');
 INSERT INTO `dictionary` VALUES ('2000', '存储方式', '0', 'mode');
 INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', 'unit');
 INSERT INTO `dictionary` VALUES ('20001', '千克', '20000', 'kg');
+INSERT INTO `dictionary` VALUES ('20002', '只', '20000', null);
 INSERT INTO `dictionary` VALUES ('2001', '冷藏', '2000', null);
 INSERT INTO `dictionary` VALUES ('3000', '剂量单位', '0', 'dose_unit');
 INSERT INTO `dictionary` VALUES ('30000', '家禽养殖阶段', '0', 'status');
-INSERT INTO `dictionary` VALUES ('30011', '小鸡（0~14日龄）', '30000', null);
+INSERT INTO `dictionary` VALUES ('30011', '小鸡（0~14日龄）', '30000', '');
 INSERT INTO `dictionary` VALUES ('30012', '中鸡（15~35日龄）', '30000', null);
 INSERT INTO `dictionary` VALUES ('30013', '大鸡（36~出栏）', '30000', null);
+INSERT INTO `dictionary` VALUES ('30014', '可出栏', '30000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
 INSERT INTO `dictionary` VALUES ('60000', '家禽种类(禽舍类型)', '0', 'type');
 INSERT INTO `dictionary` VALUES ('60001', '鹅', '60000', null);
@@ -185,7 +186,7 @@ CREATE TABLE `epidemic` (
   `id_patch` varchar(45) DEFAULT NULL COMMENT '批次编号',
   `name` varchar(45) DEFAULT NULL COMMENT '药品名称',
   `id_outstorage` varchar(45) DEFAULT NULL,
-  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
+  `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date日期',
   `sign` varchar(45) DEFAULT NULL COMMENT '免疫、疫病标志',
   `diseaes` varchar(45) DEFAULT NULL COMMENT '疾病',
   `num_infected` int(11) DEFAULT NULL COMMENT '染病个体数',
@@ -222,7 +223,7 @@ DROP TABLE IF EXISTS `fowlery`;
 CREATE TABLE `fowlery` (
   `id` varchar(45) NOT NULL COMMENT '禽舍编号',
   `size` varchar(45) DEFAULT NULL COMMENT '规格',
-  `status` varchar(45) DEFAULT NULL COMMENT '使用状态',
+  `status` varchar(45) DEFAULT '可使用' COMMENT '使用状态',
   `affiliation` varchar(45) DEFAULT NULL COMMENT '归属的大禽舍',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
@@ -234,7 +235,6 @@ CREATE TABLE `fowlery` (
   KEY `FK_fowlery_user_record` (`id_record`),
   CONSTRAINT `FK_fowlery_affili_id` FOREIGN KEY (`affiliation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_fowlery_dic_status` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -250,9 +250,9 @@ INSERT INTO `fowlery` VALUES ('1', '0', '0', '1', '1', '1');
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE `material` (
   `id_storage` varchar(45) NOT NULL COMMENT '库存表',
-  `date` datetime DEFAULT NULL COMMENT '进厂时间',
+  `date` timestamp NULL DEFAULT NULL COMMENT '进厂时间',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
-  `expiration_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
+  `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
   `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
   `type` varchar(45) DEFAULT '未过期' COMMENT '是否过期',
@@ -277,7 +277,7 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
-INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '1', '2017-11-26 21:44:40', '1', '1', '未过期', '1', '0', '1', '0', '1', '1', '1');
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '81消毒液', '2017-12-02 21:18:34', '1', '123', '已过期', '1', '0', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for outstorage
@@ -307,7 +307,7 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1');
+INSERT INTO `outstorage` VALUES ('1', '81消毒液', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for out_poultry
@@ -315,10 +315,10 @@ INSERT INTO `outstorage` VALUES ('1', '1', '1', '1', '2017-11-22 22:56:20', '1',
 DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
   `id` varchar(45) NOT NULL COMMENT '出厂编号',
-  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
-  `quantity` varchar(45) DEFAULT NULL COMMENT '本批次数量',
-  `unit` varchar(45) DEFAULT NULL COMMENT '单位',
+  `quantity` int(11) DEFAULT NULL COMMENT '本批次数量售出数量',
+  `unit` varchar(45) DEFAULT '只' COMMENT '单位',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '出厂批次',
   `firm` varchar(45) DEFAULT NULL COMMENT '出厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
@@ -335,14 +335,12 @@ CREATE TABLE `out_poultry` (
   CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
-INSERT INTO `out_poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for patch
@@ -360,6 +358,7 @@ CREATE TABLE `patch` (
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
   `id` varchar(45) NOT NULL COMMENT '禽舍管理表',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
+  `status` varchar(45) DEFAULT '未售完' COMMENT '是否售完',
   PRIMARY KEY (`id`),
   KEY `fk_fowlery_user1_idx` (`id_recorder`),
   KEY `fk_fowlery_user2_idx` (`id_charge`),
@@ -382,7 +381,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 23:37:33', '1', '1');
+INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 23:37:33', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for poultry
@@ -390,10 +389,10 @@ INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 
 DROP TABLE IF EXISTS `poultry`;
 CREATE TABLE `poultry` (
   `id_poultry` varchar(45) NOT NULL COMMENT '家禽批次记录表',
-  `record_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
+  `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
+  `unit` varchar(45) DEFAULT '只' COMMENT '计数单位',
   `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '关联厂商电话',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
@@ -405,7 +404,6 @@ CREATE TABLE `poultry` (
   KEY `fk_material_user2_idx` (`id_charge`),
   KEY `poultry_name_dictionary_id` (`type`),
   KEY `FK_poultry_dic_unit` (`unit`),
-  CONSTRAINT `FK_poultry_dic_unit` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `poultry_name_dictionary_id` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -458,11 +456,12 @@ CREATE TABLE `user` (
   `duty` varchar(45) DEFAULT NULL COMMENT '员工职责',
   `name` varchar(45) DEFAULT NULL COMMENT '员工姓名',
   `gender` tinyint(4) DEFAULT NULL COMMENT '性别',
-  `entry` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '入职时间',
+  `entry` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入职时间',
   `sign` varchar(45) DEFAULT NULL COMMENT '入职状态标记:在职1,离职0',
   `turnover` timestamp NULL DEFAULT NULL COMMENT '离职时间',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   `phone` varchar(45) DEFAULT NULL COMMENT '人员联系电话',
+  `email` varchar(45) DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -470,8 +469,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '叶超', '123', null, null, null, '2017-11-17 23:34:39', null, '2017-11-17 23:34:42', null, null);
-INSERT INTO `user` VALUES ('CEDF4020E44F4109A99534E7173CC566', 'Sun Nov 19 16:00:00 CST 2017', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, null, null, null, null, null);
+INSERT INTO `user` VALUES ('1', '叶超', '123', null, null, null, '2017-11-17 23:34:39', null, '2017-11-17 23:34:42', null, null, null);
+INSERT INTO `user` VALUES ('CEDF4020E44F4109A99534E7173CC566', 'Sun Nov 19 16:00:00 CST 2017', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for user_auths
@@ -517,7 +516,7 @@ CREATE TABLE `user_role` (
 DROP TABLE IF EXISTS `weather`;
 CREATE TABLE `weather` (
   `id` varchar(45) NOT NULL COMMENT '天气记录编号',
-  `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
+  `id_affiliation` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `record_date` timestamp NULL DEFAULT NULL COMMENT '日期',
   `humidity_in` float DEFAULT NULL COMMENT '室内湿度：单位%',
   `humidity_out` varchar(45) DEFAULT NULL COMMENT '室外湿度:%',
@@ -530,18 +529,12 @@ CREATE TABLE `weather` (
   `dust` float DEFAULT NULL COMMENT '粉尘浓度:单位mg/m3',
   `picture` varchar(45) DEFAULT NULL COMMENT '记录点视频图像截图存放位置',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
-  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
   PRIMARY KEY (`id`),
-  KEY `fk_weather_fowlery1_idx` (`id_fowlery`),
-  KEY `fk_weather_user1_idx` (`id_recorder`),
+  KEY `fk_weather_fowlery1_idx` (`id_affiliation`),
   KEY `fk_weather_user2_idx` (`id_charge`),
-  KEY `weath_unit_dic_id` (`unit`),
-  CONSTRAINT `weather_ibfk_2` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `weather_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `weath_fowlery_id_dic_id` FOREIGN KEY (`id_fowlery`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `weath_unit_dic_id` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `weather_affiliation_id` FOREIGN KEY (`id_affiliation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `weather_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
