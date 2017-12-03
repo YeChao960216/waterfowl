@@ -42,17 +42,17 @@ public class AffiliationTask {
             affiliation.setId(id);
 
             FowleryExample.Criteria criteria=fowleryExample.createCriteria();
-            criteria.andAffiliationEqualTo(id).andStatusEqualTo("0");    //查找该affiliation且状态为0的小禽舍
+            criteria.andAffiliationEqualTo(id).andStatusEqualTo("未满员");    //查找该affiliation且状态为0的小禽舍
             List<Fowlery> list=fowleryMapper.selectByExample(fowleryExample);
             fowleryExample.clear();       //防止循环过程中条件的叠加
 
             if(list.size()==0){
                 //不能找到一间为空的,修改状态
-                affiliation.setStatus("1");
+                affiliation.setStatus("满员");
                 affiliationMapper.updateByPrimaryKeySelective(affiliation);
             }else {
                 //能够找到为空的禽舍
-                affiliation.setStatus("0");
+                affiliation.setStatus("未满员");
                 affiliationMapper.updateByPrimaryKeySelective(affiliation);
             }
         }

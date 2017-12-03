@@ -85,58 +85,14 @@ public class PatchService implements IBaseService<Patch>{
         return  dao.selectFowlery(affiliation);
     }
 
-    /**
-     * 通过poultry的id查看这个初批次有多少只
-     * @param id_poultry
-     * @return
-     */
-    public String getCount(String id_poultry) {
-        return dao.getCount(id_poultry);
-    }
 
-
-    /**
-     * 通过id_poultry查看一个size的list集合
-     * @param id_poultry
-     * @return
-     */
-    public List<String> getFowlerySize(String id_poultry) {
-        return dao.getFowlerySize(id_poultry);
-    }
-
-    /**
-     * 根据size查找数据字典
-     * @param
-     * @return
-     */
-    public String selectSizeByDic(String s) {
-        return dao.selectSizeByDic(s);
-    }
 
     /**
      * 修改小禽舍的状态
      * @param id
      */
-    public void updateStatusByid(String id) {
-        dao.updateStatusByid(id);
-    }
-
-    /**
-     * 根据小禽舍的id去修改大禽舍
-     * @param id
-     * @return
-     */
-    public Object updateAffStatus(String id) {
-        return dao.updateAffStatus(id);
-    }
-
-    /**
-     * 修改大禽舍信息
-     * @param id
-     * @return
-     */
-    public int changeAffStatus(String id) {
-        return dao.changeAffStatus(id);
+    public int updateStatusByid(String id) {
+        return dao.updateStatusByid(id);
     }
 
     /**

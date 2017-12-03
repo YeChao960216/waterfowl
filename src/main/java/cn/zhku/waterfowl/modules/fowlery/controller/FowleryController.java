@@ -103,26 +103,6 @@ public class FowleryController {
        return fowleryService.delete(fowlery);
     }
 
-    /**
-     * 确定fowlery的状态,出库部分每增加一条记录就触发这个事件一次
-     * @param id
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("selectFowlryStatus/{id}")
-    public String  selectFowleryStatus(@PathVariable String id){
-        String outpoultryid=fowleryService.selectFowleryStatus(id);
-
-        //判断
-        if(outpoultryid==null){
-            //数据库不修改状态
-            return "0";
-        }else{
-            //出库有记录，要将禽舍的状态改为0
-            return fowleryService.updateFowleryStatus(id);       //可使用
-        }
-    }
-
 
     /**
      * 导入用excel
@@ -186,5 +166,24 @@ public class FowleryController {
         List<Fowlery> fowleryList = fowleryService.findList(fowlery);
         String[] headers = {"禽舍编号", "类型", "状态" , "归属表" ,  "记录者编号", "负责人编号"};
         return exportExcelUtil.exportXLSXOutput("禽舍表", headers, fowleryList);
+    }
+
+    /**
+     * 禽舍中被使用的百分比
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findPercentage")
+    public double userdPercentage(){
+        //查找所有禽舍的数量,count
+        int totalsum=fowleryService.countAllFowlery();
+
+        //查找所有被使用的数量
+        int userdsum=fowleryService.countUsedFowlery();
+
+        //获取被使用数量的百分比
+        double userpercentage=userdsum/(totalsum*1.0);
+
+        return userpercentage;
     }
 }
