@@ -212,9 +212,6 @@ public class UserController extends BaseController {
                 File newFile = new File(realPath+newFileName);
                 //将内存中的数据写入磁盘
                 excelFile.transferTo(newFile);
-                //将新图片名称写到repair中
-                //repair.setRepairPic(newFileName);
-                System.out.println("================"+newFile.toString());
 
                 UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();

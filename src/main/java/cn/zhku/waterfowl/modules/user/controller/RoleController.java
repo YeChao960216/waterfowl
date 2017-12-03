@@ -25,7 +25,7 @@ public class RoleController {
      * @throws Exception    sql
      */
     @ResponseBody
-    @RequestMapping("/user/empInfo/{id}")
+    @RequestMapping("/admin/user/empInfo/{id}")
     public UserRoleVo empInfo(@PathVariable String id) throws Exception {
         return roleService.getRoleList(id);
     }
