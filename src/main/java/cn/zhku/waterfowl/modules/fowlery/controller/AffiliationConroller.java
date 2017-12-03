@@ -1,18 +1,28 @@
 package cn.zhku.waterfowl.modules.fowlery.controller;
 
+import cn.zhku.waterfowl.modules.fowlery.model.AffiliationExcel;
+import cn.zhku.waterfowl.modules.fowlery.model.AffiliationUtilExcel;
 import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
 import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
+import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
+import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -127,5 +137,69 @@ public class AffiliationConroller {
         Affiliation affiliation=new Affiliation();
         affiliation.setId(id);
         return affiliationService.delete(affiliation);
+    }
+
+    /**
+     * 导入用excel
+     *
+     * @param request   请求域
+     * @param excelFile excel文件，前端用multipart/form-data类型上传
+     * @return Message
+     */
+    @ResponseBody
+    @RequestMapping("excel/pull")
+
+    public Message pullAffiliationExcel(HttpServletRequest request, MultipartFile excelFile) {
+        try {
+            if (excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")) {
+                //List<MaterialModel> models=userService.insertUserByExcel(excelFile);
+                //  储存图片的物理路径
+                String realPath = request.getServletContext().getRealPath("/WEB-INF/excel/material/");
+                //  获取上传文件的文件类型名
+                String originalFileName = excelFile.getOriginalFilename();
+                //  新的的图片名称,用UUID做文件名防止重复
+                String newFileName = UUID.randomUUID().toString().replace("-", "").toUpperCase() + originalFileName.substring(originalFileName.lastIndexOf("."));
+                //新图片文件
+                File newFile = new File(realPath + newFileName);
+                //将内存中的数据写入磁盘
+                excelFile.transferTo(newFile);
+                //将新图片名称写到repair中
+                //repair.setRepairPic(newFileName);
+                System.out.println("================" + newFile.toString());
+
+                AffiliationUtilExcel affiliationUtilExcel = new AffiliationUtilExcel(newFile.toString());
+                //userExcelUtil.setEntityMap();
+                Map<Integer, AffiliationExcel> affiliationExcelMap = affiliationUtilExcel.getMap();
+                if (affiliationExcelMap == null)
+                    return new Message("2", "物资导入失败，请检查excel表与模板的不同");
+                //  java8 lambda遍历
+                affiliationExcelMap.forEach((key, value) -> {
+                    //  复制UserExcel对象到user类中
+                    Affiliation affiliation=new Affiliation();
+                    BeanUtils.copyProperties(value, affiliation);
+                    affiliation.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+                    try {
+                        affiliationService.add(affiliation);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return new Message("1", "物资导入成功");
+            } else {
+                return new Message("2", "上传失败或者上传的文件后缀不是'xls'或'xlsx'");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @RequestMapping("excel/push")
+    public ResponseEntity<byte[]> pushExcel(Affiliation affiliation ) throws Exception {
+        ExportExcelUtil<Affiliation> exportExcelUtil = new ExportExcelUtil<>();
+
+        List<Affiliation> affiliationList = affiliationService.findList(affiliation);
+        String[] headers = {"归属表编号", "类型", "地址", "规格", "状态" , "记录者编号", "负责人编号"};
+        return exportExcelUtil.exportXLSXOutput("归属表", headers, affiliationList);
     }
 }

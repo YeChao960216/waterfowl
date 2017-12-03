@@ -117,4 +117,12 @@ public interface FowleryDao {
      */
     @Select("select * from patch GROUP BY date desc LIMIT 1")
     Patch getNewPatch();
+
+    /**
+     * 将禽舍的状态改为可使用状态为1
+     * @param id
+     * @return
+     */
+    @Update("update fowlery set status=1 where id = #{id}")
+    String updateFowleryStatus(String id);
 }

@@ -130,4 +130,13 @@ public class FowleryService implements IBaseService<Fowlery> {
     public String selectFowleryStatus(String id) {
         return  dao.selectFowleryStatus(id);
     }
+
+    /**
+     * 将禽舍状态该为不可使用
+     * @param id
+     * @return
+     */
+    public String updateFowleryStatus(String id) {
+        return dao.updateFowleryStatus(id);
+    }
 }
