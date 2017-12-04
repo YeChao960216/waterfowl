@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +45,8 @@ public class PoultryController extends BaseController {
         @RequestMapping("add")
         public Message addPoultry(Poultry poultry) throws Exception {
             poultry.setIdPoultry(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            poultry.setRecordDate(t);
             if (poultryService.add(poultry) == 1)
                 return new Message("1", "插入材料成功");
             else
