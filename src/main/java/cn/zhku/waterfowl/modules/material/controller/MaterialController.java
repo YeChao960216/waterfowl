@@ -124,7 +124,14 @@ public class MaterialController extends BaseController {
     @RequestMapping("list")
     public PageInfo<Material> select(Material material, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "date desc");
+        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
+        {
+            commonQo.setSort("expiration_date desc");
+        }
+        else {
+            commonQo.setSort("date desc");
+        }
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), commonQo.getSort());
         //  通过服务层获取查询后的用户列表
         List<Material> materialList = materialService.findList(material);
         //  返回 pageBean实体
