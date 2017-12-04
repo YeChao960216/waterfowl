@@ -88,6 +88,8 @@ public class LoginController {
     @ResponseBody
     public User nowUserInfo(HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
+        if (user == null)
+            return null;
         user.setPassword("  ");
         return user;
     }
