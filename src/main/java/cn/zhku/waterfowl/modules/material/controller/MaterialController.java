@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,6 +48,8 @@ public class MaterialController extends BaseController {
     @RequestMapping("add")
     public Message addMaterial(Material material) throws Exception {
         material.setIdStorage(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        material.setDate(t);
         if (materialService.add(material) == 1)
             return new Message("1", "插入材料成功");
         else
@@ -118,7 +121,7 @@ public class MaterialController extends BaseController {
      * @throws Exception sql
      */
     @ResponseBody
-    @RequestMapping("selectBy")
+    @RequestMapping("list")
     public PageInfo<Material> select(Material material, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "date desc");
@@ -133,38 +136,43 @@ public class MaterialController extends BaseController {
     @RequestMapping("show")
     public PageInfo<Material> show(Material entity, CommonQo commonQo) throws Exception {
 //        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
-//        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
-//        commonQo.setSort("date desc");
+        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
+        {
+            commonQo.setSort("date desc");
+        }
+        else if(commonQo.getSort().equals("2")){
+            commonQo.setSort("expiration_date desc");
+        }
 //        PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),commonQo.getSort());
 //
 //        return new PageInfo<>(materialService.list(entity,commonQo));
 //    }
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "date desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), commonQo.getSort());
         //  通过服务层获取查询后的用户列表
         List<Material> materialList = materialService.showAll(entity, commonQo);
         //  返回 pageBean实体
         return new PageInfo<Material>(materialList);
     }
 
-    @ResponseBody
-    @RequestMapping("list")
-    public PageInfo<Material> list(Material entity, CommonQo commonQo) throws Exception {
-//        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
-//        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
-//        commonQo.setSort("date desc");
-//        PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),commonQo.getSort());
-//
-//        return new PageInfo<>(materialService.list(entity,commonQo));
+//    @ResponseBody
+//    @RequestMapping("list")
+//    public PageInfo<Material> list(Material entity, CommonQo commonQo) throws Exception {
+////        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
+////        if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
+////        commonQo.setSort("date desc");
+////        PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),commonQo.getSort());
+////
+////        return new PageInfo<>(materialService.list(entity,commonQo));
+////    }
+//        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+//        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "expiration_date desc");
+//        //  通过服务层获取查询后的用户列表
+//        List<Material> materialList = materialService.listAll(entity, commonQo);
+//        //  返回 pageBean实体
+//        return new PageInfo<Material>(materialList);
 //    }
-        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "expiration_date desc");
-        //  通过服务层获取查询后的用户列表
-        List<Material> materialList = materialService.listAll(entity, commonQo);
-        //  返回 pageBean实体
-        return new PageInfo<Material>(materialList);
-    }
-    // 接受一个新Excel
+//    // 接受一个新Excel
 
     /**
      * 导入用excel
@@ -227,7 +235,7 @@ public class MaterialController extends BaseController {
         ExportExcelUtil<Material> exportExcelUtil = new ExportExcelUtil<>();
 
         List<Material> materialList = materialService.findList(material);
-        String[] headers = {"物资编号", "进厂时间", "物资名称", "物资有效期", "关联厂商", "联系电话", "是否过期", "物资数量", "计数单位", "存储地点", "存储方式", "备注", "记录者编号", "登录者编号"};
+        String[] headers = {"物资编号", "进厂时间", "物资名称", "物资有效期", "关联厂商", "联系电话", "是否过期", "物资数量", "计数单位", "存储地点", "存储方式", "备注", "登录者编号", "负责人编号"};
         //  通过标题和数据库数据生成XLS文件
         //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载

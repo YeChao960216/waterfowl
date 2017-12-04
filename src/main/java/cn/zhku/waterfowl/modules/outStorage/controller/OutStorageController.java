@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class OutStorageController extends BaseController{
         public Message addOutstorage(Outstorage outstorage) throws Exception {
             outstorage.setIdOutstorage(
                     UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            outstorage.setRecordDate(t);
             if(outStorageService.add(outstorage) == 1)
                 return new Message("1","添加出库记录成功");
             else
@@ -100,7 +103,7 @@ public class OutStorageController extends BaseController{
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("selectBy")
+        @RequestMapping("list")
         public PageInfo<Outstorage> select(Outstorage outstorage, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
