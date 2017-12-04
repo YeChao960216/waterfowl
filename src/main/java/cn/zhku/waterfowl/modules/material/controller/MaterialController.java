@@ -138,10 +138,10 @@ public class MaterialController extends BaseController {
 //        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
         if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
         {
-            commonQo.setSort("date desc");
-        }
-        else if(commonQo.getSort().equals("2")){
             commonQo.setSort("expiration_date desc");
+        }
+        else {
+            commonQo.setSort("date desc");
         }
 //        PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),commonQo.getSort());
 //
