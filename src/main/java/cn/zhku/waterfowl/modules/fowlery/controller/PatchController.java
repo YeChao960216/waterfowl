@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.controller;
 
+import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
 import cn.zhku.waterfowl.modules.fowlery.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
@@ -23,6 +24,8 @@ import java.util.List;
 public class PatchController {
     @Autowired
     PatchService patchService;    //批次号
+    @Autowired
+    AffiliationService affiliationService;
 
     /**
      * 通过id展示批次列表
@@ -63,7 +66,7 @@ public class PatchController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("editPatch")
+    @RequestMapping("editPatch/{id}")
     public int editPatch(@PathVariable String id,Patch patch) throws Exception {
         patch.setId(id);
         return patchService.update(patch);
@@ -112,23 +115,18 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("selectAffliation")
-    public List<Affiliation> selectAffiliation(@PathVariable  String type,String position,String size){
-        Affiliation affiliation=new Affiliation();
+    public List<Affiliation> selectAffiliation(String type, String position, String size){
 
-        affiliation.setType(type);
-        affiliation.setPosition(position);
-        affiliation.setSize(size);
-
-        List<Affiliation> affiliationList=patchService.selectAffiliation(type,position,size);
+        //前端输进来的是数据字典的name的字段，我们要保存的是数据字典中的id
+        List<Affiliation> affiliationList=affiliationService.selectAffiliation(type,position,size);
 
         //如果该归属表是还没有被使用的话
         for(int i=0;i<affiliationList.size();i++){
             //返回那些没有被使用完的
-            if(affiliationList.get(i).getStatus().equals("1")){
+            if(affiliationList.get(i).getStatus().equals("满员")){
                 affiliationList.remove(i);      //如果归属表被使用了，移除
             }
         }
-
         return affiliationList;
     }
 
@@ -147,7 +145,7 @@ public class PatchController {
         List<Fowlery> fowleryList=patchService.selectFowlery(affiliation);
         System.out.print(affiliation);
         for(int i=0;i<fowleryList.size();i++){
-            if(fowleryList.get(i).getStatus().equals("1")){
+            if(fowleryList.get(i).getStatus().equals("不可使用")){
                 //该小禽舍被使用了
                 fowleryList.remove(i);
             }
@@ -157,34 +155,26 @@ public class PatchController {
     }
 
 
-    /*
-    判断是否还可以再选
+    /**
+     * 根据被选择的小禽舍去修改状态
+     * @param id 小禽舍的id
+     * @return
      */
     @ResponseBody
-    @RequestMapping("isFull/{id_poultry}")
-    public int IsFull(@PathVariable String id_poultry){
+    @RequestMapping("updateStatusByid/{id}")
+    public int updateStatusByid(@PathVariable String id){
+        //修改小禽舍的状态
+        int i=patchService.updateStatusByid(id);
+        return i;
+    }
 
-        //通过id_poultry得到总数
-        String quantity=patchService.getCount(id_poultry);
-        int sum=Integer.parseInt(quantity);     //转换成string类型
-
-        //直接查表，在patch表中查找那些poultry的fowlery，一个集合,我们可以获取一个status集合，然后查看他们的大小,而且要通过数据字典，计算他们的和
-        List<String> sizeList=patchService.getFowlerySize(id_poultry);
-
-        //遍历集合，达到结果后去查询数据字典，再相加
-        int su=0;
-        for(int i=0;i<sizeList.size();i++){
-            String size=patchService.selectSizeByDic(sizeList.get(i));
-
-            int s=Integer.parseInt(size);    //解析
-
-            su=su+s;   //求和
-        }
-
-        if(sum>su){
-            return 1;   //可继续查找
-        }else{
-            return 0;    //不能继续查找
-        }
+    /**
+     * 获取禽舍中最新的条记录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getNewPatch")
+    public  Patch getNewPatch(){
+        return patchService.getNewPatch();
     }
 }

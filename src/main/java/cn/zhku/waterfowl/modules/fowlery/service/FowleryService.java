@@ -119,15 +119,22 @@ public class FowleryService implements IBaseService<Fowlery> {
     }
 
     /**
-     * 通过affiliation的id获取fowlery
-     * @param affiliation
+     * 计算所有禽舍的数量
      * @return
      */
-    public List<Fowlery> selectFowlery(String affiliation) {
-        return dao.findFowleryByAId(affiliation);
+    public int countAllFowlery() {
+        FowleryExample fowleryExample=new FowleryExample();
+        return fowleryMapper.countByExample(fowleryExample);
     }
 
-    public String selectFowleryStatus(String id) {
-        return  dao.selectFowleryStatus(id);
+    /**
+     * 计算已经被使用过的禽舍的数量
+     * @return
+     */
+    public int countUsedFowlery() {
+        FowleryExample fowleryExample=new FowleryExample();
+        FowleryExample.Criteria criteria=fowleryExample.createCriteria();
+        criteria.andStatusEqualTo("不可使用");
+        return fowleryMapper.countByExample(fowleryExample);
     }
 }

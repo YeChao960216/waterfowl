@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.service;
 
+import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.AffiliationExample;
 import cn.zhku.waterfowl.pojo.mapper.AffiliationMapper;
@@ -16,7 +17,8 @@ import java.util.List;
 public class AffiliationService implements IBaseService<Affiliation> {
     @Autowired
     private AffiliationMapper affiliationMapper;     //大禽舍
-
+    @Autowired
+    private FowleryDao dao;
 
     @Override
     public int add(Affiliation entity) throws Exception {
@@ -88,6 +90,44 @@ public class AffiliationService implements IBaseService<Affiliation> {
         if (entity.getIdRecord() != null) {
             criteria.andIdRecordLike("%" + entity.getIdRecord() + "%");
         }
+        return affiliationMapper.selectByExample(affiliationExample);
+    }
+
+    /**
+     * 查找类型
+     * @return
+     */
+    public List<String> selectSize() {
+        return dao.selectSize();
+    }
+
+    /**
+     * 查找小禽舍的地址
+     * @return
+     */
+    public List<String> selectPosition() {
+        return dao.selectPosition();
+    }
+
+    /**
+     * 查找类型
+     * @return
+     */
+    public List<String> selectType() {
+        return dao.selectType();
+    }
+
+    /**
+     * 通过这三个查 找数据
+     * @param type
+     * @param position
+     * @param size
+     * @return
+     */
+    public List<Affiliation> selectAffiliation(String type, String position, String size) {
+        AffiliationExample affiliationExample=new AffiliationExample();
+        AffiliationExample.Criteria criteria=affiliationExample.createCriteria();
+        criteria.andTypeEqualTo(type).andPositionEqualTo(position).andSizeEqualTo(size);
         return affiliationMapper.selectByExample(affiliationExample);
     }
 }

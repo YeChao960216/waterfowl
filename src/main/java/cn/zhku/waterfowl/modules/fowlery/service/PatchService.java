@@ -1,7 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.service;
 
 import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
-import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.pojo.entity.PatchExample;
@@ -19,6 +18,7 @@ import java.util.List;
 public class PatchService implements IBaseService<Patch>{
     @Autowired
     private PatchMapper patchMapper;
+    @Autowired
     private FowleryDao dao;
 
     @Override
@@ -75,16 +75,6 @@ public class PatchService implements IBaseService<Patch>{
         return patchMapper.selectByExample(patchExample);
     }
 
-    /**
-     * 通过type,position,size这三个条件去选取大禽舍
-     * @param type
-     * @param position
-     * @param size
-     * @return
-     */
-    public List<Affiliation> selectAffiliation(String type, String position, String size) {
-        return dao.selectAffiliation(type,position,size);
-    }
 
     /**
      * 通过affiliation查找到小禽舍信息
@@ -95,31 +85,21 @@ public class PatchService implements IBaseService<Patch>{
         return  dao.selectFowlery(affiliation);
     }
 
-    /**
-     * 通过poultry的id查看这个初批次有多少只
-     * @param id_poultry
-     * @return
-     */
-    public String getCount(String id_poultry) {
-        return dao.getCount(id_poultry);
-    }
 
 
     /**
-     * 通过id_poultry查看一个size的list集合
-     * @param id_poultry
-     * @return
+     * 修改小禽舍的状态
+     * @param id
      */
-    public List<String> getFowlerySize(String id_poultry) {
-        return dao.getFowlerySize(id_poultry);
+    public int updateStatusByid(String id) {
+        return dao.updateStatusByid(id);
     }
 
     /**
-     * 根据size查找数据字典
-     * @param s
+     * 获取禽舍中最新的一条记录
      * @return
      */
-    public String selectSizeByDic(String s) {
-        return dao.selectSizeByDic(s);
+    public Patch getNewPatch() {
+        return dao.getNewPatch();
     }
 }
