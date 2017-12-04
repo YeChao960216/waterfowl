@@ -91,18 +91,18 @@ public class MaterialController extends BaseController {
             return new Message("2", "更新材料信息失败");
     }
 
-    /**
-     * 获取一条记录
-     *
-     * @param id 表主键
-     * @return Message
-     * @throws Exception sql、bean检验
-     */
-    @ResponseBody
-    @RequestMapping("select/{id}")
-    public Material get(@PathVariable String id) throws Exception {
-        return materialService.get(id);
-    }
+//    /**
+//     * 获取一条记录
+//     *
+//     * @param id 表主键
+//     * @return Message
+//     * @throws Exception sql、bean检验
+//     */
+//    @ResponseBody
+//    @RequestMapping("select/{id}")
+//    public Material get(@PathVariable String id) throws Exception {
+//        return materialService.get(id);
+//    }
 
     /**
      * 获取一个分页的数据列表

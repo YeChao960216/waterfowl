@@ -122,8 +122,8 @@ public class MaterialService  implements IBaseService<Material>{
         if (entity.getMode()!=null)
             criteria.andModeLike("%"+entity.getMode()+"%");
 //        //库存编号
-//        if (entity.getIdStorage()!=null)
-//            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
+        if (entity.getIdStorage()!=null)
+            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
 ////        //备注
 ////        if (entity.getRemark()!=null)
 ////            criteria.andRemarkLike("%"+entity.getRemark()+"%");
@@ -145,16 +145,5 @@ public class MaterialService  implements IBaseService<Material>{
             criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
         return materialMapper.selectByExample(materialExample);
     }
-//    public List<Material> listAll(Material entity, CommonQo commonQo) {
-//        MaterialExample materialExample = new MaterialExample();
-//        MaterialExample.Criteria criteria = materialExample.createCriteria();
-//        //  根据入厂时间区间来查找
-//        if (commonQo.getStart() != null)
-//            criteria.andExpirationDateGreaterThanOrEqualTo(commonQo.getStart());
-//        if (commonQo.getEnd() != null)
-//            criteria.andExpirationDateLessThanOrEqualTo(commonQo.getEnd());
-//        return materialMapper.selectByExample(materialExample);
-//    }
-
 
 }

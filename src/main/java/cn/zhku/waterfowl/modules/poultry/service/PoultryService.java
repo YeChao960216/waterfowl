@@ -115,6 +115,8 @@ public class PoultryService  implements IBaseService<Poultry> {
         //物资类型
         if (entity.getType()!=null)
             criteria.andTypeLike("%"+entity.getType()+"%");
+        if (entity.getIdPoultry()!=null)
+            criteria.andIdPoultryEqualTo("%"+entity.getIdPoultry()+"%");
         //负责人编号
         if (entity.getIdCharge()!=null)
             criteria.andIdChargeEqualTo(entity.getIdCharge());

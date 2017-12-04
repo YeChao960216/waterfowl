@@ -84,17 +84,17 @@ public class OutStorageController extends BaseController{
                 return new Message("2","修改出库记录失败");
         }
 
-        /** 根据id展示出库信息
-         * 测试完成
-         * @param id   只需记录表id
-         * @return OutStorage实体
-         * @throws Exception    sql
-         */
-        @ResponseBody
-        @RequestMapping("select/{id}")
-        public Outstorage selectById(@PathVariable String id) throws Exception {
-            return outStorageService.get(id);
-        }
+//        /** 根据id展示出库信息
+//         * 测试完成
+//         * @param id   只需记录表id
+//         * @return OutStorage实体
+//         * @throws Exception    sql
+//         */
+//        @ResponseBody
+//        @RequestMapping("select/{id}")
+//        public Outstorage selectById(@PathVariable String id) throws Exception {
+//            return outStorageService.get(id);
+//        }
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
          * @param outstorage outstorage实体的各个字段
@@ -137,8 +137,8 @@ public class OutStorageController extends BaseController{
      */
 
     @ResponseBody
-    @RequestMapping("listMatericalByName")
-    public List<Material> listMatericalByName(String name) throws Exception {
+    @RequestMapping("select/{name}")
+    public List<Material> listMatericalByName(@PathVariable String name) throws Exception {
         //  通过服务层获取查询后的用户列表
         List<Material> material =  outStorageService.listMatericalByName(name);
         //  返回 pageBean实体
