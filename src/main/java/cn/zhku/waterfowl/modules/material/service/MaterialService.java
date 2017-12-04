@@ -145,15 +145,16 @@ public class MaterialService  implements IBaseService<Material>{
             criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
         return materialMapper.selectByExample(materialExample);
     }
-    public List<Material> listAll(Material entity, CommonQo commonQo) {
-        MaterialExample materialExample = new MaterialExample();
-        MaterialExample.Criteria criteria = materialExample.createCriteria();
-        //  根据入厂时间区间来查找
-        if (commonQo.getStart() != null)
-            criteria.andExpirationDateGreaterThanOrEqualTo(commonQo.getStart());
-        if (commonQo.getEnd() != null)
-            criteria.andExpirationDateLessThanOrEqualTo(commonQo.getEnd());
-        return materialMapper.selectByExample(materialExample);
-    }
+//    public List<Material> listAll(Material entity, CommonQo commonQo) {
+//        MaterialExample materialExample = new MaterialExample();
+//        MaterialExample.Criteria criteria = materialExample.createCriteria();
+//        //  根据入厂时间区间来查找
+//        if (commonQo.getStart() != null)
+//            criteria.andExpirationDateGreaterThanOrEqualTo(commonQo.getStart());
+//        if (commonQo.getEnd() != null)
+//            criteria.andExpirationDateLessThanOrEqualTo(commonQo.getEnd());
+//        return materialMapper.selectByExample(materialExample);
+//    }
+
 
 }
