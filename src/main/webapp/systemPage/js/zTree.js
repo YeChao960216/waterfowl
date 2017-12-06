@@ -1,4 +1,4 @@
-﻿var setting = {  
+﻿﻿var setting = {  
     callback:{
         onClick:zTreeOnclick
     },
