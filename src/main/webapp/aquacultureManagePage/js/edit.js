@@ -3,7 +3,7 @@ $(function () {
     $('#btn').click(function () {
         $.ajax({
             /*请求的HTML页的URL地址*/
-            url: "",
+            url: "/waterfowl/aquaculture/edit/",
             /*data发送至服务器的key/value数据*/
             data: {
                 "recordDate":$('#recordDate').val(),

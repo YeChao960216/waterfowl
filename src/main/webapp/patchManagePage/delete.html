@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手动删除批次表</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+
+</head>
+<body>
+    <table>
+        <!--查询条件-->
+        <div>
+            <input id="idPoultrys" type="text" placeholder="请输入养殖批次">
+
+            <!--从数据字典查询获得下拉选项-->
+            <select id="types">
+                <!--<option value="1">类型</option>-->
+                <!--<option>鸡</option>-->
+                <!--<option>鸡</option>-->
+                <!--<option>鸡</option>-->
+            </select>
+            <!--从数据字典查询获得下拉选项-->
+
+                <select id="positions">
+                    <!--<option>方位</option>-->
+                    <!--<option>东</option>-->
+                    <!--<option>西</option>-->
+                    <!--<option>南</option>-->
+                    <!--<option>北</option>-->
+                </select>
+
+            <!--从数据字典查询获得下拉选项-->
+
+                <select id="sizes">
+                    <!--<option>规格</option>-->
+                    <!--<option>100</option>-->
+                    <!--<option>200</option>-->
+                    <!--<option>300</option>-->
+                </select>
+
+            <!--type、position、size从字典获取后，三个字段传至affiliation表，返回id给本表的id_affilation下拉选项，用户进行选择-->
+                <select id="idAffilaitions">
+                    <!--<option>所属大禽舍</option>-->
+                    <!--<option>所属大禽舍1</option>-->
+                    <!--<option>所属大禽舍2</option>-->
+                    <!--<option>所属大禽舍3</option>-->
+                </select>
+
+            <!--用户选择的id_affilation传至fowlery表，返回id给本表的id_fowery下拉选择，用户进行选择-->
+                <select id="idFowlerys">
+                    <!--<option>禽舍编号</option>-->
+                    <!--<option>禽舍编号1</option>-->
+                    <!--<option>禽舍编号2</option>-->
+                    <!--<option>禽舍编号3</option>-->
+                </select>
+
+                <input  id="idCharges" placeholder="请输入负责人编号">
+                <input  id="idRecorders" placeholder="请输入记录者">
+                <button class="btn" id="btn">查询</button>
+        </div>
+        <tr>
+            <th><input type="checkbox" id="checkAll"> 全选</th>
+            <th>养殖批次</th>
+            <th>类型</th>
+            <th>方位</th>
+            <th>规格</th>
+            <th>所属大禽舍</th>
+            <th>禽舍编号</th>
+            <th>负责人编号</th>
+            <th>记录者编号</th>
+            <th>操作</th>
+        </tr>
+
+        <tbody id="tbody"></tbody>
+    </table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/delete.js"></script>
+
+</html>

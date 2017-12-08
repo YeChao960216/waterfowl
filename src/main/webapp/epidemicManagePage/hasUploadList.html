@@ -16,7 +16,7 @@
 
             //查询：绑定事件
             $("#search").click(function () {
-                showList();
+                showList(1);
             })
 
             /**
@@ -24,19 +24,29 @@
              * @param pageNum：int  将要跳转的页数
              */
             function showList(pageNum) {
-                //$.post(url,[data],[callback],[datatype])
+                //将前台调用后台接口所需要的数据封装为对象
+                var obj ={
+                    flag: 0,
+                    pageNum: pageNum//表示将要跳转的页数
+                };
+                if($("#record_date").val()){
+                    obj.recordDate =$("#id_patch").val();
+                }else if($("#name").val()){
+                    obj.name =$("#name").val();
+                }
+                else if($("#diseaes").val()){
+                    obj.diseaes =$("#diseaes").val();
+                }else if($("#processing_mode").val()){
+                    obj.processingMode =$("#processing_mode").val();
+                }else if($("#id_recorder").val()){
+                    obj.idRecorder =$("#id_recorder").val();
+                }else if($("#id_charge").val()){
+                    obj.idCharge =$("#id_charge").val();
+                }
+
                 $.post(
                     "/waterfowl/epidemic/showByFlag/1",
-                    {
-                        "date":$("#record_date").val(),
-                        "diseaes":$("#diseaes").val(),
-                        "processingMode":$("#processing_mode").val(),
-                        "idFowlery":$("#id_fowlery").val(),
-                        "idRecorder":$("#id_recorder").val(),
-                        "idCharge":$("#id_charge").val(),
-                        "flag":1,
-                        "pageNum":pageNum//表示将要跳转的页数
-                    },
+                    obj,
                     function (data) {
                         console.log(data);
                         var content =""
@@ -44,8 +54,9 @@
                         for(var i=0;i<data.list.length;i++){
                             o =data.list[i];
                             content+='<tr>'+
-                                '<td>'+o.date+'</td>'+
-                                '<td>'+o.idFowlery+'</td>'+
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
+                                '<td>'+o.name+'</td>'+
                                 '<td>'+o.sign+'</td>'+
                                 '<td>'+o.diseaes+'</td>'+
                                 '<td>'+o.numInfected+'</td>'+
@@ -53,7 +64,6 @@
                                 '<td>'+o.medicationMode+'</td>'+
                                 '<td>'+o.dose+'</td>'+
                                 '<td>'+o.doseUnit+'</td>'+
-                                '<td>'+o.idOutstorage+'</td>'+
                                 '<td>'+o.idRecorder+'</td>'+
                                 '<td>'+o.idCharge+'</td>'+
                                 '<td>'+o.remark+'</td>'+
@@ -84,9 +94,10 @@
 <body>
     <div id="action">
         <input type="date" id="record_date">
+        <input type="text" id="name" placeholder="药品名称">
         <input type="text" id="diseaes" placeholder="所患疾病">
         <input type="text" id="processing_mode" placeholder="处理方式">
-        <input type="text" id="id_fowlery" placeholder="禽舍编号">
+        <input type="text" id="id_patch" placeholder="禽舍编号">
         <input type="text" id="id_recorder" placeholder="记录者">
         <input type="text" id="id_charge" placeholder="负责人">
         <input type="button" value="查询" class="btn" id="search">
@@ -95,7 +106,8 @@
         <thead>
             <tr>
                 <th>记录日期</th>
-                <th>禽舍编号</th>
+                <th>批次编号</th>
+                <th>药品名称</th>
                 <th>免疫、疫病标志</th>
                 <th>疾病</th>
                 <th>染病个体数</th>
@@ -103,7 +115,6 @@
                 <th>给药方式</th>
                 <th>剂量</th>
                 <th>剂量单位</th>
-                <th>出仓表编号</th>
                 <th>记录者编号</th>
                 <th>负责人编号</th>
                 <th>备注</th>

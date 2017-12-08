@@ -40,7 +40,7 @@
         },success :function (pageBean) {    //  ajax成功后执行的函数
             let data = pageBean.list;   //  从pageBean提取需要的信息,这里是List<User>
             $(data).each(function (index,element) { //  遍历用户列表List
-                let tr = $("<tr></tr>");    //  创建新的<tr>节点
+                let tr = $("<tr/>");    //  创建新的<tr>节点
                 for( i in element){
                     let td = $("<td>"+element[i]+"</td>");  //  //  创建新的<td>节点,并填充数据
                     $(tr).append(td);   //  将td节点放入tr节点

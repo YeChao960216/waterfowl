@@ -118,6 +118,7 @@ select{
     border-radius: 5px; */
     cursor: pointer;
 }
+
 input{
     /* height:30px; */
     /* outline: none; */
@@ -225,7 +226,15 @@ iframe{
     padding: 10px 0px;
     text-align: center;
 }
-#pre,#next:hover{
+#pre,#next,[id^='jump']:hover{
     cursor: pointer;
 }
-
+.input-min{
+    width:60px;
+}
+.select-fix-input{
+    width:173px;
+}
+.red{
+    color:#800000;
+}

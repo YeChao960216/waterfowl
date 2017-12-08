@@ -25,18 +25,23 @@
              * @param pageNum：int  将要跳转的页数
              */
             function showList(pageNum) {
-                //$.post(url,[data],[callback],[datatype])
+                //将调用后台接口所需要的查询条件封装为对象
+                var obj ={
+                    processingMode:$("#processing_mode").val(),
+                    flag: 0,
+                    pageNum: pageNum//表示将要跳转的页数
+                };
+                if($("#id_patch").val()){
+                    obj.idPatch =$("#id_patch").val();
+                }else if($("#id_recorder").val()){
+                    obj.idRecorder =$("#id_recorder").val();
+                }else if($("#id_charge").val()){
+                    obj.idCharge =$("#id_charge").val();
+                }
+
                 $.post(
                     "/waterfowl/ddl/findList",
-                    {
-                        "record_date":$("#record_date").val(),
-                        "epidemic_id":$("#epidemic_id").val(),
-                        "processing_mode":$("#processing_mode").val(),
-                        "id_recorder":$("#id_recorder").val(),
-                        "id_charge":$("#id_charge").val(),
-                        "flag":1,
-                        "pageNum":pageNum//表示将要跳转的页数
-                    },
+                    obj,
                     function (data) {
                         console.log(data);
                         var content =""
@@ -45,7 +50,7 @@
                             o =data.list[i];
                             content+='<tr>'+
                                 '<td>'+o.recordDate+'</td>'+
-                                '<td>'+o.idPoultry+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
                                 '<td>'+o.numProcessed+'</td>'+
                                 '<td>'+o.processingMode+'</td>'+
                                 '<td>'+o.idRecorder+'</td>'+
@@ -72,7 +77,7 @@
 <body>
     <div id="action">
         <input type="date" id="record_date">
-        <input type="text" id="epidemic_id" placeholder="疾控批次">
+        <input type="text" id="id_patch" placeholder="疾控批次">
         <input type="text" id="processing_mode" placeholder="处理方式">
         <input type="text" id="id_recorder" placeholder="记录者">
         <input type="text" id="id_charge" placeholder="负责人">

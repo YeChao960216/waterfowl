@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手动增加大禽舍</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+
+</head>
+<body>
+    <table>
+
+        <tr>
+            <th>养殖类型</th>
+            <th>方位</th>
+            <th>规格</th>
+            <th>负责人编号</th>
+            <th>记录者编号</th>
+            <th>操作</th>
+        </tr>
+
+        <tr>
+            <!--从数据字典查询获得下拉选项-->
+            <td>
+                <select id="type">
+                    <!--<option value="1">类型</option>-->
+                    <!--<option>鸡</option>-->
+                    <!--<option>鸡</option>-->
+                    <!--<option>鸡</option>-->
+                </select>
+            </td>
+
+            <!--从数据字典查询获得下拉选项-->
+            <td>
+                <select id="position">
+                    <!--<option>方位</option>-->
+                    <!--<option>东</option>-->
+                    <!--<option>西</option>-->
+                    <!--<option>南</option>-->
+                    <!--<option>北</option>-->
+                </select>
+            </td>
+
+            <!--从数据字典查询获得下拉选项-->
+            <td>
+                <select id="size">
+                    <!--<option>规格</option>-->
+                    <!--<option>100</option>-->
+                    <!--<option>200</option>-->
+                    <!--<option>300</option>-->
+                </select>
+            </td>
+
+            <!--<td>-->
+                <!--是<input type="radio" id="yes">-->
+                <!--否<input type="radio" id="no"  checked>-->
+            <!--</td>-->
+
+            <td><input  id="idCharge" placeholder="请输入负责人编号"></td>
+
+            <td><input  id="idRecorder" placeholder="请输入记录者编号"></td>
+            <td><button class="btn" id="add">增加</button></td>
+        </tr>
+
+        <tbody id="tbody"></tbody>
+    </table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/add.js"></script>
+</html>
