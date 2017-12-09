@@ -14,12 +14,11 @@
 
             //查询：绑定事件
             $("#search").click(function () {
-                console.log("1111")
                 showList(1);
             })
 
             //上传所选记录:因为在注册事件里面才获取动态加载的元素，所以不用放在回调函数中
-            zhanjia.upLoadList(document.getElementById("upload"))
+            zhanjia.upLoadList(document.getElementById("upload"),"/waterfowl/ddl/editFlagById")
 
             //修改方法
             function edit() {
@@ -57,28 +56,14 @@
                     }
                 }
             }
-
             /**
              * 展示查询列表函数
              * @param pageNum：int  将要跳转的页数
              */
             function showList(pageNum) {
-                //$.post(url,[data],[callback],[datatype])
-               /* var data ={
-                    "record_date":$("#record_date").val(),
-                    "epidemic_id":$("#epidemic_id").val(),
-                    "processing_mode":$("#processing_mode").val(),
-                    "id_recorder":$("#id_recorder").val(),
-                    "id_charge":$("#id_charge").val(),
-                    "flag":0,
-                    "pageNum":pageNum//表示将要跳转的页数
-                };*/
-
+                //将调用后台接口所需要的查询条件封装为对象
                var obj ={
                    processingMode:$("#processing_mode").val(),
-                   //idPoultry: $("#id_pultry").val(),
-                   //idRecorder: $("#id_recorder").val(),
-                   //idCharge: $("#id_charge").val(),
                    flag: 0,
                    pageNum: pageNum//表示将要跳转的页数
                };
@@ -89,12 +74,11 @@
                }else if($("#id_charge").val()){
                    obj.idCharge =$("#id_charge").val();
                }
-                console.log(obj);
+
                 $.post(
                     "/waterfowl/ddl/findList",
                     obj,
                     function (data) {
-                        console.log(data);
                         var content = ""
                         var o = null;
                         for (var i = 0; i < data.list.length; i++) {
@@ -147,8 +131,6 @@
         <input type="button" value="查询" class="btn" id="search">
         <span>|</span>
         <input type="button" value="上传记录" class="btn" id="upload">
-        <span>|</span>
-        <input type="button" value="删除记录" class="btn" id="delete">
     </div>
     <table>
         <tr>

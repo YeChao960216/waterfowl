@@ -15,9 +15,10 @@
         /**
          * 上传记录方法
          * @param ele:element 上传按钮
+         * @param urlStr:修改上传记录的url
          */
         upLoadList:
-            function (ele) {
+            function (ele,urlStr) {
                 ele.onclick =function () {
                 var selectArr =document.getElementsByClassName("select");
                 var idList =[];
@@ -27,11 +28,11 @@
                         idList.push(selectArr[i].parentNode.lastChild.value);
                     }
                 }
-                $.post("/waterfowl/ddl/editFlagById",idList,function (data) {
+                $.post(urlStr,idList,function (data) {
                     if (data.status===1)
-                    alert("上传数据成功!");
+                        alert("上传数据成功!");
                     else
-                     alert("上传数据失败！");
+                        alert("上传数据失败！");
                 })
                 console.log(idList);
             }
