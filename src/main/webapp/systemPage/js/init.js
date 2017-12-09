@@ -22,6 +22,14 @@
     window.onresize = function(){
         initF();
     }
+
+    $.get('/waterfowl/user/nowUserInfo',function (res) {
+        if(res){
+            $('#user').text(res.name);
+        }else{
+            alert('获取当前登陆用户信息失败');
+        }
+    });
     /*
     *显示当前时间
     */

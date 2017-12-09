@@ -2,9 +2,10 @@
     const oUrl = {
         PRONAME:'/waterfowl',
         READYUPDATEINFO:'/user/nowUserInfo',
-        UPDATEINFO:'/user/updateInfo'
+        UPDATEINFO:'/admin/user/edit/'
     };
-    var oPerson = { 
+    var oPerson = {
+        _id:'',
         _phone :'',
         _username : '',
         _gender : '',
@@ -16,7 +17,7 @@
         set gender(gender){
             var $radio = $(':radio');
                 $radio.prop('ckecked',false);
-            if(gender=='男'){
+            if(gender==1){
                 $radio[0].checked = true;
             }else{
                 $radio[1].checked = true;
@@ -28,6 +29,7 @@
     $.get(oUrl.PRONAME+oUrl.READYUPDATEINFO,function(data){
         //补全对象,显示
         if(data){
+            oPerson._id = data.id;
             $('#phone')[0].value = oPerson._phone = data.phone;
             $('#username')[0].value = oPerson._username = data.username;
             oPerson.gender = data.gender;
@@ -38,19 +40,23 @@
             throw new Error('获取用户信息失败');
         }
     });
+    $(":radio").change(function(){
+        oPerson.gender =  $(":checked").val();
+        console.log(oPerson.gender);
+    });
     $('#submit').click(function () {
         console.log('post');
-        $.post(oUrl.PRONAME+oUrl.UPDATEINFO,{
-            phone:oPerson._phone,
-            username:oPerson._username,
+        $.post(oUrl.PRONAME+oUrl.UPDATEINFO+oPerson._id,{
+            phone:$('#phone')[0].value,
+            username:$('#username')[0].value,
             gender:oPerson.gender,
-            name:oPerson._name,
-            remark:oPerson._remark,
+            name:$('#name')[0].value,
+            remark:$('#remark')[0].value,
         },function(data){
             if(data){
                 alert(data.msg);
             }else{
-                throw new Error('修改失败！！！');
+                alert("抱歉！修改失败");
             }
         });
     })

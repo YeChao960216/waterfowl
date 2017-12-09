@@ -6,9 +6,9 @@
     const oURL = {
         PRONAME:'/waterfowl',
         ID : getRequest()['id'],
-        GETINFOBYID:'/outpoultry/show',
+        GETINFOBYID:'/outpoultry/show/',
         GETTYPE : '/getDicName/getBreedingType',//获取家禽种类
-        GETPATCH : '/outstorage/show',//?s = 获取出厂批次
+        GETPATCH : '/outpoultry/list',//?s = 获取出厂批次
         EDIT:'/outpoultry/edit'
     };
 
@@ -31,11 +31,18 @@
       * 列出出厂批次
       */
       $.get(oURL.PRONAME+oURL.GETPATCH,function(res){
+
         if(res){
+            var patchList = [];
+            res.list.forEach(function (val) {
+                patchList.push({'idPatch':val.idPatch});
+            });
+
             viewCommand({
                 command:'display',
-                param:[$('#id_outstorage')[0],res.list,'outStorage']
+                param:[$('#id_patch')[0],patchList,'outPatch']
             });
+
         }else{
             alert('获取批次编号失败');
         }

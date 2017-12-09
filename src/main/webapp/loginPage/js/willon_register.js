@@ -84,6 +84,8 @@
                     },function(data){
                     if(data.status==1){
                         window.location.href = './login.html';
+                    }else{
+                        alert('可能是系统的内部错误，注册失败');
                     }
                 })
             }else{
