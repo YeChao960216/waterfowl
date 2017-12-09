@@ -31,6 +31,9 @@ var viewCommand = (function(msg){
          outStorage:[
              "<option value='{#idOutstorage#}'>{#idOutstorage#}</option>"
          ].join(''),
+         outPatch:[
+             "<option value='{#idPatch#}'>{#idPatch#}</option>"
+         ].join(''),
          empInfo:[
             '<tr>',
                 '<td >{#phone#}</td>',

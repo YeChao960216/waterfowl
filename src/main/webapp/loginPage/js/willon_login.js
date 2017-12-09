@@ -67,6 +67,8 @@
                     if(data.status==1){
                         //sessionStorage.setItem('system_user',data.username);
                         window.location.href='/waterfowl/index.html';
+                    }else{
+                        alert('可能是系统的内部错误，登陆失败');
                     }
                 })
             }else{
@@ -83,6 +85,8 @@
                 if(data.status==1){
                     //sessionStorage.setItem('user',data.username);
                     window.location.href='/waterfowl/index.html';
+                }else{
+                    alert('可能是系统的内部错误，登陆失败');
                 }
             })
         }
