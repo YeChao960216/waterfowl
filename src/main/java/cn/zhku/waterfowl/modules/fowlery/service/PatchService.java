@@ -99,7 +99,7 @@ public class PatchService implements IBaseService<Patch>{
      * 获取禽舍中最新的一条记录
      * @return
      */
-    public Patch getNewPatch() {
+    public String getNewPatch() {
         return dao.getNewPatch();
     }
 }

@@ -1,7 +1,6 @@
 package cn.zhku.waterfowl.modules.fowlery.dao;
 
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Patch;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -64,7 +63,7 @@ public interface FowleryDao {
      * 获取禽舍中最新的一条记录
      * @return
      */
-    @Select("select * from patch GROUP BY date desc LIMIT 1")
-    Patch getNewPatch();
+    @Select("select id from patch GROUP BY date desc LIMIT 1")
+    String getNewPatch();
 
 }

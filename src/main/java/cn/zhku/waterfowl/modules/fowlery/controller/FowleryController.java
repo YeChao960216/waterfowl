@@ -64,7 +64,7 @@ public class FowleryController {
 
 
     /**
-     * 添加一个小禽舍，禽舍的id由UUID产生
+     * 添加一个小禽舍，禽舍的id由UUID产生？？？--需修改的部分
      * @param fowlery
      * @return 状态码，1为成功，0为失败
      */
