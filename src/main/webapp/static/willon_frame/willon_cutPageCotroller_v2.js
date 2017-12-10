@@ -66,8 +66,8 @@
      self.count = pageBean.count || 10;
      self.nowPage = 1;//当前页
      self.allPage = -1;//总页数
-
-     self.url = obj.url + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
+     self.subUrl = obj.url;
+     self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
 
      /**
       * 按钮操作
@@ -100,7 +100,8 @@
   PageController.prototype = {
       next:function(){
           var self = this;
-          self.nowPage = self.nowPage+1<self.nowPage?self.nowPage +=1:self.allPage;
+          self.nowPage = self.nowPage+1<self.allPage?self.nowPage +=1:self.allPage;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
@@ -133,6 +134,7 @@
       pre:function(){
           var self = this;
           self.nowPage = self.nowPage-1>1?self.nowPage -=1:1;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
@@ -165,17 +167,19 @@
       jump:function(){
           var self = this;
           var target = self.jumpVal.value;
-          if(/[^0-9]*/.test(target)){
+          if(/[0-9]*/.test(target)){
               if(target > self.allPage || target < 1 ){
                   alert('你输入页数为非法值');
                   self.jumpVal.value = '';
                   return;
               }
+          }else{
               alert('请输入数字');
               self.jumpVal.value = '';
               return;
           }
           self.nowPage = target;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
