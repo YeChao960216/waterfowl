@@ -71,7 +71,7 @@
      * 提交表单
      */
     $('#submit')[0].onclick = function(){
-        var json = queryParse.call($('form'));
+        var json = JSON.stringify(queryParse.call($('form')));
             $.post(oURL.PRONAME+oURL.POST,json,function(res){
                 if(res.status){
                     alert('提交成功');

@@ -26,6 +26,7 @@
     $.get('/waterfowl/user/nowUserInfo',function (res) {
         if(res){
             $('#user').text(res.name);
+            localStorage.setItem('uId',res.id);
         }else{
             alert('获取当前登陆用户信息失败');
         }
