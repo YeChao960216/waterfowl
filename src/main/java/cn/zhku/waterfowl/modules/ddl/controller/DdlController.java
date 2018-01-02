@@ -65,7 +65,7 @@ public class DdlController extends BaseController{
         if (ddlService.updateFlag(idList)==1)
             return new Message("1","提交疾病/免疫记录表成功");
         else
-            return new Message("2","提交疾病/免疫记录表成失败");
+            return new Message("2","提交疾病/免疫记录表失败");
     }
     /**
     /**

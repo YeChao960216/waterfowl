@@ -27,8 +27,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
     public  int updateFlag(String[] idList){
 
             try {
-                for (String id:idList
-                     ) {
+                for (String id:idList) {
                     epidemicDao.updateFlagById(id);
                 }
                 return 1;
