@@ -15,11 +15,11 @@
         PRONAME : '/waterfowl' ,
         POST : '/outpoultry/add',//最终数据提交路径
         GETTYPE : '/getDicName/getBreedingType',//获取禽舍类型
-        GETPATCH : '/outstorage/show',//?s = 获取出厂批次
+        GETPATCH : '/outpoultry/list',//?s = 获取出厂批次
     }
 
     var cache = {
-        outstorageData :'',
+        outPatch :'',
     }
 
     /**
@@ -37,13 +37,18 @@
     });
 
      /**
-      * 列出出库编号
+      * 列出批次号
       */
       $.get(oURL.PRONAME+oURL.GETPATCH,function(res){
             if(res){
+                var patchList = [];
+                res.list.forEach(function (val) {
+                    patchList.push({'idPatch':val.idPatch});
+                });
+
                 viewCommand({
                     command:'display',
-                    param:[$('#id_patch')[0],res.list,'outStorage']
+                    param:[$('#id_patch')[0],patchList,'outPatch']
                 });
 
                 /**
@@ -55,7 +60,7 @@
                 /**
                  *缓存批次信息
                  */
-                cache.outstorageData = res.list;
+                cache.outPatch = patchList;
             }else{
                 alert('获取批次编号失败');
             }

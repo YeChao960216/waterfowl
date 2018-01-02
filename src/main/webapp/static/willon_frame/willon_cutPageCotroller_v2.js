@@ -9,7 +9,7 @@
    * 分页控制者
    * 基本功能
    * 1、绑定操作区
-   * 2、多个视图切换
+   * 2、多个视图切换 (暂时没加入豪华套餐)
    * 3、可加入缓存功能
    */
   
@@ -66,8 +66,8 @@
      self.count = pageBean.count || 10;
      self.nowPage = 1;//当前页
      self.allPage = -1;//总页数
-
-     self.url = obj.url + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
+     self.subUrl = obj.url;
+     self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
 
      /**
       * 按钮操作
@@ -80,6 +80,17 @@
      self.jumpVal = dom.jumpVal || 1;//获取页数值
 
      /**
+      *数据过滤模板
+      */
+     self.filterTpl = obj.dataFilter ? obj.dataFilter.tpl : '';
+     // try{
+     //     self.filterTpl = obj.dataFilter.tpl || '';
+     // }catch (err){
+     //    console.log(err);
+     // }
+
+
+     /**
       * 数据缓存
       */
      self.cache = {};
@@ -89,15 +100,23 @@
   PageController.prototype = {
       next:function(){
           var self = this;
-          self.nowPage = self.nowPage+1<self.nowPage?self.nowPage +=1:self.allPage;
+          self.nowPage = self.nowPage+1<self.allPage?self.nowPage +=1:self.allPage;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
 
-                    self.cache[self.nowPage] = res[self.dataDescription];
+                    var list = res[self.dataDescription];
+                    if(self.filterTpl){
+                        list = new DataFilter({
+                            data:list,
+                            type:self.filterTpl
+                        });
+                    }
+                    self.cache[self.nowPage] = list;
                     viewCommand({
                         command:'display',
-                        param:[self.container,res[self.dataDescription],self.tpl]
+                        param:[self.container,list,self.tpl]
                     });
 
                 }else{
@@ -115,14 +134,22 @@
       pre:function(){
           var self = this;
           self.nowPage = self.nowPage-1>1?self.nowPage -=1:1;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
 
-                    self.cache[self.nowPage] = res[self.dataDescription];
+                    var list = res[self.dataDescription];
+                    if(self.filterTpl){
+                        list = new DataFilter({
+                            data:list,
+                            type:self.filterTpl
+                        });
+                    }
+                    self.cache[self.nowPage] = list;
                     viewCommand({
                         command:'display',
-                        param:[self.container,res[self.dataDescription],self.tpl]
+                        param:[self.container,list,self.tpl]
                     });
 
                 }else{
@@ -140,25 +167,34 @@
       jump:function(){
           var self = this;
           var target = self.jumpVal.value;
-          if(/[^0-9]*/.test(target)){
+          if(/[0-9]*/.test(target)){
               if(target > self.allPage || target < 1 ){
                   alert('你输入页数为非法值');
                   self.jumpVal.value = '';
                   return;
               }
+          }else{
               alert('请输入数字');
               self.jumpVal.value = '';
               return;
           }
           self.nowPage = target;
+          self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
 
-                    self.cache[self.nowPage] = res[self.dataDescription];
+                    var list = res[self.dataDescription];
+                    if(self.filterTpl){
+                        list = new DataFilter({
+                            data:list,
+                            type:self.filterTpl
+                        });
+                    }
+                    self.cache[self.nowPage] = list;
                     viewCommand({
                         command:'display',
-                        param:[self.container,res[self.dataDescription],self.tpl]
+                        param:[self.container,list,self.tpl]
                     });
 
                 }else{
@@ -200,10 +236,17 @@
                 self.allPage = res[self.totalDescription];
                 self.showNowPage();
                 self.showAllPage();
-                self.cache[self.nowPage] = res[self.dataDescription];
+                var list = res[self.dataDescription];
+                if(self.filterTpl){
+                    list = new DataFilter({
+                        data:list,
+                        type:self.filterTpl
+                    });
+                }
+                self.cache[self.nowPage] = list;
                 viewCommand({
                     command:'display',
-                    param:[self.container,res[self.dataDescription],self.tpl]
+                    param:[self.container,list,self.tpl]
                 });
             }else{
                 console.error('页面数据初始化失败');
