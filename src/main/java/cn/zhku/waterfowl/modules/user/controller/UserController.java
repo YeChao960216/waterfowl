@@ -100,7 +100,6 @@ public class UserController extends BaseController {
     @RequestMapping("{adminPath}/user/edit/{id}")
     public Message editUser(@PathVariable String id,User user) throws Exception {
         user.setId(id);
-        user.setPassword(null);
         if(userService.update(user) == 1)
             return new Message("1","修改用户成功");
         else
@@ -118,7 +117,9 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("{adminPath}/user/show/{id}")
     public User showUser(@PathVariable String id) throws Exception {
-        return userService.get(id);
+        User user = userService.get(id);
+        user.setPassword(null);
+        return user;
     }
     //展示所有用户
 
@@ -212,9 +213,6 @@ public class UserController extends BaseController {
                 File newFile = new File(realPath+newFileName);
                 //将内存中的数据写入磁盘
                 excelFile.transferTo(newFile);
-                //将新图片名称写到repair中
-                //repair.setRepairPic(newFileName);
-                System.out.println("================"+newFile.toString());
 
                 UserUtilExcel userExcelUtil = new UserUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();

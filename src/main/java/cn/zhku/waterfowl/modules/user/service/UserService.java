@@ -6,6 +6,7 @@ import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.pojo.entity.UserExample;
 import cn.zhku.waterfowl.pojo.mapper.UserMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,19 +115,19 @@ public class UserService  implements IBaseService<User> {
         //  Criteria是Example的静态子类，里面有条件的jva代码表达方式
         UserExample.Criteria criteria = userExample.createCriteria();
 
-        if (entity.getUsername()!= null)   // 如果username参数不为空，则查询时添加在sql上，
+        if (!StringUtils.isBlank(entity.getUsername()))   // 如果username参数不为空，则查询时添加在sql上，
             //  相当于 where username like %entity.getUsername()%
             criteria.andUsernameLike("%"+entity.getUsername()+"%");
-        if (entity.getName() != null)
+        if (!StringUtils.isBlank(entity.getName()))
             //  相当于 type = entity.getName()
             criteria.andNameLike("%"+entity.getName()+"%");
-        if (entity.getDuty() != null)
+        if (!StringUtils.isBlank(entity.getDuty()))
             //  相当于 duty = entity.getDuty()
             criteria.andDutyEqualTo(entity.getDuty());
         if (entity.getGender() != null)
             //  相当于 duty = entity.getDuty()
             criteria.andGenderEqualTo(entity.getGender());
-        if (entity.getSign() != null)
+        if (!StringUtils.isBlank(entity.getSign()))
             //  相当于 Sign = entity.getSign()
             criteria.andSignEqualTo(entity.getSign());
 

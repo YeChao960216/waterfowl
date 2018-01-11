@@ -12,7 +12,7 @@
      */
     const oURL = {
         PRONAME : '/waterfowl' ,
-        POST : '/admin/aquaculture/add',//最终数据提交路径
+        POST : '/aquaculture/add',//最终数据提交路径
         GETOURSTRORAGE : '/outstorage/show',// 获取出库编号
         GETSTATUSLIST:'/getDicName/getStatus',//获取禽类养殖标识
         GETPATCH:'/admin/patch/getNewPatch', //获取批次号
@@ -71,11 +71,10 @@
      * 提交表单
      */
     $('#submit')[0].onclick = function(){
-
         var json = JSON.stringify(queryParse.call($('form')));
             $.post(oURL.PRONAME+oURL.POST,json,function(res){
                 if(res.status){
-
+                    alert('提交成功');
                 }else{
                     alert('增加禽舍信息失败');
                 }

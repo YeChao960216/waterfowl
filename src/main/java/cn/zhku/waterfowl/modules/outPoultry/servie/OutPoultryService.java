@@ -22,6 +22,7 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
      */
     @Override
     public int add(OutPoultry entity) throws Exception {
+        System.out.println(entity.getIdCharge());
         return outPoultryMapper.insert(entity);
     }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class OutStorageController extends BaseController{
         public Message addOutstorage(Outstorage outstorage) throws Exception {
             outstorage.setIdOutstorage(
                     UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            outstorage.setRecordDate(t);
             if(outStorageService.add(outstorage) == 1)
                 return new Message("1","添加出库记录成功");
             else
@@ -81,17 +84,17 @@ public class OutStorageController extends BaseController{
                 return new Message("2","修改出库记录失败");
         }
 
-        /** 根据id展示出库信息
-         * 测试完成
-         * @param id   只需记录表id
-         * @return OutStorage实体
-         * @throws Exception    sql
-         */
-        @ResponseBody
-        @RequestMapping("select/{id}")
-        public Outstorage selectById(@PathVariable String id) throws Exception {
-            return outStorageService.get(id);
-        }
+//        /** 根据id展示出库信息
+//         * 测试完成
+//         * @param id   只需记录表id
+//         * @return OutStorage实体
+//         * @throws Exception    sql
+//         */
+//        @ResponseBody
+//        @RequestMapping("select/{id}")
+//        public Outstorage selectById(@PathVariable String id) throws Exception {
+//            return outStorageService.get(id);
+//        }
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
          * @param outstorage outstorage实体的各个字段
@@ -100,7 +103,7 @@ public class OutStorageController extends BaseController{
          * @throws Exception    sql
          */
         @ResponseBody
-        @RequestMapping("selectBy")
+        @RequestMapping("list")
         public PageInfo<Outstorage> select(Outstorage outstorage, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
@@ -134,8 +137,8 @@ public class OutStorageController extends BaseController{
      */
 
     @ResponseBody
-    @RequestMapping("listMatericalByName")
-    public List<Material> listMatericalByName(String name) throws Exception {
+    @RequestMapping("select/{name}")
+    public List<Material> listMatericalByName(@PathVariable String name) throws Exception {
         //  通过服务层获取查询后的用户列表
         List<Material> material =  outStorageService.listMatericalByName(name);
         //  返回 pageBean实体

@@ -11,7 +11,7 @@ import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.tools.doclets.formats.html.PackageFrameWriter;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +45,8 @@ public class PoultryController extends BaseController {
         @RequestMapping("add")
         public Message addPoultry(Poultry poultry) throws Exception {
             poultry.setIdPoultry(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            poultry.setRecordDate(t);
             if (poultryService.add(poultry) == 1)
                 return new Message("1", "插入材料成功");
             else
@@ -85,18 +88,18 @@ public class PoultryController extends BaseController {
                 return new Message("2", "更新材料信息失败");
         }
 
-        /**
-         * 获取一条记录
-         *
-         * @param id 表主键
-         * @return Message
-         * @throws Exception sql、bean检验
-         */
-        @ResponseBody
-        @RequestMapping("select/{id}")
-        public Poultry get(@PathVariable String id) throws Exception {
-            return poultryService.get(id);
-        }
+//        /**
+//         * 获取一条记录
+//         *
+//         * @param id 表主键
+//         * @return Message
+//         * @throws Exception sql、bean检验
+//         */
+//        @ResponseBody
+//        @RequestMapping("select/{id}")
+//        public Poultry get(@PathVariable String id) throws Exception {
+//            return poultryService.get(id);
+//        }
 
         /**
          * 获取一个分页的数据列表
@@ -115,7 +118,7 @@ public class PoultryController extends BaseController {
          * @throws Exception sql
          */
         @ResponseBody
-        @RequestMapping("selectBy")
+        @RequestMapping("list")
         public PageInfo<Poultry> select(Poultry poultry, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "record_date desc");
@@ -205,7 +208,7 @@ public class PoultryController extends BaseController {
         ExportExcelUtil<Poultry> exportExcelUtil = new ExportExcelUtil<>();
 
         List<Poultry> poultryList = poultryService.findList(poultry);
-        String[] headers = {"入库编号", "记录时间", "家禽类型", "数量", "单位", "关联厂商", "联系电话", "备注", "记录者编号", "登录者编号"};
+        String[] headers = {"入库编号", "记录时间", "家禽类型", "数量", "单位", "关联厂商", "联系电话", "备注", "登录者编号", "负责人编号"};
         //  通过标题和数据库数据生成XLS文件
         //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载

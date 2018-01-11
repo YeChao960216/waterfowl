@@ -12,30 +12,42 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/aquaculture/list?pageNum=1&pageSize=10',
+            GETAQUACULTURELIST:'/aquaculture/list',
         };
-    
-        /**
-         * 渲染禽舍列表视图
-         * 1、初始化视图
-         */
-        var initView = function(){
-    
-            $.get(oURL.PRONAME+oURL.GETAQUACULTURELIST,function(res){
-                if(res.list.length>=1){
-                   var data = new DataFilter({
-                        type:'filterTimeAndNull',
-                        data:res.list
-                   });
-                    viewCommand({
-                        command:'display',
-                        param:[$('#content')[0],data,'find_edit_aquaculture']
-                    });
-                }else{
-                    alert('获取禽舍信息失败');
-                }
-             });
-        }
-        initView();
-          
-})(this);
+    /**
+     * 实例化一个分页控制者
+     */
+    var pageController = new PageController({
+
+        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
+
+        view:{
+            container : $('#content')[0],
+            tpl:'find_edit_aquaculture',
+            nowView:$('#now')[0],
+            allView:$('#all')[0],
+        },
+        pageBean:{
+            pageDescription:'pageNum',
+            countDescription:'pageSize',
+            dataDescription:'list',
+            totalDescription:'total',
+            count:'10',
+        },
+        dataFilter:{
+            tpl:'filterTimeAndNull',
+        },
+        dom:{
+            nextBtn :$('#next')[0],
+            preBtn:$('#pre')[0],
+            jumpBtn:$('#jumpTo')[0],
+            jumpVal:$('#jumpText')[0],
+        },
+
+    });
+
+    /**
+     * 初始化视图,绑定事件操作，分页功能完成
+     */
+    pageController.init();
+})();

@@ -34,6 +34,7 @@ public class UserTask {
         user.setPassword("123456");
         user.setName("这是定时自动生成的用户");
         user.setDuty("这个用户是仅供测试的");
+        user.setEntry(new Date());
         //  切接不能直接抛异常，要尽量捕捉异常并提供备用解决方法或提供信息
         try {
             userService.add(user);

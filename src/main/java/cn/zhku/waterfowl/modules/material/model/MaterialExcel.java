@@ -42,10 +42,10 @@ public class MaterialExcel {
     @EntiName(RName = "备注")
     private String remark;
 
-    @EntiName(RName = "记录者编号")
+    @EntiName(RName = "登录者编号")
     private String id_recorder;
 
-    @EntiName(RName = "登录者编号")
+    @EntiName(RName = "负责人编号")
     private String id_charge;
 
 

@@ -12,28 +12,41 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETOUTPOULTRYLIST:'/outpoultry/list?pageSize=10&pageNum=1',
+            GETOUTPOULTRYLIST:'/outpoultry/list',
         };
-    
+
         /**
-         * 渲染禽舍列表视图
-         * 1、初始化视图
+         * 实例化一个分页控制者
          */
-        var initView = function(){
-    
-            $.get(oURL.PRONAME+oURL.GETOUTPOULTRYLIST,function(res){
-                if(res){
-                    if(res.list.length){
-                        viewCommand({
-                            command:'display',
-                            param:[$('#content')[0],res.list,'find_out_poultry']
-                        });
-                    }
-                }else{
-                    alert('获取出库信息失败');
-                }
-             });
-        }
-        initView();
+        var pageController = new PageController({
+
+            url:oURL.PRONAME+oURL.GETOUTPOULTRYLIST,
+
+            view:{
+                container : $('#content')[0],
+                tpl:'find_out_poultry',
+                nowView:$('#now')[0],
+                allView:$('#all')[0],
+            },
+            pageBean:{
+                pageDescription:'pageNum',
+                countDescription:'pageSize',
+                dataDescription:'list',
+                totalDescription:'total',
+                count:'10',
+            },
+            dom:{
+                nextBtn :$('#next')[0],
+                preBtn:$('#pre')[0],
+                jumpBtn:$('#jumpTo')[0],
+                jumpVal:$('#jumpText')[0],
+            },
+
+        });
+
+        /**
+         * 初始化视图,绑定事件操作，分页功能完成
+         */
+        pageController.init();
           
 })();

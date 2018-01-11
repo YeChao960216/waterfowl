@@ -52,7 +52,7 @@ INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '未满员', '1', '1');
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
   `id` varchar(45) NOT NULL COMMENT '养殖记录表',
-  `name` varchar(45) DEFAULT NULL COMMENT '养殖类型',
+  `name` varchar(45) DEFAULT NULL COMMENT '养殖天数',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
   `record_date` timestamp NULL DEFAULT NULL COMMENT '记录日期',

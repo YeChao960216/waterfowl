@@ -4,14 +4,10 @@ import cn.zhku.waterfowl.modules.user.dao.UserDao;
 import cn.zhku.waterfowl.modules.user.model.UserRoleVo;
 import cn.zhku.waterfowl.pojo.entity.Role;
 import cn.zhku.waterfowl.pojo.entity.User;
-import cn.zhku.waterfowl.pojo.entity.UserRole;
-import cn.zhku.waterfowl.pojo.mapper.RoleMapper;
-import cn.zhku.waterfowl.pojo.mapper.UserRoleMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleList;
 import java.util.List;
 
 /**
