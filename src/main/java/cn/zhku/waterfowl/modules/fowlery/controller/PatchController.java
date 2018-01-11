@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jin on 2017/11/17.
@@ -105,6 +109,25 @@ public class PatchController {
         return pat;
     }
 
+    /**
+     * 增加一条记录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("newPatch")
+    public int addPatch() throws Exception {
+        Patch patch=new Patch();
+        patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        //设置时间格式
+        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        Calendar c=Calendar.getInstance();
+        //获取当前时间
+        String stime=sd.format(c.getTime());
+        //将时间变成date类型
+        Date date=sd.parse(stime);
+        patch.setDate(date);
+        return patchService.add(patch);
+    }
 
     /**
      * 通过type,position,size去选取大禽舍
@@ -169,12 +192,19 @@ public class PatchController {
     }
 
     /**
-     * 获取禽舍中最新的条记录
+     * 获取禽舍中最新的批次号
      * @return
      */
     @ResponseBody
     @RequestMapping("getNewPatch")
-    public  Patch getNewPatch(){
-        return patchService.getNewPatch();
+    public  String getNewPatch() throws Exception {
+        Patch patch;
+        String id= patchService.getNewPatch();
+        patch=patchService.get(id);
+
+        System.out.println("================="+patch.getIdPoultry()+"=="+patch.getIdAffilation()+"="+patch.getIdFowlery());
+        return patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
+                +patch.getIdAffilation()+patch.getIdFowlery();
+
     }
 }
