@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-12-03 15:50:52
+Date: 2018-01-13 00:27:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for affiliation
+-- Table structure for `affiliation`
 -- ----------------------------
 DROP TABLE IF EXISTS `affiliation`;
 CREATE TABLE `affiliation` (
@@ -44,22 +44,30 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 -- Records of affiliation
 -- ----------------------------
-INSERT INTO `affiliation` VALUES ('1', '0', '0', '0', '未满员', '1', '1');
+INSERT INTO `affiliation` VALUES ('1', '60001', '70001', '80001', '满员', '1', '7');
+INSERT INTO `affiliation` VALUES ('10', '60001', '70001', '80001', '未满员', '5', '5');
+INSERT INTO `affiliation` VALUES ('2', '60001', '70001', '80001', '未满员', '2', '6');
+INSERT INTO `affiliation` VALUES ('3', '60001', '70001', '80001', '未满员', '1', '8');
+INSERT INTO `affiliation` VALUES ('4', '60001', '70001', '80001', '未满员', '6', '5');
+INSERT INTO `affiliation` VALUES ('5', '60001', '70001', '80001', '未满员', '4', '6');
+INSERT INTO `affiliation` VALUES ('6', '60001', '70001', '80001', '未满员', '8', '9');
+INSERT INTO `affiliation` VALUES ('7', '60001', '70001', '80001', '未满员', '6', '8');
+INSERT INTO `affiliation` VALUES ('8', '60001', '70001', '80001', '未满员', '8', '5');
 
 -- ----------------------------
--- Table structure for aquaculture
+-- Table structure for `aquaculture`
 -- ----------------------------
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
   `id` varchar(45) NOT NULL COMMENT '养殖记录表',
-  `name` varchar(45) DEFAULT NULL COMMENT '养殖天数',
+  `name` varchar(45) DEFAULT NULL COMMENT '养殖类型',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
   `record_date` timestamp NULL DEFAULT NULL COMMENT '记录日期',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
   `feed_type` varchar(45) DEFAULT NULL COMMENT '饲料种类',
   `feed_weight` float DEFAULT NULL COMMENT '饲料重量：单位为千克',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(200) DEFAULT NULL COMMENT '关联厂商',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
   `id_outstorage` varchar(45) DEFAULT NULL COMMENT '出库编号',
@@ -84,10 +92,29 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('1', '1', '1', '1', '2017-12-03 12:32:36', '1', '1', '7', '1', '1', '1', '1', '0', '1');
+INSERT INTO `aquaculture` VALUES ('1', '1', '1', '5', '2017-12-03 12:32:36', '1200', '饲料', '70', '1', '1', '1', '1', '0', '1');
+INSERT INTO `aquaculture` VALUES ('10', '鸡', '10021', '2', '2018-01-10 22:41:24', '1000', '饲料', '20', '成君最帅哦', '6', '2', null, null, null);
+INSERT INTO `aquaculture` VALUES ('11', '鸡', '10021', '6', '2018-01-10 22:41:25', '1000', '稻谷', '50', '成君最帅哦', '5', '8', null, null, null);
+INSERT INTO `aquaculture` VALUES ('12', '鸡', '10021', '8', '2018-01-10 22:41:26', '1000', '稻谷', '30', '成君最帅哦', '9', '9', '9', '30013', '6');
+INSERT INTO `aquaculture` VALUES ('13', '鸡', '10021', '1', '2018-01-10 22:41:27', '1000', '饲料', '50', '成君最帅哦', '2', '6', '9', '30013', '6');
+INSERT INTO `aquaculture` VALUES ('14', '鸡', '10021', '5', '2018-01-10 22:41:28', '1000', '稻谷', '60', '成君最帅哦', '5', '3', '6', '30011', '1');
+INSERT INTO `aquaculture` VALUES ('15', '鸡', '10021', '8', '2018-01-10 22:41:29', '1000', '稻谷', '20', '成君最帅哦', '3', '6', '3', '30013', '5');
+INSERT INTO `aquaculture` VALUES ('153', '鸡', '10021', '9', '2018-01-10 22:41:30', '1000', '饲料', '30', '成君最帅哦', '5', '5', '2', '30011', '2');
+INSERT INTO `aquaculture` VALUES ('16', '鸡', '10021', '6', '2018-01-10 22:41:31', '1000', '稻谷', '55', '成君最帅哦', '9', '5', '5', '30012', '2');
+INSERT INTO `aquaculture` VALUES ('17', '鸡', '10021', '3', '2018-01-10 22:41:31', '1000', '稻谷', '66', '成君最帅哦', '6', '9', '8', '30011', '2');
+INSERT INTO `aquaculture` VALUES ('20', '鸡', '10021', '2', '2018-01-10 22:41:32', '1000', '稻谷', '52', '成君最帅哦', '8', '9', '7', '30012', '3');
+INSERT INTO `aquaculture` VALUES ('21', '鸡', '10021', '5', '2018-01-10 22:41:34', '1000', '稻谷', '14', '成君最帅哦', '4', '6', '4', '30012', '5');
+INSERT INTO `aquaculture` VALUES ('42', '鸡', '10021', '4', '2018-01-10 22:41:35', '1000', '稻谷', '23', '成君最帅哦', '1', '3', '1', '30011', '1');
+INSERT INTO `aquaculture` VALUES ('45', '鸡', '10021', '7', '2018-01-10 22:41:36', '1000', '稻谷', '21', '成君最帅哦', '2', '3', '2', '30012', '23');
+INSERT INTO `aquaculture` VALUES ('453', '鸡', '10021', '2', '2018-01-10 22:41:37', '1000', '稻谷', '32', '成君最帅哦', '5', '2', '5', '30011', '2');
+INSERT INTO `aquaculture` VALUES ('E0F9597A363342BCB5EBF8DC8FD8996F', '鸡', '10021', '5', '2018-01-10 22:41:37', '1000', '稻谷', '65', '成君最帅哦', '8', '1', '5', '30013', '34');
+INSERT INTO `aquaculture` VALUES ('E2843AE87F0641089319D6CC66DD6C7A', '鸡', '10021', '6', '2018-01-10 22:41:38', '1000', '饲料', '25', '成君最帅哦', '9', '1', '6', '30012', '2');
+INSERT INTO `aquaculture` VALUES ('E45C88C28A304964830B76680F1755D7', '鸡', '10021', '8', '2018-01-10 22:41:40', '1000', '饲料', '25', '成君最帅哦', '6', '4', '6', '30012', '4');
+INSERT INTO `aquaculture` VALUES ('EB9E700636914DF994248D0C497F5035', '11111111', '10021', '3', '2018-01-10 22:41:41', '2000', '饲料', '29', '成君最帅哦', '3', '4', '9', '30013', '5');
+INSERT INTO `aquaculture` VALUES ('F91934899715470C9753C2F4E4B5E819', '鸡', '10021', '1', '2018-01-10 22:41:42', '1000', '饲料', '66', '成君最帅哦', '2', '7', '8', '30011', '1');
 
 -- ----------------------------
--- Table structure for ddl
+-- Table structure for `ddl`
 -- ----------------------------
 DROP TABLE IF EXISTS `ddl`;
 CREATE TABLE `ddl` (
@@ -112,9 +139,19 @@ CREATE TABLE `ddl` (
 -- ----------------------------
 -- Records of ddl
 -- ----------------------------
+INSERT INTO `ddl` VALUES ('1', '1', '2018-01-10 21:50:15', '6', '吃了', null, '2', '1', '0');
+INSERT INTO `ddl` VALUES ('10', '1', '2018-01-10 22:49:59', '5', '吃了', null, '2', '9', '1');
+INSERT INTO `ddl` VALUES ('2', '1', '2018-01-10 22:49:43', '2', '吃了', null, '5', '8', '0');
+INSERT INTO `ddl` VALUES ('3', '1', '2018-01-10 22:50:00', '4', '吃了', null, '8', '1', '1');
+INSERT INTO `ddl` VALUES ('4', '1', '2018-01-10 22:49:42', '8', '吃了', null, '9', '4', '0');
+INSERT INTO `ddl` VALUES ('5', '1', '2018-01-10 22:50:00', '9', '吃了', null, '6', '7', '1');
+INSERT INTO `ddl` VALUES ('6', '1', '2018-01-10 22:49:41', '3', '吃了', null, '3', '8', '0');
+INSERT INTO `ddl` VALUES ('7', '1', '2018-01-10 22:49:34', '4', '吃了', null, '2', '8', '0');
+INSERT INTO `ddl` VALUES ('8', '1', '2018-01-10 22:50:03', '5', '吃了', null, '5', '5', '1');
+INSERT INTO `ddl` VALUES ('9', '1', '2018-01-10 22:50:01', '2', '吃了', null, '2', '1', '1');
 
 -- ----------------------------
--- Table structure for dictionary
+-- Table structure for `dictionary`
 -- ----------------------------
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
@@ -174,12 +211,19 @@ INSERT INTO `dictionary` VALUES ('60002', '鸭', '60000', null);
 INSERT INTO `dictionary` VALUES ('60003', '鸡', '60000', null);
 INSERT INTO `dictionary` VALUES ('70000', '方位', '0', 'position');
 INSERT INTO `dictionary` VALUES ('70001', '南', '70000', null);
+INSERT INTO `dictionary` VALUES ('70002', '北', '70000', null);
+INSERT INTO `dictionary` VALUES ('70003', '西', '70000', null);
+INSERT INTO `dictionary` VALUES ('70004', '东', '70000', null);
 INSERT INTO `dictionary` VALUES ('80000', '规格', '0', 'size');
+INSERT INTO `dictionary` VALUES ('80001', '特大大型', '80000', null);
+INSERT INTO `dictionary` VALUES ('80002', '大型', '80000', null);
+INSERT INTO `dictionary` VALUES ('80003', '中型', '80000', null);
+INSERT INTO `dictionary` VALUES ('80004', '小型', '80000', null);
 INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 INSERT INTO `dictionary` VALUES ('90001', '微信', '90000', 'wechat');
 
 -- ----------------------------
--- Table structure for epidemic
+-- Table structure for `epidemic`
 -- ----------------------------
 DROP TABLE IF EXISTS `epidemic`;
 CREATE TABLE `epidemic` (
@@ -215,9 +259,19 @@ CREATE TABLE `epidemic` (
 -- ----------------------------
 -- Records of epidemic
 -- ----------------------------
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '5', '2018-01-10 22:32:04', null, '黄脚病', '2', '埋了', '注射', '1', '0', null, '1', '1', '0', '1');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '8', '2018-01-10 22:32:04', null, '黄脚病', '5', '埋了', '注射', '1', '0', null, '1', '1', '0', '10');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '6', '2018-01-10 22:32:05', null, '黄脚病', '6', '埋了', '注射', '1', '0', null, '1', '1', '0', '2');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '8', '2018-01-10 22:32:05', null, '黄脚病', '8', '埋了', '注射', '1', '0', null, '1', '1', '0', '3');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '1', '2018-01-10 21:48:46', null, '黄脚病', '4', '埋了', '注射', '1', '0', null, '1', '1', '0', '4');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '4', '2018-01-10 22:32:07', null, '黄脚病', '9', '埋了', '注射', '1', '0', null, '1', '1', '0', '5');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '2', '2018-01-10 22:32:07', null, '黄脚病', '2', '埋了', '注射', '1', '0', null, '1', '1', '0', '6');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '9', '2018-01-10 22:32:08', null, '黄脚病', '1', '埋了', '注射', '1', '0', null, '1', '1', '0', '7');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '5', '2018-01-10 22:32:08', null, '黄脚病', '4', '埋了', '注射', '1', '0', null, '1', '1', '0', '8');
+INSERT INTO `epidemic` VALUES ('1', '碘酒', '3', '2018-01-10 22:32:09', null, '黄脚病', '6', '埋了', '注射', '1', '0', null, '1', '1', '0', '9');
 
 -- ----------------------------
--- Table structure for fowlery
+-- Table structure for `fowlery`
 -- ----------------------------
 DROP TABLE IF EXISTS `fowlery`;
 CREATE TABLE `fowlery` (
@@ -242,10 +296,18 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('1', '0', '0', '1', '1', '1');
+INSERT INTO `fowlery` VALUES ('1', '80004', '可使用', '1', '1', '1');
+INSERT INTO `fowlery` VALUES ('2', '80002', '可使用', '5', '1', '10');
+INSERT INTO `fowlery` VALUES ('3', '80002', '可使用', '8', '10', '1');
+INSERT INTO `fowlery` VALUES ('4', '80003', '可使用', '6', '10', '1');
+INSERT INTO `fowlery` VALUES ('5', '80002', '可使用', '3', '2', '1');
+INSERT INTO `fowlery` VALUES ('6', '80001', '可使用', '8', '3', '1');
+INSERT INTO `fowlery` VALUES ('7', '80003', '可使用', '7', '3', '1');
+INSERT INTO `fowlery` VALUES ('8', '80002', '可使用', '4', '1', '1');
+INSERT INTO `fowlery` VALUES ('9', '80001', '可使用', '1', '10', '1');
 
 -- ----------------------------
--- Table structure for material
+-- Table structure for `material`
 -- ----------------------------
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE `material` (
@@ -255,8 +317,7 @@ CREATE TABLE `material` (
   `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
   `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
-  `type` varchar(45) DEFAULT '未过期' COMMENT '是否过期',
-  `quantity` varchar(45) DEFAULT NULL COMMENT '库存材料数量',
+  `quantity` float(45,0) DEFAULT NULL COMMENT '库存材料数量',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位——字典查给用户选',
   `storage_site` varchar(45) DEFAULT NULL COMMENT '储存地点',
   `mode` varchar(45) DEFAULT NULL COMMENT '储存方式',
@@ -277,22 +338,32 @@ CREATE TABLE `material` (
 -- ----------------------------
 -- Records of material
 -- ----------------------------
-INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '81消毒液', '2017-12-02 21:18:34', '1', '123', '已过期', '1', '0', '1', '0', '1', '1', '1');
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '84消毒液', '2018-01-10 21:51:54', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', '1', '1', '1');
+INSERT INTO `material` VALUES ('10', '2018-01-10 21:25:48', '84消毒液', '2018-01-10 21:52:08', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('2', '2018-01-10 21:25:57', '84消毒液', '2018-01-10 21:52:08', '叶超养鸡场', '23', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('3', '2018-01-10 21:25:56', '84消毒液', '2018-01-10 21:52:08', '叶超养鸡场', '23', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('4', '2018-01-10 21:25:56', '84消毒液', '2018-01-10 21:52:09', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('5', '2018-01-10 21:25:53', '84消毒液', '2018-01-10 21:52:09', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('6', '2018-01-10 21:25:52', '84消毒液', '2018-01-10 21:52:09', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('7', '2018-01-10 21:25:51', '84消毒液', '2018-01-10 21:52:09', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('8', '2018-01-10 21:25:54', '84消毒液', '2018-01-10 21:52:10', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
+INSERT INTO `material` VALUES ('9', '2018-01-10 21:25:50', '84消毒液', '2018-01-10 21:52:11', '叶超养鸡场', '123', '1', '0', '仲恺709', '0', null, '1', '1');
 
 -- ----------------------------
--- Table structure for outstorage
+-- Table structure for `outstorage`
 -- ----------------------------
 DROP TABLE IF EXISTS `outstorage`;
 CREATE TABLE `outstorage` (
   `id_outstorage` varchar(45) NOT NULL COMMENT '物资使用表——自动生成用户不填',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称——name发送到storage获取库存数据，供用户下拉框选择我',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(200) DEFAULT NULL COMMENT '关联厂商',
   `id_storage` varchar(45) DEFAULT NULL,
   `record_date` timestamp NULL DEFAULT NULL,
   `quantity` varchar(45) DEFAULT NULL COMMENT '材料数量.用药总量，包含实际总使用量和损耗丢弃量。',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  `type` varchar(45) DEFAULT '''未过期''' COMMENT '是否过期',
   PRIMARY KEY (`id_outstorage`),
   KEY `fk_storage_user1_idx` (`id_recorder`),
   KEY `fk_storage_user2_idx` (`id_charge`),
@@ -307,25 +378,34 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '81消毒液', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1');
+INSERT INTO `outstorage` VALUES ('1', '81消毒液', '1', '1', '2017-11-22 22:56:20', '1', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('10', '84消毒液', null, '1', '2018-01-10 21:38:58', '2', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('2', '81消毒液', null, '1', '2018-01-10 21:38:49', '2', '1000', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('3', '81消毒液', null, '1', '2018-01-10 21:38:52', '3', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('4', '81消毒液', null, '1', '2018-01-10 21:38:53', '4', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('5', '81消毒液', null, '1', '2018-01-10 21:38:53', '5', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('6', '81消毒液', null, '1', '2018-01-10 21:38:54', '6', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('7', '81消毒液', null, '1', '2018-01-10 21:38:55', '7', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('8', '81消毒液', null, '1', '2018-01-10 21:38:56', '8', '0', '1', '1', '\'未过期\'');
+INSERT INTO `outstorage` VALUES ('9', '84消毒液', null, '1', '2018-01-10 21:38:57', '9', '0', '1', '1', '\'未过期\'');
 
 -- ----------------------------
--- Table structure for out_poultry
+-- Table structure for `out_poultry`
 -- ----------------------------
 DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
   `id` varchar(45) NOT NULL COMMENT '出厂编号',
   `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
-  `type` varchar(45) DEFAULT NULL COMMENT '类型',
-  `quantity` int(11) DEFAULT NULL COMMENT '本批次数量售出数量',
+  `type` varchar(45) DEFAULT '' COMMENT '类型',
+  `quantity` float(11,0) DEFAULT NULL COMMENT '本批次数量售出数量',
   `unit` varchar(45) DEFAULT '只' COMMENT '单位',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '出厂批次',
-  `firm` varchar(45) DEFAULT NULL COMMENT '出厂商',
+  `firm` varchar(45) NOT NULL DEFAULT '' COMMENT '出厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`firm`),
   KEY `FK_out_poul_dic_unit` (`unit`),
   KEY `FK_out_poul_dic_type` (`type`),
   KEY `FK_out_poultry_user_charge` (`id_charge`),
@@ -333,7 +413,7 @@ CREATE TABLE `out_poultry` (
   KEY `FK_out_aqua_fowlery_id` (`id_patch`),
   CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `aquaculture` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -341,9 +421,45 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
+INSERT INTO `out_poultry` VALUES ('020', '2018-01-10 22:38:02', '60002', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('1', '2018-01-10 22:51:01', '60001', '65', '只', '8', '叶超养鸡场', '110', null, '5', '2');
+INSERT INTO `out_poultry` VALUES ('10', '2018-01-10 22:43:59', '60001', '5', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('11', '2018-01-10 22:51:04', '60003', '63', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
+INSERT INTO `out_poultry` VALUES ('12', '2018-01-10 22:51:05', '60002', '2', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '9', '2');
+INSERT INTO `out_poultry` VALUES ('13', '2018-01-10 22:51:05', '60002', '65', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
+INSERT INTO `out_poultry` VALUES ('133', '2018-01-10 22:51:06', '60002', '2', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '3', '2');
+INSERT INTO `out_poultry` VALUES ('14', '2018-01-10 22:44:01', '60001', '3', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('15', '2018-01-10 22:51:06', '60002', '5', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '3', '2');
+INSERT INTO `out_poultry` VALUES ('16', '2018-01-10 22:44:02', '60002', '2', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('17', '2018-01-10 22:51:07', '60003', '6', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '2', '2');
+INSERT INTO `out_poultry` VALUES ('18', '2018-01-10 22:44:02', '60003', '2', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('19', '2018-01-10 22:51:08', '60002', '5', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '5', '2');
+INSERT INTO `out_poultry` VALUES ('2', '2018-01-10 22:51:08', '60001', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '8', '2');
+INSERT INTO `out_poultry` VALUES ('21', '2018-01-10 22:51:08', '60002', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '7', '2');
+INSERT INTO `out_poultry` VALUES ('22', '2018-01-10 22:38:18', '60002', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('23', '2018-01-10 22:51:35', '60002', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '7');
+INSERT INTO `out_poultry` VALUES ('24', '2018-01-10 22:51:50', '60002', '26', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '4', '6');
+INSERT INTO `out_poultry` VALUES ('25', '2018-01-10 22:52:05', '60003', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '5', '3');
+INSERT INTO `out_poultry` VALUES ('26', '2018-01-10 22:52:13', '60001', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '7');
+INSERT INTO `out_poultry` VALUES ('27', '2018-01-10 22:51:51', '60002', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '5', '2');
+INSERT INTO `out_poultry` VALUES ('28', '2018-01-10 22:52:14', '60001', '6', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('29', '2018-01-10 22:52:03', '60003', '3', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('3', '2018-01-10 22:52:02', '60003', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '9');
+INSERT INTO `out_poultry` VALUES ('30', '2018-01-10 22:52:02', '60003', '6', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '5', '3');
+INSERT INTO `out_poultry` VALUES ('4', '2018-01-10 22:51:52', '60002', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('5', '2018-01-10 22:51:52', '60002', '5', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
+INSERT INTO `out_poultry` VALUES ('6', '2018-01-10 22:52:16', '60001', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '8');
+INSERT INTO `out_poultry` VALUES ('7', '2018-01-10 22:51:54', '60002', '5', '只', '4', '叶超养鸡场', '110', '成君最帅哦', '6', '8');
+INSERT INTO `out_poultry` VALUES ('8', '2018-01-10 22:52:07', '60003', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '8');
+INSERT INTO `out_poultry` VALUES ('9', '2018-01-10 22:52:07', '60003', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '5');
+INSERT INTO `out_poultry` VALUES ('EBA87824720A40488C48E72E5C9E7EBD', '2018-01-10 22:51:57', '60002', '3', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('EC51541B73AC4E8EB781A84EF77FA1E0', '2018-01-10 22:52:18', '60001', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '6', '9');
+INSERT INTO `out_poultry` VALUES ('F8709528586F4BE4BB236238041E20F2', '2018-01-10 22:51:55', '60002', '63', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
+INSERT INTO `out_poultry` VALUES ('FA1B4B70E4384508B2F02E21F22B2375', '2018-01-10 22:52:19', '60001', '69', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '1', '4');
+INSERT INTO `out_poultry` VALUES ('FDCDD69154A74828AE0CEC3B6F5A2270', '2018-01-10 22:51:56', '60002', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
 
 -- ----------------------------
--- Table structure for patch
+-- Table structure for `patch`
 -- ----------------------------
 DROP TABLE IF EXISTS `patch`;
 CREATE TABLE `patch` (
@@ -381,10 +497,19 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('1', '0', '0', '0', '1', '1', '1', '1', '2017-11-17 23:37:33', '1', '1', '1');
+INSERT INTO `patch` VALUES ('2', '60001', '70002', '80003', '8', '1', '5', '1', '2018-01-10 22:31:46', '1', '1000', '已售完');
+INSERT INTO `patch` VALUES ('2', '60001', '70003', '80004', '6', '4', '8', '2', '2018-01-10 22:30:48', '10', '1000', '未售完');
+INSERT INTO `patch` VALUES ('5', '60001', '70002', '80002', '8', '1', '1', '8', '2018-01-10 22:30:54', '2', '2000', '未售完');
+INSERT INTO `patch` VALUES ('6', '60001', '70001', '80003', '5', '3', '5', '4', '2018-01-10 22:30:55', '3', '2000', '未售完');
+INSERT INTO `patch` VALUES ('8', '60001', '70004', '80002', '5', '2', '5', '1', '2018-01-10 22:30:58', '4', '1500', '未售完');
+INSERT INTO `patch` VALUES ('4', '60001', '70001', '80003', '6', '5', '8', '9', '2018-01-10 22:39:31', '5', '2000', '未售完');
+INSERT INTO `patch` VALUES ('1', '60001', '70002', '80001', '3', '4', '9', '3', '2018-01-10 22:31:08', '6', '1300', '未售完');
+INSERT INTO `patch` VALUES ('6', '60001', '70001', '80003', '5', '2', '3', '1', '2018-01-10 22:31:14', '7', '2000', '未售完');
+INSERT INTO `patch` VALUES ('8', '60001', '70002', '80001', '2', '3', '2', '2', '2018-01-10 22:31:16', '8', '2300', '未售完');
+INSERT INTO `patch` VALUES ('2', '60001', '70002', '80003', '4', '5', '1', '8', '2018-01-10 22:31:20', '9', '4000', '未售完');
 
 -- ----------------------------
--- Table structure for poultry
+-- Table structure for `poultry`
 -- ----------------------------
 DROP TABLE IF EXISTS `poultry`;
 CREATE TABLE `poultry` (
@@ -412,10 +537,19 @@ CREATE TABLE `poultry` (
 -- ----------------------------
 -- Records of poultry
 -- ----------------------------
-INSERT INTO `poultry` VALUES ('1', '2017-11-17 23:37:33', '0', '1', '0', '1', '1', '1', '1', '1');
+INSERT INTO `poultry` VALUES ('1', '2018-01-10 22:53:08', '0', '1', '只', '叶超养鸡场', '123', '1', '1', '1');
+INSERT INTO `poultry` VALUES ('10', '2018-01-10 22:52:53', '0', '8', '只', '叶超养鸡场', '123', null, '5', '5');
+INSERT INTO `poultry` VALUES ('2', '2018-01-10 22:52:53', '0', '9', '只', '叶超养鸡场', '123', null, '1', '2');
+INSERT INTO `poultry` VALUES ('3', '2018-01-10 22:52:54', '0', '9', '只', '叶超养鸡场', '123', null, '1', '3');
+INSERT INTO `poultry` VALUES ('4', '2018-01-10 22:52:54', '0', '8', '只', '叶超养鸡场', '123', null, '1', '5');
+INSERT INTO `poultry` VALUES ('5', '2018-01-10 22:52:55', '0', '6', '只', '叶超养鸡场', '123', null, '1', '4');
+INSERT INTO `poultry` VALUES ('6', '2018-01-10 22:52:58', '0', '8', '只', '叶超养鸡场', '123', null, '1', '6');
+INSERT INTO `poultry` VALUES ('7', '2018-01-10 22:52:57', '0', '6', '只', '叶超养鸡场', '123', null, '1', '8');
+INSERT INTO `poultry` VALUES ('8', '2018-01-10 22:52:57', '0', '5', '只', '叶超养鸡场', '123', null, '3', '7');
+INSERT INTO `poultry` VALUES ('9', '2018-01-10 22:52:55', '0', '2', '只', '叶超养鸡场', '123', null, '2', '9');
 
 -- ----------------------------
--- Table structure for role
+-- Table structure for `role`
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -429,7 +563,7 @@ CREATE TABLE `role` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for role_permission
+-- Table structure for `role_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
@@ -446,7 +580,7 @@ CREATE TABLE `role_permission` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for user
+-- Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -469,11 +603,19 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '叶超', '123', null, null, null, '2017-11-17 23:34:39', null, '2017-11-17 23:34:42', null, null, null);
-INSERT INTO `user` VALUES ('CEDF4020E44F4109A99534E7173CC566', 'Sun Nov 19 16:00:00 CST 2017', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, null, null, null, null, null, null);
+INSERT INTO `user` VALUES ('1', '叶超', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:06', '1', '2017-11-17 23:34:42', null, '1110', null);
+INSERT INTO `user` VALUES ('10', '文智', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:06', '1', '2018-01-10 21:59:50', null, '112', null);
+INSERT INTO `user` VALUES ('2', '成君', '123', '这个用户是仅供测试的', '这是定时自动生成的用户', '1', '2018-01-10 22:54:55', '1', '2018-01-10 21:59:52', null, '123', '943193747@qq.com');
+INSERT INTO `user` VALUES ('3', '锦曼', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:06', '1', '2018-01-10 21:59:53', null, '123', null);
+INSERT INTO `user` VALUES ('4', '展佳', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:07', '1', '2018-01-10 21:59:54', null, '123', null);
+INSERT INTO `user` VALUES ('5', '瀚清', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:21', '1', '2018-01-10 21:59:54', null, '120', null);
+INSERT INTO `user` VALUES ('6', '伟龙', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:19', '1', '2018-01-10 21:59:55', null, '110', null);
+INSERT INTO `user` VALUES ('7', '伟佳', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:07', '1', '2018-01-10 21:59:56', null, '123', null);
+INSERT INTO `user` VALUES ('8', '伟健', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:08', '1', '2018-01-10 21:59:58', null, '123', null);
+INSERT INTO `user` VALUES ('9', '文浩', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:14', '1', '2018-01-10 22:00:00', null, '123', null);
 
 -- ----------------------------
--- Table structure for user_auths
+-- Table structure for `user_auths`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_auths`;
 CREATE TABLE `user_auths` (
@@ -494,7 +636,7 @@ CREATE TABLE `user_auths` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for user_role
+-- Table structure for `user_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
@@ -511,7 +653,7 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for weather
+-- Table structure for `weather`
 -- ----------------------------
 DROP TABLE IF EXISTS `weather`;
 CREATE TABLE `weather` (
