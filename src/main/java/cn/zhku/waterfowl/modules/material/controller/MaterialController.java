@@ -3,7 +3,9 @@ package cn.zhku.waterfowl.modules.material.controller;
 import cn.zhku.waterfowl.modules.material.model.MaterialExcel;
 import cn.zhku.waterfowl.modules.material.model.MaterialUtilExcel;
 import cn.zhku.waterfowl.modules.material.service.MaterialService;
+import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Material;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,8 @@ import java.util.UUID;
 public class MaterialController extends BaseController {
     @Autowired
     MaterialService materialService;
+    @Autowired
+    OutStorageService outStorageService;
 
     /**
      * 增加一条数据
@@ -50,12 +55,29 @@ public class MaterialController extends BaseController {
         material.setIdStorage(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         material.setDate(t);
-        if (materialService.add(material) == 1)
+        String a = materialService.listOutstorageid(material.getName(), material.getAssociatedFirm());
+        if (a == null || a.isEmpty()) {
+            Outstorage outstorage = new Outstorage();
+            outstorage.setIdOutstorage(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+            outstorage.setName(material.getName());
+            outstorage.setRemark(material.getAssociatedFirm());
+            outstorage.setIdStorage(material.getIdStorage());
+            outstorage.setQuantity(material.getQuantity());
+            outstorage.setUnit(material.getUnit());
+            outstorage.setType(material.getRemark());
+            outStorageService.add(outstorage);
+            materialService.add(material);
             return new Message("1", "插入材料成功");
-        else
+        }
+         else if (materialService.add(material) == 1) {
+            materialService.updateOutstroge(material.getQuantity(), material.getName(), material.getAssociatedFirm());
+            return new Message("1", "插入材料成功");
+        }
+        else {
             return new Message("2", "插入材料失败");
-
+        }
     }
+
 
     /**
      * 删除一条记录
@@ -126,7 +148,7 @@ public class MaterialController extends BaseController {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
         {
-            commonQo.setSort("expiration_date desc");
+            commonQo.setSort("expiration_date");
         }
         else {
             commonQo.setSort("date desc");
@@ -145,7 +167,7 @@ public class MaterialController extends BaseController {
 //        //  设置默认的排序，如果前端需要排训查询，则加上参数  sort = 数据库字段 ，
         if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
         {
-            commonQo.setSort("expiration_date desc");
+            commonQo.setSort("expiration_date");
         }
         else {
             commonQo.setSort("date desc");
@@ -190,7 +212,6 @@ public class MaterialController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("excel/pull")
-
     public Message pullMaterialExcel(HttpServletRequest request, MultipartFile excelFile) {
         try {
             if (excelFile != null || excelFile.getOriginalFilename().endsWith("xls") || excelFile.getOriginalFilename().endsWith("xlsx")) {
@@ -235,8 +256,6 @@ public class MaterialController extends BaseController {
             throw new RuntimeException(e);
         }
     }
-
-
     @RequestMapping("excel/push")
     public ResponseEntity<byte[]> pushExcel(Material material) throws Exception {
         ExportExcelUtil<Material> exportExcelUtil = new ExportExcelUtil<>();

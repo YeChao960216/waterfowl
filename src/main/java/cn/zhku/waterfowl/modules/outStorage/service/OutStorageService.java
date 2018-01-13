@@ -111,6 +111,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     public List<Material>listMatericalByName(String name) throws Exception {
         return outStorageDao.listMatericalByName(name);
     }
+
+}
 //    public List<Outstorage> list(Outstorage entity, CommonQo commonQo) {
 //        OutstorageExample outstorageExample =new OutstorageExample();
 //        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
@@ -121,6 +123,3 @@ public class OutStorageService  implements IBaseService<Outstorage> {
 //            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
 //        return outstorageMapper.selectByExample(outstorageExample);
 //    }
-
-
-}

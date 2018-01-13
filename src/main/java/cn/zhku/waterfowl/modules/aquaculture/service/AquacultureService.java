@@ -1,8 +1,9 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
-import cn.zhku.waterfowl.modules.aquaculture.dao.GetDicNameDao;
+import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.AquacultureMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.util.List;
 public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
     private AquacultureMapper aquacultureMapper;
+    @Autowired
+    private CheckQuantitydao checkQuantitydao;
 
 
     /**
@@ -134,4 +137,26 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
 
+    /**
+     * 校验饲料重量
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    public float checkQuantity(Aquaculture entity)throws Exception {
+        String name=entity.getName();
+        String remark=entity.getRemark();
+        return checkQuantitydao.checkQuantity(name,remark);
+    }
+
+    public void updateOutstroge(float quantity,String name,String remark) {
+        checkQuantitydao.updateQuantity(quantity,name,remark);
+    }
+
+    public List<Outstorage> listOutstorageByname(String name)throws Exception {
+        return checkQuantitydao.listOutstorageByname(name);
+    }
+    public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
+        return checkQuantitydao.listOutstorageid(name,remark);
+    }
 }

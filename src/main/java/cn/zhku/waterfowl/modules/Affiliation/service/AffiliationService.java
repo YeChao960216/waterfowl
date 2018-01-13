@@ -1,4 +1,4 @@
-package cn.zhku.waterfowl.modules.fowlery.service;
+package cn.zhku.waterfowl.modules.Affiliation.service;
 
 import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
@@ -37,7 +37,7 @@ public class AffiliationService implements IBaseService<Affiliation> {
      */
     @Override
     public int delete(Affiliation entity) throws Exception {
-        return affiliationMapper.updateByPrimaryKey(entity);
+        return affiliationMapper.deleteByPrimaryKey(entity.getId());
     }
 
     /**

@@ -1,11 +1,12 @@
-package cn.zhku.waterfowl.modules.fowlery.controller;
+package cn.zhku.waterfowl.modules.patch.controller;
 
-import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
-import cn.zhku.waterfowl.modules.fowlery.service.PatchService;
+import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
+import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.util.modle.CommonQo;
+import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by jin on 2017/11/17.
@@ -67,9 +69,13 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("editPatch/{id}")
-    public int editPatch(@PathVariable String id,Patch patch) throws Exception {
+    public Message editPatch(@PathVariable String id, Patch patch) throws Exception {
         patch.setId(id);
-        return patchService.update(patch);
+        if(patchService.update(patch)==1){
+            return new Message("1","修改批次成功");
+        }else{
+            return new Message("0","修改批次失败");
+        }
     }
 
     /**
@@ -80,10 +86,14 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("deletePatch/{id}")
-    public int deletePatch(@PathVariable String id) throws Exception {
+    public Message deletePatch(@PathVariable String id) throws Exception {
         Patch patch=new Patch();
         patch.setId(id);
-        return patchService.delete(patch);
+        if(patchService.delete(patch)==1){
+            return new Message("1","删除批次成功");
+        }else{
+            return new Message("0","修改批次失败");
+        }
     }
 
 
@@ -105,6 +115,25 @@ public class PatchController {
         return pat;
     }
 
+    /**
+     * 增加一条记录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("newPatch")
+    public int addPatch() throws Exception {
+        Patch patch=new Patch();
+        patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        //设置时间格式
+        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        Calendar c=Calendar.getInstance();
+        //获取当前时间
+        String stime=sd.format(c.getTime());
+        //将时间变成date类型
+        Date date=sd.parse(stime);
+        patch.setDate(date);
+        return patchService.add(patch);
+    }
 
     /**
      * 通过type,position,size去选取大禽舍
@@ -169,12 +198,56 @@ public class PatchController {
     }
 
     /**
-     * 获取禽舍中最新的条记录
+     * 获取禽舍中最新的批次号
      * @return
      */
     @ResponseBody
     @RequestMapping("getNewPatch")
-    public  Patch getNewPatch(){
-        return patchService.getNewPatch();
+    public  String getNewPatch() throws Exception {
+        Patch patch;
+        String id= patchService.getNewPatch();
+        patch=patchService.get(id);
+
+        return patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
+                +patch.getIdAffilation()+patch.getIdFowlery();
+
+    }
+
+    /**
+     * 通过id_poultry找到patch的id集合
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findPatchByPid/{id_poultry}")
+    public List<String> findPatch(@PathVariable String id_poultry){
+        List<String> list=new ArrayList<String>();
+        list = patchService.findPatch(id_poultry);
+        return list;
+    }
+
+    /**
+     * 判断该批次是否都放进去禽舍里
+     * @param id_poultry
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("isEqualSum/{id_poultry}")
+    public int IsEqualSum(@PathVariable String id_poultry){
+        List list=findPatch(id_poultry);   //调用上面的方法找到patch的所有id
+        int sum=0;   //放在禽舍中的总数量
+        for(int i=0;i<list.size();i++){
+            String st=patchService.findSize((String) list.get(i));    //每一个禽舍的存放的数量
+            int s=Integer.parseInt(st);        //将string类型转换成int类型
+            sum+=s;           //总数
+        }
+        String totals=patchService.findQuantity(id_poultry);   //poultry中的总数量
+        int totalsum=Integer.parseInt(totals);     //将string类型转换成int类型
+        if(sum==totalsum){
+            //放入禽舍的数量等于总数量
+            return 0;
+        }else{
+            int extrasum=totalsum-sum;
+            return extrasum;
+        }
     }
 }

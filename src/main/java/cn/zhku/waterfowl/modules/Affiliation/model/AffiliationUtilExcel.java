@@ -1,4 +1,4 @@
-package cn.zhku.waterfowl.modules.fowlery.model;
+package cn.zhku.waterfowl.modules.Affiliation.model;
 
 
 import cn.zhku.waterfowl.util.excel.ReadExcelByEntityUtils;

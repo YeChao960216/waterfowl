@@ -20,7 +20,7 @@ import java.util.List;
 public class PoultryService  implements IBaseService<Poultry> {
 
     @Autowired
-    private PoultryMapper poultryMapper;
+    public PoultryMapper poultryMapper;
     @Autowired
     private PoultryDao poultryDao;
     /**

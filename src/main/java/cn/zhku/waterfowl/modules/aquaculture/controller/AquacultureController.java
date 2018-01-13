@@ -2,8 +2,10 @@ package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
+import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Dictionary;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +29,8 @@ import java.util.UUID;
 public class AquacultureController{
     @Autowired
     AquacultureService aquacultureService;
+    @Autowired
+    OutStorageService outStorageService;
 
     /**
      * 增加记录
@@ -38,10 +42,16 @@ public class AquacultureController{
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-        if(aquacultureService.add(aquaculture)==1)
-            return new Message("1","成功增加1条记录");
+        if(aquacultureService.add(aquaculture)==1) {
+            updateOutstroge(aquaculture.getFeedWeight(),aquaculture.getFeedType(),aquaculture.getRemark());
+            return new Message("1", "成功增加1条记录");
+        }
         else
             return new Message("2","增加记录失败");
+    }
+    public void updateOutstroge(float quantity,String name,String remark){
+
+        aquacultureService.updateOutstroge(quantity,name,remark);
     }
 
     /**
@@ -105,9 +115,39 @@ public class AquacultureController{
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
         //  通过服务层获取查询后的用户列表
-        List<Aquaculture> aquacultureList =  aquacultureService.findList(aquaculture);
+        List<Aquaculture> aquacultureList = aquacultureService.findList(aquaculture);
         //  返回 pageBean
         return new PageInfo<Aquaculture>(aquacultureList);
     }
 
+    /**
+     *校验饲料重量
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("checkQuantity")
+    public Message editOutstorage(Aquaculture entity) throws Exception {
+        float quantity=entity.getFeedWeight();
+        float num=aquacultureService.checkQuantity(entity);
+        if(quantity>num)
+            return new Message("1","库存不足");
+        else
+            return new Message("2","库存足够");
+    }
+
+    @ResponseBody
+    @RequestMapping("listremark")
+    public List<Outstorage> listOutstorageByname(String name) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        return aquacultureService.listOutstorageByname(name);
+    }
+
+    @ResponseBody
+    @RequestMapping("listid")
+    public List<Outstorage> listOutstorageid(String name,String remark) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        return aquacultureService.listOutstorageid(name,remark);
+    }
 }

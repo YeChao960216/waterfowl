@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.task;
 
+import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
 import cn.zhku.waterfowl.modules.material.service.MaterialService;
 import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.MaterialExample;
@@ -25,6 +26,8 @@ public class MaterialTask {
     private MaterialService materialService;
     @Autowired
     private MaterialMapper materialMapper;
+    @Autowired
+    private CheckQuantitydao checkQuantitydao;
     /**
      * 定时增加一个Material记录
      */
@@ -38,6 +41,7 @@ public class MaterialTask {
             Timestamp t1 = new Timestamp(System.currentTimeMillis());
             if (t2.before(t1)) {
                 material.setType("已过期");
+                checkQuantitydao.updateQuantity(material.getQuantity(),material.getName(),material.getAssociatedFirm());
             }
 //        material.(String.valueOf(new Date()));
 //        material.setPassword("123456");
@@ -53,4 +57,3 @@ public class MaterialTask {
         }
     }
 }
-
