@@ -1,9 +1,7 @@
 package cn.zhku.waterfowl.modules.patch.service;
 
 import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
-import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Patch;
-import cn.zhku.waterfowl.pojo.entity.PatchExample;
+import cn.zhku.waterfowl.pojo.entity.*;
 import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,4 +126,14 @@ public class PatchService implements IBaseService<Patch>{
     public String findQuantity(String id_poultry) {
         return dao.findQuantity(id_poultry);
     }
+
+//    public List<Affiliation> listAffiliationsize(String type,String position)throws Exception {
+//        return dao.listAffiliationsize(type,position);
+//    }
+//
+//    public List<Affiliation> listAffiliationsize(String type,String position,String size)throws Exception {
+//        return dao.listAffiliationid(type,position,size);
+//    }
+
+
 }

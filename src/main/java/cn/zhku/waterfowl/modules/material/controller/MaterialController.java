@@ -70,7 +70,7 @@ public class MaterialController extends BaseController {
             return new Message("1", "插入材料成功");
         }
          else if (materialService.add(material) == 1) {
-            materialService.updateOutstroge(material.getQuantity(), material.getName(), material.getAssociatedFirm());
+            materialService.updateOutstroge(material.getQuantity(), material.getName(), material.getAssociatedFirm(),material.getRemark());
             return new Message("1", "插入材料成功");
         }
         else {

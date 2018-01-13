@@ -31,6 +31,6 @@ public interface CheckQuantitydao {
     @Select("select remark from outStorage where name like concat('%',#{name},'%')")
     List<Outstorage> listOutstorageByname(String name);
 
-    @Select("select id_outstorage from outStorage where name=#{name} and remark=#{remark}')")
+    @Select("select id_outstorage from outStorage where name=#{name} and remark=#{remark} limit 1")
     List<Outstorage> listOutstorageid(String name,String remark);
 }

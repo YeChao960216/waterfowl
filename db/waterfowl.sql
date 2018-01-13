@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-13 19:53:19
+Date: 2018-01-13 23:02:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,15 +44,6 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 -- Records of affiliation
 -- ----------------------------
-INSERT INTO `affiliation` VALUES ('1', '60001', '70001', '80001', '满员', '1', '7');
-INSERT INTO `affiliation` VALUES ('10', '60001', '70003', '80002', '未满员', '5', '5');
-INSERT INTO `affiliation` VALUES ('2', '60001', '70001', '80003', '未满员', '2', '6');
-INSERT INTO `affiliation` VALUES ('3', '60001', '70002', '80001', '未满员', '1', '8');
-INSERT INTO `affiliation` VALUES ('4', '60001', '70001', '80004', '未满员', '6', '5');
-INSERT INTO `affiliation` VALUES ('5', '60001', '70001', '80001', '未满员', '4', '6');
-INSERT INTO `affiliation` VALUES ('6', '60001', '70003', '80002', '未满员', '8', '9');
-INSERT INTO `affiliation` VALUES ('7', '60001', '70001', '80002', '未满员', '6', '8');
-INSERT INTO `affiliation` VALUES ('8', '60001', '70004', '80001', '未满员', '8', '5');
 
 -- ----------------------------
 -- Table structure for `aquaculture`
@@ -119,16 +110,6 @@ CREATE TABLE `ddl` (
 -- ----------------------------
 -- Records of ddl
 -- ----------------------------
-INSERT INTO `ddl` VALUES ('1', '2', '2018-01-13 11:54:01', '6', '土埋', null, '2', '1', '0');
-INSERT INTO `ddl` VALUES ('10', '8', '2018-01-13 11:54:18', '5', '土埋', null, '2', '9', '1');
-INSERT INTO `ddl` VALUES ('2', '6', '2018-01-13 11:55:12', '2', '火葬', null, '5', '8', '0');
-INSERT INTO `ddl` VALUES ('3', '3', '2018-01-13 11:55:11', '4', '火葬', null, '8', '1', '1');
-INSERT INTO `ddl` VALUES ('4', '3', '2018-01-13 11:55:04', '8', '火葬', null, '9', '4', '0');
-INSERT INTO `ddl` VALUES ('5', '5', '2018-01-13 11:55:10', '9', '火葬', null, '6', '7', '1');
-INSERT INTO `ddl` VALUES ('6', '5', '2018-01-13 11:54:46', '3', '吃药', null, '3', '8', '0');
-INSERT INTO `ddl` VALUES ('7', '1', '2018-01-13 11:54:20', '4', '土埋', null, '2', '8', '0');
-INSERT INTO `ddl` VALUES ('8', '1', '2018-01-13 11:54:50', '5', '吃药', null, '5', '5', '1');
-INSERT INTO `ddl` VALUES ('9', '1', '2018-01-13 11:54:21', '2', '土埋', null, '2', '1', '1');
 
 -- ----------------------------
 -- Table structure for `dictionary`
@@ -187,20 +168,15 @@ INSERT INTO `dictionary` VALUES ('30012', '中鸡（15~35日龄）', '30000', nu
 INSERT INTO `dictionary` VALUES ('30013', '大鸡（36~出栏）', '30000', null);
 INSERT INTO `dictionary` VALUES ('30014', '可出栏', '30000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
-INSERT INTO `dictionary` VALUES ('60000', '家禽种类(禽舍类型)', '0', 'type');
-INSERT INTO `dictionary` VALUES ('60001', '鹅', '60000', null);
-INSERT INTO `dictionary` VALUES ('60002', '鸭', '60000', null);
-INSERT INTO `dictionary` VALUES ('60003', '鸡', '60000', null);
+INSERT INTO `dictionary` VALUES ('60000', '规格', '0', 'type');
+INSERT INTO `dictionary` VALUES ('60001', '大型', '60000', null);
+INSERT INTO `dictionary` VALUES ('60002', '中型', '60000', null);
+INSERT INTO `dictionary` VALUES ('60003', '小型', '60000', null);
 INSERT INTO `dictionary` VALUES ('70000', '方位', '0', 'position');
 INSERT INTO `dictionary` VALUES ('70001', '南', '70000', null);
 INSERT INTO `dictionary` VALUES ('70002', '北', '70000', null);
 INSERT INTO `dictionary` VALUES ('70003', '西', '70000', null);
 INSERT INTO `dictionary` VALUES ('70004', '东', '70000', null);
-INSERT INTO `dictionary` VALUES ('80000', '规格', '0', 'size');
-INSERT INTO `dictionary` VALUES ('80001', '特大大型', '80000', null);
-INSERT INTO `dictionary` VALUES ('80002', '大型', '80000', null);
-INSERT INTO `dictionary` VALUES ('80003', '中型', '80000', null);
-INSERT INTO `dictionary` VALUES ('80004', '小型', '80000', null);
 INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 INSERT INTO `dictionary` VALUES ('90001', '微信', '90000', 'wechat');
 
@@ -268,15 +244,6 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('1', '80004', '可使用', '1', '1', '1');
-INSERT INTO `fowlery` VALUES ('2', '80002', '可使用', '5', '1', '10');
-INSERT INTO `fowlery` VALUES ('3', '80002', '可使用', '8', '10', '1');
-INSERT INTO `fowlery` VALUES ('4', '80003', '可使用', '6', '10', '1');
-INSERT INTO `fowlery` VALUES ('5', '80002', '可使用', '3', '2', '1');
-INSERT INTO `fowlery` VALUES ('6', '80001', '可使用', '8', '3', '1');
-INSERT INTO `fowlery` VALUES ('7', '80003', '可使用', '7', '3', '1');
-INSERT INTO `fowlery` VALUES ('8', '80002', '可使用', '4', '1', '1');
-INSERT INTO `fowlery` VALUES ('9', '80001', '可使用', '1', '10', '1');
 
 -- ----------------------------
 -- Table structure for `material`
@@ -386,42 +353,6 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
-INSERT INTO `out_poultry` VALUES ('020', '2018-01-10 22:38:02', '60002', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('1', '2018-01-10 22:51:01', '60001', '65', '只', '8', '叶超养鸡场', '110', null, '5', '2');
-INSERT INTO `out_poultry` VALUES ('10', '2018-01-10 22:43:59', '60001', '5', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('11', '2018-01-10 22:51:04', '60003', '63', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
-INSERT INTO `out_poultry` VALUES ('12', '2018-01-10 22:51:05', '60002', '2', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '9', '2');
-INSERT INTO `out_poultry` VALUES ('13', '2018-01-10 22:51:05', '60002', '65', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
-INSERT INTO `out_poultry` VALUES ('133', '2018-01-10 22:51:06', '60002', '2', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '3', '2');
-INSERT INTO `out_poultry` VALUES ('14', '2018-01-10 22:44:01', '60001', '3', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('15', '2018-01-10 22:51:06', '60002', '5', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '3', '2');
-INSERT INTO `out_poultry` VALUES ('16', '2018-01-10 22:44:02', '60002', '2', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('17', '2018-01-10 22:51:07', '60003', '6', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '2', '2');
-INSERT INTO `out_poultry` VALUES ('18', '2018-01-10 22:44:02', '60003', '2', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('19', '2018-01-10 22:51:08', '60002', '5', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '5', '2');
-INSERT INTO `out_poultry` VALUES ('2', '2018-01-10 22:51:08', '60001', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '8', '2');
-INSERT INTO `out_poultry` VALUES ('21', '2018-01-10 22:51:08', '60002', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '7', '2');
-INSERT INTO `out_poultry` VALUES ('22', '2018-01-10 22:38:18', '60002', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('23', '2018-01-10 22:51:35', '60002', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '7');
-INSERT INTO `out_poultry` VALUES ('24', '2018-01-10 22:51:50', '60002', '26', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '4', '6');
-INSERT INTO `out_poultry` VALUES ('25', '2018-01-10 22:52:05', '60003', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '5', '3');
-INSERT INTO `out_poultry` VALUES ('26', '2018-01-10 22:52:13', '60001', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '7');
-INSERT INTO `out_poultry` VALUES ('27', '2018-01-10 22:51:51', '60002', '2', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '5', '2');
-INSERT INTO `out_poultry` VALUES ('28', '2018-01-10 22:52:14', '60001', '6', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('29', '2018-01-10 22:52:03', '60003', '3', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('3', '2018-01-10 22:52:02', '60003', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '9');
-INSERT INTO `out_poultry` VALUES ('30', '2018-01-10 22:52:02', '60003', '6', '只', '3', '叶超养鸡场', '110', '成君最帅哦', '5', '3');
-INSERT INTO `out_poultry` VALUES ('4', '2018-01-10 22:51:52', '60002', '6', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('5', '2018-01-10 22:51:52', '60002', '5', '只', '6', '叶超养鸡场', '110', '成君最帅哦', '6', '2');
-INSERT INTO `out_poultry` VALUES ('6', '2018-01-10 22:52:16', '60001', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '8');
-INSERT INTO `out_poultry` VALUES ('7', '2018-01-10 22:51:54', '60002', '5', '只', '4', '叶超养鸡场', '110', '成君最帅哦', '6', '8');
-INSERT INTO `out_poultry` VALUES ('8', '2018-01-10 22:52:07', '60003', '6', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '8');
-INSERT INTO `out_poultry` VALUES ('9', '2018-01-10 22:52:07', '60003', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '5');
-INSERT INTO `out_poultry` VALUES ('EBA87824720A40488C48E72E5C9E7EBD', '2018-01-10 22:51:57', '60002', '3', '只', '2', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('EC51541B73AC4E8EB781A84EF77FA1E0', '2018-01-10 22:52:18', '60001', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '6', '9');
-INSERT INTO `out_poultry` VALUES ('F8709528586F4BE4BB236238041E20F2', '2018-01-10 22:51:55', '60002', '63', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
-INSERT INTO `out_poultry` VALUES ('FA1B4B70E4384508B2F02E21F22B2375', '2018-01-10 22:52:19', '60001', '69', '只', '8', '叶超养鸡场', '110', '成君最帅哦', '1', '4');
-INSERT INTO `out_poultry` VALUES ('FDCDD69154A74828AE0CEC3B6F5A2270', '2018-01-10 22:51:56', '60002', '5', '只', '5', '叶超养鸡场', '110', '成君最帅哦', '1', '2');
 
 -- ----------------------------
 -- Table structure for `patch`
@@ -453,7 +384,6 @@ CREATE TABLE `patch` (
   CONSTRAINT `FK_fowlery_poultry` FOREIGN KEY (`id_poultry`) REFERENCES `poultry` (`id_poultry`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_affil_id` FOREIGN KEY (`id_affilation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_patch_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `patch_ibfk_1` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `patch_ibfk_2` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -462,16 +392,6 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('2', '60001', '70002', '80003', '8', '1', '5', '1', '2018-01-10 22:31:46', '1', '1000', '已售完');
-INSERT INTO `patch` VALUES ('2', '60001', '70003', '80004', '6', '4', '8', '2', '2018-01-10 22:30:48', '10', '1000', '未售完');
-INSERT INTO `patch` VALUES ('5', '60001', '70002', '80002', '8', '1', '1', '8', '2018-01-10 22:30:54', '2', '2000', '未售完');
-INSERT INTO `patch` VALUES ('6', '60001', '70001', '80003', '5', '3', '5', '4', '2018-01-10 22:30:55', '3', '2000', '未售完');
-INSERT INTO `patch` VALUES ('8', '60001', '70004', '80002', '5', '2', '5', '1', '2018-01-10 22:30:58', '4', '1500', '未售完');
-INSERT INTO `patch` VALUES ('4', '60001', '70001', '80003', '6', '5', '8', '9', '2018-01-10 22:39:31', '5', '2000', '未售完');
-INSERT INTO `patch` VALUES ('1', '60001', '70002', '80001', '3', '4', '9', '3', '2018-01-10 22:31:08', '6', '1300', '未售完');
-INSERT INTO `patch` VALUES ('6', '60001', '70001', '80003', '5', '2', '3', '1', '2018-01-10 22:31:14', '7', '2000', '未售完');
-INSERT INTO `patch` VALUES ('8', '60001', '70002', '80001', '2', '3', '2', '2', '2018-01-10 22:31:16', '8', '2300', '未售完');
-INSERT INTO `patch` VALUES ('2', '60001', '70002', '80003', '4', '5', '1', '8', '2018-01-10 22:31:20', '9', '4000', '未售完');
 
 -- ----------------------------
 -- Table structure for `poultry`
