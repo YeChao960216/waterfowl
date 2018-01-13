@@ -1,8 +1,10 @@
 package cn.zhku.waterfowl.modules.material.service;
 
 import cn.zhku.waterfowl.modules.material.dao.MaterialDao;
+import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.MaterialExample;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.MaterialMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -144,6 +146,13 @@ public class MaterialService  implements IBaseService<Material>{
         if (commonQo.getEnd() != null)
             criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
         return materialMapper.selectByExample(materialExample);
+    }
+    public void updateOutstroge(float quantity,String name,String remark) {
+        materialDao.updateQuantity(quantity,name,remark);
+    }
+
+    public String listOutstorageid(String name, String remark)throws Exception {
+       return materialDao.listOutstorageid(name,remark);
     }
 
 }

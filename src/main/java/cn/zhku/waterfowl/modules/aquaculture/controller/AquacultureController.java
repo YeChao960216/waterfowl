@@ -42,7 +42,6 @@ public class AquacultureController{
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-
         if(aquacultureService.add(aquaculture)==1) {
             updateOutstroge(aquaculture.getFeedWeight(),aquaculture.getFeedType(),aquaculture.getRemark());
             return new Message("1", "成功增加1条记录");
@@ -136,5 +135,19 @@ public class AquacultureController{
             return new Message("1","库存不足");
         else
             return new Message("2","库存足够");
+    }
+
+    @ResponseBody
+    @RequestMapping("listremark")
+    public List<Outstorage> listOutstorageByname(String name) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        return aquacultureService.listOutstorageByname(name);
+    }
+
+    @ResponseBody
+    @RequestMapping("listid")
+    public List<Outstorage> listOutstorageid(String name,String remark) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        return aquacultureService.listOutstorageid(name,remark);
     }
 }

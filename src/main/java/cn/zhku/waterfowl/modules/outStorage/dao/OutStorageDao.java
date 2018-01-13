@@ -7,13 +7,11 @@ import java.util.List;
 
 public interface OutStorageDao {
     /*
-     * 根据type是否为'未过期'和'已过期'
+     * 根据type是否为'未过期'和'已过期'该表的物资都是没过期的
      * */
-    @Select("select * from material where name like concat('%',#{name},'%') and type='未过期'")
-    List<Material> listMatericalByName(String name);
 //    /*
 //     * 根据type是否为'未过期'和'已过期'
 //     * */
-//    @Select("select * from material where name like concat('%',#{name},'%') and type='未过期'")
-//    List<Material> listMatericalByName(String name);
+    @Select("select * from material where name like concat('%',#{name},'%')")
+    List<Material> listMatericalByName(String name);
 }
