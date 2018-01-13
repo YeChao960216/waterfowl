@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-13 17:42:05
+Date: 2018-01-13 18:52:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -329,7 +329,7 @@ CREATE TABLE `outstorage` (
   `remark` varchar(200) DEFAULT NULL COMMENT '关联厂商',
   `id_storage` varchar(45) DEFAULT NULL,
   `record_date` timestamp NULL DEFAULT NULL,
-  `quantity` varchar(45) DEFAULT NULL COMMENT '材料数量.用药总量，包含实际总使用量和损耗丢弃量。',
+  `quantity` float(45,0) DEFAULT NULL COMMENT '材料数量.用药总量，包含实际总使用量和损耗丢弃量。',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',

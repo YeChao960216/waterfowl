@@ -64,6 +64,7 @@ public class MaterialController extends BaseController {
             outstorage.setIdStorage(material.getIdStorage());
             outstorage.setQuantity(material.getQuantity());
             outstorage.setUnit(material.getUnit());
+            outstorage.setType(material.getRemark());
             outStorageService.add(outstorage);
             materialService.add(material);
             return new Message("1", "插入材料成功");
