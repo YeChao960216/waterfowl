@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-13 18:52:24
+Date: 2018-01-13 19:53:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -365,12 +365,12 @@ CREATE TABLE `out_poultry` (
   `quantity` float(11,0) DEFAULT NULL COMMENT '本批次数量售出数量',
   `unit` varchar(45) DEFAULT '只' COMMENT '单位',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '出厂批次',
-  `firm` varchar(45) NOT NULL DEFAULT '' COMMENT '出厂商',
+  `firm` varchar(45) NOT NULL COMMENT '出厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
-  PRIMARY KEY (`id`,`firm`),
+  PRIMARY KEY (`id`),
   KEY `FK_out_poul_dic_unit` (`unit`),
   KEY `FK_out_poul_dic_type` (`type`),
   KEY `FK_out_poultry_user_charge` (`id_charge`),
@@ -495,8 +495,7 @@ CREATE TABLE `poultry` (
   KEY `poultry_name_dictionary_id` (`type`),
   KEY `FK_poultry_dic_unit` (`unit`),
   CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `poultry_name_dictionary_id` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
