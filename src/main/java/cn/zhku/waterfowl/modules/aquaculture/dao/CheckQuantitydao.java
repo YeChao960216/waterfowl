@@ -14,13 +14,13 @@ public interface CheckQuantitydao {
      * @param remark
      * @return
      */
-    @Select("SELECT quantity from outStorage where name=#{name} and remark=#{remark} and type='未过期'")
+    @Select("SELECT quantity from outStorage where name=#{name} and remark=#{remark}")
     float checkQuantity(String name,String remark);
 
     /**
      * 修改已有数量
      * @param quantity
      */
-    @Select("update outStorage set outStorage.quantity=outStorage.quantity-#{quantity} where name=#{name} and remark=#{remark} and type='未过期'")
+    @Select("update outStorage set outStorage.quantity=outStorage.quantity-#{quantity} where name=#{name} and remark=#{remark}")
     void updateQuantity(float quantity,String name,String remark);
 }
