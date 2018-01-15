@@ -9,40 +9,47 @@
      * 向后台发送URL，获取所有在职人员的信息
      */
     const oURL = {
-        PAGE:1,
-        COUNT:15,
         PRONAME:'/waterfowl/',
         SHOWEMPINFO:'admin/user/list',
     };
     /**
-     *视图位置
+     * 实例化一个分页控制者
      */
-    var oContent = $('#content')[0];
+    console.log($('#content')[0]);
+    var pageController = new PageController({
+
+        url:oURL.PRONAME+oURL.SHOWEMPINFO,
+
+        view:{
+            container : $('#content')[0],
+            tpl:'empInfo',
+            nowView:$('#now')[0],
+            allView:$('#all')[0],
+        },
+        pageBean:{
+            pageDescription:'pageNum',
+            countDescription:'pageSize',
+            dataDescription:'list',
+            totalDescription:'pages',
+            count:'10',
+            other:'&sign=1'
+        },
+        dataFilter:{
+            tpl:'userInfo',
+        },
+        dom:{
+            nextBtn :$('#next')[0],
+            preBtn:$('#pre')[0],
+            jumpBtn:$('#jumpTo')[0],
+            jumpVal:$('#jumpText')[0],
+        },
+
+    });
+
     /**
-     *渲染视图
+     * 初始化视图,绑定事件操作，分页功能完成
      */
-    function initView(){
-        $.get(oURL.PRONAME+oURL.SHOWEMPINFO+'?sign=1',function(data){
-            console.log(data);
-            if(data.length!=0){
-                /**
-                 *处理一下数据
-                 */
-                data = new DataFilter({
-                    data:data.list,
-                    type:'userInfo'
-                });
-                /**
-                 *渲染一下页面
-                 */
-                viewCommand({
-                    command:'display',
-                    param:[oContent,data,'empInfo']
-                })
-            }
-        })
-    }
-    initView();
+    pageController.init();
     /**
      * jq
      * 跳转页面进行职员详细信息的查看操作
@@ -50,9 +57,12 @@
      */
     $('#content').on("click","[id*=show]",function(){
         var emp_id = $(this).attr('id').substr(4);
-        console.log(emp_id);
         window.location.href="./showEmpDetail.html?id="+emp_id;
     });
 
+    $("[type=radio]").change(function () {
+        pageController.other = '&sign='+$(':checked').val();
+        pageController.init();
+    });
 })()
 

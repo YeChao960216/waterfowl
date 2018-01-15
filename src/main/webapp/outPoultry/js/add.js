@@ -68,7 +68,7 @@
 
     $('#id_patch').change(function () {
         var value = $(this).val();
-        var quantity = cache.outstorageData.forEach(function (val) {
+        var quantity = cache.outPatch.forEach(function (val) {
             if (val.idOutstorage == value) {
                 return val.quantity;
             }

@@ -41,5 +41,11 @@ DataFilter.prototype = {
         });
         return data;
     },
+    ddlHomeTypeChange:function (data) {  //{map:HOME_TYPE,source:res}    map , arr
+        data.source.forEach(function (ele) {
+           ele.name = data.map.get(ele.type);
+        });
+        return data.source;
+    },
 
 }

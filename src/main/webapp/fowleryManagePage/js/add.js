@@ -1,32 +1,32 @@
 /*
     增加禽舍
- */
-var data=[{
-    size:100,
-    status:"可用",
-    affiliation:"归属的大禽舍1",
-    idRecorder:"wenzhi",
-    idCharge:"zhuowenzhi"
-}];
-
-
-var size=[{
-    size:[99,100,101]
-
-}];
-var affiliation=[{
-    affiliation:["东1","西2","南3"]
-}];
-var data3=[{
-    size:99,
-    affiliation:"东1"
-}]
+//  */
+// var data=[{
+//     size:100,
+//     status:"可用",
+//     affiliation:"归属的大禽舍1",
+//     idRecorder:"wenzhi",
+//     idCharge:"zhuowenzhi"
+// }];
+//
+//
+// var size=[{
+//     size:[99,100,101]
+//
+// }];
+// var affiliation=[{
+//     affiliation:["东1","西2","南3"]
+// }];
+// var data3=[{
+//     size:99,
+//     affiliation:"东1"
+// }]
 
 
 //先从数据字典获取所有的数据生成下拉框
 $.ajax({
     url:"",
-    datatype:"post",
+    type:'get',
     success:function (data3) {
 
         for (var j=0;j<size.length;j++)
@@ -38,14 +38,14 @@ $.ajax({
             $("#affiliation").append("<option>"+affiliation[n]+"</option>");
         }
     }
-})
+});
 
 $(function () {
     //Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框
     $.ajax({
         url:"",
-        type:"POST",
-        seccess:function (data) {
+        type:"get",
+        success:function (data) {
             console.log("Ajax先获取后台传来的size值生成下拉框，status生成显示的可用状态，归属的大禽舍的下拉框");
             console.log("-------success----");
             $('#size').append("<option value='"+size+"'>"+"规格"+size+"</option>");
@@ -57,7 +57,7 @@ $(function () {
         $.ajax({
             url:"",
             type:"POST",
-            datatype:"json",
+            dataType:"json",
             data:{
                 "size":$('#size').val(),//规格字典查
                 "status":$('#status').val(),
@@ -71,7 +71,7 @@ $(function () {
         $.ajax({
             url:"",
             type:"POST",
-            datatype:"json",
+            dataType:"json",
             data:{
                 "affiliation":$('#affiliation').val(),//归属的大禽舍,大禽舍表查
             },
@@ -86,7 +86,7 @@ $(function () {
         $.ajax({
             url:"",
             type:"POST",
-            datatype:"json",
+            dataType:"json",
             data:{
                 "idCharge": $('#idCharge').val(),//负责人编号，user表查
                 "idRecorder":$('#idRecorder').val(),//记录者编号，user表查

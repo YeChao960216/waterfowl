@@ -31,7 +31,7 @@
             pageDescription:'pageNum',
             countDescription:'pageSize',
             dataDescription:'list',
-            totalDescription:'total',
+            totalDescription:'pages',
             count:'10',
         },
         dataFilter:{
@@ -50,4 +50,39 @@
      * 初始化视图,绑定事件操作，分页功能完成
      */
     pageController.init();
+
+    /**
+     * 查询功能
+     * 点击了就序列化表单
+     * 更改视图控制器的other属性
+     * 初始化页面
+     */
+    $('#search').click(function () {
+        var q = queryParse.call($('#searchForm'));
+        var qStr = [];
+        for(var key in q) {
+            if (!q[key]) {
+                delete q[key];
+                continue;
+            }
+            qStr.push(key+'='+q[key]);
+        }
+        $('#back').show();
+        pageController.other = '&'+qStr.toString();
+        pageController.init();
+    });
+
+    /**
+     * 返回键
+     * 每当成功查找出一项时 此按钮显示
+     * 此按钮被按下时
+     *      清空查询表单的字
+     *      并初始化页面
+     */
+    $('#back').click(function () {
+        $('#searchForm input').val('');
+        $(this).hide();
+        pageController.other = '';
+        pageController.init();
+    });
 })();

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-13 23:02:37
+Date: 2018-01-15 14:44:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -90,14 +90,13 @@ CREATE TABLE `aquaculture` (
 DROP TABLE IF EXISTS `ddl`;
 CREATE TABLE `ddl` (
   `id` varchar(45) NOT NULL COMMENT '病、死、淘汰记录表编号',
-  `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖禽舍编号',
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '批次号',
   `record_date` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `num_processed` int(11) DEFAULT NULL COMMENT '需处理个体数量',
   `processing_mode` varchar(45) DEFAULT NULL COMMENT '处理方式',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `flag` int(11) DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   PRIMARY KEY (`id`),
   KEY `fk_ddl_poultry1_idx` (`id_patch`),
   KEY `fk_ddl_user1_idx` (`id_recorder`),
@@ -168,6 +167,8 @@ INSERT INTO `dictionary` VALUES ('30012', '中鸡（15~35日龄）', '30000', nu
 INSERT INTO `dictionary` VALUES ('30013', '大鸡（36~出栏）', '30000', null);
 INSERT INTO `dictionary` VALUES ('30014', '可出栏', '30000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
+INSERT INTO `dictionary` VALUES ('50001', '删除用户', '50000', null);
+INSERT INTO `dictionary` VALUES ('50002', '增加用户', '50000', null);
 INSERT INTO `dictionary` VALUES ('60000', '规格', '0', 'type');
 INSERT INTO `dictionary` VALUES ('60001', '大型', '60000', null);
 INSERT INTO `dictionary` VALUES ('60002', '中型', '60000', null);
@@ -199,7 +200,6 @@ CREATE TABLE `epidemic` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `flag` int(11) DEFAULT '0' COMMENT '提交状态   0表示未提交，1表示提交',
   `id` varchar(45) NOT NULL COMMENT '疫情记录编号',
   PRIMARY KEY (`id`),
   KEY `fk_epidemic_fowlery1_idx` (`id_patch`),
@@ -246,67 +246,33 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `material`
--- ----------------------------
-DROP TABLE IF EXISTS `material`;
-CREATE TABLE `material` (
-  `id_storage` varchar(45) NOT NULL COMMENT '库存表',
-  `date` timestamp NULL DEFAULT NULL COMMENT '进厂时间',
-  `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
-  `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
-  `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
-  `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
-  `quantity` float(45,0) DEFAULT NULL COMMENT '库存材料数量',
-  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位——字典查给用户选',
-  `storage_site` varchar(45) DEFAULT NULL COMMENT '储存地点',
-  `mode` varchar(45) DEFAULT NULL COMMENT '储存方式',
-  `remark` varchar(200) DEFAULT NULL COMMENT '供应商',
-  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
-  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `type` varchar(45) DEFAULT '''未过期''' COMMENT '是否过期',
-  PRIMARY KEY (`id_storage`),
-  KEY `fk_storage_user1_idx` (`id_recorder`),
-  KEY `fk_storage_user2_idx` (`id_charge`),
-  KEY `storage_storage_unit_dic_id` (`unit`),
-  KEY `storage_mode_dic_id` (`mode`),
-  CONSTRAINT `material_ibfk_1` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `material_ibfk_2` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of material
--- ----------------------------
-INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '84消毒液', '2017-12-21 17:30:58', '叶超消毒厂', '123', '1000', '20003', '仲恺709', '2001', '伟健供应商', '1', '1', '\'已过期\'');
-INSERT INTO `material` VALUES ('11', '2018-01-13 11:34:44', '808鸡饲料', '2018-02-01 17:29:50', '成君饲料厂', '15818922646', '2000', '20001', '仲恺709', '2002', '伟龙供应商', '2', '1', '\'未过期\'');
-INSERT INTO `material` VALUES ('12', '2018-01-13 11:37:05', '808鸡饲料', '2018-02-01 17:29:53', '成君饲料厂', '15818922646', '3000', '20001', '仲恺709', '2002', '伟龙供应商', '2', '1', '\'未过期\'');
-INSERT INTO `material` VALUES ('13', '2018-01-13 11:37:11', '小优223稻谷', '2018-02-01 17:30:27', '曼曼农场', '110', '4000', '20001', '仲恺709', '2002', '伟龙供应商', '2', '1', '\'未过期\'');
-INSERT INTO `material` VALUES ('14', '2018-01-13 11:37:08', '708鸡饲料', '2018-03-13 17:31:02', '成君饲料厂', '15818922646', '3000', '20001', '仲恺709', '2002', '伟龙供应商', '2', '1', '\'未过期\'');
-INSERT INTO `material` VALUES ('16', '2018-01-13 11:56:09', '碘酒', '2018-01-13 17:31:06', '成君杂货店', '15818922646', '1000', '20003', '仲恺709', '2001', '伟佳供应商', '2', '2', '\'未过期\'');
-INSERT INTO `material` VALUES ('20', '2018-01-13 11:56:12', '碘酒', '2018-02-01 17:31:08', '成君杂货店', '15818922646', '1000', '20003', '仲恺709', '2001', '伟佳供应商', '2', '2', '\'未过期\'');
-INSERT INTO `material` VALUES ('3', '2018-01-10 21:25:56', '84消毒液', '2018-02-01 17:31:13', '叶超消毒厂', '123', '1000', '20003', '仲恺709', '2001', '伟健供应商', '1', '1', '\'未过期\'');
-INSERT INTO `material` VALUES ('4', '2018-01-10 21:25:56', '84消毒液', '2018-02-01 17:31:20', '叶超消毒厂', '123', '1000', '20003', '仲恺709', '2001', '伟健供应商', '1', '1', '\'未过期\'');
-
--- ----------------------------
 -- Table structure for `outstorage`
 -- ----------------------------
 DROP TABLE IF EXISTS `outstorage`;
 CREATE TABLE `outstorage` (
   `id_outstorage` varchar(45) NOT NULL COMMENT '物资使用表——自动生成用户不填',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称——name发送到storage获取库存数据，供用户下拉框选择我',
-  `remark` varchar(200) DEFAULT NULL COMMENT '关联厂商',
+  `remark` varchar(200) DEFAULT NULL COMMENT '供应商',
   `id_storage` varchar(45) DEFAULT NULL,
   `record_date` timestamp NULL DEFAULT NULL,
-  `quantity` float(45,0) DEFAULT NULL COMMENT '材料数量.用药总量，包含实际总使用量和损耗丢弃量。',
+  `quantity` float(45,0) DEFAULT NULL COMMENT '入厂总量',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
-  `type` varchar(45) DEFAULT NULL COMMENT '供应商',
+  `firm` varchar(45) DEFAULT NULL COMMENT '生产厂家',
+  `type` varchar(45) NOT NULL COMMENT '类型',
+  `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '有效期',
+  `rest` float(45,0) DEFAULT NULL COMMENT '剩余量',
+  `phone` varchar(45) DEFAULT NULL COMMENT '联系方式',
+  `valid` varchar(45) DEFAULT '''未过期''' COMMENT '是否过期',
+  `site` varchar(45) DEFAULT NULL COMMENT '备用，暂不填',
+  `mode` varchar(45) DEFAULT NULL COMMENT '备用，暂不填',
+  `provide` varchar(45) DEFAULT NULL COMMENT '备用',
   PRIMARY KEY (`id_outstorage`),
   KEY `fk_storage_user1_idx` (`id_recorder`),
   KEY `fk_storage_user2_idx` (`id_charge`),
   KEY `fk_outstorage_storage1_idx` (`id_storage`),
   KEY `outst_unit_dic_id` (`unit`),
-  CONSTRAINT `fk_outstorage_storage1` FOREIGN KEY (`id_storage`) REFERENCES `material` (`id_storage`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `outst_unit_dic_id` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storage_ibfk_10` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storage_ibfk_20` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -315,11 +281,11 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '1', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商');
-INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '11', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商');
-INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '13', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商');
-INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '14', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商');
-INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '16', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商');
+INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '1', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '11', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '13', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '14', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '16', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '', null, null, null, '\'未过期\'', null, null, null);
 
 -- ----------------------------
 -- Table structure for `out_poultry`
@@ -382,7 +348,6 @@ CREATE TABLE `patch` (
   KEY `FK_patch_dic_size` (`size`),
   CONSTRAINT `FK_fowlery_fowl_id` FOREIGN KEY (`id_fowlery`) REFERENCES `fowlery` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_poultry` FOREIGN KEY (`id_poultry`) REFERENCES `poultry` (`id_poultry`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_patch_affil_id` FOREIGN KEY (`id_affilation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `patch_ibfk_1` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -414,6 +379,8 @@ CREATE TABLE `poultry` (
   KEY `fk_material_user2_idx` (`id_charge`),
   KEY `poultry_name_dictionary_id` (`type`),
   KEY `FK_poultry_dic_unit` (`unit`),
+  KEY `dic_id_firm` (`associated_firm`),
+  CONSTRAINT `dic_id_firm` FOREIGN KEY (`associated_firm`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -421,16 +388,16 @@ CREATE TABLE `poultry` (
 -- ----------------------------
 -- Records of poultry
 -- ----------------------------
-INSERT INTO `poultry` VALUES ('1', '2018-01-13 12:14:06', '0', '1', '只', '叶超养鸡场', '123', '', '1', '1');
-INSERT INTO `poultry` VALUES ('10', '2018-01-10 22:52:53', '0', '8', '只', '叶超养鸡场', '123', null, '5', '5');
-INSERT INTO `poultry` VALUES ('2', '2018-01-10 22:52:53', '0', '9', '只', '叶超养鸡场', '123', null, '1', '2');
-INSERT INTO `poultry` VALUES ('3', '2018-01-10 22:52:54', '0', '9', '只', '叶超养鸡场', '123', null, '1', '3');
-INSERT INTO `poultry` VALUES ('4', '2018-01-10 22:52:54', '0', '8', '只', '叶超养鸡场', '123', null, '1', '5');
-INSERT INTO `poultry` VALUES ('5', '2018-01-10 22:52:55', '0', '6', '只', '叶超养鸡场', '123', null, '1', '4');
-INSERT INTO `poultry` VALUES ('6', '2018-01-10 22:52:58', '0', '8', '只', '叶超养鸡场', '123', null, '1', '6');
-INSERT INTO `poultry` VALUES ('7', '2018-01-10 22:52:57', '0', '6', '只', '叶超养鸡场', '123', null, '1', '8');
-INSERT INTO `poultry` VALUES ('8', '2018-01-10 22:52:57', '0', '5', '只', '叶超养鸡场', '123', null, '3', '7');
-INSERT INTO `poultry` VALUES ('9', '2018-01-10 22:52:55', '0', '2', '只', '叶超养鸡场', '123', null, '2', '9');
+INSERT INTO `poultry` VALUES ('1', '2018-01-14 17:49:57', '0', '1', '只', '0', '123', '', '1', '1');
+INSERT INTO `poultry` VALUES ('10', '2018-01-14 17:49:58', '0', '8', '只', '0', '123', null, '5', '5');
+INSERT INTO `poultry` VALUES ('2', '2018-01-14 17:49:58', '0', '9', '只', '0', '123', null, '1', '2');
+INSERT INTO `poultry` VALUES ('3', '2018-01-14 17:49:59', '0', '9', '只', '0', '123', null, '1', '3');
+INSERT INTO `poultry` VALUES ('4', '2018-01-14 17:49:59', '0', '8', '只', '0', '123', null, '1', '5');
+INSERT INTO `poultry` VALUES ('5', '2018-01-14 17:50:00', '0', '6', '只', '0', '123', null, '1', '4');
+INSERT INTO `poultry` VALUES ('6', '2018-01-14 17:50:00', '0', '8', '只', '0', '123', null, '1', '6');
+INSERT INTO `poultry` VALUES ('7', '2018-01-14 17:50:01', '0', '6', '只', '0', '123', null, '1', '8');
+INSERT INTO `poultry` VALUES ('8', '2018-01-14 17:50:01', '0', '5', '只', '0', '123', null, '3', '7');
+INSERT INTO `poultry` VALUES ('9', '2018-01-14 17:50:03', '0', '2', '只', '0', '123', null, '2', '9');
 
 -- ----------------------------
 -- Table structure for `role`
@@ -445,6 +412,7 @@ CREATE TABLE `role` (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
+INSERT INTO `role` VALUES ('1', '游客');
 
 -- ----------------------------
 -- Table structure for `role_permission`
@@ -462,6 +430,8 @@ CREATE TABLE `role_permission` (
 -- ----------------------------
 -- Records of role_permission
 -- ----------------------------
+INSERT INTO `role_permission` VALUES ('1', '50001');
+INSERT INTO `role_permission` VALUES ('1', '50002');
 
 -- ----------------------------
 -- Table structure for `user`

@@ -78,6 +78,9 @@ public class AffiliationService implements IBaseService<Affiliation> {
         if (entity.getSize() != null) {
             criteria.andSizeEqualTo(entity.getSize());
         }
+        if (entity.getType() != null) {
+            criteria.andTypeEqualTo(entity.getType());
+        }
         //通过状态，通过数据字典，有待研究
         if (entity.getStatus() != null) {
             criteria.andStatusEqualTo(entity.getStatus());

@@ -2,11 +2,14 @@ package cn.zhku.waterfowl.modules.patch.service;
 
 import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
 import cn.zhku.waterfowl.pojo.entity.*;
+import cn.zhku.waterfowl.pojo.mapper.AffiliationMapper;
 import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,8 @@ public class PatchService implements IBaseService<Patch>{
     private PatchMapper patchMapper;
     @Autowired
     private PatchDao dao;
+    @Autowired
+    private AffiliationMapper affiliationMapper;
 
     @Override
     public int add(Patch entity) throws Exception {
@@ -70,6 +75,10 @@ public class PatchService implements IBaseService<Patch>{
         if(entity.getIdRecorder()!=null){
             criteria.andIdRecorderLike("%"+entity.getIdRecorder()+"%");
         }
+
+        if (StringUtils.isNotBlank(entity.getIdPoultry())) {
+            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
+        }
         return patchMapper.selectByExample(patchExample);
     }
 
@@ -110,6 +119,9 @@ public class PatchService implements IBaseService<Patch>{
         return dao.findPatch(id_poultry);
     }
 
+
+
+
     /**
      * 该禽舍中存放的数量
      * @param id patch 的id
@@ -127,13 +139,14 @@ public class PatchService implements IBaseService<Patch>{
         return dao.findQuantity(id_poultry);
     }
 
-//    public List<Affiliation> listAffiliationsize(String type,String position)throws Exception {
-//        return dao.listAffiliationsize(type,position);
+//    public List<Affiliation> listAffiliationid(Affiliation entity)throws Exception {
+//        AffiliationExample affiliationExample=new AffiliationExample();
+//        entity.getType();
+//        entity.getPosition();
+//        List<Affiliation> affiliationList = new ArrayList<Affiliation>(affiliationMapper.selectByExample(entity.getType(),entity.getPosition());
 //    }
 //
-//    public List<Affiliation> listAffiliationsize(String type,String position,String size)throws Exception {
-//        return dao.listAffiliationid(type,position,size);
+//    public List<Affiliation> listAffiliationid(String position,String type)throws Exception {
+//        return dao.listAffiliationid(position,type);
 //    }
-
-
 }

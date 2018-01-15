@@ -2,15 +2,16 @@ package cn.zhku.waterfowl.modules.patch.controller;
 
 import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
 import cn.zhku.waterfowl.modules.patch.service.PatchService;
+import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.Patch;
+import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
+import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import net.sf.ehcache.pool.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,9 @@ public class PatchController {
     PatchService patchService;    //批次号
     @Autowired
     AffiliationService affiliationService;
+
+    @Autowired
+    private PoultryService poultryService;
 
     /**
      * 通过id展示批次列表
@@ -221,11 +225,23 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("findPatchByPid/{id_poultry}")
-    public List<String> findPatch(@PathVariable String id_poultry){
-        List<String> list=new ArrayList<String>();
+    public Msg findPatch(@PathVariable String id_poultry) throws Exception {
+//        List<String> list= new ArrayList<String>();
+//        list = patchService.findPatch(id_poultry);
+      Patch patch = new Patch();
+      patch.setIdPoultry(id_poultry);
+      List<Patch> patchList = patchService.findList(patch);
+
+        Msg msg = new Msg("1","查找成功","200",patchList);
+        return msg;
+    }
+
+    List<String> findByPatch( String id_poultry){
+        List<String> list= new ArrayList<String>();
         list = patchService.findPatch(id_poultry);
         return list;
     }
+
 
     /**
      * 判断该批次是否都放进去禽舍里
@@ -234,36 +250,40 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("isEqualSum/{id_poultry}")
-    public int IsEqualSum(@PathVariable String id_poultry){
-        List list=findPatch(id_poultry);   //调用上面的方法找到patch的所有id
+    public Msg IsEqualSum(@PathVariable String id_poultry) throws Exception {
+//        List list=findByPatch(id_poultry);   //调用上面的方法找到patch的所有id
+//        int sum=0;   //放在禽舍中的总数量
+//        for(int i=0;i<list.size();i++){
+//            String st=patchService.findSize((String) list.get(i));    //每一个禽舍的存放的数量
+//            int s=Integer.parseInt(st);        //将string类型转换成int类型
+//            sum+=s;           //总数
+//        }
+
+        // 218-1-13 21:52 修改 qwj
         int sum=0;   //放在禽舍中的总数量
-        for(int i=0;i<list.size();i++){
-            String st=patchService.findSize((String) list.get(i));    //每一个禽舍的存放的数量
-            int s=Integer.parseInt(st);        //将string类型转换成int类型
-            sum+=s;           //总数
+        Patch patch = new Patch();
+        patch.setIdPoultry(id_poultry);
+        List<Patch> patchList =patchService.findList(patch);
+        for(Patch patchEntitty:patchList) {
+            sum += Integer.parseInt(patchEntitty.getSize());
         }
         String totals=patchService.findQuantity(id_poultry);   //poultry中的总数量
         int totalsum=Integer.parseInt(totals);     //将string类型转换成int类型
-        if(sum==totalsum){
-            //放入禽舍的数量等于总数量
-            return 0;
-        }else{
-            int extrasum=totalsum-sum;
-            return extrasum;
-        }
+        int extrasum=totalsum-sum;
+        return new Msg("1","成功","200",extrasum);
     }
 
 //    @ResponseBody
-//    @RequestMapping("listsize")
-//    public List<Affiliation> listAffiliationsize(String type,String position) throws Exception {
-//        return patchService.listAffiliationsize(type,position);
-//    }
-//
-//    @ResponseBody
 //    @RequestMapping("listid")
-//    public List<Affiliation> listAffiliationsize(String type,String position,String size) throws Exception {
-//        return patchService.listAffiliationsize(type,position,size);
+//    public List<Affiliation> listAffiliationid(String position,String type) throws Exception {
+//
+//        return patchService.listAffiliationid(position,type);
 //    }
 
+//    @ResponseBody
+//    @RequestMapping("listid")
+//    public List<Affiliation> listAffiliationid(String position,String type) throws Exception {
+//        return patchService.listAffiliationid(position,type);
+//    }
 
 }

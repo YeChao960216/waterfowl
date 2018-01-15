@@ -1,11 +1,10 @@
 package cn.zhku.waterfowl.task;
 
-import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
-import cn.zhku.waterfowl.modules.material.dao.MaterialDao;
-import cn.zhku.waterfowl.modules.material.service.MaterialService;
-import cn.zhku.waterfowl.pojo.entity.Material;
-import cn.zhku.waterfowl.pojo.entity.MaterialExample;
-import cn.zhku.waterfowl.pojo.mapper.MaterialMapper;
+import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
+import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
+import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,37 +23,30 @@ import java.util.List;
 @EnableScheduling
 public class MaterialTask {
     @Autowired
-    private MaterialService materialService;
+    private OutStorageService outStorageService;
     @Autowired
-    private MaterialMapper materialMapper;
+    private OutstorageMapper outstorageMapper;
     @Autowired
-    private MaterialDao materialDao;
+    private OutStorageDao outStorageDao;
     /**
      * 定时增加一个Material记录
      */
-    @Scheduled(cron = "59 59 23 * * ?")  //    每天23时59分59秒触发任务
+    @Scheduled(cron = "55 59 23 * * ?")  //    每天23时55分59秒触发任务
     public void addMaterialTask() {
-        MaterialExample materialExample = new MaterialExample();
-        List<Material> materialList = new ArrayList<Material>(materialMapper.selectByExample(materialExample));
-        for (int i = 0; i < materialList.size(); i++) {
-            Material material = materialList.get(i);//  生成实体类，并填充它
-            Date t2 = materialList.get(i).getExpirationDate();
+        OutstorageExample outstorageExample = new OutstorageExample();
+        List<Outstorage> outstorageList = new ArrayList<Outstorage>(outstorageMapper.selectByExample(outstorageExample));
+        for (int i = 0; i < outstorageList.size(); i++) {
+            Outstorage outstorage = outstorageList.get(i);//  生成实体类，并填充它
+            Date t2 = outstorageList.get(i).getExpirationDate();
             Timestamp t1 = new Timestamp(System.currentTimeMillis());
             if (t2.before(t1)) {
-                material.setType("已过期");
-                materialDao.updateNum(material.getQuantity(),material.getName(),material.getAssociatedFirm(),material.getRemark());
-            }
-//        material.(String.valueOf(new Date()));
-//        material.setPassword("123456");
-//        material.setName("这是定时自动生成的用户");
-//        material.setDuty("这个用户是仅供测试的");
+                outstorage.setValid("已过期");
             //  切接不能直接抛异常，要尽量捕捉异常并提供备用解决方法或提供信息
             try {
-                materialMapper.updateByPrimaryKeySelective(material);
+                outstorageMapper.updateByPrimaryKeySelective(outstorage);
             }
             catch (Exception e) {
                 throw new RuntimeException(e);
-            }
+            }}
+            }}
         }
-    }
-}
