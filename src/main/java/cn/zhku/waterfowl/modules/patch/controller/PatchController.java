@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -125,19 +126,23 @@ public class PatchController {
      * 增加一条记录
      * @return
      */
+    /*
+    *   gonefuture修改于2018/1/15 19：05
+     */
     @ResponseBody
     @RequestMapping("newPatch")
-    public int addPatch() throws Exception {
-        Patch patch=new Patch();
+    public int addPatch(@RequestBody Patch patch) throws Exception {
+
         patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        //设置时间格式
-        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-        Calendar c=Calendar.getInstance();
-        //获取当前时间
-        String stime=sd.format(c.getTime());
-        //将时间变成date类型
-        Date date=sd.parse(stime);
-        patch.setDate(date);
+//        //设置时间格式
+//        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+//        Calendar c=Calendar.getInstance();
+//        //获取当前时间
+//        String stime=sd.format(c.getTime());
+//        //将时间变成date类型
+//        Date date=sd.parse(stime);
+        //  因为储存进树据库时是时间戳，所以这这里设置的时间格式一般是不会生效的
+        patch.setDate(new Date());
         return patchService.add(patch);
     }
 

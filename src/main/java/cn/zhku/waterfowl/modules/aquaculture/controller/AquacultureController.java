@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 
+import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
@@ -150,4 +151,13 @@ public class AquacultureController{
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         return aquacultureService.listOutstorageid(name,remark);
     }
+
+
+    @ResponseBody
+    @RequestMapping("weight")
+    public FeedWeight weight() {
+        return null;
+    }
+
+
 }

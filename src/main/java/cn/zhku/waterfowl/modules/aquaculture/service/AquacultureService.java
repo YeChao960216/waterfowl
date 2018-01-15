@@ -134,6 +134,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
 
+
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
 
@@ -159,4 +160,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
         return checkQuantitydao.listOutstorageid(name,remark);
     }
+
+
+
 }

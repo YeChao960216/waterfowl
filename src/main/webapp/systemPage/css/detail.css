@@ -73,6 +73,9 @@
     font-size: 18px;
     font-weight: bold;
 }
+.pop{
+    overflow-y: auto;
+}
 .pop h2{
     position:relative;
     /*text-align: center;*/
