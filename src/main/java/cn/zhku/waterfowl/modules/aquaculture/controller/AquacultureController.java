@@ -154,9 +154,9 @@ public class AquacultureController{
 
 
     @ResponseBody
-    @RequestMapping("weight")
-    public FeedWeight weight() {
-        return null;
+    @RequestMapping("showWeight")
+    public FeedWeight weight(Aquaculture aquaculture) throws Exception {
+        return aquacultureService.showWeight(aquaculture);
     }
 
 

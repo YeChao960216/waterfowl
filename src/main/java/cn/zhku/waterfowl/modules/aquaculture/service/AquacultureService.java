@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
 import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
+import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
@@ -8,6 +9,9 @@ import cn.zhku.waterfowl.pojo.mapper.AquacultureMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -162,5 +166,31 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     }
 
 
+    /**
+     *  查找重量
+     * @param aquaculture 参数 neme
+     * @return
+     * @throws Exception
+     */
+    public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
+        //  找出所有name相同的养殖记录
+        List<Aquaculture> aquacultureList = findList(aquaculture);
+
+        FeedWeight feedWeight = new FeedWeight();
+
+        System.out.println("对象"+feedWeight);
+        feedWeight.setName(aquaculture.getName());
+        //  累加重量
+        aquacultureList.forEach(
+                aq -> {
+                    //  所有的喂养重量之和
+                    System.out.println("对象fw"+feedWeight+ "aq" +aq );
+                    feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
+                    feedWeight.setWeight(feedWeight.getWeight() + aq.getWeight());
+                }
+        );
+
+        return feedWeight;
+    }
 
 }

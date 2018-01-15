@@ -131,7 +131,7 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("newPatch")
-    public int addPatch(@RequestBody Patch patch) throws Exception {
+    public Message addPatch(@RequestBody Patch patch) throws Exception {
 
         patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
 //        //设置时间格式
@@ -143,7 +143,11 @@ public class PatchController {
 //        Date date=sd.parse(stime);
         //  因为储存进树据库时是时间戳，所以这这里设置的时间格式一般是不会生效的
         patch.setDate(new Date());
-        return patchService.add(patch);
+        if (patchService.add(patch) == 1) {
+            return new Message("1","增加分批记录成功");
+        } else {
+            return new Message("2","增加分批记录失败");
+        }
     }
 
     /**
