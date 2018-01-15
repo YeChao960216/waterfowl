@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.patch.dao;
 
+import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import org.apache.ibatis.annotations.Select;
 
@@ -55,4 +56,10 @@ public interface PatchDao {
      */
     @Select("select quantity from poultry where id_poultry=#{id_poultry}")
     String findQuantity(String id_poultry);
+
+//    @Select("select size from affiliation where type=#{type} and position=#{position}")
+//    List<Affiliation> listAffiliationsize(String type,String position);
+//
+//    @Select("select id from affiliation where type=#{type} and position=#{position} and size=#{size}")
+//    List<Affiliation> listAffiliationid(String type,String position,String size);
 }

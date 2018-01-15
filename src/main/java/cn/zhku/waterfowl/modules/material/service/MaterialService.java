@@ -147,8 +147,8 @@ public class MaterialService  implements IBaseService<Material>{
             criteria.andDateLessThanOrEqualTo(commonQo.getEnd());
         return materialMapper.selectByExample(materialExample);
     }
-    public void updateOutstroge(float quantity,String name,String remark) {
-        materialDao.updateQuantity(quantity,name,remark);
+    public void updateOutstroge(float quantity,String name,String remark,String type) {
+        materialDao.updateQuantity(quantity,name,remark,type);
     }
 
     public String listOutstorageid(String name, String remark)throws Exception {

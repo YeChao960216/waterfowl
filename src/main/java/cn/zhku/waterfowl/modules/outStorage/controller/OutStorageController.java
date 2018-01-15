@@ -130,7 +130,7 @@ public class OutStorageController extends BaseController{
             return new PageInfo<Outstorage>(outstorageList);
         }
     /**
-     *  根据用户输入的name模糊查询matrical表且type为'未过期'
+     *  根据用户输入的name模糊查询matrical表
      * @param name   物资名称
      * @return  一个带有List<Material>
      * @throws Exception    sql
