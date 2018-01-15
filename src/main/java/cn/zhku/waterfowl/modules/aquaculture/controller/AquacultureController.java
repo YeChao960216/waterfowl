@@ -1,10 +1,10 @@
 package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 
+import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
-import cn.zhku.waterfowl.pojo.entity.Dictionary;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -42,17 +42,18 @@ public class AquacultureController{
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-        if(aquacultureService.add(aquaculture)==1) {
-            updateOutstroge(aquaculture.getFeedWeight(),aquaculture.getFeedType(),aquaculture.getRemark());
+        float a=aquacultureService.checkQuantity(aquaculture);
+        if(a<aquaculture.getFeedWeight()){
+            return new Message("3", "饲料剩余量不足");
+        }
+        else if(aquacultureService.add(aquaculture)==1) {
+            outStorageService.manageOutstorage(aquaculture.getFeedType(),aquaculture.getRemark(),aquaculture.getFeedWeight());
             return new Message("1", "成功增加1条记录");
         }
-        else
-            return new Message("2","增加记录失败");
+        else {
+            return new Message("2","增加记录失败");}
     }
-    public void updateOutstroge(float quantity,String name,String remark){
 
-        aquacultureService.updateOutstroge(quantity,name,remark);
-    }
 
     /**
      * 删除记录
@@ -150,4 +151,18 @@ public class AquacultureController{
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         return aquacultureService.listOutstorageid(name,remark);
     }
+
+    /**
+     *  计算相同的name的养殖记录的feedWeight， weight
+     * @param aquaculture 唯一参数：name
+     * @return FeedWeight
+     * @throws Exception sql
+     */
+    @ResponseBody
+    @RequestMapping("showWeight")
+    public FeedWeight weight(Aquaculture aquaculture) throws Exception {
+        return aquacultureService.showWeight(aquaculture);
+    }
+
+
 }

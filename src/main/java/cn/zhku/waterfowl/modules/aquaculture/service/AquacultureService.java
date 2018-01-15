@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
 import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
+import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
@@ -134,6 +135,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
 
+
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
 
@@ -144,14 +146,14 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
      * @throws Exception
      */
     public float checkQuantity(Aquaculture entity)throws Exception {
-        String name=entity.getName();
+        String name=entity.getFeedType();
         String remark=entity.getRemark();
         return checkQuantitydao.checkQuantity(name,remark);
     }
 
-    public void updateOutstroge(float quantity,String name,String remark) {
-        checkQuantitydao.updateQuantity(quantity,name,remark);
-    }
+//    public void updateOutstroge(float quantity,String name,String remark) {
+//        checkQuantitydao.updateQuantity(quantity,name,remark);
+//    }
 
     public List<Outstorage> listOutstorageByname(String name)throws Exception {
         return checkQuantitydao.listOutstorageByname(name);
@@ -159,4 +161,33 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
         return checkQuantitydao.listOutstorageid(name,remark);
     }
+
+
+    /**
+     *  查找重量
+     * @param aquaculture 参数 neme
+     * @return FeedWeight
+     * @throws Exception sql
+     */
+    public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
+        //  找出所有name相同的养殖记录
+        List<Aquaculture> aquacultureList = findList(aquaculture);
+
+        FeedWeight feedWeight = new FeedWeight();
+
+        System.out.println("对象"+feedWeight);
+        feedWeight.setName(aquaculture.getName());
+        //  累加重量
+        aquacultureList.forEach(
+                aq -> {
+                    //  所有的喂养重量之和
+                    System.out.println("对象fw"+feedWeight+ "aq" +aq );
+                    feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
+                    feedWeight.setWeight(feedWeight.getWeight() + aq.getWeight());
+                }
+        );
+
+        return feedWeight;
+    }
+
 }

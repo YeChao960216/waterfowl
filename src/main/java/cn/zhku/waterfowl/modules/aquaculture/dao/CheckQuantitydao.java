@@ -17,7 +17,8 @@ public interface CheckQuantitydao {
      * @param remark
      * @return
      */
-    @Select("SELECT quantity from outStorage where name=#{name} and remark=#{remark}")
+    //作者叶超，写于1月15 20:41
+    @Select("SELECT SUM(quantity) from outStorage where name=#{name} and remark=#{remark} where valid='未过期'")
     float checkQuantity(String name,String remark);
 
     /**
