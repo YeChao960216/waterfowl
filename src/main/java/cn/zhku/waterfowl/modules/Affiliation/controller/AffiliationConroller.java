@@ -156,7 +156,7 @@ public class AffiliationConroller {
      *
      * @param request   请求域
      * @param excelFile excel文件，前端用multipart/form-data类型上传
-     * @return Message
+     * @return Msg
      */
     @ResponseBody
     @RequestMapping("excel/pull")

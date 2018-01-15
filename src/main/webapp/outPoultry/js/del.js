@@ -12,30 +12,46 @@
      */
     const oURL = {
         PRONAME:'/waterfowl',
-        GETOUTPOULTRYLIST:'/outpoultry/list?pageSize=10&pageNum=1',
+        GETOUTPOULTRYLIST:'/outpoultry/list',
         DEL:'/outpoultry/delete/',
     };
 
-    /**
-     * 渲染禽舍列表视图
-     * 1、初始化视图
-     */
-    var initView = function(){
+     /**
+      * 实例化一个分页控制者
+      */
+     var pageController = new PageController({
 
-        $.get(oURL.PRONAME+oURL.GETOUTPOULTRYLIST,function(res){
-            if(res){
-                if(res.list.length){
-                    viewCommand({
-                        command:'display',
-                        param:[$('#content')[0],res.list,'del_out_poultry']
-                    });
-                }
-            }else{
-                alert('获取出库信息失败');
-            }
-         });
-    }
-    initView();
+         url:oURL.PRONAME+oURL.GETOUTPOULTRYLIST,
+
+         view:{
+             container : $('#content')[0],
+             tpl:'find_edit_aquaculture',
+             nowView:$('#now')[0],
+             allView:$('#all')[0],
+         },
+         pageBean:{
+             pageDescription:'pageNum',
+             countDescription:'pageSize',
+             dataDescription:'list',
+             totalDescription:'pages',
+             count:'10',
+         },
+         dataFilter:{
+             tpl:'filterTimeAndNull',
+         },
+         dom:{
+             nextBtn :$('#next')[0],
+             preBtn:$('#pre')[0],
+             jumpBtn:$('#jumpTo')[0],
+             jumpVal:$('#jumpText')[0],
+         },
+
+     });
+
+     /**
+      * 初始化视图,绑定事件操作，分页功能完成
+      */
+     pageController.init();
     
      /**
       * 提交删除的id值
@@ -45,7 +61,7 @@
          var id = $(this).attr('data-id').substr(3);
          $.get(oURL.PRONAME+oURL.DEL+id,function(res){
             if(res.status){
-                initView();
+                pageController.init();
             }else{
                 alert('删除条目失败');
             }

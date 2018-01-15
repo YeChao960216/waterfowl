@@ -37,7 +37,7 @@ $(function () {
                 return commonTime;
             }
             function thisPage(){//展示页面
-                var innerlist="<caption>材料入厂记录一览</caption><tr><th>入厂记录编号</th><th>记录日期</th><th>材料名称</th><th>有效日期</th>"
+                var innerlist="<tr><th>入厂记录编号</th><th>记录日期</th><th>材料名称</th><th>有效日期</th>"
                     + "<th>来源厂商</th><th>厂商电话</th><th>是否过期</th><th>材料数量</th><th>计数单位</th><th>存储地点</th>"
                     + "<th>存储方式</th><th>记录者编号</th><th>负责人编号</th><th>备注</th><th>操作</th></tr>";
                 for(var key in json.list) {

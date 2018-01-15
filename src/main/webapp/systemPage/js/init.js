@@ -56,6 +56,12 @@
     }
     }
 
+    /**
+     * 注销
+     */
+    document.getElementById('login-out').onclick = function () {
+        window.location.href = './loginPage/login.html';
+    }
 })();
 /*
 *一定要用这个设置路径显示,路径目前最多三层
@@ -76,7 +82,7 @@ function emptyPath(num){
 }
 
 function displayPath(num){
-    console.log(get('path'+num).firstChild);
     get('whichPage').src = get('path'+num).firstChild.getAttribute('data-href');
 
 }
+

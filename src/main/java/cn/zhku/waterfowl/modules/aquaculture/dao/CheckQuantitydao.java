@@ -1,6 +1,5 @@
 package cn.zhku.waterfowl.modules.aquaculture.dao;
 
-import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import org.apache.ibatis.annotations.Select;
 

@@ -20,25 +20,43 @@
         ADDEMP:'/admin/user/entry/',
     };
 
-    var oContent = $('#content')[0];
+/**
+ * 实例化一个分页控制者
+ */
+var pageController = new PageController({
 
-    function initView(){
-        $.get(oURL.PRONAME+oURL.GETNOTWORKER+'?sign=2',function(data){
-            console.log(data);
-            if(data.length!=0){
-                data = new DataFilter({
-                    data:data.list,
-                    type:'userInfo'
-                });
+    url:oURL.PRONAME+oURL.GETNOTWORKER,
 
-                viewCommand({
-                    command:'display',
-                    param:[oContent,data,'addEmp']
-                })
-            }
-        })
-    }
-    initView();
+    view:{
+        container : $('#content')[0],
+        tpl:'addEmp',
+        nowView:$('#now')[0],
+        allView:$('#all')[0],
+    },
+    pageBean:{
+        pageDescription:'pageNum',
+        countDescription:'pageSize',
+        dataDescription:'list',
+        totalDescription:'pages',
+        count:'10',
+        other:'&sign=3'
+    },
+    dataFilter:{
+        tpl:'userInfo',
+    },
+    dom:{
+        nextBtn :$('#next')[0],
+        preBtn:$('#pre')[0],
+        jumpBtn:$('#jumpTo')[0],
+        jumpVal:$('#jumpText')[0],
+    },
+
+});
+
+/**
+ * 初始化视图,绑定事件操作，分页功能完成
+ */
+pageController.init();
     /**
      * jq
      * 办理入职操作
@@ -71,3 +89,22 @@
     //     });
      * });
      */
+/**
+ * 查询功能
+ * 点击了就序列化表单
+ * 更改视图控制器的other属性
+ * 初始化页面
+ */
+$('#search').click(function () {
+    var q = queryParse.call($('#searchForm'));
+    var qStr = [];
+    for(var key in q) {
+        if (!q[key]) {
+            delete q[key];
+            continue;
+        }
+        qStr.push(key+'='+q[key]);
+    }
+    pageController.other = '&'+qStr.toString()+'&sign=3';
+    pageController.init();
+})

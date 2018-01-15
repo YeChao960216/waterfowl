@@ -7,7 +7,6 @@ package cn.zhku.waterfowl.modules.outStorage.controller;
  */
 
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
-import cn.zhku.waterfowl.pojo.entity.Material;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -136,14 +135,14 @@ public class OutStorageController extends BaseController{
      * @throws Exception    sql
      */
 
-    @ResponseBody
-    @RequestMapping("select/{name}")
-    public List<Material> listMatericalByName(@PathVariable String name) throws Exception {
-        //  通过服务层获取查询后的用户列表
-        List<Material> material =  outStorageService.listMatericalByName(name);
-        //  返回 pageBean实体
-        return material;
-    }
+//    @ResponseBody
+//    @RequestMapping("select/{name}")
+//    public List<Outstorage> listMatericalByName(@PathVariable String name) throws Exception {
+//        //  通过服务层获取查询后的用户列表
+//        List<OutStorage> outStorages =  outStorageService.listMatericalByName(name);
+//        //  返回 pageBean实体
+//        return material;
+//    }
 
 
 

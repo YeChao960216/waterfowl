@@ -1,17 +1,17 @@
 package cn.zhku.waterfowl.modules.outStorage.dao;
 
-import cn.zhku.waterfowl.pojo.entity.Material;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 public interface OutStorageDao {
-    /*
-     * 根据type是否为'未过期'和'已过期'该表的物资都是没过期的
-     * */
-//    /*
-//     * 根据type是否为'未过期'和'已过期'
-//     * */
-    @Select("select * from material where name like concat('%',#{name},'%')")
-    List<Material> listMatericalByName(String name);
+    @Select("select outStorage from outstorage where name like concat('%',#{name},'%') where valid='未过期'")
+    List<Outstorage> listOutstorageByName(String name);
+//    @Select("update outStorage set outStorage.quantity=outStorage.quantity+#{quantity} where name=#{name} and remark=#{remark} and type=#{type}")
+//    void updateQuantity(float quantity,String name,String remark,String type);
+//    @Select("select id_outstorage from outStorage where name=#{name} and remark=#{remark}")
+//    String listOutstorageid(String name, String remark);
+//    @Select("update outStorage set outStorage.quantity=outStorage.quantity-#{quantity} where name=#{name} and remark=#{remark} and type=#{type}")
+//    void updateNum(float quantity,String name,String remark,String type);
 }

@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../systemPage/css/public.css">
-    <script src="../static/jquery/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="js/new.js"></script>
 </head>
 <body>
 <table>
-    <caption>添加家禽入厂记录</caption>
+    <!--<caption>添加家禽入厂记录</caption>-->
     <tr>
         <th>记录日期</th>
         <th>家禽种类</th>
@@ -30,11 +28,13 @@
         <td><select id="unitSel"></select></td>
         <td><input type="text" id="assFirm" placeholder="来源厂商"></td>
         <td><input type="text" id="phone" placeholder="厂商电话"></td>
-        <td><input type="text" id="idReco" placeholder="记录者编号"></td>
-        <td><input type="text" id="idChar" placeholder="负责人编号"></td>
+        <td><select id="idRecoder"></select></td>
+        <td><select id="idCharge"></select></td>
         <td><input type="text" id="remark" placeholder="备注"></td>
-        <td><input type="button" value="提交" id="submit"> </td>
+        <td><a  id="submit">提交</a></td>
     </tr>
 </table>
 </body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/new.js"></script>
 </html>

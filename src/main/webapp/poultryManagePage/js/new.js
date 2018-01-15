@@ -28,7 +28,7 @@ $(function () {
         $('body').on("click","#submit",submitInfo);
         function submitInfo(){
             var date=$("#date").val();var type=$("#typeSel").val();var quantity=$("#quantity").val();var unit=$("#unitSel").val();
-            var assFirm=$("#assFirm").val();var phone=$("#phone").val();var idReco=$("#idReco").val();var idChar=$("#idChar").val();
+            var assFirm=$("#assFirm").val();var phone=$("#phone").val();var idRecoder=$("#idReco").val();var idCharge=$("#idChar").val();
             var remark=$("#remark").val();
             if(isNaN(quantity)){
                 alert("材料数量含非数字，请更正");
@@ -44,8 +44,8 @@ $(function () {
                         "unit" : unit,//字典下拉选框获取
                         "associatedFirm" : assFirm,
                         "phone" : phone,
-                        //"idRecorder" : idReco,//用户表下拉选框获取
-                        //"idCharge" : idchar,//用户表下拉选框获取
+                        "idRecorder" : idRecoder,//用户表下拉选框获取
+                        "idCharge" : idCharge,//用户表下拉选框获取
                         "remark" : remark
                     }, function (obj) {
                         alert(obj.msg);

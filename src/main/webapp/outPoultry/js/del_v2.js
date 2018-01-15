@@ -33,7 +33,7 @@
              pageDescription:'pageNum',
              countDescription:'pageSize',
              dataDescription:'list',
-             totalDescription:'total',
+             totalDescription:'pages',
              count:'10',
          },
          dom:{

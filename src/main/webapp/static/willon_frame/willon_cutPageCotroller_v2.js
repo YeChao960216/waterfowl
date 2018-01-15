@@ -67,7 +67,7 @@
      self.nowPage = 1;//当前页
      self.allPage = -1;//总页数
      self.subUrl = obj.url;
-     self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
+
 
      /**
       * 按钮操作
@@ -105,7 +105,6 @@
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
                 if(res){
-
                     var list = res[self.dataDescription];
                     if(self.filterTpl){
                         list = new DataFilter({
@@ -231,6 +230,8 @@
          * 视图初始化
          */
         var self = this;
+        self.nowPage = 1;
+        self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
         $.get(self.url,function(res){
             if(res){
                 self.allPage = res[self.totalDescription];

@@ -20,7 +20,6 @@
 
     $('#id_fowlery')[0].onkeyup = function () {
         if($(this).val().length>4){
-
             /**
              * 列出批次号
              */

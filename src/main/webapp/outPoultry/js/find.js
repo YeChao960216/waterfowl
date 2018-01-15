@@ -32,7 +32,7 @@
                 pageDescription:'pageNum',
                 countDescription:'pageSize',
                 dataDescription:'list',
-                totalDescription:'total',
+                totalDescription:'pages',
                 count:'10',
             },
             dom:{
@@ -48,5 +48,25 @@
          * 初始化视图,绑定事件操作，分页功能完成
          */
         pageController.init();
-          
+
+    /**
+     * 查询功能
+     * 点击了就序列化表单
+     * 更改视图控制器的other属性
+     * 初始化页面
+     */
+    $('#search').click(function () {
+        var q = queryParse.call($('#searchForm'));
+        var qStr = [];
+        for(var key in q) {
+            if (!q[key]) {
+                delete q[key];
+                continue;
+            }
+            qStr.push(key+'='+q[key]);
+        }
+        console.log(qStr.join('&'));
+        pageController.other = '&'+qStr.toString();
+        pageController.init();
+    })
 })();
