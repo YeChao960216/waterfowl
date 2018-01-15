@@ -38,7 +38,7 @@ public class PoultryController extends BaseController {
          * 增加一条数据
          *
          * @param poultry 实体类
-         * @return Message
+         * @return Msg
          * @throws Exception sql、bean检验
          */
         @ResponseBody
@@ -58,7 +58,7 @@ public class PoultryController extends BaseController {
          * 删除一条记录
          *
          * @param entity id 表主键
-         * @return Message
+         * @return Msg
          * 1     * @throws Exception   sql、bean检验
          */
 
@@ -74,7 +74,7 @@ public class PoultryController extends BaseController {
 
         /**
          * @param entity 实体类
-         * @return Message
+         * @return Msg
          * @throws Exception sql、bean检验
          */
 
@@ -92,7 +92,7 @@ public class PoultryController extends BaseController {
 //         * 获取一条记录
 //         *
 //         * @param id 表主键
-//         * @return Message
+//         * @return Msg
 //         * @throws Exception sql、bean检验
 //         */
 //        @ResponseBody
@@ -127,7 +127,15 @@ public class PoultryController extends BaseController {
             //  返回 pageBean实体
             return new PageInfo<Poultry>(poultryList);
         }
-        //分页展示出库记录
+        //分页展示出库记录\
+        @ResponseBody
+        @RequestMapping("selectBy/{id}")
+        public Poultry select(@PathVariable String id) throws Exception {
+            //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+            return poultryService.get(id);
+            //  返回 pageBean实体
+//            return new PageInfo<Poultry>(poultryList);
+        }
 
         @ResponseBody
         @RequestMapping("show")
@@ -152,7 +160,7 @@ public class PoultryController extends BaseController {
      *
      * @param request   请求域
      * @param excelFile excel文件，前端用multipart/form-data类型上传
-     * @return Message
+     * @return Msg
      */
     @ResponseBody
     @RequestMapping("excel/pull")
@@ -197,7 +205,7 @@ public class PoultryController extends BaseController {
                 return new Message("2", "上传失败或者上传的文件后缀不是'xls'或'xlsx'");
             }
         } catch (Exception e) {
-            //return new Message("2","名单导入失败，请检查excel表与模板的不同");
+            //return new Msg("2","名单导入失败，请检查excel表与模板的不同");
             throw new RuntimeException(e);
         }
     }
