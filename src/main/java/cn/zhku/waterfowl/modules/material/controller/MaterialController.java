@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.sql.SQLException;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -266,6 +266,15 @@ public class MaterialController extends BaseController {
         //Workbook wb = exportExcelUtil.exportXLS("用户表单",headers,userList);
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
         return exportExcelUtil.exportXLSXOutput("物资列表", headers, materialList);
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping("get/{id}")
+    public Material get(@PathVariable String id) {
+        return null;
+
     }
 
 
