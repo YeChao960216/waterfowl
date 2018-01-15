@@ -433,7 +433,7 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="numTotal" id="numTotal" placeholder="圈养个体数"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>饲料种类</td>'+
+                 '<td>饲料名</td>'+
                  '<td><select name="feedType" id="feed_type" placeholder="饲料种类" class="select-fix-input"></select></td>'+
                  '</tr>'+
                  '<tr>'+
@@ -545,7 +545,23 @@ var viewCommand = (function(msg){
             '</table>'+
             '</form>'+
             '</div>'
-         ].join()
+         ].join(''),
+        view_aqua:[
+            '<div class="detail-content">'+
+                '<table>'+
+                '<caption>家禽生长状态</caption>'+
+                '<tr>'+
+                    '<th>条目</th>'+
+                    '<th>信息</th>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>批次号</td>'+
+                    '<td><select name="idPatch" id="id_patch" class="select-fix-input"></select></td>'+
+                '</tr>'+
+                '</table>'+
+                '<div class="viewport"></div>'+
+            '</div>'
+        ].join('')
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

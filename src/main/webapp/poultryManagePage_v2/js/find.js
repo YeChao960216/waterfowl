@@ -15,7 +15,7 @@
             GETAQUACULTURELIST:'/poultry/list',
             GETINFOBYPID:'/poultry/selectBy/',
             GETPOSITON:'/dict/list?pid=70000',
-            GETHOMETYPE:'/dict/list?pid=80000',
+            GETHOMETYPE:'/dict/list?pid=60000',
             GETBHOME:'/admin/affiliation/listAffiliation',
             GETSHOME:'/admin/fowlery/listFowlery',
             GETEMP:'/admin/user/list',//查找人元,
@@ -31,7 +31,7 @@
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
             GETTYPEBYPOSITION:'/admin/affiliation/listAffiliation',//position  type -> id_affi
             GETPATHBYID:'/admin/patch/showPatch/',//id->ptachInfo
-            GETPMODE:'/dict/list?pid=76000',//从字典里面获取丢失方式
+            GETPMODE:'/dict/list?pid=95000',//从字典里面获取丢失方式
             DDLPOST:'/ddl/save',
             GETMAXFOOD:'',//
             };
@@ -174,7 +174,7 @@
          * 详细层弹出
          * @type {Element}
          */
-        showVue.call(oShadow);
+
         showDetailData(id);
         showVue.call(oAdd);
         viewCommand({                //渲染插入的模板
@@ -345,7 +345,7 @@
                 });
                  //id_p->批次信息
                     $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function(res){
-                        if(res){
+                        if(res.object.length){
                             viewCommand({                //id_p -> 批次
                                 command:'append',
                                 param:[$(oDetail),res.object,'patch_show']
@@ -372,6 +372,7 @@
                                             });
                                         }
                                         detail_view_ctrl.num = 2;           //如果批次信息成功渲染，那么我就要修改这个动画大小
+                                        showVue.call(oShadow);
                                     }
                                 });
                             }catch(err){
@@ -379,6 +380,7 @@
                             }
                         }else{
                             detail_view_ctrl.num = 1;
+                            showVue.call(oShadow);
                         }
                     });
             }else{
@@ -414,7 +416,7 @@
                             param:[obj.dom,res[obj.dataDescription],obj.tpl]
                         });
                     }
-
+                    obj.cb&&obj.cb(res);
                 }
             }else{
                 if(res){
@@ -436,9 +438,10 @@
                             param:[obj.dom,res,obj.tpl]
                         });
                     }
+                    obj.cb&&obj.cb(res);
                 }
             }
-            obj.cb&&obj.cb(res);
+
         });
     }
 
@@ -508,8 +511,12 @@
      */
     function showVue() {
         this.classList.remove('none');
-        $(btn_next).show();
-        if(!detail_view_ctrl.left){
+        if(detail_view_ctrl.num >1){
+            $(btn_next).show();
+        }else{
+            $(btn_next).hide();
+        }
+        if(!detail_view_ctrl.left){  //left 为 0
             $(btn_pre).hide();
         }
         unbind = true; //按钮事件不绑定

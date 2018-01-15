@@ -13,10 +13,24 @@
     const oURL = {
         PRONAME : '/waterfowl' ,
         POST : '/poultry/add',//最终数据提交路径
-        GETTYPE:'/dict/list?pid=60000',//养殖类型 pid=60000
+        GETTYPE:'/dict/list?pid=80000',//养殖类型 pid=80000
         GETEMP:'/admin/user/list',//查找人元
-
+        GETFIRM:'/dict/list?pid=75000',//查找供货厂商
     }
+
+     /**
+      *查找供货厂商
+      */
+     $.get(oURL.PRONAME+oURL.GETFIRM,function(res){
+         if(res){
+             viewCommand({
+                 command:'display',
+                 param:[$('#associatedFirm')[0],res,'id_name']
+             });
+         }else{
+             alert('查找供货厂商失败');
+         }
+     });
 
      /**
       *养殖类型
@@ -25,7 +39,7 @@
          if(res){
              viewCommand({
                  command:'display',
-                 param:[$('#type')[0],res,'option']
+                 param:[$('#type')[0],res,'id_name']
              });
          }else{
              alert('获取养殖类型失败');
