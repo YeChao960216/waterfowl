@@ -98,7 +98,7 @@
     <!--<mvc:resources location="/WEB-INF/views/" mapping="/**"/>-->
 
     <!--处理静态请求，所有  主机域名+项目名+/static/    的请求都会映射到/static/-->
-	<!--<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>-->
+	<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 
     <!-- 配置springMVC处理上传文件的信息 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
