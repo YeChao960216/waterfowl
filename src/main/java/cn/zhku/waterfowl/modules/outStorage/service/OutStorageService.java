@@ -45,7 +45,7 @@ public class OutStorageService  implements IBaseService<Outstorage> {
      */
     public int delete(Outstorage entity) throws Exception {
 
-        return outstorageMapper.deleteByPrimaryKey(entity.getIdStorage());
+        return outstorageMapper.deleteByPrimaryKey(entity.getIdOutstorage());
 
     }
 
@@ -85,8 +85,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         if (entity.getRemark()!=null)
             criteria.andRemarkLike("%"+entity.getRemark()+"%");
         //库存编号
-        if (entity.getIdStorage()!=null)
-            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
         if (entity.getIdOutstorage()!=null)
             criteria.andIdOutstorageEqualTo("%"+entity.getIdOutstorage()+"%");
            //负责人编号
