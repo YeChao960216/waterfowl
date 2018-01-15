@@ -25,8 +25,26 @@ var viewCommand = (function(msg){
          list:[
              '<li>{#text#}</li>'
          ].join(''),
+         idFowlery:[
+             "<option value='{#idFowlery#}'>{#idFowlery#}</option>"
+         ].join(''),
          option:[
              "<option value='{#name#}'>{#name#}</option>"
+         ].join(''),
+         id_name:[
+             "<option value='{#id#}'>{#name#}</option>"
+         ].join(''),
+         firm_name:[
+             "<option value='{#idStorage#}'>{#associatedFirm#}-{#name#}</option>"
+         ].join(''),
+         type_name:[
+             "<option value='{#type#}'>{#name#}</option>"
+         ].join(''),
+         id:[
+             "<option value='{#id#}'>{#id#}</option>"
+         ].join(''),
+         type:[
+             "<option value='{#type#}'>{#type#}</option>"
          ].join(''),
          outStorage:[
              "<option value='{#idOutstorage#}'>{#idOutstorage#}</option>"
@@ -41,7 +59,7 @@ var viewCommand = (function(msg){
                 '<td >{#gender#}</td>',
                 '<td >{#entry#}</td>',
                 '<td >{#sign#}</td>',
-                '<td >{#role_id#}</td>',
+                '<td >{#duty#}</td>',
                 '<td ><button id="show{#id#}" class="btn">详情</button></td>',
             '</tr>'
          ].join(''),
@@ -120,25 +138,414 @@ var viewCommand = (function(msg){
             '<td >{#unit#}</td>',
             '<td >{#firm#}</td>',
             '<td >{#phone#}</td>',
-            '<td >{#idRecorder#}</td>',
+            '<td >{#idRecord#}</td>',
             '<td >{#idCharge#}</td>',
             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
             '</tr>'
          ].join(''),
          find_out_poultry:[
             '<tr>',
-            '<td >{#id_patch#}</td>',
+            '<td >{#idPatch#}</td>',
             '<td >{#type#}</td>',
             '<td >{#quantity#}</td>', 
             '<td >{#unit#}</td>',
             '<td >{#firm#}</td>',
             '<td >{#phone#}</td>',
-            '<td >{#id_recorder#}</td>',
-            '<td >{#id_charge#}</td>',
+            '<td >{#idRecord#}</td>',
+            '<td >{#idCharge#}</td>',
              "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
             '</tr>'
         ].join(''),
+         fowlery_del:[
+             '<tr>',
+             '<td >{#size#}</td>',
+             '<td >{#status#}</td>',
+             '<td >{#affiliation#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
+             '</tr>'
+         ].join(''),
+         fowlery_find:[
+             '<tr>',
+             '<td >{#size#}</td>',
+             '<td >{#status#}</td>',
+             '<td >{#affiliation#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
+             "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
+             '</tr>'
+         ].join(''),
+         poultry_find:[
+             '<tr>',
+             '<td >{#type#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#associatedFirm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-view="V{#idPoultry#}">详情</a></td>',
+             '<td ><button class="btn" data-id="P{#idPoultry#}">划分批次</button></td>',
+             '<td ><a class="btn" data-check="true" data-id="A{#idPoultry#}">养殖记录</a></td>',
+             '<td ><a class="btn" data-check="true" data-id="O{#idPoultry#}">出厂记录</a></td>',
+             '</tr>'
+         ].join(''),
+         poultry_del:[
+             '<tr>',
+             '<td >{#type#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#associatedFirm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             "<td ><a class='btn' href='./detail.html?id={#idPoultry#}' >详情</a></td>",
+             '<td ><button class="btn" data-id="del{#idPoultry#}">删除</button></td>',
+             '</tr>'
+         ].join(''),
+         poultry_show:[
+             '<div class="detail-content">',
+                 '<table>',
+                    '<caption>入厂信息</caption>',
+                     '<tr>',
+                         '<th>条目</th>',
+                         '<th>信息</th>',
+                     '</tr>',
+                     '<tr>',
+                         '<td>禽舍种类</td>',
+                         '<td>{#type#}</td>',
+                     '</tr>',
+                     '<tr>',
+                            '<td>养殖数量</td>',
+                         '<td>{#quantity#}</td>',
+                     '</tr>',
+                     '<tr>',
+                        '<td>联系厂商</td>',
+                        '<td>{#associatedFirm#}</td>',
+                     '</tr>',
+                     '<tr>',
+                         '<td>联系电话</td>',
+                         '<td>{#phone#}</td>',
+                     '</tr>',
+                     '<tr>',
+                         '<td>记录人</td>',
+                         '<td>{#idRecorder#}</td>',
+                     '</tr>',
+                     '<tr>',
+                         '<td>负责人</td>',
+                         '<td>{#idCharge#}</td>',
+                     '</tr>',
+                     '<tr>',
+                         '<td>备注</td>',
+                         '<td >{#remark#}</td>',
+                     '</tr>',
+                 '</table>',
+             '</div>',
+         ].join(''),
+         patch_show:[
+             '<div class="detail-content">',
+             '<table style="text-align: center"><caption>批次信息</caption>',
+             '<tr >',
+             '<th>条目</th>',
+             '<th>信息</th>',
+             '</tr>',
+             '<tr><td>批次号</td><td><select></select></td></tr>' +
+             '</table>',
+             '<div class="patch-data">',
+             '<table>',
+             '<tr>',
+             '<td>位置</td>',
+             '<td>{#position#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>禽舍规格</td>',
+             '<td>{#type#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>大禽舍编号</td>',
+             '<td>{#idAffilation#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>禽舍编号</td>',
+             '<td>{#idFowlery#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>起初养殖的数量</td>',
+             '<td>{#numTotal#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>现在所养数量</td>',
+             '<td>{#size#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>记录人</td>',
+             '<td>{#idRecorder#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>负责人</td>',
+             '<td>{#idCharge#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>分批日期</td>',
+             '<td>{#date#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>备注</td>',
+             '<td >{#remark#}</td>',
+             '</tr>',
+             '</table>',
+             '</div>',
+             '</div>',
+         ].join(''),
+         patch_show2:[
+             '<div class="patch-data">',
+             '<table>',
+             '<caption>批次信息</caption>',
+             '<tr class="after-insert">',
+             '<th>条目</th>',
+             '<th>信息</th>',
+             '</tr>',
+             '<tr>',
+             '<td>位置</td>',
+             '<td>{#position#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>禽舍规格</td>',
+             '<td>{#type#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>大禽舍编号</td>',
+             '<td>{#idAffilation#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>禽舍编号</td>',
+             '<td>{#idFowlery#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>起初养殖的数量</td>',
+             '<td>{#numTotal#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>现在所养数量</td>',
+             '<td>{#size#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>记录人</td>',
+             '<td>{#idRecorder#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>负责人</td>',
+             '<td>{#idCharge#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>分批日期</td>',
+             '<td>{#date#}</td>',
+             '</tr>',
+             '<tr>',
+             '<td>备注</td>',
+             '<td >{#remark#}</td>',
+             '</tr>',
+             '</table>',
+             '</div>',
+         ].join(''),
+         patch_add:[
+             '<div class="detail-content">',
+             '<form onsubmit="return false">',
+             '<table>',
+             '<caption>批次信息</caption>',
+             '<tr>',
+             '<th>条目</th>',
+             '<th>信息</th>',
+             '</tr>',
+             '<tr>',
+             '<td>该批次起始养殖数量</td>',
+             '<td><input type="number" min="0" name="size" ></td>',
+             '</tr>',
+             '<tr>',
+             '<td>该批次位置</td>',
+             '<td><select name="position" id="position" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>选定规格</td>',
+             '<td><select name="type" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>大禽舍编号</td>',
+             '<td><select name="idAffilation" id="idAffilation" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>禽舍编号</td>',
+             '<td><select name="idFowlery" id="idFowlery" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>该批次状态</td>',
+             '<td>',
+             '<select name="status" class="select-fix-input">',
+             '<option value="批次出厂">该批次已出厂</option>',
+             '<option value="养殖中" selected>养殖中</option>',
+             '</select>',
+             '</td>',
+             '</tr>',
+             '<tr>',
+             '<td>记录人</td>',
+             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>负责人</td>',
+             '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>',
+             '</tr>',
+             '<tr>',
+             '<td>备注</td>',
+             '<td ><textarea name="remark"></textarea></td>',
+             '</tr>',
+             '<tr>',
+             '<td>操作</td>',
+             '<td ><button type="submit" onclick="return false" class="btn">提交</button></td>',
+             '</tr>',
+             '</table>',
+             '</form>',
+             '</div>',
+         ].join(''),
+         aqua_add:[
+             '<div class="detail-content">'+
+                 '<form onsubmit="return false">'+
+                 '<table>'+
+                 '<caption>养殖记录</caption>'+
+                 '<tr>'+
+                 '<th>条目</th>'+
+                 '<th>信息</th>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>批次号</td>'+
+                 '<td><select name="idPatch" id="idPatch" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>禽舍编号</td>'+
+                 '<td><select name="idFowlery" id="id_fowlery" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>该批次在该禽舍养殖的天数</td>'+
+                 '<td><input type="number" min="0" name="name" id="name"></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>圈养个体数</td>'+
+                 '<td><input type="number" min="0" name="numTotal" id="numTotal" placeholder="圈养个体数"></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>饲料种类</td>'+
+                 '<td><select name="feedType" id="feed_type" placeholder="饲料种类" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>饲料投放量(kg)/最大投放量:<span class="maxTips" style="color:#800000"></span></td>'+
+                 '<td><input type="number" name="feedWeight" id="feed_weight" min="0" placeholder="投放量(kg)"></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>禽类养殖阶段标识</td>'+
+                 '<td><select name="status" id="status" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>该批鸡的总重量</td>'+
+                 '<td><input type="number" min="0" name="weight"></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>备注</td>'+
+                 '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>操作</td>'+
+                 '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+                 '</tr>'+
+                 '</table>'+
+                 '</form>'+
+            '</div>'
+         ].join(''),
+         ddl_add:[
+             '<div class="detail-content">'+
+             '<form onsubmit="return false">'+
+             '<table>'+
+             '<caption>死淘记录</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td id="idPatch">见右侧</td>'+
+             '</tr>'+
+             '<tr class="none">'+
+             '<td>减少的家禽数</td>'+
+             '<td><input  type="number" min="0" name="numProcessed" ></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>减少的家禽数</td>'+
+             '<td><input  type="number" disabled ></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>处理方式</td>'+
+             '<td><select name="processingMode" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>备注</td>'+
+             '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>操作</td>'+
+             '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+             '</tr>'+
+             '</table>'+
+             '</form>'+
+             '</div>'
+         ].join(''),
+         outPoultry_add:[
+             '<div class="detail-content">'+
+            '<form onsubmit="return false">'+
+             '<table>'+
+             '<caption>出厂记录</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td><select name="idPatch" id="id_patch" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>本批次数量</td>'+
+             '<td><input type="text" name="quantity" id="quantity" placeholder="本批次数量" disabled></td>'+
+             '</tr>'+
+             '<tr class="none">'+
+             '<td>单位</td>'+
+             '<td><input type="text" name="unit" id="unit" placeholder="单位" value="只" ></td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>出厂商</td>'+
+            '<td><input type="text" name="firm" id="firm" class="select-fix-input"></td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>联系电话</td>'+
+            '<td><input type="phone" name="phone" id="phone" class="select-fix-input"></td>'+
+            '</tr>'+
+             '<tr>'+
+             '<td>记录人</td>'+
+             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>负责人</td>'+
+             '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
+             '</tr>'+
+            '<tr>'+
+            '<td>备注</td>'+
+            '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>操作</td>'+
+            '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+            '</tr>'+
+            '</table>'+
+            '</form>'+
+            '</div>'
+         ].join()
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){
@@ -160,11 +567,22 @@ var viewCommand = (function(msg){
                 this.create(data,view);
             }
             if(typeof container !='object'){
-                throw new Error('第一个参数的类型应该为obj string')
+                throw new Error('第一个参数的类型应该为jq对象')
             }else{
                 container.append(html)//,此时container为jq 对象 拼接展示
                 html = '';                 //展示后清空模板缓冲
             }
+         },
+         after : function(container,data,view){
+             if(data){
+                 this.create(data,view);
+             }
+             if(typeof container !='object'){
+                 throw new Error('第一个参数的类型应该为jq对象')
+             }else{
+                 container.after(html)//,此时container为jq 对象 拼接展示
+                 html = '';                 //展示后清空模板缓冲
+             }
          },
          display : function(container,data,view){
              if(data){
@@ -180,7 +598,7 @@ var viewCommand = (function(msg){
      }
      return function excute(msg){                 //向外暴露一个命令接口，总指挥作用
         //msg.param 不是数组就强转为数组
-        msg.param = Object.prototype.toString.call(msg.param) === '[object Array]'?msg.param:[msg.param];
+        msg.param = Object.prototype.toString.call(msg.param) === '[object Array]' ? msg.param : [msg.param];
         //保证Action内部的this,指向
         //console.log(this);此时是window，因为它暴露出去了；
         Action[msg.command].apply(Action,msg.param);

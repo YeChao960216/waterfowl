@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="../systemPage/css/public.css">
 </head>
 <body>
-    <input type="radio" id="signIn" name="sign"checked="checked">在职
-    <input type="radio" id="signOut" name="sign" >离职
+    <span>查询:</span>
+    <input type="radio"  name="sign" checked="checked" value="1">在职
+    <input type="radio"  name="sign" value="2">离职
+    <input type="radio"  name="sign" value="3">待办理入职
     <div class="show-content">
         <table>
             <tr>
@@ -27,15 +29,16 @@
         </table>
     </div>
     <div class="cutPage">
-        <button id="pre" >&lt;&lt;</button>
-        <span id="now">1</span>/<span id="all">3</span>
-        <button id="next" >&gt;&gt;</button>
-        <input type="text" id="jumpToText" class="input-min">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
         <button  id="jumpTo">Go</button>
     </div>
 </body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
 <script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
 <script src="../static/willon_frame/willon_dataFilter.js"></script>
- <script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
 <script src="./js/showEmp.js"></script>
 </html>

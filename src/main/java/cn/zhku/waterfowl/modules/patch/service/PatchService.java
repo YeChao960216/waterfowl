@@ -1,14 +1,15 @@
-package cn.zhku.waterfowl.modules.fowlery.service;
+package cn.zhku.waterfowl.modules.patch.service;
 
-import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
-import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Patch;
-import cn.zhku.waterfowl.pojo.entity.PatchExample;
+import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
+import cn.zhku.waterfowl.pojo.entity.*;
+import cn.zhku.waterfowl.pojo.mapper.AffiliationMapper;
 import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,9 @@ public class PatchService implements IBaseService<Patch>{
     @Autowired
     private PatchMapper patchMapper;
     @Autowired
-    private FowleryDao dao;
+    private PatchDao dao;
+    @Autowired
+    private AffiliationMapper affiliationMapper;
 
     @Override
     public int add(Patch entity) throws Exception {
@@ -33,7 +36,7 @@ public class PatchService implements IBaseService<Patch>{
 
     @Override
     public int delete(Patch entity) throws Exception {
-        return patchMapper.updateByPrimaryKey(entity);
+        return patchMapper.deleteByPrimaryKey(entity.getId());
     }
 
     @Override
@@ -72,6 +75,10 @@ public class PatchService implements IBaseService<Patch>{
         if(entity.getIdRecorder()!=null){
             criteria.andIdRecorderLike("%"+entity.getIdRecorder()+"%");
         }
+
+        if (StringUtils.isNotBlank(entity.getIdPoultry())) {
+            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
+        }
         return patchMapper.selectByExample(patchExample);
     }
 
@@ -99,7 +106,47 @@ public class PatchService implements IBaseService<Patch>{
      * 获取禽舍中最新的一条记录
      * @return
      */
-    public Patch getNewPatch() {
+    public String getNewPatch() {
         return dao.getNewPatch();
     }
+
+    /**
+     * 通过id_poultry找到patch的id集合
+     * @param id_poultry
+     * @return
+     */
+    public List<String> findPatch(String id_poultry) {
+        return dao.findPatch(id_poultry);
+    }
+
+
+
+
+    /**
+     * 该禽舍中存放的数量
+     * @param id patch 的id
+     * @return  String类型的规格的大小
+     */
+    public String findSize(String id) {
+        return dao.findSize(id);
+    }
+
+    /**
+     * poultry中的总数量
+     * @return
+     */
+    public String findQuantity(String id_poultry) {
+        return dao.findQuantity(id_poultry);
+    }
+
+//    public List<Affiliation> listAffiliationid(Affiliation entity)throws Exception {
+//        AffiliationExample affiliationExample=new AffiliationExample();
+//        entity.getType();
+//        entity.getPosition();
+//        List<Affiliation> affiliationList = new ArrayList<Affiliation>(affiliationMapper.selectByExample(entity.getType(),entity.getPosition());
+//    }
+//
+//    public List<Affiliation> listAffiliationid(String position,String type)throws Exception {
+//        return dao.listAffiliationid(position,type);
+//    }
 }

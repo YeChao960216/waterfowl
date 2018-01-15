@@ -7,6 +7,7 @@ sub, sup, table, tbody, td, tfoot, th, thead, tr, ul{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /*font-family: '黑体';*/
 }
 
 /*a标签的处理*/
@@ -26,17 +27,19 @@ a{
     border:none;
     min-width: 85px;
     border:1px solid #1090e6;
-    border-radius: 5px;
-    padding: 4px 13px 4px;
+    border-radius: 15px;
+    padding: 2px 13px 2px;
     text-align:center;
     color: #fff;
     margin: 3px;
-    background: #1090e6;
+    background: #0872b9;
     cursor: pointer;
+    box-shadow: inset 0px 2px 9px 1px;
+    /*#3a87a5*/
 }
 .btn:hover{
-    background: none;
-    color:#1090e6;
+    background: #2194e8;
+    /*color:#1090e6;*/
 }
 .btn-m{
     padding: 10px 25px 9px;
@@ -53,6 +56,10 @@ a{
 /*消失隐藏*/
 .none{
     display: none;
+}
+/*消失隐藏*/
+.show{
+    display: block;
 }
 /*鼠标指向样式*/
 .pointer{
@@ -133,12 +140,14 @@ caption{
     caption-side: top;
     font-size:30px;
 }
-tr{
-	border-bottom:2px dotted #f0f0f0;
+tr:nth-child(odd){
+	/*border-bottom:2px dotted #f0f0f0;*/
+    /*border-bottom: 1px dotted #f0f0f0;*/
+    background: rgba(231, 245, 245, 0.38);
 }
-tr:nth-child(odd){/*偶数行添加背景*/
-    background: #f0f0f0;
-}
+/*tr:nth-child(odd){!*偶数行添加背景*!*/
+    /*background: #f0f0f0;*/
+/*}*/
 
 table{
 	width:100%;
@@ -146,6 +155,8 @@ table{
     border:none;
     font-size: 13px;
     text-align: center;
+    /*font-weight: 300;*/
+    letter-spacing: 1px;
 }
 td ,th {
     border:0px;
@@ -155,21 +166,22 @@ td ,th {
 }
 td{
     width:135px;
-	height: 60px;
+	height: 58px;
 }
 
 th{
-	background: #1090e6;
+	/*background: rgb(136, 144, 150);*/
+    background: #3691d6;
 	/* box-shadow: 2px 2px 4px rgba(15, 90, 90, 0.85); */
     color: #fff;
-    
     padding:5px 2px;
     height: 30px;
 	text-shadow: 2px 2px 4px rgb(0, 0, 0);
+
 }
-tr{
-	border-bottom:2px solid #fff;
-}
+/*tr{*/
+	/*border-bottom:2px solid #fff;*/
+/*}*/
 tr:last-child{/*因为要配合<tr><th></th></tr>使用列标题上不能有边框*/
 	border:none;
 }
@@ -222,15 +234,17 @@ iframe{
     height:650px;
 }
 .cutPage{
+    margin-top:20px;
     border-top:1px solid #f0f0f0;
     padding: 10px 0px;
     text-align: center;
+    color:#7d9090;
 }
 #pre,#next,[id^='jump']:hover{
     cursor: pointer;
 }
 .input-min{
-    width:60px;
+    width:34px;
 }
 .select-fix-input{
     width:173px;
@@ -238,3 +252,61 @@ iframe{
 .red{
     color:#800000;
 }
+
+#pre{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+
+}
+#pre:hover{
+    background: none;
+    color:#50acf1;
+}
+#next{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+}
+#next:hover{
+    background: none;
+    color:#50acf1;
+}
+#jumpTo{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+}
+#jumpTo:hover{
+    background: none;
+    color:#50acf1;
+}
+/*#search{*/
+    /*display: inline-block;*/
+    /*width:35px;*/
+    /*height:35px;*/
+    /*transform:rotate(-90deg);*/
+    /*background: url("../images/search.png") no-repeat;*/
+    /*background-size: cover;*/
+/*}*/

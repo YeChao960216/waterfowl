@@ -4,17 +4,18 @@
     /* padding: 5px 5px; */
     min-height:720px;
     margin: 0 auto;
+
 }
 .nav{
     width: 100%;
-    height:8%;
-    padding:22px 12px;
-    text-shadow: 2px 3px 4px rgb(193, 202, 193);
-    -webkit-box-shadow: inset -6px 2px 48px 20px #ccc;
-    -moz-box-shadow: inset -6px 2px 48px 20px #ccc;
-    -ms-box-shadow: inset -6px 2px 48px 20px #ccc;
-    box-shadow: inset -6px 2px 48px 20px #ccc;
-    
+    height:10%;
+    padding:5px 20px 5px 1px;
+    /*text-shadow: 2px 3px 4px rgb(193, 202, 193);*/
+    /*-webkit-box-shadow: inset -6px 2px 48px 20px #ccc;*/
+    /*-moz-box-shadow: inset -6px 2px 48px 20px #ccc;*/
+    /*-ms-box-shadow: inset -6px 2px 48px 20px #ccc;*/
+    /*box-shadow: inset -6px 2px 48px 20px #ccc;*/
+    border-bottom: 1px solid #f0f0f0;
 }
 /* .nav img{
     width:55px;
@@ -35,19 +36,21 @@
     width:100%;
     height:6%;
     /* line-height: 28px; */
-    padding:15px 10px;
-    background: #ccc;
+    padding:2px 10px;
+    /*background: #ccc;*/
     /* -webkit-box-shadow: inset -1px 6px 44px 32px #ccc;
     box-shadow: inset -1px 6px 44px 32px #ccc; */
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .aside .menu{
     width:100%;
     height:93%;
     padding: 5px;
-    -webkit-box-shadow: inset 0px -16px 120px 19px #ccc;
-    box-shadow: inset 0px -16px 120px 19px #ccc;
+    /*-webkit-box-shadow: inset 0px -16px 120px 19px #ccc;*/
+    /*box-shadow: inset 0px -16px 120px 19px #ccc;*/
     overflow: auto;
+    border-right: 1px solid #f0f0f0;
 }
 .r-aside{
     float: left;
@@ -57,13 +60,18 @@
 .r-aside .path{
     width:100%;
     height:6%;
-    padding: 15px 10px;
+    padding: 6px 1px;
     /* -webkit-box-shadow: inset 0px -2px 20px 15px #ccc;
     box-shadow: inset 0px -2px 20px 15px #ccc; */
-    background: #ccc;
+    /*background: #ccc;*/
+    font-size:17px;
+    font-weight: 300;
+    color:#738196;
+    border-bottom: 1px solid #f0f0f0;
 }
 .r-aside .login-out{
-    margin-right: 15px;
+    margin-right: 6px;
+    margin-top: 3px;
 }
 .r-aside .login-out a{
     color: #800000;
@@ -100,6 +108,7 @@
 }
 .path label{
     display: none;
+    margin-top: 11px;
 }
 .aside .userInfo a , .path span{
     color:#1090e6;
@@ -108,4 +117,125 @@
     text-decoration: underline;
 }
 
+.logo{
+    float: left;
+    width:60px;
+    height:60px;
+}
+.logo img{
+    width:100%;
+    height:100%;
+    border-radius: 50%;
+    background: url("../images/icon.png");
+}
+.logo-name{
+    float: left;
+    width: 209px;
+    text-align: center;
+    padding: 14px 0px;
+}
+.nav .out{
+    margin-top: 16px;
+    float: right;
+    width:40px;
+    height:40px;
+    border-radius: 5px;
+    background: url("../images/out.png") no-repeat;
+    background-size: cover;
+}
 
+.user-logo{
+    float: left;
+    width:40px;
+    height:40px;
+    background: url("../images/user-logo.png") no-repeat ;
+    background-size: cover;
+}
+.user-name{
+    float: left;
+    width:40px;
+    height:40px;
+    margin-left: 10px;
+    padding-top:10px;
+    font-size:17px;
+    font-weight: 300;
+    color:#738196;
+}
+
+
+.site-logo{
+    float: left;
+    width:27px;
+    height:40px;
+    background: url("../images/site.png") no-repeat ;
+    background-size: 100% 100%;
+}
+.site-name{
+    float: left;
+    width:50px;
+    height:40px;
+    margin-left: 10px;
+    padding-top:10px;
+    text-align: center;
+}
+
+
+.clock-logo{
+    float: right;
+    width:40px;
+    height:40px;
+    background: url("../images/clock.png") no-repeat ;
+    background-size: 100% 100%;
+}
+.clock-name{
+    float: right;
+    width:193px;
+    height:40px;
+    margin-left: 10px;
+    padding-top:10px;
+}
+
+.all-option{
+    float: left;
+    margin-left: 50px;
+    font-size: 12px;
+    color:#738196;
+    text-align: center;
+}
+.all-option ul{
+    list-style-type: none;
+}
+.all-option ul li:nth-of-type(4)::after{
+    background: none;
+}
+.all-option ul li{
+    position: relative;
+    float:left;
+    width:121px;
+    height:85px;
+    padding: 5px 35px 5px 5px;
+    cursor: pointer;
+    margin-left: 50px;
+}
+.all-option ul li::after{
+    display: block;
+    content: '';
+    position: absolute;
+    left:100%;
+    top:30%;
+    width:1px;
+    height:50%;
+    background:#f0f0f0;
+}
+.all-option ul li img{
+    display: block;
+    width:100%;
+    height:80%;
+    margin-bottom: 5px;
+}
+.all-option ul li span:hover{
+    color:#333;
+}
+.active{
+    color:#008dfd;
+}

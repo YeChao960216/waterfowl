@@ -1,21 +1,20 @@
 package cn.zhku.waterfowl.modules.ddl.service;
-
 import cn.zhku.waterfowl.pojo.entity.Ddl;
 import cn.zhku.waterfowl.pojo.entity.DdlExample;
+import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.pojo.mapper.DdlMapper;
+import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 @Service
 public class DdlService implements IBaseService<Ddl> {
+    private final PatchMapper patchMapper;
     private final DdlMapper ddlMapper;
-
     @Autowired
-    public DdlService(DdlMapper ddlMapper) {
+    public DdlService(PatchMapper patchMapper, DdlMapper ddlMapper) {
+        this.patchMapper = patchMapper;
         this.ddlMapper = ddlMapper;
     }
 
@@ -46,6 +45,7 @@ public class DdlService implements IBaseService<Ddl> {
 
     /**
      * 对某个实体对象（相对应的表）添加操作
+     * 在添加死淘表时 会根据死淘表填写的numProcessed(死淘个体数)动态更新patch表的numtotal数目
      *
      * @param entity 映射数据库单表的实体类
      * @return 影响行数
@@ -53,16 +53,21 @@ public class DdlService implements IBaseService<Ddl> {
      */
     @Override
     public int add(Ddl entity) {
+        int numProcessed = entity.getNumProcessed();
+        String idPatch = entity.getIdPatch();
         try {
+            Patch patch = patchMapper.selectByPrimaryKey(idPatch);
+            int numTotal = patch.getNumTotal();
+            numTotal-=numProcessed;
+            patch.setNumTotal(numTotal);
+            patchMapper.updateByPrimaryKey(patch);
             ddlMapper.insertSelective(entity);
             return 1;
         }catch (Exception e){
             e.printStackTrace();
             return 0;
         }
-
     }
-
     /**
      * 对某个实体对象（相对应的表）修改操作
      *
@@ -72,10 +77,19 @@ public class DdlService implements IBaseService<Ddl> {
      */
     @Override
     public int update(Ddl entity) throws Exception {
-        if (checkFlag(entity) == 0) {
+        int LnumProcessed = ddlMapper.selectByPrimaryKey(entity.getId()).getNumProcessed();//更新前死淘数目
+        int NnumProcessed = entity.getNumProcessed();//当前死淘数目
+        String idPatch = entity.getIdPatch();
+        try {
+            Patch patch = patchMapper.selectByPrimaryKey(idPatch);
+            int numTotal = patch.getNumTotal();
+            numTotal = numTotal+LnumProcessed-NnumProcessed;;
+            patch.setNumTotal(numTotal);
+            patchMapper.updateByPrimaryKey(patch);
             ddlMapper.updateByPrimaryKeySelective(entity);
             return 1;
-        } else {
+        }catch (Exception e){
+            e.printStackTrace();
             return 0;
         }
     }
@@ -89,10 +103,21 @@ public class DdlService implements IBaseService<Ddl> {
      */
     @Override
     public int delete(Ddl entity) throws Exception {
-        if (checkFlag(entity) == 0) {
+        int numProcessed = entity.getNumProcessed();
+        String idPatch = entity.getIdPatch();
+        try {
+            Patch patch = patchMapper.selectByPrimaryKey(idPatch);
+            int numTotal = patch.getNumTotal();
+            numTotal += numProcessed;
+            patch.setNumTotal(numTotal);
+            patchMapper.updateByPrimaryKey(patch);
             ddlMapper.deleteByPrimaryKey(entity.getId());
             return 1;
-        } else return 0;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
     /**
@@ -112,8 +137,6 @@ public class DdlService implements IBaseService<Ddl> {
             criteria.andIdPatchEqualTo(entity.getIdPatch());
         if (entity.getIdRecorder() != null&&!entity.getIdRecorder().equals(""))
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
-        if (entity.getFlag() != null)
-            criteria.andFlagEqualTo(entity.getFlag());
         if (entity.getNumProcessed()!= null)
             criteria.andNumProcessedEqualTo(entity.getNumProcessed());
         if (entity.getRecordDate()!= null&&!entity.getRecordDate().equals(""))
@@ -123,52 +146,5 @@ public class DdlService implements IBaseService<Ddl> {
         if (entity.getProcessingMode() != null&&!entity.getProcessingMode().equals(""))
             criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
         return ddlMapper.selectByExample(ddlExample);
-    }
-
-    /**
-    *检查提交状态
-    * 其中1为已经提交, 0为未提交
-    * */
-    private int checkFlag(Ddl entity) {
-
-        Ddl ddl = null;
-        try {
-            ddl = get(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("该实体不存在");
-        }
-        if (ddl.getFlag() == 1) {
-            return 1;
-        } else return 0;
-    }
-
-    public List<Ddl> showAllByFlag(int flag) {
-        DdlExample ddlExample = new DdlExample();
-        DdlExample.Criteria criteria = ddlExample.createCriteria();
-        criteria.andFlagEqualTo(flag);
-        return ddlMapper.selectByExample(ddlExample);
-    }
- /**
- * 根据id修改提交状态为已经提交
- *
-  * @param idList*/
-    public int updateFlag(String[] idList) {
-        Ddl ddl = new Ddl();
-        try {
-            for (String id : idList
-                    ) {
-                ddl.setId(id);
-                ddl.setFlag(1);
-                if ( update(ddl)==1){
-                   System.out.println(ddl);
-                }else { return 0;
-                }
-            }
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
     }
 }

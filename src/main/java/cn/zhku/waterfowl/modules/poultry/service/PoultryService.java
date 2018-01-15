@@ -100,9 +100,6 @@ public class PoultryService  implements IBaseService<Poultry> {
     public List<Poultry> findList(Poultry entity) throws Exception {
         PoultryExample poultryExample = new PoultryExample();
         PoultryExample.Criteria criteria = poultryExample.createCriteria();
-        // 物资名称
-        if (entity.getType()!=null)
-            criteria.andTypeLike("%"+entity.getType()+"%");
         // 关联厂商名称
         if (entity.getAssociatedFirm()!=null)
             criteria.andAssociatedFirmLike("%"+entity.getAssociatedFirm()+"%");

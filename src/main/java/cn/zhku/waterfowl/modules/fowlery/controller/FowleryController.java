@@ -64,15 +64,19 @@ public class FowleryController {
 
 
     /**
-     * 添加一个小禽舍，禽舍的id由UUID产生
+     * 添加一个小禽舍，禽舍的id由UUID产生？？？--需修改的部分
      * @param fowlery
      * @return 状态码，1为成功，0为失败
      */
     @ResponseBody
     @RequestMapping("newFowlery")
-    public int addFowlery(Fowlery fowlery) throws Exception {
+    public Message addFowlery(Fowlery fowlery) throws Exception {
         fowlery.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        return fowleryService.add(fowlery);
+        if(fowleryService.add(fowlery)==1){
+            return new Message("1","添加禽舍成功");
+        }else{
+            return new Message("0","添加禽舍失败");
+        }
     }
 
 
@@ -84,9 +88,13 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("editFowlery/{id}")
-    public int editFowlery(@PathVariable String id, Fowlery fowlery) throws Exception {
+    public Message editFowlery(@PathVariable String id, Fowlery fowlery) throws Exception {
         fowlery.setId(id);
-        return fowleryService.update(fowlery);
+        if(fowleryService.update(fowlery)==1){
+            return new Message("1","修改禽舍成功");
+        }else{
+            return new  Message("0","修改禽舍失败");
+        }
     }
 
 
@@ -97,10 +105,14 @@ public class FowleryController {
      */
     @ResponseBody
     @RequestMapping("deleteFowlery/{id}")
-    public int deleteFowlery(@PathVariable String id) throws Exception {
+    public Message deleteFowlery(@PathVariable String id) throws Exception {
         Fowlery fowlery=new Fowlery();
         fowlery.setId(id);
-       return fowleryService.delete(fowlery);
+       if(fowleryService.delete(fowlery)==1){
+           return new Message("1","删除禽舍成功");
+       }else{
+           return new Message("0","删除禽舍失败");
+       }
     }
 
 
@@ -109,7 +121,7 @@ public class FowleryController {
      *
      * @param request   请求域
      * @param excelFile excel文件，前端用multipart/form-data类型上传
-     * @return Message
+     * @return Msg
      */
     @ResponseBody
     @RequestMapping("excel/pull")
@@ -130,7 +142,6 @@ public class FowleryController {
                 excelFile.transferTo(newFile);
                 //将新图片名称写到repair中
                 //repair.setRepairPic(newFileName);
-                System.out.println("================" + newFile.toString());
 
                 FowleryUtilExcel fowleryUtilExcel = new FowleryUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();

@@ -46,7 +46,7 @@ public class FowleryService implements IBaseService<Fowlery> {
      */
     @Override
     public int delete(Fowlery entity) throws Exception {
-        return fowleryMapper.updateByPrimaryKey(entity);
+        return fowleryMapper.deleteByPrimaryKey(entity.getId());
     }
 
     /**

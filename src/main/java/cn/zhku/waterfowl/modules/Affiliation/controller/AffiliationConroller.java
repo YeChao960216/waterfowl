@@ -1,8 +1,8 @@
-package cn.zhku.waterfowl.modules.fowlery.controller;
+package cn.zhku.waterfowl.modules.Affiliation.controller;
 
-import cn.zhku.waterfowl.modules.fowlery.model.AffiliationExcel;
-import cn.zhku.waterfowl.modules.fowlery.model.AffiliationUtilExcel;
-import cn.zhku.waterfowl.modules.fowlery.service.AffiliationService;
+import cn.zhku.waterfowl.modules.Affiliation.model.AffiliationExcel;
+import cn.zhku.waterfowl.modules.Affiliation.model.AffiliationUtilExcel;
+import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
 import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
@@ -68,7 +68,7 @@ public class AffiliationConroller {
     }
 
     /**
-     * 禽舍的大小，前端需要改数据字典相应的name
+     * 禽舍规格
      * @return
      */
     @ResponseBody
@@ -105,9 +105,13 @@ public class AffiliationConroller {
      */
     @ResponseBody
     @RequestMapping("newAffiliation")
-    public int addAffiliation(Affiliation affiliation) throws Exception {
+    public Message addAffiliation(Affiliation affiliation) throws Exception {
         affiliation.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        return affiliationService.add(affiliation);
+        if(affiliationService.add(affiliation)==1){
+           return new Message("1","添加成功");
+        }else{
+            return new Message("0","添加失败");
+        }
     }
 
     /**
@@ -120,9 +124,13 @@ public class AffiliationConroller {
     @ResponseBody
     @RequestMapping("editAffiliation/{id}")
     //URl:http://localhost:8080/waterfowl/admin/affiliation/editAffiliation/1?type=70001
-    public int editAffiliation(@PathVariable String id, Affiliation affiliation) throws Exception {
+    public Message editAffiliation(@PathVariable String id, Affiliation affiliation) throws Exception {
         affiliation.setId(id);
-        return affiliationService.update(affiliation);
+        if( affiliationService.update(affiliation)==1){
+            return new Message("1","修改禽舍成功");
+        }else{
+            return new Message("0","修改禽舍失败");
+        }
     }
 
     /**
@@ -133,10 +141,14 @@ public class AffiliationConroller {
      */
     @ResponseBody
     @RequestMapping("deleteAffiliation/{id}")
-    public int deleteAffiliation(@PathVariable String id) throws Exception {
+    public Message deleteAffiliation(@PathVariable String id) throws Exception {
         Affiliation affiliation=new Affiliation();
         affiliation.setId(id);
-        return affiliationService.delete(affiliation);
+        if(affiliationService.delete(affiliation)==1){
+            return new Message("1","删除禽舍成功");
+        }else{
+            return new Message("0","删除禽舍失败");
+        }
     }
 
     /**
@@ -144,7 +156,7 @@ public class AffiliationConroller {
      *
      * @param request   请求域
      * @param excelFile excel文件，前端用multipart/form-data类型上传
-     * @return Message
+     * @return Msg
      */
     @ResponseBody
     @RequestMapping("excel/pull")
@@ -165,7 +177,6 @@ public class AffiliationConroller {
                 excelFile.transferTo(newFile);
                 //将新图片名称写到repair中
                 //repair.setRepairPic(newFileName);
-                System.out.println("================" + newFile.toString());
 
                 AffiliationUtilExcel affiliationUtilExcel = new AffiliationUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();

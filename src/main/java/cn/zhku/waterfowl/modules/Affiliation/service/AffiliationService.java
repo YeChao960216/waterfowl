@@ -1,4 +1,4 @@
-package cn.zhku.waterfowl.modules.fowlery.service;
+package cn.zhku.waterfowl.modules.Affiliation.service;
 
 import cn.zhku.waterfowl.modules.fowlery.dao.FowleryDao;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
@@ -37,7 +37,7 @@ public class AffiliationService implements IBaseService<Affiliation> {
      */
     @Override
     public int delete(Affiliation entity) throws Exception {
-        return affiliationMapper.updateByPrimaryKey(entity);
+        return affiliationMapper.deleteByPrimaryKey(entity.getId());
     }
 
     /**
@@ -77,6 +77,9 @@ public class AffiliationService implements IBaseService<Affiliation> {
         //通过size，通过数据字典，有待研究
         if (entity.getSize() != null) {
             criteria.andSizeEqualTo(entity.getSize());
+        }
+        if (entity.getType() != null) {
+            criteria.andTypeEqualTo(entity.getType());
         }
         //通过状态，通过数据字典，有待研究
         if (entity.getStatus() != null) {
