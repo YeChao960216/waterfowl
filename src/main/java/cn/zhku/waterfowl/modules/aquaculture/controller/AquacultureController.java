@@ -152,8 +152,8 @@ public class AquacultureController{
     }
 
     /**
-     *  计算相同的name的养殖记录的feedWeight， weight
-     * @param aquaculture 唯一参数：name
+     *  计算相同批次的小于指定name的养殖记录的feedWeight， weight
+     * @param aquaculture 参数：name   idPatch
      * @return FeedWeight
      * @throws Exception sql
      */

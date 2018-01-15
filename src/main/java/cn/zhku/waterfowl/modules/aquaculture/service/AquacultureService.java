@@ -165,28 +165,31 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
 
     /**
      *  查找重量
-     * @param aquaculture 参数 neme
+     * @param aquaculture 参数 neme , idPacth
      * @return FeedWeight
      * @throws Exception sql
      */
     public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
-        //  找出所有name相同的养殖记录
+        FeedWeight feedWeight = new FeedWeight();
+        feedWeight.setName(aquaculture.getName());
+
+
+        //  消除name的影响
+        aquaculture.setName(null);
+        //  找出所有批次id相同的养殖记录
         List<Aquaculture> aquacultureList = findList(aquaculture);
 
-        FeedWeight feedWeight = new FeedWeight();
-
-        System.out.println("对象"+feedWeight);
-        feedWeight.setName(aquaculture.getName());
         //  累加重量
         aquacultureList.forEach(
                 aq -> {
-                    //  所有的喂养重量之和
-                    System.out.println("对象fw"+feedWeight+ "aq" +aq );
+                    //  如果name天数小于传进来的参数， 喂养重量相加
+                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(feedWeight.getName())){
                     feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
-                    feedWeight.setWeight(feedWeight.getWeight() + aq.getWeight());
+                        //  设置最后的水禽重量
+                        feedWeight.setWeight(aq.getWeight());
+                    }
                 }
         );
-
         return feedWeight;
     }
 
