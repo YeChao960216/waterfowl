@@ -35,7 +35,7 @@ var viewCommand = (function(msg){
              "<option value='{#id#}'>{#name#}</option>"
          ].join(''),
          firm_name:[
-             "<option value='{#idStorage#}'>{#firm#}-{#name#}</option>"
+             "<option value='{#firm#}${#name#}'>{#firm#}-{#name#}</option>"
          ].join(''),
          type_name:[
              "<option value='{#type#}'>{#name#}</option>"
