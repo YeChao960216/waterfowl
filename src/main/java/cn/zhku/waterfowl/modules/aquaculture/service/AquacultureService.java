@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
 import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
+import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
@@ -134,6 +135,7 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
 
+
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
 
@@ -144,14 +146,14 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
      * @throws Exception
      */
     public float checkQuantity(Aquaculture entity)throws Exception {
-        String name=entity.getName();
+        String name=entity.getFeedType();
         String remark=entity.getRemark();
         return checkQuantitydao.checkQuantity(name,remark);
     }
 
-    public void updateOutstroge(float quantity,String name,String remark) {
-        checkQuantitydao.updateQuantity(quantity,name,remark);
-    }
+//    public void updateOutstroge(float quantity,String name,String remark) {
+//        checkQuantitydao.updateQuantity(quantity,name,remark);
+//    }
 
     public List<Outstorage> listOutstorageByname(String name)throws Exception {
         return checkQuantitydao.listOutstorageByname(name);
@@ -159,4 +161,36 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
     public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
         return checkQuantitydao.listOutstorageid(name,remark);
     }
+
+
+    /**
+     *  查找重量
+     * @param aquaculture 参数 neme , idPacth
+     * @return FeedWeight
+     * @throws Exception sql
+     */
+    public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
+        FeedWeight feedWeight = new FeedWeight();
+        feedWeight.setName(aquaculture.getName());
+
+
+        //  消除name的影响
+        aquaculture.setName(null);
+        //  找出所有批次id相同的养殖记录
+        List<Aquaculture> aquacultureList = findList(aquaculture);
+
+        //  累加重量
+        aquacultureList.forEach(
+                aq -> {
+                    //  如果name天数小于传进来的参数， 喂养重量相加
+                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(feedWeight.getName())){
+                    feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
+                        //  设置最后的水禽重量
+                        feedWeight.setWeight(aq.getWeight());
+                    }
+                }
+        );
+        return feedWeight;
+    }
+
 }

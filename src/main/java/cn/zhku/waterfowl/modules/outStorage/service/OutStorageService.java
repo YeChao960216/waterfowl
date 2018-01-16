@@ -8,8 +8,9 @@ import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.java2d.ScreenUpdateManager;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OutStorageService  implements IBaseService<Outstorage> {
@@ -44,7 +45,7 @@ public class OutStorageService  implements IBaseService<Outstorage> {
      */
     public int delete(Outstorage entity) throws Exception {
 
-        return outstorageMapper.deleteByPrimaryKey(entity.getIdStorage());
+        return outstorageMapper.deleteByPrimaryKey(entity.getIdOutstorage());
 
     }
 
@@ -84,8 +85,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         if (entity.getRemark()!=null)
             criteria.andRemarkLike("%"+entity.getRemark()+"%");
         //库存编号
-        if (entity.getIdStorage()!=null)
-            criteria.andIdStorageEqualTo("%"+entity.getIdStorage()+"%");
         if (entity.getIdOutstorage()!=null)
             criteria.andIdOutstorageEqualTo("%"+entity.getIdOutstorage()+"%");
            //负责人编号
@@ -107,9 +106,70 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         return outstorageMapper.selectByExample(outstorageExample);
     }
 
-//    public List<Outstorage>listOutstorageByName(String name) throws Exception {
-//        List<Outstorage> outstorageList = new ArrayList<Outstorage>(outstorageMapper.selectByExample(outstorageExample));
-//        return outStorageDao.listMatericalByName(name);
-//    }
+    public List<Outstorage> listOutstorageByName(String name) throws Exception {
+        //把listOutstorageByName返回的值放在ArrayList里面
+        return outStorageDao.listOutstorageByName(name);
+    }
+
+    public String listType(String name,String firm,String remark) throws Exception {
+        //把listOutstorageByName返回的值放在ArrayList里面
+        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.listType(name,firm,remark));
+        if (outstoragelist.isEmpty()){
+            return null;
+        }
+        else{
+        return outstoragelist.get(0).getType();}
+    }
+
+    //一个有效期的调度算法
+    public void manageOutstorage(String name,String firm,float quantity) throws Exception {
+        //把manageOutstorage返回的值放在ArrayList里面
+        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(name,firm,quantity));
+        //定义两个float变量sum，表示累加数;temp为定值float的0
+        float sum=0;
+        float temp=0;
+        //开始进入循环体
+        for (int i=0;i<outstoragelist.size();i++){
+            //将每个记录的剩余量取出来
+            float a=outstoragelist.get(i).getRest();
+            //进行累加
+            sum+=a;
+            //如果累加的结果与所需要的量quantity相等
+            if(sum==quantity) {
+                //进行循环体
+                for (int k=0;k<i;k++){
+                    //将符合条件的记录取出来
+                    Outstorage outstorage=outstoragelist.get(k);
+                    //逐一将每一条记录的剩余量变为0
+                    outstorage.setRest(temp);
+                    //将更改后的记录放到数据库
+                    outstorageMapper.updateByPrimaryKeySelective(outstorage);
+                }
+                //结束上一层循环体，即跳出循环
+                break;
+            }
+            //如果累加的结果大于所需要的量quantity
+            if(sum>quantity) {
+                //将符合条件的但是仍有剩余量的记录取出来
+                Outstorage less=outstoragelist.get(i);
+                //改变该记录的剩余量
+                less.setRest(sum-quantity);
+                //将更改后的记录放到数据库
+                outstorageMapper.updateByPrimaryKeySelective(less);
+                //进行循环体
+                for (int k=0;k<i-1;k++){
+                    //将符合记录但是没有剩余量的记录取出来
+                    Outstorage outstorage=outstoragelist.get(k);
+                    //将这些记录的剩余量变为0
+                    outstorage.setRest(temp);
+                    //将更改后的记录放到数据库
+                    outstorageMapper.updateByPrimaryKeySelective(outstorage);
+                }
+                //结束上一层循环体，即跳出循环
+                break;
+            }
+        }
+
+    }
 
 }

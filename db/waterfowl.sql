@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-15 14:44:25
+Date: 2018-01-16 12:57:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -50,7 +50,7 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
-  `id` varchar(45) NOT NULL COMMENT '养殖记录表',
+  `id` varchar(45) NOT NULL COMMENT '批次编号',
   `name` varchar(45) DEFAULT NULL COMMENT '养殖类型',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
@@ -75,13 +75,29 @@ CREATE TABLE `aquaculture` (
   KEY `FK_aqua_patch_id` (`id_patch`),
   CONSTRAINT `aquaculture_ibfk_3` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `aquaculture_ibfk_4` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_aquaculture_outstorage1` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_aqua_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of aquaculture
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `aqua_stor`
+-- ----------------------------
+DROP TABLE IF EXISTS `aqua_stor`;
+CREATE TABLE `aqua_stor` (
+  `id_outstorage` varchar(45) NOT NULL COMMENT '物资编号',
+  `id` varchar(45) NOT NULL COMMENT '养殖编号',
+  KEY `FK_aqua_stor_id` (`id`),
+  KEY `FK_out_id` (`id_outstorage`),
+  CONSTRAINT `FK_out_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_aqua_stor_id` FOREIGN KEY (`id`) REFERENCES `aquaculture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of aqua_stor
 -- ----------------------------
 
 -- ----------------------------
@@ -210,12 +226,28 @@ CREATE TABLE `epidemic` (
   CONSTRAINT `epidemic_ibfk_2` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `epidemic_ibfk_4` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `epidemic_ibfk_5` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `epidemic_unit_dictionary_id` FOREIGN KEY (`dose_unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `epid_outstorage_id_storage` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `epidemic_unit_dictionary_id` FOREIGN KEY (`dose_unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of epidemic
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `epi_stor`
+-- ----------------------------
+DROP TABLE IF EXISTS `epi_stor`;
+CREATE TABLE `epi_stor` (
+  `id_outstorage` varchar(45) NOT NULL COMMENT '物资编号',
+  `id` varchar(45) NOT NULL COMMENT '免疫编号',
+  KEY `FK_epi_outstor_id` (`id`),
+  KEY `FK_outstorage_id` (`id_outstorage`),
+  CONSTRAINT `FK_outstorage_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_epi_outstor_id` FOREIGN KEY (`id`) REFERENCES `epidemic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of epi_stor
 -- ----------------------------
 
 -- ----------------------------
@@ -253,7 +285,6 @@ CREATE TABLE `outstorage` (
   `id_outstorage` varchar(45) NOT NULL COMMENT '物资使用表——自动生成用户不填',
   `name` varchar(45) DEFAULT NULL COMMENT '材料名称——name发送到storage获取库存数据，供用户下拉框选择我',
   `remark` varchar(200) DEFAULT NULL COMMENT '供应商',
-  `id_storage` varchar(45) DEFAULT NULL,
   `record_date` timestamp NULL DEFAULT NULL,
   `quantity` float(45,0) DEFAULT NULL COMMENT '入厂总量',
   `unit` varchar(45) DEFAULT NULL COMMENT '计数单位',
@@ -271,7 +302,6 @@ CREATE TABLE `outstorage` (
   PRIMARY KEY (`id_outstorage`),
   KEY `fk_storage_user1_idx` (`id_recorder`),
   KEY `fk_storage_user2_idx` (`id_charge`),
-  KEY `fk_outstorage_storage1_idx` (`id_storage`),
   KEY `outst_unit_dic_id` (`unit`),
   CONSTRAINT `outst_unit_dic_id` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storage_ibfk_10` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -281,11 +311,11 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '1', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '11', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '13', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '14', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '16', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '', null, null, null, '\'未过期\'', null, null, null);
 
 -- ----------------------------
 -- Table structure for `out_poultry`
@@ -363,7 +393,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 DROP TABLE IF EXISTS `poultry`;
 CREATE TABLE `poultry` (
-  `id_poultry` varchar(45) NOT NULL COMMENT '家禽批次记录表',
+  `id_poultry` varchar(45) NOT NULL COMMENT '家禽入库编号',
   `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
