@@ -131,7 +131,7 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("newPatch")
-    public Message addPatch(@RequestBody Patch patch) throws Exception {
+    public Message addPatch( Patch patch) throws Exception {
 
         patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
 //        //设置时间格式

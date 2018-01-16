@@ -1,10 +1,13 @@
-﻿﻿
-.baseFrame{
-    min-width: 1200px;
+﻿﻿body{
+    min-width: 1200px !important;
     /* padding: 5px 5px; */
-    min-height:720px;
+    min-height:720px !important;
+}
+.baseFrame{
+    min-width: 1200px !important;
+    /* padding: 5px 5px; */
+    min-height:720px !important;
     margin: 0 auto;
-
 }
 .nav{
     width: 100%;
