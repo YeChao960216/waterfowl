@@ -85,6 +85,8 @@
       <table tableName="out_poultry"/>
       <table tableName="patch"/>
       <table tableName="user_auths"/>
+      <table tableName="epi_stor"/>
+      <table tableName="aqua_stor"/>
 
   </context>
 </generatorConfiguration>
