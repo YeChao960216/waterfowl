@@ -147,8 +147,10 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
      */
     public float checkQuantity(Aquaculture entity)throws Exception {
         String name=entity.getFeedType();
-        String remark=entity.getRemark();
-        return checkQuantitydao.checkQuantity(name,remark);
+        String firm=entity.getRemark();
+        System.out.println("伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短"+name+firm);
+        System.out.println("伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短伟龙jj很短"+checkQuantitydao.checkQuantity(name,firm));
+        return checkQuantitydao.checkQuantity(name,firm);
     }
 
 //    public void updateOutstroge(float quantity,String name,String remark) {

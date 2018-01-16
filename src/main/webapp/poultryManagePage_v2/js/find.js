@@ -23,7 +23,8 @@
             CHECKPACTH:'',//级联检查
             GETPATCHBYPOULTRYID:'',//获取该厂家的所有批次号
             GETSTATUSLIST:'/getDicName/getStatus',//获取禽类养殖标识
-            GETMATERIL:'/material/list',  //饲料名称
+            GETMATERIL:'/outstorage/listName/65001',  //饲料名称
+            GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
             OPOST:'/outpoultry/add',//出厂路径
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/',//{id_p}通过PID查找所有已经划分的批次
@@ -707,20 +708,26 @@
                 // });
             }
             function render_a(id) {
-
+                var feedTypeObj = {};
                 render({
                     url:oURL.PRONAME+oURL.GETMATERIL,  //饲料
                     dom:selectNodes[2],
                     tpl:'firm_name',
-                    dataDescription:'list'
-                });
-
-                var MAX_FOOD = 0;  //剩余最大投放量
-                $.get(oURL.PRONAME+oURL.GETMATERIL+'?idStorage='+selectNodes[2].value,function (res) {
-                    if(res){
-                        maxTips.innerText =  MAX_FOOD = ~~res.quantity;
-                    }else{
-                        alert('溯源提示:\n\n获取该饲料的仓储量失败');
+                    dataDescription:'list',
+                    cb:function (res) {
+                        console.log(res);
+                        feedTypeObj.feedType = res[0].name;
+                        feedTypeObj.remark = res[0].firm;
+                        feedTypeObj.feedWeight = 1;
+                        console.log(feedTypeObj);
+                        var MAX_FOOD = 0;  //剩余最大投放量
+                        $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
+                            if(res){
+                                maxTips.innerText =  MAX_FOOD = ~~res.quantity;
+                            }else{
+                                alert('溯源提示:\n\n获取该饲料的仓储量失败');
+                            }
+                        });
                     }
                 });
 
@@ -836,7 +843,7 @@
         //空白框
         viewCommand({
             command:'display',
-            param:[ddlContent[0],[],'ddl_add']
+            param:[ddlContent[0],{id:id},'ddl_add']
         });
 
         //获取元素
@@ -887,9 +894,11 @@
             inputNode = ddlContent[0].getElementsByTagName('input');
             inputNode[0].value = PTACH_SIZE - resetInput.value;
             inputNode[1].value = PTACH_SIZE - resetInput.value;
-            submitBtn.onclick(function () {
-                var json = JSON.stringify(queryParse.call($(form)));
-               $.post(oURL.PRONAME+oURL.DDLPOST,json,function (res) {
+            submitBtn.onclick = function () {
+                var obj = queryParse.call($(form));
+                    obj.idPatch = id;
+                // var json = JSON.stringify();
+               $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
                     if(res){
                         alert('溯源提示:\n\n死淘信息提交成功');
                         closeDDL();
@@ -897,7 +906,7 @@
                         alert('溯源提示:\n\n死淘信息提交失败');
                     }
                });
-            });
+            };
     }
     // /**
     //  * 步骤检验

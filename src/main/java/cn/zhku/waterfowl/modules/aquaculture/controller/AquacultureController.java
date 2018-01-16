@@ -8,6 +8,7 @@ import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
+import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -128,13 +130,16 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("checkQuantity")
-    public Message editOutstorage(Aquaculture entity) throws Exception {
+    public Msg editOutstorage(Aquaculture entity) throws Exception {
         float quantity=entity.getFeedWeight();
+        System.out.print("王尼玛"+quantity);
         float num=aquacultureService.checkQuantity(entity);
+        Outstorage outstorage=new Outstorage();
+        outstorage.setRest(num);
         if(quantity>num)
-            return new Message("1","库存不足");
+            return new Msg("1","库存不足","1",outstorage);
         else
-            return new Message("2","库存足够");
+            return new Msg("2","库存足够");
     }
 
     @ResponseBody

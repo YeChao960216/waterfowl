@@ -35,7 +35,7 @@ var viewCommand = (function(msg){
              "<option value='{#id#}'>{#name#}</option>"
          ].join(''),
          firm_name:[
-             "<option value='{#idStorage#}'>{#associatedFirm#}-{#name#}</option>"
+             "<option value='{#idStorage#}'>{#firm#}-{#name#}</option>"
          ].join(''),
          type_name:[
              "<option value='{#type#}'>{#name#}</option>"
@@ -471,7 +471,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>批次号</td>'+
-             '<td id="idPatch">见右侧</td>'+
+             '<td id="idPatch">{#id#}</td>'+
              '</tr>'+
              '<tr class="none">'+
              '<td>减少的家禽数</td>'+
