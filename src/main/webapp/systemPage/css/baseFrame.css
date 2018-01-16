@@ -1,10 +1,13 @@
-﻿﻿
-.baseFrame{
-    min-width: 1200px;
+﻿﻿body{
+    min-width: 1200px !important;
     /* padding: 5px 5px; */
-    min-height:720px;
+    min-height:720px !important;
+}
+.baseFrame{
+    min-width: 1200px !important;
+    /* padding: 5px 5px; */
+    min-height:720px !important;
     margin: 0 auto;
-
 }
 .nav{
     width: 100%;
@@ -18,6 +21,7 @@
     /*box-shadow: inset -6px 2px 48px 20px #ccc;*/
     border-bottom: 1px solid #f0f0f0;
 }
+
 /* .nav img{
     width:55px;
     height:55px;

@@ -220,15 +220,20 @@
          * 增加批次
          */
         sub_btn.onclick = function () {
-            var obj = queryParse.call($(form));
-            obj.idPoultry = oURL.idPoultry;
-            $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
-                if(res){
-                    alert(res);
-                }else{
-                    alert('划分批次失败');
-                }
-            });
+            if(selectNodes[3].value!='undefined' && selectNodes[3].value){
+                var obj = queryParse.call($(form));
+                obj.idPoultry = oURL.idPoultry;
+                $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
+                    if(res){
+                        alert(res.msg);
+                    }else{
+                        alert('划分批次失败');
+                    }
+                });
+            }else{
+                alert('溯源提示:\n\n禽舍编号没有安排得当，无法分批');
+            }
+
         }
 
         // /**
@@ -254,7 +259,7 @@
                     tpl:'id_name',
                     cb:function () {
                         render({
-                            url:oURL.PRONAME+oURL.GETTYPEBYPOSITION+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //类型->大宿舍
+                            url:oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //类型->大宿舍
                             dom:selectNodes[2],
                             tpl:'id',
                             dataDescription:'list',
@@ -272,57 +277,86 @@
             }
         });
 
+        /**
+         * 位置的改变触发
+         */
         selectNodes[0].onchange = function () {           //位置改变触发类型
-            render({
-                url:oURL.PRONAME+oURL.GETTYPEBYPOSITION+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //位置 类型->大宿舍
-                dom:selectNodes[2],
-                tpl:'id',
-                dataDescription:'list',
-                cb:function () {
-                    render({
-                        url:oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,    //大宿舍 -> 小宿舍
-                        dom:selectNodes[3],
-                        tpl:'id',
-                        dataDescription:'list'
+            $.get(oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,function (res) {
+                if(res.list){
+                    viewCommand({
+                        command:'display',
+                        param:[selectNodes[2],res.list,'id']
                     });
+                    $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
+                        if(res.list){         //只有小宿舍号被划分了才行
+                            viewCommand({
+                                command:'display',
+                                param:[selectNodes[3],res.list,'id']
+                            });
+                            sub_btn.disabled = false;
+                        }
+                    });
+                }else{
+                    $(selectNodes[2]).html("<option value='无此编号'>无此编号</option>");
+                    $(selectNodes[3]).html("<option value='无此编号'>无此编号</option>");
+                    sub_btn.disabled = true;
                 }
             });
         }
         selectNodes[1].onchange = function () {  //规格的触发
-            render({
-                url:oURL.PRONAME+oURL.GETTYPEBYPOSITION+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //位置 类型->大宿舍
-                dom:selectNodes[2],
-                tpl:'id',
-                dataDescription:'list',
-                cb:function () {
-                    render({
-                        url:oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value, //大宿舍 -> 小宿舍
-                        dom:selectNodes[3],
-                        tpl:'id',
-                        dataDescription:'list'
+            $.get(oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,function (res) {
+                if(res.list){
+                    viewCommand({
+                        command:'display',
+                        param:[selectNodes[2],res.list,'id']
                     });
+                    $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
+                        if(res.list){
+                            viewCommand({
+                                command:'display',
+                                param:[selectNodes[3],res.list,'id']
+                            });
+                            sub_btn.disabled = false;
+                        }
+                    });
+                }else{
+                    $(selectNodes[2]).html('<option value="无此编号">无此编号</option>');
+                    $(selectNodes[3]).html('<option value="无此编号">无此编号</option>');
+                    sub_btn.disabled = true;
                 }
             });
         }
         selectNodes[2].onchange = function () {            //大宿舍->小宿舍
             var that = this;
-            render({
-                url:oURL.PRONAME+oURL.GETSHOME+'?affiliation='+that.value,
-                dom:selectNodes[3],
-                tpl:'id',
-                dataDescription:'list'
-            });
+            if(that.value){
+                $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+that.value,function(res){
+                    if(res.list){   //大宿舍-》小宿舍
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[3],res.list,'id']
+                        });
+                        sub_btn.disabled = false;
+                    }else{
+                        $(selectNodes[3]).html('<option value="无此编号">无此编号</option>');
+                        sub_btn.disabled = true;
+                    }
+                });
+            }else{
+                $(selectNodes[3]).html('<option value="无此编号">无此编号</option>');
+                sub_btn.disabled = true;
+            }
+
         }
 
         $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
             if(res){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[5],res.list,'option']
+                    param:[selectNodes[5],res.list,'id_name']
                 });
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[6],res.list,'option']
+                    param:[selectNodes[6],res.list,'id_name']
                 });
             }else{
                 alert('获取人员信息失败');
@@ -777,11 +811,11 @@
                     if(res){
                         viewCommand({
                             command:'display',
-                            param:[selectNodes[1],res.list,'option']
+                            param:[selectNodes[1],res.list,'id_name']
                         });
                         viewCommand({
                             command:'display',
-                            param:[selectNodes[2],res.list,'option']
+                            param:[selectNodes[2],res.list,'id_name']
                         });
                     }else{
                         alert('人员获取失败');
