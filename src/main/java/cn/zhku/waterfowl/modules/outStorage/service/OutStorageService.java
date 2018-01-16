@@ -111,6 +111,11 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         return outStorageDao.listOutstorageByName(name);
     }
 
+    public List<Outstorage> Listname() throws Exception {
+        //把listOutstorageByName返回的值放在ArrayList里面
+        return outStorageDao.Listname();
+    }
+
     public String listType(String name,String firm,String remark) throws Exception {
         //把listOutstorageByName返回的值放在ArrayList里面
         List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.listType(name,firm,remark));

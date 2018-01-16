@@ -17,6 +17,9 @@ public interface OutStorageDao {
     @Select("select * from outStorage where name=#{name} and firm=#{firm} and remark=#{remark} where valid='未过期'")
     List<Outstorage> listType(String name,String firm,String remark);
 
+    @Select("select distinct name from outstorage where type='65001'")
+    List<Outstorage> Listname();
+
     //优先调度有效期快过期物资
     @Select("select * from outstorage where name=#{name} and firm=#{firm} where valid='未过期' and quantity>0 order by expiration_date")
     List<Outstorage> manageOutstorage(String name,String firm,float quantity);
