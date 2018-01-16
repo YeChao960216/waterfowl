@@ -26,11 +26,11 @@ public interface CheckQuantitydao {
      * @param quantity
      */
     @Select("update outStorage set outStorage.quantity=outStorage.quantity-#{quantity} where name=#{name} and remark=#{remark}")
-    void updateQuantity(float quantity,String name,String remark);
+    void updateQuantity(@Param("quantity")float quantity,@Param("name")String name,@Param("remark")String remark);
 
     @Select("select remark from outStorage where name like concat('%',#{name},'%')")
     List<Outstorage> listOutstorageByname(String name);
 
     @Select("select id_outstorage from outStorage where name=#{name} and remark=#{remark} limit 1")
-    List<Outstorage> listOutstorageid(String name,String remark);
+    List<Outstorage> listOutstorageid(@Param("name")String name,@Param("remark")String remark);
 }

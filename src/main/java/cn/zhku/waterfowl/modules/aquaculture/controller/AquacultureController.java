@@ -3,6 +3,7 @@ package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
+import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
@@ -11,6 +12,7 @@ import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jdk.nashorn.internal.ir.WhileNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,8 @@ public class AquacultureController{
     AquacultureService aquacultureService;
     @Autowired
     OutStorageService outStorageService;
+    @Autowired
+    OutStorageDao outStorageDao;
 
     /**
      * 增加记录
@@ -130,16 +134,56 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("checkQuantity")
-    public Msg editOutstorage(Aquaculture entity) throws Exception {
+    public List<Outstorage> editOutstorage(Aquaculture entity) throws Exception {
         float quantity=entity.getFeedWeight();
-        System.out.print("王尼玛"+quantity);
         float num=aquacultureService.checkQuantity(entity);
-        Outstorage outstorage=new Outstorage();
-        outstorage.setRest(num);
-        if(quantity>num)
-            return new Msg("1","库存不足","1",outstorage);
-        else
-            return new Msg("2","库存足够");
+
+        if(quantity>num) {
+            Outstorage outstorage=new Outstorage();
+            outstorage.setRest(num);
+            List<Outstorage> outstorageList = new ArrayList<Outstorage>();
+            outstorageList.add(outstorage);
+            return outstorageList;
+        }
+        else{
+            List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(entity.getFeedType(),entity.getRemark(),quantity));
+            //定义两个float变量sum，表示累加数;temp为定值float的0
+            float sum=0;
+            //开始进入循环体
+            for (int i=0;i<outstoragelist.size();i++){
+                //将每个记录的剩余量取出来
+                float a=outstoragelist.get(i).getRest();
+                //进行累加
+                sum+=a;
+                //如果累加的结果与所需要的量quantity相等
+                if(sum==quantity) {
+                    //进行循环体
+                    for (int k=outstoragelist.size()-1;k>i;k--){
+                        //将符合条件的记录取出来
+                        outstoragelist.remove(k);
+                    }
+                    //结束上一层循环体，即跳出循环
+                    break;
+                }
+                //如果累加的结果大于所需要的量quantity
+                if(sum>quantity) {
+                    //将符合条件的但是仍有剩余量的记录取出来
+//                    Outstorage less=outstoragelist.get(i);
+//                    //将更改后的记录放到数据库
+//                    outstorageMapper.updateByPrimaryKeySelective(less);
+                    //进行循环体
+                    for (int k=outstoragelist.size()-1;k>i;k--){
+                        //将符合记录但是没有剩余量的记录取出来
+                        outstoragelist.remove(k);
+                    }
+                    outstoragelist.get(i).setRest(outstoragelist.get(i).getRest()-sum+quantity);
+                    //结束上一层循环体，即跳出循环
+
+                    break;
+                }
+            }
+            return outstoragelist;
+    }
     }
 
     @ResponseBody
