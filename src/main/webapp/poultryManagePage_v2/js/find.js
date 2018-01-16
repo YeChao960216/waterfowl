@@ -641,6 +641,7 @@
      * 4、监听关闭按钮
      */
     var resetInput = {};
+    var MAX_FOOD = 0;
     $('#content').on('click','[data-check*="true"]',function () {
         if(!unbind){
             var option = $(this).attr('data-id').substr(0,1),
@@ -698,14 +699,29 @@
             }
             sub_btn.onclick = function () {
                 var obj = queryParse.call($(form));
-                console.log(obj);
-                // $.post(oURL.PRONAME+post,JSON.stringify(obj),function (res) {
-                //     if(res){
-                //         alert(res.msg);
-                //     }else{
-                //         alert('提交失败');
-                //     }
-                // });
+                if(post==oURL.APOST){
+                    if(inputs[2]>MAX_FOOD){
+                        alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
+                        return
+                    }else{
+                        $.post(oURL.PRONAME+post,obj,function (res) {
+                            if(res){
+                                alert(res.msg);
+                            }else{
+                                alert('溯源提示:\n\n提交失败');
+                            }
+                        });
+                    }
+                }else{
+                    $.post(oURL.PRONAME+post,obj,function (res) {
+                        if(res){
+                            alert(res.msg);
+                        }else{
+                            alert('溯源提示:\n\n提交失败');
+                        }
+                    });
+                }
+
             }
             function render_a(id) {
                 var feedTypeObj = {};
@@ -715,15 +731,12 @@
                     tpl:'firm_name',
                     dataDescription:'list',
                     cb:function (res) {
-                        console.log(res);
                         feedTypeObj.feedType = res[0].name;
                         feedTypeObj.remark = res[0].firm;
-                        feedTypeObj.feedWeight = 1;
-                        console.log(feedTypeObj);
-                        var MAX_FOOD = 0;  //剩余最大投放量
+                        feedTypeObj.feedWeight = 10000000000;   //试触储存量
                         $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                             if(res){
-                                maxTips.innerText =  MAX_FOOD = ~~res.quantity;
+                                maxTips.innerText =  MAX_FOOD = ~~res.object.rest;
                             }else{
                                 alert('溯源提示:\n\n获取该饲料的仓储量失败');
                             }
@@ -733,13 +746,22 @@
 
                 //选择的饲料一旦改变也要进行触发更新     最大数量  tip-p
                 selectNodes[2].onchange = function () {
-                    $.get(oURL.PRONAME+oURL.GETMATERIL+'?idStorage='+selectNodes[2].value,function (res) {
+                    console.log(this.value);
+                    var arr = this.value.split('$');
+                    feedTypeObj.feedType = arr[1];
+                    feedTypeObj.remark = arr[0];
+                    feedTypeObj.feedWeight = inputs[2].value?inputs[2].value:10000000000;
+                    console.log(feedTypeObj);
+                    $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                         if(res){
-                            maxTips.innerText =  MAX_FOOD = ~~res.quantity;
+                            console.log(res);
+                            maxTips.innerText =  MAX_FOOD = ~~res.object.rest;
+                            sub_btn.disabled = false;
                         }else{
                             alert('溯源提示:\n\n获取该饲料的仓储量失败');
                         }
                     });
+
                 }
 
                 //投料校验
