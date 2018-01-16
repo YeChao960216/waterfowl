@@ -162,7 +162,7 @@ public class OutStorageController extends BaseController{
     }
 
     @ResponseBody
-    @RequestMapping("Listname/{type}")
+    @RequestMapping("listName/{type}")
     public List<Outstorage> Listname(@PathVariable String type) throws Exception {
         //  通过服务层获取查询后的用户列表
         //将返回的值放在ArrayList里面，以Outstorage模板呈现，没有的字段为null
