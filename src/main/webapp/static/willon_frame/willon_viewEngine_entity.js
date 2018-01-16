@@ -429,7 +429,7 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="name" id="name"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>圈养个体数</td>'+
+                 '<td>圈养个体数(右侧为预测值)</td>'+
                  '<td><input type="number" min="0" name="numTotal" id="numTotal" placeholder="圈养个体数"></td>'+
                  '</tr>'+
                  '<tr>'+
@@ -549,14 +549,14 @@ var viewCommand = (function(msg){
         view_aqua:[
             '<div class="detail-content">'+
                 '<table>'+
-                '<caption>家禽生长状态</caption>'+
+                '<caption>家禽生长状态-投料量曲线图</caption>'+
                 '<tr>'+
                     '<th>条目</th>'+
                     '<th>信息</th>'+
                 '</tr>'+
                 '<tr>'+
                     '<td>批次号</td>'+
-                    '<td><select name="idPatch" id="id_patch" class="select-fix-input"></select></td>'+
+                    '<td><select name="idPatch" class="select-fix-input"></select></td>'+
                 '</tr>'+
                 '</table>'+
                 '<div class="viewport"></div>'+
