@@ -15,7 +15,7 @@
             GETAQUACULTURELIST:'/poultry/list',
             GETINFOBYPID:'/poultry/selectBy/',
             GETPOSITON:'/dict/list?pid=70000',
-            GETHOMETYPE:'/dict/list?pid=80000',
+            GETHOMETYPE:'/dict/list?pid=60000',
             GETBHOME:'/admin/affiliation/listAffiliation',
             GETSHOME:'/admin/fowlery/listFowlery',
             GETEMP:'/admin/user/list',//查找人元,
@@ -31,9 +31,10 @@
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
             GETTYPEBYPOSITION:'/admin/affiliation/listAffiliation',//position  type -> id_affi
             GETPATHBYID:'/admin/patch/showPatch/',//id->ptachInfo
-            GETPMODE:'/dict/list?pid=76000',//从字典里面获取丢失方式
+            GETPMODE:'/dict/list?pid=95000',//从字典里面获取丢失方式
             DDLPOST:'/ddl/save',
             GETMAXFOOD:'',//
+            GETAQUABYPATCH:'/aquaculture/list?idPatch='//根据批次号返回养殖的记录 测试接口 后面会有一个更新的
             };
     /**
      * 实例化一个分页控制者
@@ -221,7 +222,7 @@
         sub_btn.onclick = function () {
             var obj = queryParse.call($(form));
             obj.idPoultry = oURL.idPoultry;
-            $.post(oURL.PRONAME+oURL.PPOST,JSON.stringify(obj),function (res) {
+            $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
                 if(res){
                     alert(res);
                 }else{
@@ -344,11 +345,11 @@
                     param:[$(oDetail),res,'poultry_show']
                 });
                  //id_p->批次信息
-                    $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function(res){
-                        if(res){
+                    $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function(resPatchList){
+                        if(resPatchList.object.length){
                             viewCommand({                //id_p -> 批次
                                 command:'append',
-                                param:[$(oDetail),res.object,'patch_show']
+                                param:[$(oDetail),resPatchList.object,'patch_show']
                             });
                             try{
                                 var pNode = oDetail.getElementsByClassName('detail-content')[1],
@@ -356,22 +357,66 @@
                                     patch_data = pNode.getElementsByClassName('patch-data');
                                 viewCommand({
                                     command:'display',
-                                    param:[selectNodes[0],res.object,'id']    //渲染第一条select批次号的值
+                                    param:[selectNodes[0],resPatchList.object,'id']    //渲染第一条select批次号的值
                                 });
                                 render({                                         //渲染第一条select批次号选项->对应的批次信息
                                     url:oURL.PRONAME+oURL.GETPATHBYID+selectNodes[0].value,
                                     tpl:'patch_show2',
                                     dom:patch_data,
                                     cb:function () {
-                                        selectNodes[0].onchange = function () {      //并作监听 变化渲染
+                                        selectNodes[0].onchange = function () {      //并作批次号的监听 变化渲染
                                             var that = this;
-                                            render({                                         //渲染第一条select批次号选项->对应的批次信息
+                                            render({
                                                 url:oURL.PRONAME+oURL.GETPATHBYID+that.value,
                                                 tpl:'patch_show2',
                                                 dom:patch_data
                                             });
                                         }
                                         detail_view_ctrl.num = 2;           //如果批次信息成功渲染，那么我就要修改这个动画大小
+
+                                        /**
+                                         * 渲染养殖记录视图
+                                         */
+                                        viewCommand({
+                                            command:'append',
+                                            param:[$(oDetail),[],'view_aqua'],
+                                        });
+                                        detail_view_ctrl.num = 3;
+                                        var aquaDetailView = oDetail.getElementsByClassName('detail-content')[2],
+                                            viewPort = aquaDetailView.getElementsByClassName('viewport')[0],
+                                            aquaSelectNodes = aquaDetailView.getElementsByTagName('select'),
+                                            viewdata = {feedWeight:[],weight:[]};
+                                            viewCommand({              //id_p -》patch
+                                                command:'display',
+                                                param:[aquaSelectNodes[0],resPatchList.object,'id'],
+                                            });
+                                        $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+aquaSelectNodes[0].value,function (res) {
+                                            if(res.list.length){      //渲染视图空白框
+                                                    res.list.reverse();//数组倒置
+                                                    res.list.forEach(function (ele) {
+                                                        viewdata.feedWeight.push(ele.feedWeight);
+                                                        viewdata.weight.push(ele.weight);
+                                                    });
+                                                    $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
+                                                        detail_view_ctrl.left = -(detail_view_ctrl.step*2);
+                                                        showVue.call(oShadow,true);
+                                                    });
+
+                                                    willon_option.series[0].data = viewdata.feedWeight;  //饲料量
+                                                    willon_option.series[1].data = viewdata.weight;     //重量
+                                                    echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
+
+                                                /**
+                                                 * 养殖批次的监听 name + idpatch
+                                                 */
+                                                aquaSelectNodes[0].onchange = function () {
+
+                                                    //重新渲染数据
+                                                }
+                                            }else{
+                                                showVue.call(oShadow);
+                                            }
+                                        });
                                     }
                                 });
                             }catch(err){
@@ -379,6 +424,7 @@
                             }
                         }else{
                             detail_view_ctrl.num = 1;
+                            showVue.call(oShadow);
                         }
                     });
             }else{
@@ -416,6 +462,7 @@
                     }
 
                 }
+                obj.cb&&obj.cb(res);
             }else{
                 if(res){
                     if(obj.filter){
@@ -436,9 +483,10 @@
                             param:[obj.dom,res,obj.tpl]
                         });
                     }
+                    obj.cb&&obj.cb(res);
                 }
             }
-            obj.cb&&obj.cb(res);
+
         });
     }
 
@@ -491,7 +539,7 @@
             //     for(var i = 0 ,len = nodes.length;i<len ;i++ ){
             //         nodes[i].parentNode.removeChild(nodes[i]);
             //     }
-            $(oDetail).empty();
+            oDetail.innerHTML = '';
         });
         unbind = false;
     }
@@ -506,12 +554,23 @@
      * 详细层弹出
      * @type {Element}
      */
-    function showVue() {
+    function showVue(scroll) {
         this.classList.remove('none');
-        $(btn_next).show();
-        if(!detail_view_ctrl.left){
+        if(detail_view_ctrl.num >1){
+            $(btn_next).show();
+        }else{
+            $(btn_next).hide();
+        }
+        if(!detail_view_ctrl.left){  //left 为 0
             $(btn_pre).hide();
         }
+        if(scroll){          //滚动判断左键是否显示
+            $(btn_pre).show();
+            if(detail_view_ctrl.left/(detail_view_ctrl.num-1) == -detail_view_ctrl.step){
+                $(btn_next).hide();
+            }
+        }
+
         unbind = true; //按钮事件不绑定
     }
 

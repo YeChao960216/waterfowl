@@ -93,7 +93,6 @@
     width: 110%;
     height: 1px;
     border-top:1px solid #d3d5d8;
-
 }
 
 /**插入信息
@@ -137,4 +136,11 @@
     z-index: 3;
 }
 
-
+.viewport{
+    margin: 5px auto;
+    width:97%;
+    min-width: 500px;
+    height:75%;
+    min-height: 620px;
+    /*border:1px solid #0ccece;*/
+}

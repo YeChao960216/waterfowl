@@ -85,7 +85,10 @@ public class FowleryService implements IBaseService<Fowlery> {
     public List<Fowlery> findList(Fowlery entity) throws Exception {
         FowleryExample fowleryExample=new FowleryExample();
         FowleryExample.Criteria criteria=fowleryExample.createCriteria();
-
+        //通过size
+        if(entity.getAffiliation()!=null){
+            criteria.andAffiliationEqualTo(entity.getAffiliation());
+        }
         //通过size
         if(entity.getSize()!=null){
             criteria.andSizeEqualTo(entity.getSize());
