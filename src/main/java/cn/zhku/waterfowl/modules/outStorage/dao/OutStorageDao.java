@@ -10,8 +10,8 @@ public interface OutStorageDao {
     @Select("select firm from outstorage where name like concat('%',#{name},'%') where valid='未过期'")
     List<Outstorage> listOutstorageByName(String name);
 
-//    @Select("update outStorage set outStorage.quantity=outStorage.quantity+#{quantity} where name=#{name} and remark=#{remark} and type=#{type}")
-//    void updateQuantity(float quantity,String name,String remark,String type);
+    @Select("update name from outStorage.quantity=outStorage.quantity+#{quantity} where name=#{name} and remark=#{remark} and type=#{type}")
+    void updateQuantity(float quantity,String name,String remark,String type);
 
     //查询type
     @Select("select * from outStorage where name=#{name} and firm=#{firm} and remark=#{remark} where valid='未过期'")

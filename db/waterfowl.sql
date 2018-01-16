@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50536
+Source Server         : mydb
+Source Server Version : 50716
 Source Host           : localhost:3306
 Source Database       : waterfowl
 
 Target Server Type    : MYSQL
-Target Server Version : 50536
+Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-01-16 12:57:06
+Date: 2018-01-16 17:43:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,13 +44,15 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 -- Records of affiliation
 -- ----------------------------
+INSERT INTO `affiliation` VALUES ('6', '60001', '70003', null, '未满员', '1', '1');
+INSERT INTO `affiliation` VALUES ('7', '60002', '70002', null, '未满员', '1', '1');
 
 -- ----------------------------
 -- Table structure for `aquaculture`
 -- ----------------------------
 DROP TABLE IF EXISTS `aquaculture`;
 CREATE TABLE `aquaculture` (
-  `id` varchar(45) NOT NULL COMMENT '批次编号',
+  `id` varchar(45) NOT NULL COMMENT '养殖记录表',
   `name` varchar(45) DEFAULT NULL COMMENT '养殖类型',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍表编号',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '养殖批次',
@@ -73,15 +75,23 @@ CREATE TABLE `aquaculture` (
   KEY `type_dictionary_id` (`name`),
   KEY `status_dictionary_id` (`status`),
   KEY `FK_aqua_patch_id` (`id_patch`),
+  CONSTRAINT `FK_aqua_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `aquaculture_ibfk_3` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `aquaculture_ibfk_4` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_aqua_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_aquaculture_outstorage1` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `status_dictionary_id` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
+INSERT INTO `aquaculture` VALUES ('666', '1', '606', '1116606', '2018-01-15 17:19:03', '20', '谷物', '10', '没毛病', '1', '1', null, null, '23');
+INSERT INTO `aquaculture` VALUES ('667', '2', '606', '1116606', '2018-01-15 17:45:50', '20', '谷物', '11', '没毛病', '1', '1', null, null, '24');
+INSERT INTO `aquaculture` VALUES ('668', '3', '606', '1116606', '2018-01-15 17:47:28', '20', '谷物', '10', '没毛病', '1', '1', null, null, '26');
+INSERT INTO `aquaculture` VALUES ('669', '4', '606', '1116606', '2018-01-15 17:48:19', '20', '谷物', '14', '没毛病', '1', '1', null, null, '28');
+INSERT INTO `aquaculture` VALUES ('670', '5', '606', '1116606', '2018-01-15 17:49:21', '20', '谷物', '12', '没毛病', '1', '1', null, null, '30.5');
+INSERT INTO `aquaculture` VALUES ('671', '6', '606', '1116606', '2018-01-15 17:50:39', '20', '谷物', '13', '没毛病', '1', '1', null, null, '33.8');
+INSERT INTO `aquaculture` VALUES ('672', '7', '606', '1116606', '2018-01-15 17:51:35', '20', '谷物', '15.7', '没毛病', '1', '1', null, null, '36.7');
 
 -- ----------------------------
 -- Table structure for `aqua_stor`
@@ -92,8 +102,8 @@ CREATE TABLE `aqua_stor` (
   `id` varchar(45) NOT NULL COMMENT '养殖编号',
   KEY `FK_aqua_stor_id` (`id`),
   KEY `FK_out_id` (`id_outstorage`),
-  CONSTRAINT `FK_out_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_aqua_stor_id` FOREIGN KEY (`id`) REFERENCES `aquaculture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_aqua_stor_id` FOREIGN KEY (`id`) REFERENCES `aquaculture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_out_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -117,9 +127,9 @@ CREATE TABLE `ddl` (
   KEY `fk_ddl_poultry1_idx` (`id_patch`),
   KEY `fk_ddl_user1_idx` (`id_recorder`),
   KEY `fk_ddl_user2_idx` (`id_charge`),
+  CONSTRAINT `FK_ddl_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ddl_ibfk_2` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ddl_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ddl_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ddl_ibfk_3` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -189,13 +199,25 @@ INSERT INTO `dictionary` VALUES ('60000', '规格', '0', 'type');
 INSERT INTO `dictionary` VALUES ('60001', '大型', '60000', null);
 INSERT INTO `dictionary` VALUES ('60002', '中型', '60000', null);
 INSERT INTO `dictionary` VALUES ('60003', '小型', '60000', null);
+INSERT INTO `dictionary` VALUES ('65000', '物资类型', '0', null);
+INSERT INTO `dictionary` VALUES ('65001', '饲料', '65000', null);
 INSERT INTO `dictionary` VALUES ('70000', '方位', '0', 'position');
 INSERT INTO `dictionary` VALUES ('70001', '南', '70000', null);
 INSERT INTO `dictionary` VALUES ('70002', '北', '70000', null);
 INSERT INTO `dictionary` VALUES ('70003', '西', '70000', null);
 INSERT INTO `dictionary` VALUES ('70004', '东', '70000', null);
+INSERT INTO `dictionary` VALUES ('75000', '厂家名称', '0', 'firm');
+INSERT INTO `dictionary` VALUES ('75001', '星系养鸡场', '75000', null);
+INSERT INTO `dictionary` VALUES ('75002', '猪猪养鸭场', '75000', null);
+INSERT INTO `dictionary` VALUES ('80000', '养殖类型', '0', null);
+INSERT INTO `dictionary` VALUES ('80001', '鸡', '80000', null);
+INSERT INTO `dictionary` VALUES ('80002', '鸭', '80000', null);
+INSERT INTO `dictionary` VALUES ('80003', '鹅', '80000', null);
 INSERT INTO `dictionary` VALUES ('90000', '登陆类型', '0', 'identity_type');
 INSERT INTO `dictionary` VALUES ('90001', '微信', '90000', 'wechat');
+INSERT INTO `dictionary` VALUES ('95000', '死淘处理方式', '0', null);
+INSERT INTO `dictionary` VALUES ('95001', '烧死', '95000', null);
+INSERT INTO `dictionary` VALUES ('95002', '合法丢弃', '95000', null);
 
 -- ----------------------------
 -- Table structure for `epidemic`
@@ -223,6 +245,7 @@ CREATE TABLE `epidemic` (
   KEY `fk_epidemic_user2_idx` (`id_charge`),
   KEY `epidemic_unit_dictionary_id` (`dose_unit`),
   KEY `epid_outstorage_id_storage` (`id_outstorage`),
+  CONSTRAINT `epid_outstorage_id_storage` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `epidemic_ibfk_2` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `epidemic_ibfk_4` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `epidemic_ibfk_5` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -242,8 +265,8 @@ CREATE TABLE `epi_stor` (
   `id` varchar(45) NOT NULL COMMENT '免疫编号',
   KEY `FK_epi_outstor_id` (`id`),
   KEY `FK_outstorage_id` (`id_outstorage`),
-  CONSTRAINT `FK_outstorage_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_epi_outstor_id` FOREIGN KEY (`id`) REFERENCES `epidemic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_epi_outstor_id` FOREIGN KEY (`id`) REFERENCES `epidemic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_outstorage_id` FOREIGN KEY (`id_outstorage`) REFERENCES `outstorage` (`id_outstorage`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -276,6 +299,9 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
+INSERT INTO `fowlery` VALUES ('606', '60001', '可使用', '6', '1', '1');
+INSERT INTO `fowlery` VALUES ('608', '60002', '可使用', '6', '1', '1');
+INSERT INTO `fowlery` VALUES ('708', '60001', '可使用', '7', '1', '1');
 
 -- ----------------------------
 -- Table structure for `outstorage`
@@ -291,7 +317,7 @@ CREATE TABLE `outstorage` (
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
   `firm` varchar(45) DEFAULT NULL COMMENT '生产厂家',
-  `type` varchar(45) NOT NULL COMMENT '类型',
+  `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '有效期',
   `rest` float(45,0) DEFAULT NULL COMMENT '剩余量',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系方式',
@@ -303,6 +329,8 @@ CREATE TABLE `outstorage` (
   KEY `fk_storage_user1_idx` (`id_recorder`),
   KEY `fk_storage_user2_idx` (`id_charge`),
   KEY `outst_unit_dic_id` (`unit`),
+  KEY `FK_dic_type` (`type`),
+  CONSTRAINT `FK_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `outst_unit_dic_id` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storage_ibfk_10` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storage_ibfk_20` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -311,11 +339,11 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '', null, null, null, '\'未过期\'', null, null, null);
-INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '', null, null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('1', '84消毒液', '叶超消毒厂', '2018-01-13 17:35:52', '2000', '0', '1', '1', '伟健供应商', '65001', '2018-01-16 17:41:53', null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('2', '808鸡饲料', '成君饲料厂', '2018-01-13 17:36:53', '5000', '0', '1', '1', '伟龙供应商', '65001', '2018-01-16 17:35:13', null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '2018-01-13 17:38:29', '4000', '0', '1', '1', '伟龙供应商', '65001', '2018-01-16 17:35:28', null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '65001', '2018-01-16 17:35:24', null, null, '\'未过期\'', null, null, null);
+INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '65001', '2018-01-16 17:41:57', null, null, '\'未过期\'', null, null, null);
 
 -- ----------------------------
 -- Table structure for `out_poultry`
@@ -339,11 +367,11 @@ CREATE TABLE `out_poultry` (
   KEY `FK_out_poultry_user_charge` (`id_charge`),
   KEY `FK_out_poultry_user_record` (`id_record`),
   KEY `FK_out_aqua_fowlery_id` (`id_patch`),
-  CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poul_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -387,13 +415,16 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
+INSERT INTO `patch` VALUES (null, null, null, null, null, null, null, null, '2018-01-16 17:07:19', '080086A26BA546A490DBB0571208DC98', null, null);
+INSERT INTO `patch` VALUES ('111', '80001', '70001', '20', '6', '606', '1', '1', '2018-01-15 17:27:53', '1116606', '20', '未售完');
+INSERT INTO `patch` VALUES ('123', '60001', '70003', '300', '6', '608', '7', '7', '2018-01-16 17:12:20', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '养殖中');
 
 -- ----------------------------
 -- Table structure for `poultry`
 -- ----------------------------
 DROP TABLE IF EXISTS `poultry`;
 CREATE TABLE `poultry` (
-  `id_poultry` varchar(45) NOT NULL COMMENT '家禽入库编号',
+  `id_poultry` varchar(45) NOT NULL COMMENT '家禽批次记录表',
   `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
   `type` varchar(45) DEFAULT NULL COMMENT '家禽类型',
   `quantity` varchar(45) DEFAULT NULL COMMENT '本批个体数',
@@ -418,8 +449,10 @@ CREATE TABLE `poultry` (
 -- ----------------------------
 -- Records of poultry
 -- ----------------------------
-INSERT INTO `poultry` VALUES ('1', '2018-01-14 17:49:57', '0', '1', '只', '0', '123', '', '1', '1');
+INSERT INTO `poultry` VALUES ('1', '2018-01-15 16:43:28', '0', '1', '只', '75002', '123', '', '1', '1');
 INSERT INTO `poultry` VALUES ('10', '2018-01-14 17:49:58', '0', '8', '只', '0', '123', null, '5', '5');
+INSERT INTO `poultry` VALUES ('111', '2018-01-15 16:43:54', '80001', '300', '只', '75002', '13189679384', '测试', '1', '1');
+INSERT INTO `poultry` VALUES ('123', '2018-01-15 16:44:18', '80001', '500', '只', '75001', '13189679386', '测试', '1', '1');
 INSERT INTO `poultry` VALUES ('2', '2018-01-14 17:49:58', '0', '9', '只', '0', '123', null, '1', '2');
 INSERT INTO `poultry` VALUES ('3', '2018-01-14 17:49:59', '0', '9', '只', '0', '123', null, '1', '3');
 INSERT INTO `poultry` VALUES ('4', '2018-01-14 17:49:59', '0', '8', '只', '0', '123', null, '1', '5');
@@ -492,11 +525,12 @@ INSERT INTO `user` VALUES ('10', '文智', '123', '这个用户是仅供测试�
 INSERT INTO `user` VALUES ('2', '成君', '123', '这个用户是仅供测试的', '这是定时自动生成的用户', '1', '2018-01-10 22:54:55', '1', '2018-01-10 21:59:52', null, '123', '943193747@qq.com');
 INSERT INTO `user` VALUES ('3', '锦曼', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:06', '1', '2018-01-10 21:59:53', null, '123', null);
 INSERT INTO `user` VALUES ('4', '展佳', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:07', '1', '2018-01-10 21:59:54', null, '123', null);
+INSERT INTO `user` VALUES ('4886A67E192344C8BE5F06E9A51310A0', 'Tue Jan 16 16:00:00 CST 2018', '123456', '这个用户是仅供测试的', '这是定时自动生成的用户', null, '2018-01-16 16:00:00', null, null, null, null, null);
 INSERT INTO `user` VALUES ('5', '瀚清', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:21', '1', '2018-01-10 21:59:54', null, '120', null);
-INSERT INTO `user` VALUES ('6', '伟龙', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:19', '1', '2018-01-10 21:59:55', null, '110', null);
-INSERT INTO `user` VALUES ('7', '伟佳', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:07', '1', '2018-01-10 21:59:56', null, '123', null);
+INSERT INTO `user` VALUES ('6', '伟龙', '0462b55987128695bd4e0fdd3ce62c01', '这个用户是仅供测试的', 'willon', '1', '2018-01-16 14:10:02', '1', '2018-01-10 21:59:55', null, '13189679384', null);
+INSERT INTO `user` VALUES ('7', '伟佳', '8ee1ae4e81a6355693cbd2d36562d69e', '这个用户是仅供测试的', 'willon', '1', '2018-01-16 14:38:51', '1', '2018-01-10 21:59:56', null, '13189679385', null);
 INSERT INTO `user` VALUES ('8', '伟健', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:08', '1', '2018-01-10 21:59:58', null, '123', null);
-INSERT INTO `user` VALUES ('9', '文浩', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-10 22:54:14', '1', '2018-01-10 22:00:00', null, '123', null);
+INSERT INTO `user` VALUES ('9', '文浩', '123', '这个用户是仅供测试的', '这是定时手动生成的用户', '1', '2018-01-15 19:08:55', '1', '2018-01-10 22:00:00', null, '123', null);
 
 -- ----------------------------
 -- Table structure for `user_auths`
