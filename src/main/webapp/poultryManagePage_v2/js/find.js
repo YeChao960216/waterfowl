@@ -642,6 +642,7 @@
      */
     var resetInput = {};
     var MAX_FOOD = 0;
+    var feedTypeObj = {};
     $('#content').on('click','[data-check*="true"]',function () {
         if(!unbind){
             var option = $(this).attr('data-id').substr(0,1),
@@ -699,6 +700,8 @@
             }
             sub_btn.onclick = function () {
                 var obj = queryParse.call($(form));
+                    obj.remark = selectNodes[2].value.split('$')[0];
+                    obj.feedType = selectNodes[2].value.split('$')[1];
                 if(post==oURL.APOST){
                     if(inputs[2]>MAX_FOOD){
                         alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
@@ -724,7 +727,7 @@
 
             }
             function render_a(id) {
-                var feedTypeObj = {};
+
                 render({
                     url:oURL.PRONAME+oURL.GETMATERIL,  //饲料
                     dom:selectNodes[2],
@@ -736,7 +739,7 @@
                         feedTypeObj.feedWeight = 10000000000;   //试触储存量
                         $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                             if(res){
-                                maxTips.innerText =  MAX_FOOD = ~~res.object.rest;
+                                maxTips.innerText =  MAX_FOOD = ~~res[0].rest;
                             }else{
                                 alert('溯源提示:\n\n获取该饲料的仓储量失败');
                             }
@@ -750,12 +753,12 @@
                     var arr = this.value.split('$');
                     feedTypeObj.feedType = arr[1];
                     feedTypeObj.remark = arr[0];
-                    feedTypeObj.feedWeight = inputs[2].value?inputs[2].value:10000000000;
+                    feedTypeObj.feedWeight = 10000000000;
                     console.log(feedTypeObj);
                     $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                         if(res){
                             console.log(res);
-                            maxTips.innerText =  MAX_FOOD = ~~res.object.rest;
+                            maxTips.innerText =  MAX_FOOD = ~~res[0].rest;
                             sub_btn.disabled = false;
                         }else{
                             alert('溯源提示:\n\n获取该饲料的仓储量失败');
@@ -766,12 +769,37 @@
 
                 //投料校验
                 inputs[2].onblur = function () {
-                    if(this.value>MAX_FOOD){
-                        alert('溯源提示:\n\n您输入的投料数据有误，最大预测值为'+MAX_FOOD+'(kg)');
-                        sub_btn.disabled = true;
+                    if(this.value){
+                        if(this.value>MAX_FOOD){
+                            alert('溯源提示:\n\n您输入的投料数据有误，最大预测值为'+MAX_FOOD+'(kg)');
+                            sub_btn.disabled = true;
+                        }else{
+                            sub_btn.disabled = false;
+                            feedTypeObj.feedWeight = this.value;
+                            var arr = selectNodes[2].value.split('$');
+                            feedTypeObj.feedType = arr[1];
+                            feedTypeObj.remark = arr[0];
+                            $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
+                                if(res){
+                                    console.log(res);
+                                    var info = '您投放的饲料的信息为\n\n';
+                                    res.map(function (ele) {
+                                        info+='饲料取出码为：'+ele.idOutstorage+' 取出量为:'+ele.rest+'\n\n';
+                                    });
+                                    if(!confirm('您确认取出如下物资进行养殖吗?\n\n'+info)){
+                                        inputs[2].value = '';
+                                        sub_btn.disabled = true;
+                                    }
+                                    sub_btn.disabled = false;
+                                }else{
+                                    alert('溯源提示:\n\n获取该饲料的仓储量失败');
+                                }
+                            });
+                        }
                     }else{
-                        sub_btn.disabled = false;
+                        sub_btn.disabled = true;
                     }
+
                 }
 
                 render({

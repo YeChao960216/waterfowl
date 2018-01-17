@@ -46,14 +46,14 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("add")
-    public Message addAquaculture(Aquaculture aquaculture) throws Exception {
+    public Message addAquaculture(Aquaculture aquaculture, CommonQo commonQo) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         float a=aquacultureService.checkQuantity(aquaculture);
         if(a<aquaculture.getFeedWeight()){
             return new Message("3", "饲料剩余量不足");
         }
         else if(aquacultureService.add(aquaculture)==1) {
-            outStorageService.manageOutstorage(aquaculture.getFeedType(),aquaculture.getRemark(),aquaculture.getFeedWeight());
+            outStorageService.manageOutstorage(aquaculture,commonQo);
             return new Message("1", "成功增加1条记录");
         }
         else {
@@ -134,56 +134,8 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("checkQuantity")
-    public List<Outstorage> editOutstorage(Aquaculture entity) throws Exception {
-        float quantity=entity.getFeedWeight();
-        float num=aquacultureService.checkQuantity(entity);
-
-        if(quantity>num) {
-            Outstorage outstorage=new Outstorage();
-            outstorage.setRest(num);
-            List<Outstorage> outstorageList = new ArrayList<Outstorage>();
-            outstorageList.add(outstorage);
-            return outstorageList;
-        }
-        else{
-            List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(entity.getFeedType(),entity.getRemark(),quantity));
-            //定义两个float变量sum，表示累加数;temp为定值float的0
-            float sum=0;
-            //开始进入循环体
-            for (int i=0;i<outstoragelist.size();i++){
-                //将每个记录的剩余量取出来
-                float a=outstoragelist.get(i).getRest();
-                //进行累加
-                sum+=a;
-                //如果累加的结果与所需要的量quantity相等
-                if(sum==quantity) {
-                    //进行循环体
-                    for (int k=outstoragelist.size()-1;k>i;k--){
-                        //将符合条件的记录取出来
-                        outstoragelist.remove(k);
-                    }
-                    //结束上一层循环体，即跳出循环
-                    break;
-                }
-                //如果累加的结果大于所需要的量quantity
-                if(sum>quantity) {
-                    //将符合条件的但是仍有剩余量的记录取出来
-//                    Outstorage less=outstoragelist.get(i);
-//                    //将更改后的记录放到数据库
-//                    outstorageMapper.updateByPrimaryKeySelective(less);
-                    //进行循环体
-                    for (int k=outstoragelist.size()-1;k>i;k--){
-                        //将符合记录但是没有剩余量的记录取出来
-                        outstoragelist.remove(k);
-                    }
-                    outstoragelist.get(i).setRest(outstoragelist.get(i).getRest()-sum+quantity);
-                    //结束上一层循环体，即跳出循环
-
-                    break;
-                }
-            }
-            return outstoragelist;
-    }
+    public List<Outstorage> checkQuantity(Aquaculture entity, CommonQo commonQo) throws Exception {
+        return outStorageService.checkQuantity(entity,commonQo);
     }
 
     @ResponseBody

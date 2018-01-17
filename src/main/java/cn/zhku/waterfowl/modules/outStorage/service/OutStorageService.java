@@ -1,11 +1,15 @@
 package cn.zhku.waterfowl.modules.outStorage.service;
 
+import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
+import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
+import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import cn.zhku.waterfowl.util.modle.CommonQo;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.java2d.ScreenUpdateManager;
@@ -18,6 +22,10 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     private OutstorageMapper outstorageMapper;
     @Autowired
     private OutStorageDao outStorageDao;
+    @Autowired
+    private AquacultureService aquacultureService;
+    @Autowired
+    private CheckQuantitydao dao;
 
     /**
      * 根据outstorage实体插入
@@ -95,6 +103,56 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         return outstorageMapper.selectByExample(outstorageExample);
     }
+    public List<Outstorage> checkQuantity(Aquaculture entity, CommonQo commonQo) throws Exception {
+        OutstorageExample outstorageExample =new OutstorageExample();
+        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "expiration_date");
+        // 材料名称
+        if (entity.getFeedType()!=null)
+            criteria.andNameEqualTo(entity.getFeedType());
+        //生产厂家
+        if (entity.getRemark()!=null)
+            criteria.andFirmEqualTo(entity.getRemark());
+        List<Outstorage> outstorageList=new ArrayList<Outstorage>(outstorageMapper.selectByExample(outstorageExample));
+        if(entity.getFeedWeight()>dao.checkQuantity(entity.getFeedType(),entity.getRemark())) {
+            Outstorage outstorage=new Outstorage();
+            outstorage.setRest(dao.checkQuantity(entity.getFeedType(),entity.getRemark()));
+            ArrayList<Outstorage> outstorages = new ArrayList<Outstorage>();
+            outstorages.add(outstorage);
+            return outstorages;
+        }
+        else{
+        //定义两个float变量sum，表示累加数;temp为定值float的0
+        float sum=0;
+        //开始进入循环体
+        for (int i=0;i<outstorageList.size();i++){
+            //将每个记录的剩余量取出来
+            float a=outstorageList.get(i).getRest();
+            //进行累加
+            sum+=a;
+            //如果累加的结果与所需要的量quantity相等
+            if(sum==entity.getFeedWeight()) {
+                //进行循环体
+                for (int k=outstorageList.size()-1;k>i;k--) {
+                    //将符合条件的记录取出来
+                    outstorageList.remove(k);
+                }
+                break;
+            }
+            //如果累加的结果大于所需要的量quantity
+            else if(sum>entity.getFeedWeight()) {
+                for (int k=outstorageList.size()-1;k>i;k--){
+                    //将符合记录但是没有剩余量的记录取出来
+                    outstorageList.remove(k);
+                }
+                outstorageList.get(i).setRest(outstorageList.get(i).getRest()-sum+entity.getFeedWeight());
+                //结束上一层循环体，即跳出循环
+                break;
+            }
+        }return outstorageList;
+    }
+    }
+
     public List<Outstorage> showAll(Outstorage entity, CommonQo commonQo) {
         OutstorageExample outstorageExample =new OutstorageExample();
         OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
@@ -116,9 +174,9 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         return outStorageDao.Listname(type);
     }
 
-    public String listType(String name,String firm,String remark) throws Exception {
+    public String listType(String name,String firm) throws Exception {
         //把listOutstorageByName返回的值放在ArrayList里面
-        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.listType(name,firm,remark));
+        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.listType(name,firm));
         if (outstoragelist.isEmpty()){
             return null;
         }
@@ -127,54 +185,61 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     }
 
     //一个有效期的调度算法
-    public void manageOutstorage(String name,String firm,float quantity) throws Exception {
+    public void manageOutstorage(Aquaculture entity, CommonQo commonQo) throws Exception {
         //把manageOutstorage返回的值放在ArrayList里面
-        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(name,firm,quantity));
+        OutstorageExample outstorageExample = new OutstorageExample();
+        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "expiration_date");
+        // 材料名称
+        if (entity.getFeedType() != null)
+            criteria.andNameEqualTo(entity.getFeedType());
+        //生产厂家
+        if (entity.getRemark() != null)
+            criteria.andFirmEqualTo(entity.getRemark());
+        List<Outstorage> outstorageList = new ArrayList<Outstorage>(outstorageMapper.selectByExample(outstorageExample));
         //定义两个float变量sum，表示累加数;temp为定值float的0
-        float sum=0;
-        float temp=0;
+        float sum = 0;
+        float temp = 0;
         //开始进入循环体
-        for (int i=0;i<outstoragelist.size();i++){
-            //将每个记录的剩余量取出来
-            float a=outstoragelist.get(i).getRest();
-            //进行累加
-            sum+=a;
-            //如果累加的结果与所需要的量quantity相等
-            if(sum==quantity) {
-                //进行循环体
-                for (int k=0;k<i;k++){
-                    //将符合条件的记录取出来
-                    Outstorage outstorage=outstoragelist.get(k);
-                    //逐一将每一条记录的剩余量变为0
-                    outstorage.setRest(temp);
-                    //将更改后的记录放到数据库
-                    outstorageMapper.updateByPrimaryKeySelective(outstorage);
+            for (int i = 0; i < outstorageList.size(); i++) {
+                //将每个记录的剩余量取出来
+                float a = outstorageList.get(i).getRest();
+                //进行累加
+                sum += a;
+                if (sum == entity.getFeedWeight()) {
+                    //进行循环体
+                    for (int k=0;k<i;k++) {
+                        //将符合条件的记录取出来
+                        outstorageList.get(k).setRest(temp);
+                        //逐一将每一条记录的剩余量变为0
+                        //将更改后的记录放到数据库
+                        outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
+                    }
+                    //结束上一层循环体，即跳出循环
+                    break;
                 }
-                //结束上一层循环体，即跳出循环
-                break;
-            }
-            //如果累加的结果大于所需要的量quantity
-            if(sum>quantity) {
-                //将符合条件的但是仍有剩余量的记录取出来
-                Outstorage less=outstoragelist.get(i);
-                //改变该记录的剩余量
-                less.setRest(sum-quantity);
-                //将更改后的记录放到数据库
-                outstorageMapper.updateByPrimaryKeySelective(less);
-                //进行循环体
-                for (int k=0;k<i-1;k++){
-                    //将符合记录但是没有剩余量的记录取出来
-                    Outstorage outstorage=outstoragelist.get(k);
-                    //将这些记录的剩余量变为0
-                    outstorage.setRest(temp);
+                //如果累加的结果大于所需要的量quantity
+                else if (sum > entity.getFeedWeight()) {
+                    //将符合条件的但是仍有剩余量的记录取出来
+                    outstorageList.get(i).setRest(sum - entity.getFeedWeight());
+//                    yec.add(outstorageList.get(i));
+//                    Outstorage less = outstoragelist.get(i);
+                    //改变该记录的剩余量
+//                    less.setRest(sum - quantity);
                     //将更改后的记录放到数据库
-                    outstorageMapper.updateByPrimaryKeySelective(outstorage);
+                    outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(i));
+                    //进行循环体
+                    for (int k = 0; k < i - 1; k++) {
+                        //将符合记录但是没有剩余量的记录取出来
+                        outstorageList.get(k).setRest(temp);
+                        //将这些记录的剩余量变为0
+                        //将更改后的记录放到数据库
+                        outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
+                    }
+                    //结束上一层循环体，即跳出循环
+                    break;
                 }
-                //结束上一层循环体，即跳出循环
-                break;
             }
+
         }
-
     }
-
-}

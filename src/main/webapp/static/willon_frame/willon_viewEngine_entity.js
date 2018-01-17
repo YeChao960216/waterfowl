@@ -449,10 +449,6 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="weight"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>备注</td>'+
-                 '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
-                 '</tr>'+
-                 '<tr>'+
                  '<td>操作</td>'+
                  '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
                  '</tr>'+

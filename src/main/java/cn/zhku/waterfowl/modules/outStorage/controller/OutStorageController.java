@@ -9,6 +9,7 @@ package cn.zhku.waterfowl.modules.outStorage.controller;
 import cn.zhku.waterfowl.modules.outStorage.model.OutStorageExcel;
 import cn.zhku.waterfowl.modules.outStorage.model.OutStorageUtilExcel;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
+import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -54,16 +55,12 @@ public class OutStorageController extends BaseController{
             outstorage.setIdOutstorage(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             Timestamp t = new Timestamp(System.currentTimeMillis());
             outstorage.setRecordDate(t);
-            if (outStorageService.listType(outstorage.getName(),outstorage.getFirm(),outstorage.getRemark())==null){
-                outstorage.setType(UUID.randomUUID().toString().replace("-","").toUpperCase());
-                outStorageService.add(outstorage);
+             if (outStorageService.add(outstorage)==1){
                 return new Message("1","添加物资成功");
             }
-            else {
-                outstorage.setType(outStorageService.listType(outstorage.getName(),outstorage.getFirm(),outstorage.getRemark()));
-                outStorageService.add(outstorage);
-                return new Message("2","添加物资成功");
-            }
+            else{
+                 return new Message("2","添加物资失败");
+             }
 
         }
 
@@ -136,7 +133,7 @@ public class OutStorageController extends BaseController{
 
         @ResponseBody
         @RequestMapping("show")
-        public PageInfo<Outstorage> list(Outstorage entity,CommonQo commonQo) throws Exception {
+        public PageInfo<Outstorage> list(Outstorage entity, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
             PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
             //  通过服务层获取查询后的用户列表
