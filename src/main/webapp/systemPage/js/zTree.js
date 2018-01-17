@@ -73,8 +73,6 @@ var zNodes_aquaInfoM = [
 
             {name:"删除",tid:'./fowleryManagePage_v2/del.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage_v2/find.html'},
 
-            {name:"修改",tid:'./fowleryManagePage_v2/edit.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage_v2/find.html'},
-
         ]
     },
     {
@@ -93,23 +91,12 @@ var zNodes_aquaInfoM = [
  */
 var zNodes_storageInfoM = [
     {
-        name:"物资入厂管理", open:true, tid:'./materialManagePage/show.html',children:
-            [
-                {name:"base",tid:'./materialManagePage/base.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
-
-                {name:"增加",tid:'./materialManagePage/new.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
-
-                {name:"删改",tid:'./materialManagePage/show.html',pName:"物资入厂管理",pUrl:'./materialManagePage/show.html'},
-
-            ]
-    },
-    {
-        name:"物资出库管理", open:true, tid:'./outStorageManagePage/show.html',children:
+        name:"物资管理", open:true, tid:'./outStorage_v2/find.html',children:
         [
 
-            {name:"增加",tid:'./outStorageManagePage/baseshow.html',pName:"物资出库管理",pUrl:'./outStorageManagePage/show.html'},
+            {name:"增加",tid:'./outStorage_v2/aqua_add.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
 
-            {name:"删改",tid:'./outStorageManagePage/show.html',pName:"物资出库管理",pUrl:'./outStorageManagePage/show.html'},
+            {name:"删改",tid:'./outStorage_v2/del.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
 
         ]
     },

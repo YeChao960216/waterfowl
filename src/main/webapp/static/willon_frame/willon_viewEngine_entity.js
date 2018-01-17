@@ -174,7 +174,6 @@ var viewCommand = (function(msg){
              '<td >{#affiliation#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
-             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
              '</tr>'
          ].join(''),

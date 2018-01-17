@@ -1,58 +1,33 @@
-﻿(function(global){
+﻿/*
+ * @Author: 伟龙-Willon qq:1061258787 
+ * @Date: 2017-11-19 17:42:59 
+ * @Last Modified by: 伟龙-Willon
+ * @Last Modified time: 2017-11-19 20:39:18
+ */
 
-    var document = global.document;
+(function(){
+
     /**
-     * url对象
+     * url 对象
      */
     const oURL = {
-        PRONAME:'/waterfowl',
-        ID : getRequest()['id'],
-        GETAQUACULTUREDETAILINFO:'/aquaculture/show/',
-        EDIT:'/aquaculture/edit',
-        GETNAME : '/aquaculture/getName',//获取禽舍类型
-        GETOURSTRORAGE : '/aquaculture/getOutStorage',//?s = 获取出库编号
-        GETSTATUSLIST:'/aquaculture/getStatusList',//获取禽类养殖标识
-        EDIT:'/aquaculture/edit'
-    };
+        PRONAME : '/waterfowl' ,
+        POST : '/admin/fowlery/editFowlery/',//最终数据提交路径
+        GETSIZE:'/dict/list?pid=60000', //获取禽舍规格
+        GETENTITY:'/admin/affiliation/showAffiliation/', //id=1
+        GETBHOME:'/admin/affiliation/listAffiliation',
+        GETEMP:'/admin/user/list' //人员
+    }
 
-    
+    var selectNodes = document.getElementsByTagName('select');
     /**
-     * 列出禽舍类型
+     * 获取禽舍规格
      */
-
-    $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
+    $.get(oURL.PRONAME+oURL.GETSIZE,function(res){
+        if(res){
             viewCommand({
                 command:'display',
-                param:[$('name')[0],res.list,'option']
-            })
-        }else{
-            alert('获取禽舍类型失败');
-        }
-    });
-
-     /**
-      * 列出出库编号
-      */
-      $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
-            })
-        }else{
-            alert('获取出库编号');
-        }
-    });
-
-    /**
-     * 列出禽类养殖标识
-     */
-    $.get(oURL.PRONAME+oURL.GETSTATUSLIST,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
+                param:[$('#size')[0],res,'id_name']
             })
         }else{
             alert('获取禽舍养殖标识失败');
@@ -60,58 +35,50 @@
     });
 
     /**
-     * 先填充数据
+     * 获取禽舍规格
      */
-    /**
-     *呈现该禽舍详细信息
-     */
-    $.get(oURL.PRONAME+oURL.GETAQUACULTUREDETAILINFO+oURL.ID,function (res) {
+    $.get(oURL.PRONAME+oURL.GETBHOME,function(res){
         if(res){
-            /**
-             * 数据适配
-             */
-            // data = new DataFilter({
-            //     data:[data],
-            //     type:'userInfo'
-            // })[0];
-            
-            var data = res.data;
-            $('#name')[0].value = data.name;
-            $('#id_fowlery')[0].value = data.id_fowlery;
-            $('#id_patch')[0].value = data.id_patch;
-            $('#num_total')[0].value = data.num_total;
-            $('#feed_type')[0].value = data.feed_type;
-            $('#feed_weight')[0].value = data.feed_weight;
-            $('#record_date')[0].value = data.record_date;
-            $('#id_recorder')[0].value = data.id_recorder;
-            $('#id_charge')[0].value = data.id_charge;
-            $('#id_outstorage')[0].value = data.id_outstorage;
-            $('#status')[0].value = data.status;
-            $('#remark')[0].value = data.remark;
-            
+            viewCommand({
+                command:'display',
+                param:[$('#bHome')[0],res.list,'id']
+            })
         }else{
-            console.error('获取禽舍详细信息失败');
+            alert('获取大禽舍编号失败');
         }
-    })
+    });
+
+    $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
+        if(res){
+            viewCommand({
+                command:'display',
+                param:[selectNodes[3],res.list,'id_name']
+            });
+            viewCommand({
+                command:'display',
+                param:[selectNodes[4],res.list,'id_name']
+            });
+        }else{
+            alert('获取人员信息失败');
+        }
+    });
 
     /**
-     * 提交修改
+     * 提交表单
      */
     $('#submit')[0].onclick = function(){
-        var json = JSON.stringify(queryParse.call($('form')));
-            $.post(oURL.PRONAME+oURL.EDIT,json,function(res){
-                if(res.status){
-
-                }else{
-                    alert('增加禽舍信息失败');
-                }
-            });
+        // var json = JSON.stringify(queryParse.call($('form')));
+        var json = queryParse.call($('form'));
+        var id = getRequest()['id'];
+        $.post(oURL.PRONAME+oURL.POST+id,json,function(res){
+            if(res.status){
+                alert(res.msg);
+            }else{
+                alert('增加禽舍信息失败');
+            }
+            console.log(res);
+        });
     }
 
-})(this);
 
-    
-
-
-
-   
+})();

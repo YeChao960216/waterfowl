@@ -13,10 +13,13 @@
     const oURL = {
         PRONAME : '/waterfowl' ,
         POST : '/admin/fowlery/newFowlery',//最终数据提交路径
-        GETSIZE:'/dict/list?pid=80000', //获取禽舍规格
-        GETENTITY:'/admin/affiliation/showAffiliation/'//id=1
+        GETSIZE:'/dict/list?pid=60000', //获取禽舍规格
+        GETENTITY:'/admin/affiliation/showAffiliation/', //id=1
+        GETBHOME:'/admin/affiliation/listAffiliation',
+        GETEMP:'/admin/user/list' //人员
     }
 
+    var selectNodes = document.getElementsByTagName('select');
     /**
       * 获取禽舍规格
       */
@@ -24,7 +27,7 @@
          if(res){
              viewCommand({
                  command:'display',
-                 param:[$('#size')[0],res,'option']
+                 param:[$('#size')[0],res,'id_name']
              })
          }else{
              alert('获取禽舍养殖标识失败');
@@ -32,28 +35,43 @@
      });
 
      /**
-      * 根据键值返回相应的实体id
+      * 获取禽舍规格
       */
-        $('#affiliation').keyup(function () {
-            var self = this;
-            $.get(oURL.PRONAME+oURL.GETENTITY+self.value,function(res){
-                if(res){
-                    console.log(res);
-                }else{
-                    alert('获取禽舍养殖标识失败');
-                }
-            });
-        });
+     $.get(oURL.PRONAME+oURL.GETBHOME,function(res){
+         if(res){
+             viewCommand({
+                 command:'display',
+                 param:[$('#bHome')[0],res.list,'id']
+             })
+         }else{
+             alert('获取大禽舍编号失败');
+         }
+     });
+
+     $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
+         if(res){
+             viewCommand({
+                 command:'display',
+                 param:[selectNodes[3],res.list,'id_name']
+             });
+             viewCommand({
+                 command:'display',
+                 param:[selectNodes[4],res.list,'id_name']
+             });
+         }else{
+             alert('获取人员信息失败');
+         }
+     });
 
     /** 
      * 提交表单
      */
     $('#submit')[0].onclick = function(){
-        var json = JSON.stringify(queryParse.call($('form')));
-        // var json = queryParse.call($('form'));
+        // var json = JSON.stringify(queryParse.call($('form')));
+        var json = queryParse.call($('form'));
             $.post(oURL.PRONAME+oURL.POST,json,function(res){
                 if(res.status){
-                    alert('提交成功');
+                    alert(res.msg);
                 }else{
                     alert('增加禽舍信息失败');
                 }
