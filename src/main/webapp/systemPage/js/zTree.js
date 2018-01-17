@@ -54,28 +54,15 @@ var zNodes_aquaInfoM = [
         ]
     },
     {
-        name:"死淘管理", open:true, tid:'./ddlManagePage/add.html',children:
+        name:"死淘管理", open:true, tid:'./ddl_v2/find.html',children:
         [
-            {name:"增加",tid:'./ddlManagePage/add.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
-
-            {name:"修改",tid:'./ddlManagePage/edit.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
-
-            {name:"已上传的死逃信息",tid:'./ddlManagePage/hasUploadList.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
-
-            {name:"待上传的死逃信息",tid:'./ddlManagePage/waitUploadList.html',pName:"死淘管理",pUrl:'./ddlManagePage/add.html'},
-
+            {name:"删除",tid:'./ddl_v2/del.html',pName:"死淘管理",pUrl:'./ddl_v2/find.html'},
         ]
     },
     {
-        name:"免疫隔离管理", open:true, tid:'./epidemicManagePage/add.html',children:
+        name:"免疫/疾病管理", open:true, tid:'./epi_v2/find.html',children:
         [
-            {name:"增加",tid:'./epidemicManagePage/add.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
-
-            {name:"修改",tid:'./epidemicManagePage/edit.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
-
-            {name:"已上传的免疫隔离信息",tid:'./epidemicManagePage/hasUploadList.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
-
-            {name:"待上传的免疫隔离信息",tid:'./epidemicManagePage/waitUploadList.html',pName:"免疫隔离管理",pUrl:'./epidemicManagePage/add.html'},
+            {name:"删除",tid:'./epi_v2/add.html',pName:"免疫隔离管理",pUrl:'./epi_v2/find.html'},
 
         ]
     },

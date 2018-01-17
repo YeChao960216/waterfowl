@@ -137,6 +137,9 @@ input{
     /* border:1px solid #1090e6;
     border-radius: 5px; */
 }
+[type*='radio']{
+    width:20px;
+}
 caption{
     caption-side: top;
     font-size:30px;

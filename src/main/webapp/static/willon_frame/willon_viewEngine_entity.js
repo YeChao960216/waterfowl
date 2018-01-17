@@ -115,9 +115,9 @@ var viewCommand = (function(msg){
          ].join(''),
          find_edit_aquaculture:[
              '<tr>',
+             '<td >{#idPatch#}</td>',
              '<td >{#name#}</td>',
              '<td >{#idFowlery#}</td>',
-             '<td >{#idPatch#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#numTotal#}</td>',
              '<td >{#feedType#}</td>',
@@ -189,6 +189,8 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" data-view="V{#idPoultry#}">详情</a></td>',
              '<td ><button class="btn" data-id="P{#idPoultry#}">划分批次</button></td>',
              '<td ><a class="btn" data-check="true" data-id="A{#idPoultry#}">养殖记录</a></td>',
+             '<td ><a class="btn" data-check="true" data-id="D{#idPoultry#}">死淘记录</a></td>',
+             '<td ><a class="btn" data-check="true" data-id="E{#idPoultry#}">免疫卫生</a></td>',
              '<td ><a class="btn" data-check="true" data-id="O{#idPoultry#}">出厂记录</a></td>',
              '</tr>'
          ].join(''),
@@ -301,11 +303,6 @@ var viewCommand = (function(msg){
          patch_show2:[
              '<div class="patch-data">',
              '<table>',
-             '<caption>批次信息</caption>',
-             '<tr class="after-insert">',
-             '<th>条目</th>',
-             '<th>信息</th>',
-             '</tr>',
              '<tr>',
              '<td>位置</td>',
              '<td>{#position#}</td>',
@@ -397,11 +394,11 @@ var viewCommand = (function(msg){
              '</tr>',
              '<tr>',
              '<td>备注</td>',
-             '<td ><textarea name="remark"></textarea></td>',
+             '<td ><textarea name="remark" class="select-fix-input"></textarea></td>',
              '</tr>',
              '<tr>',
              '<td>操作</td>',
-             '<td ><button type="submit" onclick="return false" class="btn">提交</button></td>',
+             '<td ><button type="submit" onclick="return false" class="btn select-fix-input">提交</button></td>',
              '</tr>',
              '</table>',
              '</form>',
@@ -449,8 +446,16 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="weight"></td>'+
                  '</tr>'+
                  '<tr>'+
+                 '<td>记录人</td>'+
+                 '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
+                 '<td>负责人</td>'+
+                 '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
+                 '</tr>'+
+                 '<tr>'+
                  '<td>操作</td>'+
-                 '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+                 '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
                  '</tr>'+
                  '</table>'+
                  '</form>'+
@@ -471,7 +476,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr class="none">'+
              '<td>减少的家禽数</td>'+
-             '<td><input  type="number" min="0" name="numProcessed" ></td>'+
+             '<td><input  type="number" min="1" name="numProcessed" ></td>'+
              '</tr>'+
              '<tr>'+
              '<td>减少的家禽数</td>'+
@@ -483,11 +488,60 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>备注</td>'+
-             '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
+             '<td><textarea id="remark" name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>记录人</td>'+
+             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>负责人</td>'+
+             '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
-             '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+             '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
+             '</tr>'+
+             '</table>'+
+             '</form>'+
+             '</div>'
+         ].join(''),
+         ddl_own_add:[
+             '<div class="detail-content">'+
+             '<form onsubmit="return false">'+
+             '<table>'+
+             '<caption>死淘记录</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td><select name="idPatch" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>减少的家禽数</td>'+
+             '<td><input  type="number" min="1" name="numProcessed"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>处理方式</td>'+
+             '<td><select name="processingMode" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>记录人</td>'+
+             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>负责人</td>'+
+             '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>备注</td>'+
+             '<td><textarea id="remark" name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>操作</td>'+
+             '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
              '</tr>'+
              '</table>'+
              '</form>'+
@@ -532,11 +586,11 @@ var viewCommand = (function(msg){
              '</tr>'+
             '<tr>'+
             '<td>备注</td>'+
-            '<td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>'+
+            '<td><textarea id="remark" name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
             '</tr>'+
             '<tr>'+
             '<td>操作</td>'+
-            '<td><button type="submit" class="btn" onclick="return false" >提交</button></td>'+
+            '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
             '</tr>'+
             '</table>'+
             '</form>'+
@@ -557,7 +611,64 @@ var viewCommand = (function(msg){
                 '</table>'+
                 '<div class="viewport"></div>'+
             '</div>'
-        ].join('')
+        ].join(''),
+         epi_add:[
+             '<div class="detail-content">'+
+             '<form onsubmit="return false">'+
+             '<table>'+
+             '<caption>信息记录</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td><select name="idPatch" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>疾病名</td>'+
+             '<td><select name="diseaes" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>药品名称</td>'+
+             '<td><select name="name" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>给药方式</td>'+
+             '<td><select name="medicationMode" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>剂量/最大剂量为(<span></span>)</td>'+
+             '<td><input type="number" name="dose" min="0"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>剂量单位</td>'+
+             '<td><select name="doseUnit" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>给药/处理个数</td>'+
+             '<td><input type="number" name="numInfected" min="1" placeholder="给药/处理个数"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>记录人</td>'+
+             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>负责人</td>'+
+             '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>备注</td>'+
+             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>操作</td>'+
+             '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
+             '</tr>'+
+             '</table>'+
+             '</form>'+
+             '</div>'
+         ].join(''),
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

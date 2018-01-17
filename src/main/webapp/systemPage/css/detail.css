@@ -57,7 +57,7 @@
     width:560px;
     height:100%;
     float: left;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 .detail-content:nth-of-type(1){
     margin-left:41px !important;
@@ -74,7 +74,7 @@
     font-weight: bold;
 }
 .pop{
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 .pop h2{
     position:relative;
@@ -105,7 +105,7 @@
     background:rgba(240, 241, 241, 0.93);
     box-shadow: 2px 2px 4px #333;
     border-radius: 5px;
-    overflow: hidden;
+    overflow:hidden;
     padding-left:21px;
     z-index: 3;
 }
@@ -131,9 +131,38 @@
     background:rgba(240, 241, 241, 0.93);
     box-shadow: 2px 2px 4px #333;
     border-radius: 5px;
-    overflow: hidden;
+    /*overflow-y: auto;*/
     padding-left:21px;
     z-index: 3;
+}
+#ddl-own{
+    position: absolute;
+    left:100vw;       /*left:705px;*/
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    /*overflow-y: auto;*/
+    padding-left:21px;
+    z-index: 3;
+    transition: .3s;
+}
+.rotate360{
+    transform: rotateZ(360deg);
+    animation: left 0.5s;
+}
+@keyframes left {
+    0%{
+        left:850px;
+        width:500px;
+        height:500px;
+    }
+    100%{
+        left:-850px;
+        width:0px;
+        height:0px;
+    }
 }
 
 .viewport{
@@ -143,4 +172,18 @@
     height:75%;
     min-height: 620px;
     /*border:1px solid #0ccece;*/
+}
+
+#epi{
+    position: absolute;
+    left:100vw;
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    /*overflow-y: auto;*/
+    padding-left:21px;
+    z-index: 3;
+    transition: .3s;
 }

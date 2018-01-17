@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-11-19 20:06:12 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2017-11-19 20:07:52
+ * @Last Modified time: 2018-01-17 22:13:50
  */
 
 (function(){
@@ -16,13 +16,17 @@
             GETINFOBYPID:'/poultry/selectBy/',
             GETPOSITON:'/dict/list?pid=70000',
             GETHOMETYPE:'/dict/list?pid=60000',
+            GETDANWEI:'/dict/list?pid=3000',
+            GETGEIYAOFANGSHI:'/dict/list?pid=25000',
+            GETYAOWULEIXING:'/outstorage/listName/65003',
+            GETFABINGMINGHENG:'/dict/list?pid=85000',
             GETBHOME:'/admin/affiliation/listAffiliation',
             GETSHOME:'/admin/fowlery/listFowlery',
             GETEMP:'/admin/user/list',//查找人元,
             PPOST:'/admin/patch/newPatch',//增加批次
             CHECKPACTH:'',//级联检查
             GETPATCHBYPOULTRYID:'',//获取该厂家的所有批次号
-            GETSTATUSLIST:'/getDicName/getStatus',//获取禽类养殖标识
+            GETSTATUSLIST:'/dict/list?pid=30000',//获取禽类养殖标识
             GETMATERIL:'/outstorage/listName/65001',  //饲料名称
             GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
@@ -35,7 +39,8 @@
             GETPMODE:'/dict/list?pid=95000',//从字典里面获取丢失方式
             DDLPOST:'/ddl/save',
             GETMAXFOOD:'',//
-            GETAQUABYPATCH:'/aquaculture/list?idPatch='//根据批次号返回养殖的记录 测试接口 后面会有一个更新的
+            GETAQUABYPATCH:'/aquaculture/list?idPatch=',//根据批次号返回养殖的记录 测试接口 后面会有一个更新的
+            EPIPOST:'/epidemic/save', //提交免疫信息
             };
     /**
      * 实例化一个分页控制者
@@ -118,15 +123,20 @@
     /**
      *1、获取dom
      */
-    var oShadow = window.top.document.getElementById('shadow'),
-        oDetail = window.top.document.getElementById('detail'),
-        oDDl = window.top.document.getElementById('ddl'),
-        oClose = window.top.document.getElementById('close'),
-        oAdd = window.top.document.getElementById('add'),
-        oAddContent = window.top.document.getElementById('addContent'),
-        oAddClose = window.top.document.getElementById('add-close'),
-        btn_pre = window.top.document.getElementById('btn-pre'),
-        btn_next = window.top.document.getElementById('btn-next'),
+    var doc = window.top.document,
+        oShadow = doc.getElementById('shadow'),
+        oDetail = doc.getElementById('detail'),
+        oDDl = doc.getElementById('ddl'),
+        oDDl_own = doc.getElementById('ddl-own'),
+        oDDl_own_close = doc.getElementById('ddl-own-close'),
+        oEPI = doc.getElementById('epi'),
+        oEPI_close = doc.getElementById('epi-close'),
+        oClose = doc.getElementById('close'),
+        oAdd = doc.getElementById('add'),
+        oAddContent = doc.getElementById('addContent'),
+        oAddClose = doc.getElementById('add-close'),
+        btn_pre = doc.getElementById('btn-pre'),
+        btn_next = doc.getElementById('btn-next'),
         unbind = false;
 
     /**
@@ -384,12 +394,12 @@
                         if(resPatchList.object.length){
                             viewCommand({                //id_p -> 批次
                                 command:'append',
-                                param:[$(oDetail),resPatchList.object,'patch_show']
+                                param:[$(oDetail),resPatchList.object[0],'patch_show']
                             });
                             try{
                                 var pNode = oDetail.getElementsByClassName('detail-content')[1],
                                     selectNodes = pNode.getElementsByTagName('select'),
-                                    patch_data = pNode.getElementsByClassName('patch-data');
+                                    patch_data = pNode.getElementsByClassName('patch-data')[0];
                                 viewCommand({
                                     command:'display',
                                     param:[selectNodes[0],resPatchList.object,'id']    //渲染第一条select批次号的值
@@ -407,6 +417,7 @@
                                                 dom:patch_data
                                             });
                                         }
+
                                         detail_view_ctrl.num = 2;           //如果批次信息成功渲染，那么我就要修改这个动画大小
 
                                         /**
@@ -419,18 +430,20 @@
                                         detail_view_ctrl.num = 3;
                                         var aquaDetailView = oDetail.getElementsByClassName('detail-content')[2],
                                             viewPort = aquaDetailView.getElementsByClassName('viewport')[0],
-                                            aquaSelectNodes = aquaDetailView.getElementsByTagName('select'),
-                                            viewdata = {feedWeight:[],weight:[]};
+                                            aquaSelectNodes = aquaDetailView.getElementsByTagName('select');
                                             viewCommand({              //id_p -》patch
                                                 command:'display',
                                                 param:[aquaSelectNodes[0],resPatchList.object,'id'],
                                             });
+                                        //养殖情况的echarts的渲染
                                         $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+aquaSelectNodes[0].value,function (res) {
                                             if(res.list.length){      //渲染视图空白框
-                                                    res.list.reverse();//数组倒置
-                                                    res.list.forEach(function (ele) {
+                                                    // res.list.reverse();//数组倒置
+                                                    var viewdata = {feedWeight:[],weight:[],days:[]};
+                                                    res.list.forEach(function (ele,index) {
                                                         viewdata.feedWeight.push(ele.feedWeight);
                                                         viewdata.weight.push(ele.weight);
+                                                        viewdata.days.push('第'+(index+1)+'天');
                                                     });
                                                     $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
                                                         detail_view_ctrl.left = -(detail_view_ctrl.step*2);
@@ -439,15 +452,35 @@
 
                                                     willon_option.series[0].data = viewdata.feedWeight;  //饲料量
                                                     willon_option.series[1].data = viewdata.weight;     //重量
+                                                    willon_option.xAxis[0].data = viewdata.days;  //天数
                                                     echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
 
-                                                /**
-                                                 * 养殖批次的监听 name + idpatch
-                                                 */
-                                                aquaSelectNodes[0].onchange = function () {
+                                                    /**
+                                                     * 养殖批次的监听 name + idpatch
+                                                     */
+                                                    aquaSelectNodes[0].onchange = function () {
+                                                        var viewdata = {feedWeight:[],weight:[],days:[]};
+                                                        $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+aquaSelectNodes[0].value,function (res) {
+                                                            if(res.list.length){      //渲染视图空白框
+                                                                // res.list.reverse();//数组倒置
+                                                                res.list.forEach(function (ele,index) {
+                                                                    viewdata.feedWeight.push(ele.feedWeight);
+                                                                    viewdata.weight.push(ele.weight);
+                                                                    viewdata.days.push('第'+(index+1)+'天');
+                                                                });
+                                                                // $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
+                                                                //     detail_view_ctrl.left = -(detail_view_ctrl.step*2);
+                                                                //     showVue.call(oShadow,true);
+                                                                // });
 
-                                                    //重新渲染数据
-                                                }
+                                                                willon_option.series[0].data = viewdata.feedWeight;  //饲料量
+                                                                willon_option.series[1].data = viewdata.weight;     //重量
+                                                                willon_option.xAxis[0].data = viewdata.days;  //天数
+                                                                echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
+                                                        //重新渲染数据
+                                                            }
+                                                        });
+                                                    }
                                             }else{
                                                 showVue.call(oShadow);
                                             }
@@ -469,6 +502,30 @@
 
     }
 
+    // /**
+    //  * 养殖图呈现
+    //  */
+    // function vue_aqua(idPatch,day,cb) {
+    //     day = day ? day : 7;
+    //     $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+idPatch+'&name='+day,function (res) {
+    //         if(res.list.length){      //渲染视图空白框
+    //             res.list.reverse();//数组倒置
+    //             res.list.forEach(function (ele) {
+    //                 viewdata.feedWeight.push(ele.feedWeight);
+    //                 viewdata.weight.push(ele.weight);
+    //             });
+    //             $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
+    //                 detail_view_ctrl.left = -(detail_view_ctrl.step*2);
+    //                 showVue.call(oShadow,true);
+    //             });
+    //
+    //             willon_option.series[0].data = viewdata.feedWeight;  //饲料量
+    //             willon_option.series[1].data = viewdata.weight;     //重量
+    //             echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
+    //             cb&&cb(res.list);
+    //         }
+    //     });
+    // }
     /**render
      * 图层渲染选择
      */
@@ -659,6 +716,9 @@
                         switch (option){
                             case 'A':renderTpl(id);break;
                             case 'O':renderTpl(id,'outPoultry_add');break;
+                            case 'D':renderDDL_OWN(id,res.object);break;
+                            case 'E':renderEPI(id,res.object);break;
+                            default:break;
                         }
                     }else{
                         if(confirm('溯源提示：\n\n 该厂家的家禽未划分任何批次，不能进行该操作，请先划分批次号')){
@@ -749,15 +809,12 @@
 
                 //选择的饲料一旦改变也要进行触发更新     最大数量  tip-p
                 selectNodes[2].onchange = function () {
-                    console.log(this.value);
                     var arr = this.value.split('$');
                     feedTypeObj.feedType = arr[1];
                     feedTypeObj.remark = arr[0];
                     feedTypeObj.feedWeight = 10000000000;
-                    console.log(feedTypeObj);
                     $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                         if(res){
-                            console.log(res);
                             maxTips.innerText =  MAX_FOOD = ~~res[0].rest;
                             sub_btn.disabled = false;
                         }else{
@@ -781,7 +838,6 @@
                             feedTypeObj.remark = arr[0];
                             $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,feedTypeObj,function (res) {
                                 if(res){
-                                    console.log(res);
                                     var info = '您投放的饲料的信息为\n\n';
                                     res.map(function (ele) {
                                         info+='饲料取出码为：'+ele.idOutstorage+' 取出量为:'+ele.rest+'\n\n';
@@ -805,7 +861,21 @@
                 render({
                     url:oURL.PRONAME+oURL.GETSTATUSLIST, //养殖状态
                     dom:selectNodes[3],
-                    tpl:'option',
+                    tpl:'id_name',
+                });
+                $.get(oURL.PRONAME+oURL.GETEMP,function(res){
+                    if(res){
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[4],res.list,'id_name']
+                        });
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[5],res.list,'id_name']
+                        });
+                    }else{
+                        alert('人员获取失败');
+                    }
                 });
                 $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) {    //渲染养殖的批次号
                     if(res.object.length){
@@ -935,7 +1005,6 @@
 
                     //清空oDDl里的东西
                     $(oDDl).find('.detail-content').empty();
-                    console.log($(oDDl).find('.detail-content'));
                 });
             });
         }
@@ -958,42 +1027,294 @@
                });
             };
     }
-    // /**
-    //  * 步骤检验
-    //  */
-    // $('#content').on('click',"[data-check*='true']",function () {
-    //     var option = $(this).attr('data-id').substr(0,1);
-    //     var id = $(this).attr('data-id').substr(1);
-    //         var flag = false;
-    //         switch (option){
-    //             case 'A':flag = setCheck(option,id);break;
-    //             case 'O':flag = setCheck(option,id);break;
-    //         }
-    //         if(!flag){                     //前面的步骤完成之后那么我就可以弹出框图
-    //             alert('请完善之前的溯源信息');
-    //         }
-    // });
 
-    // function stepCheck(step,id) {
-    //     switch (step){
-    //         case 'A':function checkStepP(id) {
-    //             $.get(url,id,function (res) {
-    //                 if(res){
-    //                     return true;
-    //                 }
-    //                 return false;
-    //             });
-    //         };break;
-    //         case 'O':function checkStepA(id) {
-    //             $.get(url,id,function (res) {
-    //                 if(res){
-    //                     return true;
-    //                 }
-    //                 return false;
-    //             });
-    //         };break;
-    //         default:break;
-    //     }
-    // }
+    /**
+     * 渲染ddl_own
+     */
+    function renderDDL_OWN(id,patchs) {
+        $(oDDl_own).removeClass('none'); //弹出动画
+        $(oDDl_own).animate({left:705});
+        showVue.call(oShadow);
+        showDetailData(id);
+
+        viewCommand({                      //渲染DDL_own
+            command:'append',
+            param:[$(oDDl_own),[],'ddl_own_add']
+        });
+
+        var selectNodes = oDDl_own.getElementsByTagName('select'),
+            sub_btn = oDDl_own.getElementsByTagName('button')[0],
+            form = oDDl_own.getElementsByTagName('form')[0],
+            inputs = oDDl_own.getElementsByTagName('input');
+
+        viewCommand({                    //渲染批次号
+            command:'display',
+            param:[selectNodes[0],patchs,'id']
+        });
+
+        var MAX_SIZE = 0;
+        $.get(oURL.PRONAME+oURL.GETPATHBYID+selectNodes[0].value,function (res) {     //获取第一值，然后呈现该批次的信息
+            if(res) {
+                inputs[0].value = MAX_SIZE = ~~res.size;
+            }
+        });
+        selectNodes[0].onchange = function () {
+            var that = this;
+            $.get(oURL.PRONAME + oURL.GETPATHBYID + that.value, function (res) {
+                if (res) {
+                    inputs[0].value = MAX_SIZE = ~~res.size;
+                }
+            });
+        }
+        inputs[0].onblur = function () {
+            if(this.value>MAX_SIZE){
+                alert('溯源提示:\n\n您输入的有误，最大减少量为'+MAX_SIZE);
+                this.value = MAX_SIZE;
+                sub_btn.disabled = true;
+            }else{
+                sub_btn.disabled = false;
+            }
+        }
+        //渲染丢弃方式操作
+        $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[1],res,'option'],
+                });
+            }else{
+                alert('溯源提示：\n\n获取丢弃方式失败');
+            }
+        });
+
+        $.get(oURL.PRONAME+oURL.GETEMP,function(res){      //人员信息
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[2],res.list,'id_name']
+                });
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[3],res.list,'id_name']
+                });
+            }else{
+                alert('人员获取失败');
+            }
+        });
+
+        sub_btn.onclick = function () {
+            if(inputs[0].value < MAX_SIZE && inputs[0].value > 0){
+                var obj = queryParse.call($(form));
+                $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
+                    if(res){
+                        alert('溯源提示:\n\n死淘信息提交成功');
+                    }else{
+                        alert('溯源提示:\n\n死淘信息提交失败');
+                    }
+                });
+            }else{
+                alert('溯源提示:\n\n您输入的有误，最大减少量为'+MAX_SIZE);
+                inputs[0].value = MAX_SIZE;
+                sub_btn.disabled = true;
+            }
+        }
+
+    }
+
+    /**
+     * 关闭DDL_own
+     */
+    oDDl_own_close.onclick = function () {
+        close_ddl_own.call(oDDl_own);
+    }
+    
+    function close_ddl_own() {
+        $(this).addClass('rotate360');
+        var timer = setTimeout(function () {
+            $(this).removeClass('rotate360');
+            $(this).addClass('none');
+            $(this).css('left','100vw');
+            $(this).find('.detail-content').remove();
+            clearTimeout(timer);
+        }.bind(this),400);
+    }
+
+    /**
+     * 免疫表填写
+    /**
+     * 
+     * 
+     * @param {any} id 
+     * @param {any} patchs 
+     */
+    function renderEPI(id,patchs){
+        var obj = {},PTACH_SIZE = 0,FOOD_MAX = 0;
+        $(oEPI).removeClass('none'); //弹出动画
+        $(oEPI).animate({left:705});
+        showVue.call(oShadow);
+        showDetailData(id);
+        $(oEPI).removeClass('none');
+        viewCommand({                      //渲染EPI
+            command:'append',
+            param:[$(oEPI),[],'epi_add']
+        });
+
+        var selectNodes = oEPI.getElementsByTagName('select'),
+            sub_btn = oEPI.getElementsByTagName('button')[0],
+            form = oEPI.getElementsByTagName('form')[0],
+            inputs = oEPI.getElementsByTagName('input'),
+            maxTips = oEPI.getElementsByTagName('span')[0];
+
+        viewCommand({                    //渲染批次号
+            command:'display',
+            param:[selectNodes[0],patchs,'id']
+        });
+
+        render({                     //发病名称
+           url:oURL.PRONAME+oURL.GETFABINGMINGHENG,
+           dom:selectNodes[1],
+           tpl:'id_name'
+        });
+
+        render({                     //药物名称
+            url:oURL.PRONAME+oURL.GETYAOWULEIXING,
+            dom:selectNodes[2],
+            tpl:'firm_name',
+            cb:function(){
+                console.log(selectNodes[2].value);
+                obj.remark = selectNodes[2].value.split('$')[0];
+                obj.feedType = selectNodes[2].value.split('$')[1];
+                obj.feedWeight = 1000000000;
+                $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,obj,function(res){
+                    if(res){
+                        maxTips.innerText =  FOOD_MAX = ~~res[0].rest;
+                    }else{
+                        alert('溯源提示:\n\n获取该饲料的仓储量失败');
+                    }
+                });
+            }
+         });
+
+        render({                     //给药方式
+            url:oURL.PRONAME+oURL.GETGEIYAOFANGSHI,
+            dom:selectNodes[3],
+            tpl:'id_name'
+        });
+        
+        render({                     //剂量单位
+            url:oURL.PRONAME+oURL.GETDANWEI,
+            dom:selectNodes[4],
+            tpl:'id_name'
+        });
+
+        $.get(oURL.PRONAME+oURL.GETEMP,function(res){      //人员信息
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[5],res.list,'id_name']
+                });
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[6],res.list,'id_name']
+                });
+            }else{
+                alert('人员获取失败');
+            }
+        });
+        
+        sub_btn.onclick = function(){
+            if(inputs[1].value<=PTACH_SIZE && inputs[0].value<=FOOD_MAX){
+                var json = queryParse.call($(form));
+                    json.name = selectNodes[2].value.split('$')[1];
+                    json.processingMode = selectNodes[2].value.split('$')[0];//变成了公司的名称额
+                $.post(oURL.PRONAME+oURL.EPIPOST,json,function(res){      //免疫信息的提交
+                    if(res){
+                       alert(res.msg);
+                    }else{
+                        alert('溯源提示：\n\n提交免疫记录失败');
+                    }
+                });
+            }else{
+                alert('溯源提示：\n\n您输入的数据有误，请重新输入，以为您还原各数据输入的最大量');
+                inputs[0].value = FOOD_MAX;
+                inputs[1].value = PTACH_SIZE;
+                sub_btn.disabled = true;
+            }
+            
+        }
+
+        
+        $.get(oURL.PRONAME+oURL.GETPATHBYID+selectNodes[0].value,function(res){  //拿到第一个批次渲染信息
+            if(res){
+                inputs[1].value = PTACH_SIZE = ~~res.size;
+            }
+        });
+
+        selectNodes[0].onchange = function(){     //监听批次号的改变
+            $.get(oURL.PRONAME+oURL.GETPATHBYID+this.value,function(res){
+                if(res){
+                    inputs[1].value = PTACH_SIZE = ~~res.size;
+                }
+            });
+        }
+
+        inputs[1].onblur = function(){
+            if(this.value>PTACH_SIZE){
+                alert('溯源提示：\n\n您输入的处理个数有误，最大处理量为'+PTACH_SIZE);
+                inputs[1] = PTACH_SIZE;
+                sub_btn.disabled = true;
+            }else{
+                sub_btn.disabled = false;
+            }
+        }
+
+        selectNodes[2].onchange = function(){
+            obj.remark = this.value.split('$')[0];
+            obj.feedType = this.value.split('$')[1];
+            obj.feedWeight = 1000000000;
+            $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,obj,function(res){
+                if(res){
+                    maxTips.innerText =  FOOD_MAX = ~~res[0].rest;
+                }else{
+                    alert('溯源提示:\n\n获取该饲料的仓储量失败');
+                }
+            });
+           
+        }
+
+        inputs[0].onblur = function(){
+            if(this.value<FOOD_MAX){
+                obj.remark = selectNodes[2].value.split('$')[0];
+                obj.feedType = selectNodes[2].value.split('$')[1];
+                obj.feedWeight = this.value;
+                $.post(oURL.PRONAME+oURL.GETLASTMATERILNUM,obj,function(res){
+                    if(res){
+                        var info = '您投放的物品的信息为\n\n';
+                        res.map(function (ele) {
+                            info+='物品取出码为：'+ele.idOutstorage+' 取出量为:'+ele.rest+'\n\n';
+                        });
+                        if(!confirm('您确认取出如下物资进行免疫治疗吗?\n\n'+info)){
+                            sub_btn.disabled = true;
+                        }else{
+                            sub_btn.disabled = false;
+                        }
+                    }else{
+                        alert('溯源提示:\n\n获取该物品的仓储量失败');
+                    }
+                });
+            }else{
+                alert('溯源提示:\n\n您输入的剂量已经超过了储存量，该药品的最大存量为'+FOOD_MAX);
+                this.value = FOOD_MAX;
+                sub_btn.disabled = true;
+            }
+            
+        }
+
+        oEPI_close.onclick = function(){
+            close_ddl_own.call(oEPI);
+        }
+
+        
+    }
 
 })();

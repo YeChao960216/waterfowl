@@ -59,7 +59,6 @@ public class AquacultureController{
         else {
             return new Message("2","增加记录失败");}
     }
-
     /**
      * 删除记录
      * @param id
