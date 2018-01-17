@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +49,8 @@ public class AquacultureController{
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture, CommonQo commonQo) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        aquaculture.setRecordDate(t);
         float a=aquacultureService.checkQuantity(aquaculture);
         if(a<aquaculture.getFeedWeight()){
             return new Message("3", "饲料剩余量不足");
