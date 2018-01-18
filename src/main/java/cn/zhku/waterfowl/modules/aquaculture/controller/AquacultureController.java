@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.aquaculture.controller;
 
 
+import cn.zhku.waterfowl.modules.aquaculture.dao.AquacultureDao;
 import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
@@ -38,6 +39,9 @@ public class AquacultureController{
     OutStorageService outStorageService;
     @Autowired
     OutStorageDao outStorageDao;
+
+    @Autowired
+    AquacultureDao aquacultureDao;
 
     /**
      * 增加记录
@@ -162,9 +166,9 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("showWeight")
-    public FeedWeight weight(Aquaculture aquaculture) throws Exception {
-        return aquacultureService.showWeight(aquaculture);
+    public List<FeedWeight> weight(Aquaculture aquaculture) throws Exception {
+        int name = Integer.parseInt(aquaculture.getName());
+        return aquacultureDao.feedWeight(name,aquaculture.getIdPatch());
     }
-
 
 }

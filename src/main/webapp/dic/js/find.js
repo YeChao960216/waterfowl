@@ -12,8 +12,8 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/admin/fowlery/listFowlery',
-            DEL:'/admin/fowlery/deleteFowlery/',//{{id}}
+            GETAQUACULTURELIST:'/dict/list',
+            DEL:'/dict/delete/',
         };
     /**
      * 实例化一个分页控制者
@@ -24,7 +24,7 @@
 
         view:{
             container : $('#content')[0],
-            tpl:'fowlery_find',
+            tpl:'dict',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -34,9 +34,6 @@
             dataDescription:'list',
             totalDescription:'pages',
             count:'10',
-        },
-        dataFilter:{
-            tpl:'filterTimeAndNull',
         },
         dom:{
             nextBtn :$('#next')[0],
@@ -68,8 +65,22 @@
             }
             qStr.push(key+'='+q[key]);
         }
-        console.log(qStr.join('&'));
+        $('#back').show();
         pageController.other = '&'+qStr.toString();
+        pageController.init();
+    });
+
+    /**
+     * 返回键
+     * 每当成功查找出一项时 此按钮显示
+     * 此按钮被按下时
+     *      清空查询表单的字
+     *      并初始化页面
+     */
+    $('#back').click(function () {
+        $('#searchForm input').val('');
+        $(this).hide();
+        pageController.other = '';
         pageController.init();
     });
 
@@ -77,13 +88,14 @@
      * 提交删除的id值
      1、删除成功后，初始化视图
      */
-    $('#content').on('click','[data-id*="del"]',function () {
+    $('#content').on('click',"[data-id*='del']",function(){
         var id = $(this).attr('data-id').substr(3);
-        if(confirm('溯源提示:\n\n确认删除该信息吗？')){
-            pageController.init();
-            var pointer = new Image();//利用图片信标发送请求
-            pointer.src = oURL.PRONAME+oURL.DEL+id;
-        }
-
+        $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+            if(res.status){
+                pageController.init();
+            }else{
+                alert('删除对象条目失败');
+            }
+        });
     });
 })();

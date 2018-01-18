@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class DdlController extends BaseController{
     @RequestMapping("save")
     public Message addDdl(Ddl ddl) throws Exception {
         ddl.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        ddl.setRecordDate(new Date());
         if (ddlService.add(ddl)==1) {
             return new Message("1", "增加病死淘记录表成功");
         } else

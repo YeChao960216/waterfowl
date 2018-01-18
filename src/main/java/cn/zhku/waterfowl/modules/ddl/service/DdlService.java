@@ -57,6 +57,7 @@ public class DdlService implements IBaseService<Ddl> {
         String idPatch = entity.getIdPatch();
         try {
             Patch patch = patchMapper.selectByPrimaryKey(idPatch);
+            System.out.println("jvlsdghdwjghdffgjkl"+patch);
             int numTotal = patch.getNumTotal();
             numTotal-=numProcessed;
             patch.setNumTotal(numTotal);

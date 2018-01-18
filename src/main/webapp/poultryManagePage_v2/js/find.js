@@ -4,11 +4,14 @@
  * @Last Modified by: 伟龙-Willon
  * @Last Modified time: 2018-01-17 22:13:50
  */
-
+/**
+ * 失策：下面有很多代码的冗余，写的时候匆匆忙忙没有选好设计模式，导致写了一堆垃圾代码,虽然是实现了业务需求，但是代码的可维护性差。
+ *  像这种多视图重复渲染的情况，就应该使用视图命名模式+安全工厂模式......and so on
+ */
 (function(){
-    
-        /**
-         * oURL 对象
+
+    /**
+     * oURL 对象
          */
         const oURL = {
             PRONAME:'/waterfowl',
@@ -30,7 +33,7 @@
             GETMATERIL:'/outstorage/listName/65001',  //饲料名称
             GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
-            OPOST:'/outpoultry/add',//出厂路径
+            OPOST:'/outpoultry/add',//出厂路径e
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/',//{id_p}通过PID查找所有已经划分的批次
             GETLASTNUM:'/admin/patch/isEqualSum/',//{id_p}通过PID查出我还能圈养多少只
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
@@ -41,6 +44,7 @@
             GETMAXFOOD:'',//
             GETAQUABYPATCH:'/aquaculture/list?idPatch=',//根据批次号返回养殖的记录 测试接口 后面会有一个更新的
             EPIPOST:'/epidemic/save', //提交免疫信息
+            GETAQUAVUE:'/aquaculture/showWeight?idPatch='
             };
     /**
      * 实例化一个分页控制者
@@ -435,12 +439,23 @@
                                                 command:'display',
                                                 param:[aquaSelectNodes[0],resPatchList.object,'id'],
                                             });
+                                        //渲染养殖的总天数
+                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=1000',function (res) {
+                                            if(res){
+                                                viewCommand({
+                                                    command:'display',
+                                                    param:[aquaSelectNodes[1],res,'option'],
+                                                });
+                                            }else{
+                                                alert('溯源提示:\n\n获取该批家禽养殖的总天数失败');
+                                            }
+                                        });
                                         //养殖情况的echarts的渲染
-                                        $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+aquaSelectNodes[0].value,function (res) {
-                                            if(res.list.length){      //渲染视图空白框
+                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=7',function (res) {
+                                            if(res){      //渲染视图空白框
                                                     // res.list.reverse();//数组倒置
                                                     var viewdata = {feedWeight:[],weight:[],days:[]};
-                                                    res.list.forEach(function (ele,index) {
+                                                    res.forEach(function (ele,index) {
                                                         viewdata.feedWeight.push(ele.feedWeight);
                                                         viewdata.weight.push(ele.weight);
                                                         viewdata.days.push('第'+(index+1)+'天');
@@ -460,27 +475,23 @@
                                                      */
                                                     aquaSelectNodes[0].onchange = function () {
                                                         var viewdata = {feedWeight:[],weight:[],days:[]};
-                                                        $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+aquaSelectNodes[0].value,function (res) {
-                                                            if(res.list.length){      //渲染视图空白框
+                                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name='+aquaSelectNodes[1].value,function (res) {
+                                                            if(res){      //渲染视图空白框
                                                                 // res.list.reverse();//数组倒置
-                                                                res.list.forEach(function (ele,index) {
+                                                                res.forEach(function (ele,index) {
                                                                     viewdata.feedWeight.push(ele.feedWeight);
                                                                     viewdata.weight.push(ele.weight);
                                                                     viewdata.days.push('第'+(index+1)+'天');
                                                                 });
-                                                                // $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
-                                                                //     detail_view_ctrl.left = -(detail_view_ctrl.step*2);
-                                                                //     showVue.call(oShadow,true);
-                                                                // });
-
                                                                 willon_option.series[0].data = viewdata.feedWeight;  //饲料量
                                                                 willon_option.series[1].data = viewdata.weight;     //重量
                                                                 willon_option.xAxis[0].data = viewdata.days;  //天数
                                                                 echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
-                                                        //重新渲染数据
                                                             }
                                                         });
                                                     }
+                                                aquaSelectNodes[1].onchange = aquaSelectNodes[0].onchange;
+
                                             }else{
                                                 showVue.call(oShadow);
                                             }
@@ -1018,7 +1029,7 @@
                     obj.idPatch = id;
                 // var json = JSON.stringify();
                $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
-                    if(res){
+                    if(res.status==1){
                         alert('溯源提示:\n\n死淘信息提交成功');
                         closeDDL();
                     }else{
@@ -1106,7 +1117,7 @@
             if(inputs[0].value < MAX_SIZE && inputs[0].value > 0){
                 var obj = queryParse.call($(form));
                 $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
-                    if(res){
+                    if(res.status==1){
                         alert('溯源提示:\n\n死淘信息提交成功');
                     }else{
                         alert('溯源提示:\n\n死淘信息提交失败');

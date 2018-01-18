@@ -10,6 +10,7 @@ import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -169,10 +170,12 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
      * @return FeedWeight
      * @throws Exception sql
      */
-    public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
-        FeedWeight feedWeight = new FeedWeight();
-        feedWeight.setName(aquaculture.getName());
+    public List<FeedWeight> showWeight(Aquaculture aquaculture) throws Exception {
 
+        List<FeedWeight> feedWeightList = new ArrayList<>();
+
+
+        String maxName = aquaculture.getName();
 
         //  消除name的影响
         aquaculture.setName(null);
@@ -183,14 +186,20 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         aquacultureList.forEach(
                 aq -> {
                     //  如果name天数小于传进来的参数， 喂养重量相加
-                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(feedWeight.getName())){
-                    feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
-                        //  设置最后的水禽重量
+                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(maxName)){
+                        FeedWeight feedWeight = new FeedWeight();
+
+                        feedWeight.setFeedWeight( aq.getFeedWeight());
+                        feedWeight.setName(aq.getName());
                         feedWeight.setWeight(aq.getWeight());
+
+                        feedWeightList.add(feedWeight);
                     }
+
+
                 }
         );
-        return feedWeight;
+        return feedWeightList;
     }
 
 }

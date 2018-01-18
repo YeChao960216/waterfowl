@@ -71,7 +71,6 @@ var zNodes_aquaInfoM = [
         [
             {name:"增加",tid:'./fowleryManagePage_v2/aqua_add.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage_v2/find.html'},
 
-            {name:"删除",tid:'./fowleryManagePage_v2/del.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage_v2/find.html'},
 
         ]
     },
@@ -111,6 +110,16 @@ var zNodes_empInfoM = [
     },
 ];
 
+var zNodes_dictM = [
+    {
+        name:"字典管理", open:true, tid:'./dic/find.html',children:
+        [
+            {name:"增加栏目",tid:'./dic/add.html',pName:"字典管理",pUrl:'./dic/find.html'},
+            {name:"增加栏目子字段",tid:'./dic/sub_add.html',pName:"字典管理",pUrl:'./dic/find.html'},
+
+        ]
+    },
+]
 var zTree = '';
 // setPath(1,'./employeeManagePage/add.html','增加员工')
 
@@ -142,6 +151,10 @@ $(document).ready(function(){
                 setPath(1,zNodes_empInfoM[0].tid,zNodes_empInfoM[0].name);
                 displayPath(1);
             break;
+            case 'dicM':zTree = $.fn.zTree.init($("#menu"), setting, zNodes_dictM);
+                setPath(1,zNodes_dictM[0].tid,zNodes_dictM[0].name);
+                displayPath(1);
+                break;
             default:break;
         }
     });

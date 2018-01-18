@@ -2,16 +2,16 @@ package cn.zhku.waterfowl.modules.dictionary.controller;
 
 import cn.zhku.waterfowl.modules.dictionary.service.DictionaryService;
 import cn.zhku.waterfowl.pojo.entity.Dictionary;
+
+import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
-import org.dozer.inject.Inject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 /**
  * @author : 钱伟健 gonefuture@qq.com
@@ -30,8 +30,10 @@ public class DictionaryController {
      * @throws Exception    sql
      */
     @RequestMapping("/dict/list")
-    public List<Dictionary> list(Dictionary dict) throws Exception {
-        return dictionaryService.findList(dict);
+    public PageInfo<Dictionary> list(Dictionary dict, CommonQo commonQo) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),commonQo.getSort());
+        return new PageInfo<Dictionary>(dictionaryService.findList(dict));
     }
 
     /**
