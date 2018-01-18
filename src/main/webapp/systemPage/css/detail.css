@@ -75,7 +75,8 @@
 }
 .pop{
     /*overflow-y: auto;*/
-    min-height: 847px;
+    height: calc(100vh*0.7);
+    min-height: 800px;
 }
 .pop h2{
     position:relative;
