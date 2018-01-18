@@ -64,7 +64,6 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
             return null;
         }
     }
-
     @Override
     /**
      * 根据epidemic实体多条件查询
