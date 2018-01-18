@@ -274,7 +274,7 @@ public class PatchController {
         patch.setIdPoultry(id_poultry);
         List<Patch> patchList =patchService.findList(patch);
         for(Patch patchEntitty:patchList) {
-            sum += Integer.parseInt(patchEntitty.getSize());
+            sum += patchEntitty.getSize();
         }
         String totals=patchService.findQuantity(id_poultry);   //poultry中的总数量
         int totalsum=Integer.parseInt(totals);     //将string类型转换成int类型
