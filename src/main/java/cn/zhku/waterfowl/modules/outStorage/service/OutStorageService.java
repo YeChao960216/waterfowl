@@ -177,17 +177,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         //把listOutstorageByName返回的值放在ArrayList里面
         return outStorageDao.Listname(type);
     }
-
-    public String listType(String name,String firm) throws Exception {
-        //把listOutstorageByName返回的值放在ArrayList里面
-        List<Outstorage> outstoragelist=new ArrayList<Outstorage>(outStorageDao.listType(name,firm));
-        if (outstoragelist.isEmpty()){
-            return null;
-        }
-        else{
-        return outstoragelist.get(0).getType();}
-    }
-
     //一个有效期的调度算法
     public void manageOutstorage(Aquaculture entity, CommonQo commonQo) throws Exception {
         //把manageOutstorage返回的值放在ArrayList里面

@@ -25,7 +25,4 @@ public interface OutStorageDao {
     //优先调度有效期快过期物资
     @Select("select * from outstorage where name=#{name} and firm=#{firm} and valid='未过期' and rest>0 order by expiration_date" )
     List<Outstorage> manageOutstorage(@Param("name") String name, @Param("firm") String firm, float quantity);
-
-//    @Select("update outStorage set outStorage.quantity=outStorage.quantity-#{quantity} where name=#{name} and remark=#{remark} and type=#{type}")
-//    void updateNum(float quantity,String name,String remark,String type);
 }

@@ -234,6 +234,5 @@ public class OutStorageController extends BaseController{
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
         return exportExcelUtil.exportXLSXOutput("物资表", headers, outstorageList);
     }
-
-    }
+}
 
