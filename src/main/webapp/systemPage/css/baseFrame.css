@@ -208,6 +208,7 @@
     text-align: center;
     width:60%;
     height: 90%;
+    max-width: 707px;
 }
 .all-option ul{
     list-style-type: none;
