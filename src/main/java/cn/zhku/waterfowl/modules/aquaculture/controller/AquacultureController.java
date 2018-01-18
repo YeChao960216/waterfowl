@@ -47,7 +47,7 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("add")
-    public Message addAquaculture(Aquaculture aquaculture, CommonQo commonQo) throws Exception {
+    public Message addAquaculture(Aquaculture aquaculture) throws Exception {
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         aquaculture.setRecordDate(t);
@@ -56,7 +56,7 @@ public class AquacultureController{
             return new Message("3", "饲料剩余量不足");
         }
         else if(aquacultureService.add(aquaculture)==1) {
-            outStorageService.manageOutstorage(aquaculture,commonQo);
+            outStorageService.manageOutstorage(aquaculture);
             return new Message("1", "成功增加1条记录");
         }
         else {
@@ -136,8 +136,8 @@ public class AquacultureController{
      */
     @ResponseBody
     @RequestMapping("checkQuantity")
-    public List<Outstorage> checkQuantity(Aquaculture entity, CommonQo commonQo) throws Exception {
-        return outStorageService.checkQuantity(entity,commonQo);
+    public List<Outstorage> checkQuantity(Aquaculture entity) throws Exception {
+        return outStorageService.checkQuantity(entity);
     }
 
     @ResponseBody
