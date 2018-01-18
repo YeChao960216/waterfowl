@@ -25,8 +25,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     @Autowired
     private OutStorageDao outStorageDao;
     @Autowired
-    private AquacultureService aquacultureService;
-    @Autowired
     private CheckQuantitydao dao;
     @Autowired
     private AquaStorService aquaStorService;
