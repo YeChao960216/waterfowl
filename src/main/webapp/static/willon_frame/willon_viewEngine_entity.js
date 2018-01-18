@@ -668,6 +668,24 @@ var viewCommand = (function(msg){
              '</form>'+
              '</div>'
          ].join(''),
+         outStorage_show:[
+             '<tr>',
+             '<td >{#idOutstorage#}</td>',
+             '<td >{#name#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#unit#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#expirationDate#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

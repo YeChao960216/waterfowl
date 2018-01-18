@@ -40,7 +40,7 @@ var zNodes_aquaInfoM = [
         [
             {name:"新增入厂记录",tid:'./poultryManagePage_v2/aqua_add.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-            {name:"删除记录",tid:'./poultryManagePage_v2/del.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
+            {name:"删除入厂记录",tid:'./poultryManagePage_v2/del.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
         ]
     },
@@ -95,8 +95,6 @@ var zNodes_storageInfoM = [
         [
 
             {name:"增加",tid:'./outStorage_v2/aqua_add.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
-
-            {name:"删改",tid:'./outStorage_v2/del.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
 
         ]
     },

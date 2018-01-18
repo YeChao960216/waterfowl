@@ -12,70 +12,55 @@
      */
     const oURL = {
         PRONAME : '/waterfowl' ,
-        POST : '/aquaculture/add',//最终数据提交路径
-        GETOURSTRORAGE : '/outstorage/show',// 获取出库编号
-        GETSTATUSLIST:'/getDicName/getStatus',//获取禽类养殖标识
-        GETPATCH:'/admin/patch/getNewPatch', //获取批次号
+        POST : '/outstorage/add',//最终数据提交路径
+        GETTYPE:'/dict/list?pid=65000',//货物类型
+        GETUNIT:'/dict/list?pid=20000',//货物类型
+        GETEMP:'/admin/user/list',//查找人元,
     }
 
-    $('#id_fowlery')[0].onkeyup = function () {
-        if($(this).val().length>4){
-            /**
-             * 列出批次号
-             */
-            $.get(oURL.PRONAME+oURL.GETPATCH,function(res){
-                if(res){
-                    viewCommand({
-                        command:'display',
-                        param:[$('#id_patch')[0],res,'option']
-                    })
-                }else{
-                    alert('获取批次号失败');
-                }
-            });
-        }
-    }
+     $.get(oURL.PRONAME+oURL.GETTYPE,function (res) {  //物质的类型
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[$('select')[0],res,'id_name']
+                });
+            }
+     });
 
-     /**
-      * 列出出库编号
-      */
-      $.get(oURL.PRONAME+oURL.GETOURSTRORAGE,function(res){
-        if(res){
+     $.get(oURL.PRONAME+oURL.GETUNIT,function (res) {  //单位
+         if(res){
+             viewCommand({
+                 command:'display',
+                 param:[$('select')[1],res,'id_name']
+             });
+         }
+     });
 
-            viewCommand({
-                command:'display',
-                param:[$('#id_outstorage')[0],res.list,'outStorage']
-            })
-        }else{
-            alert('获取出库编号');
-        }
-    });
-
-    /**
-     * 列出禽类养殖标识
-     */
-    $.get(oURL.PRONAME+oURL.GETSTATUSLIST,function(res){
-        if(res){
-
-            viewCommand({
-                command:'display',
-                param:[$('#status')[0],res,'option']
-            })
-        }else{
-            alert('获取禽舍养殖标识失败');
-        }
-    });
+     $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
+         if(res){
+             viewCommand({
+                 command:'display',
+                 param:[$('select')[2],res.list,'id_name']
+             });
+             viewCommand({
+                 command:'display',
+                 param:[$('select')[3],res.list,'id_name']
+             });
+         }else{
+             alert('溯源提示:\n\n获取人员信息失败');
+         }
+     });
 
     /** 
      * 提交表单
      */
     $('#submit')[0].onclick = function(){
-        var json = JSON.stringify(queryParse.call($('form')));
+        var json = queryParse.call($('form'));
             $.post(oURL.PRONAME+oURL.POST,json,function(res){
                 if(res.status){
-                    alert('提交成功');
+                    alert('溯源提示:\n\n'+res.msg);
                 }else{
-                    alert('增加禽舍信息失败');
+                    alert('溯源提示:\n\n增加物质信息失败');
                 }
             });
     }

@@ -75,6 +75,7 @@
 }
 .pop{
     /*overflow-y: auto;*/
+    min-height: 847px;
 }
 .pop h2{
     position:relative;
@@ -143,7 +144,7 @@
     background:rgba(240, 241, 241, 0.93);
     box-shadow: 2px 2px 4px #333;
     border-radius: 5px;
-    /*overflow-y: auto;*/
+    overflow: hidden;
     padding-left:21px;
     z-index: 3;
     transition: .3s;
@@ -182,7 +183,7 @@
     background:rgba(240, 241, 241, 0.93);
     box-shadow: 2px 2px 4px #333;
     border-radius: 5px;
-    /*overflow-y: auto;*/
+    overflow: hidden;
     padding-left:21px;
     z-index: 3;
     transition: .3s;

@@ -8,64 +8,56 @@
     <link rel="stylesheet" href="../systemPage/css/public.css">
 </head>
 <body>
-    <form >
+    <form onsubmit="return false" >
     <table>
-            <tr>
-                <th>条目</th>
-                <th>信息</th>
-            </tr>
-            <tr style="display:none">
-                <td>id</td>
-                <td><input  name="id" id="id" ></td>
-            </tr>
-            <tr>
-                <td>禽舍类型</td>
-                <td><select  name="name" id="name" class="select-fix-input" ></select></td>
-            </tr>
-            <tr>
-                <td>禽舍编号</td>
-                <td><input type="text" name="id_fowlery" id="id_fowlery" placeholder="禽舍编号"></td>
-            </tr>
-            <tr>
-                <td>养殖批次编号</td>
-                <td><input type="text" name="id_patch" id="id_patch" placeholder="养殖批次编号"></td>
-            </tr>
-            <tr>
-                <td>圈养个体数</td>
-                <td><input type="number" min="0" name="num_total" id="num_total" placeholder="圈养个体数"></td>
-            </tr>
-            <tr>
-                <td>饲料种类</td>
-                <td><input type="text" name="feed_type" id="feed_type" placeholder="饲料种类" ></td>
-            </tr>
-            <tr>
-                <td>饲料投放量(单位/kg)</td>
-                <td><input type="number" name="feed_weight" id="feed_weight" min="0" placeholder="投放量(单位/kg)"></td>
-            </tr>
-            <tr>
-                <td>记录员编号</td>
-                <td><input type="text" name="id_reacorder" id="id_reacorder" placeholder="记录员编号"></td>
-            </tr>
-            <tr>
-                <td>负责人编号</td>
-                <td><input type="text" name="id_charge" id="id_charge" placeholder="负责人编号"></td>
-            </tr>
-            <tr>
-                <td>出库编号</td>
-                <td><select name="id_outstorage" id="id_outstorage" class="select-fix-input"></select></td>
-            </tr>
-            <tr>
-                <td>禽类养殖阶段标识</td>
-                <td><select name="status" id="status" class="select-fix-input"></select></td>
-            </tr>
-            <tr>
-                <td>备注</td>
-                <td><textarea id="remark" name="remark" placeholder="备注"></textarea></td>
-            </tr>
-            <tr>
-                <td>操作</td>
-                <td><input type="submit" id="submit" class="btn" onclick="return false" value="确认"></td>
-            </tr>
+        <tr>
+            <th>条目</th>
+            <th>信息</th>
+        </tr>
+        <tr>
+            <td>生产厂家</td>
+            <td><input type="text" name="remark" id="remark" placeholder="生产厂家"></td>
+        </tr>
+        <tr>
+            <td>供应商</td>
+            <td><input type="text" name="firm" id="firm" placeholder="供应商"></td>
+        </tr>
+        <tr>
+            <td>产品名称</td>
+            <td><input  name="name" id="name" placeholder="产品名称"></td>
+        </tr>
+        <tr>
+            <td>供应商联系电话</td>
+            <td><input type="number" name="phone" id="phone" placeholder="供应商联系电话" ></td>
+        </tr>
+        <tr>
+            <td>类型</td>
+            <td><select name="type" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>数量</td>
+            <td><input type="number" name="quantity" id="quantity" placeholder="进货数量" ></td>
+        </tr>
+        <tr>
+            <td>单位</td>
+            <td><select name="unit" id="unit" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>有效期</td>
+            <td><input type="date" name="expirationDate"></td>
+        </tr>
+        <tr>
+            <td>记录人</td>
+            <td><select name="idRecorder" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>负责人</td>
+            <td><select name="idCharge" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>操作</td>
+            <td><input type="submit" id="submit" class="btn" onclick="return false" value="添加"></td>
+        </tr>
         </table>
     </form>
 </body>

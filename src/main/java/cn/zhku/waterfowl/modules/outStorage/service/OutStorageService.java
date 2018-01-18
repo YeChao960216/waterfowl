@@ -94,7 +94,11 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andRemarkLike("%"+entity.getRemark()+"%");
         //库存编号
         if (entity.getIdOutstorage()!=null)
-            criteria.andIdOutstorageEqualTo("%"+entity.getIdOutstorage()+"%");
+            criteria.andIdOutstorageEqualTo(entity.getIdOutstorage());
+        if (entity.getType()!=null)
+            criteria.andTypeEqualTo(entity.getType());
+        if (entity.getPhone()!=null)
+            criteria.andPhoneEqualTo(entity.getPhone());
            //负责人编号
         if (entity.getIdCharge()!=null)
             criteria.andIdChargeEqualTo(entity.getIdCharge());

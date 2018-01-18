@@ -1,111 +1,83 @@
 ﻿(function(global){
 
-    var document = global.document;
     /**
-     * url对象
+     * url 对象
      */
     const oURL = {
-        PRONAME:'/waterfowl',
-        ID : getRequest()['id'],
-        GETAQUACULTUREDETAILINFO:'/aquaculture/show/',
-        EDIT:'/aquaculture/edit',
-        GETNAME : '/aquaculture/getName',//获取禽舍类型
-        GETOURSTRORAGE : '/aquaculture/getOutStorage',//?s = 获取出库编号
-        GETSTATUSLIST:'/aquaculture/getStatusList',//获取禽类养殖标识
-        EDIT:'/aquaculture/edit'
-    };
+        PRONAME : '/waterfowl' ,
+        POST : '/outstorage/edit/',//最终数据提交路径
+        GETTYPE:'/dict/list?pid=65000',//货物类型
+        GETUNIT:'/dict/list?pid=20000',//货物类型
+        GETEMP:'/admin/user/list',//查找人元,
+        GETINFOBYID:'/outstorage/list?idOutstorage=',
+        ID:getRequest()['id'],//传递过来的ID
+    }
 
-    
-    /**
-     * 列出禽舍类型
-     */
-
-    $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('name')[0],res.list,'option']
-            })
-        }else{
-            alert('获取禽舍类型失败');
-        }
-    });
-
-     /**
-      * 列出出库编号
-      */
-      $.get(oURL.PRONAME+oURL.GETNAME,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
-            })
-        }else{
-            alert('获取出库编号');
-        }
-    });
-
-    /**
-     * 列出禽类养殖标识
-     */
-    $.get(oURL.PRONAME+oURL.GETSTATUSLIST,function(res){
-        if(res.status){
-            viewCommand({
-                command:'display',
-                param:[$('id_outstorage')[0],res.list,'option']
-            })
-        }else{
-            alert('获取禽舍养殖标识失败');
-        }
-    });
-
-    /**
-     * 先填充数据
-     */
-    /**
-     *呈现该禽舍详细信息
-     */
-    $.get(oURL.PRONAME+oURL.GETAQUACULTUREDETAILINFO+oURL.ID,function (res) {
+    $.get(oURL.PRONAME+oURL.GETTYPE,function (res) {  //物质的类型
         if(res){
-            /**
-             * 数据适配
-             */
-            // data = new DataFilter({
-            //     data:[data],
-            //     type:'userInfo'
-            // })[0];
-            
-            var data = res.data;
-            $('#name')[0].value = data.name;
-            $('#id_fowlery')[0].value = data.id_fowlery;
-            $('#id_patch')[0].value = data.id_patch;
-            $('#num_total')[0].value = data.num_total;
-            $('#feed_type')[0].value = data.feed_type;
-            $('#feed_weight')[0].value = data.feed_weight;
-            $('#record_date')[0].value = data.record_date;
-            $('#id_recorder')[0].value = data.id_recorder;
-            $('#id_charge')[0].value = data.id_charge;
-            $('#id_outstorage')[0].value = data.id_outstorage;
-            $('#status')[0].value = data.status;
-            $('#remark')[0].value = data.remark;
-            
+            viewCommand({
+                command:'display',
+                param:[$('select')[0],res,'id_name']
+            });
+        }
+    });
+
+    $.get(oURL.PRONAME+oURL.GETUNIT,function (res) {  //单位
+        if(res){
+            viewCommand({
+                command:'display',
+                param:[$('select')[1],res,'id_name']
+            });
+        }
+    });
+
+    $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
+        if(res){
+            viewCommand({
+                command:'display',
+                param:[$('select')[2],res.list,'id_name']
+            });
+            viewCommand({
+                command:'display',
+                param:[$('select')[3],res.list,'id_name']
+            });
         }else{
-            console.error('获取禽舍详细信息失败');
+            alert('溯源提示:\n\n获取人员信息失败');
+        }
+    });
+
+    /**
+     * 获取id对应的信息
+     */
+    $.get(oURL.PRONAME+oURL.GETINFOBYID+oURL.ID,function (res) {
+        if(res.list){
+            var $selectNodes = $('select'),data = res.list[0];
+                $selectNodes[0].value = data.type;
+                $selectNodes[1].value = data.unit;
+                $selectNodes[2].value = data.idRecorder;
+                $selectNodes[3].value = data.idCharge;
+                $('#remark').val(data.remark);
+                $('#phone').val(data.phone);
+                $('#firm').val(data.firm);
+                $('#name').val(data.name);
+                $('#quantity').val(data.quantity);
+
+        }else{
+            alert('溯源提示:\n\n获取该批物料信息失败');
         }
     })
-
     /**
-     * 提交修改
+     * 提交表单
      */
     $('#submit')[0].onclick = function(){
-        var json = JSON.stringify(queryParse.call($('form')));
-            $.post(oURL.PRONAME+oURL.EDIT,json,function(res){
-                if(res.status){
-
-                }else{
-                    alert('增加禽舍信息失败');
-                }
-            });
+        var json = queryParse.call($('form'));
+        $.post(oURL.PRONAME+oURL.POST+oURL.ID,json,function(res){
+            if(res.status){
+                alert('溯源提示:\n\n'+res.msg);
+            }else{
+                alert('溯源提示:\n\n增加物质信息失败');
+            }
+        });
     }
 
 })(this);

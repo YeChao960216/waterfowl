@@ -250,8 +250,12 @@ iframe{
 .input-min{
     width:34px;
 }
+select{
+    height:22px;
+}
 .select-fix-input{
     width:173px;
+
 }
 .red{
     color:#800000;

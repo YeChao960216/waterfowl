@@ -12,7 +12,9 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/aquaculture/list',
+            GETAQUACULTURELIST:'/outstorage/list',
+            DEL:'/outstorage/delete/',
+            GETTYPE:'/dict/list?pid=65000',
         };
     /**
      * 实例化一个分页控制者
@@ -23,7 +25,7 @@
 
         view:{
             container : $('#content')[0],
-            tpl:'find_edit_aquaculture',
+            tpl:'outStorage_show',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -85,4 +87,31 @@
         pageController.other = '';
         pageController.init();
     });
+
+    /**
+     * 删除
+     */
+    $('#content').on('click','[data-id*="del"]',function () {
+       var id = $(this).attr('data-id').substr(3);
+       if(confirm('溯源提示:\n\n确认删除该物资料信息吗？')){
+           pageController.init();
+           var pointer = new Image();//利用图片信标发送请求
+               pointer.src = oURL.PRONAME+oURL.DEL+id;
+       }
+
+    });
+
+    /**
+     * 渲染物资类型
+     */
+    $.get(oURL.PRONAME+oURL.GETTYPE,function (res) {
+        if(res){
+            viewCommand({
+               command:'display',
+                param:[$('select')[0],res,'id_name']
+            });
+        }else{
+            alert('溯源提示:\n\n获取物资的类型失败');
+        }
+    })
 })();
