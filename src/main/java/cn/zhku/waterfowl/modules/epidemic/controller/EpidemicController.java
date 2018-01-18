@@ -34,6 +34,8 @@ import java.util.UUID;
          * @return epidemic
          * @throws Exception sql
          */
+
+
         @ResponseBody
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
