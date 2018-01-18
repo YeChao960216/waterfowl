@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2018/1/17 0017.
- */
+
 @Service
 public class EpiStorService implements IBaseService<EpiStor> {
     @Autowired
@@ -39,9 +37,9 @@ public class EpiStorService implements IBaseService<EpiStor> {
 
     @Override
     public EpiStor get(EpiStor entity) throws Exception {
-        EpiStorExample epiStorExample=new EpiStorExample()
+        EpiStorExample epiStorExample=new EpiStorExample();
 
-        return null;
+        return null;}
 
 
     @Override
