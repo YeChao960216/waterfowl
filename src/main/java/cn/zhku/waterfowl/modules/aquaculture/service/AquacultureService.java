@@ -134,26 +134,9 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         if (entity.getIdCharge() != null)
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-
-
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
 
-    /**
-     * 校验饲料重量
-     * @param entity
-     * @return
-     * @throws Exception
-     */
-    public float checkQuantity(Aquaculture entity)throws Exception {
-        String name=entity.getFeedType();
-        String firm=entity.getRemark();
-        return checkQuantitydao.checkQuantity(name,firm);
-    }
-
-//    public void updateOutstroge(float quantity,String name,String remark) {
-//        checkQuantitydao.updateQuantity(quantity,name,remark);
-//    }
 
     public List<Outstorage> listOutstorageByname(String name)throws Exception {
         return checkQuantitydao.listOutstorageByname(name);

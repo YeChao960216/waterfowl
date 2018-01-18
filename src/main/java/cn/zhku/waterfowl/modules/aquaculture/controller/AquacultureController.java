@@ -36,8 +36,6 @@ public class AquacultureController{
     AquacultureService aquacultureService;
     @Autowired
     OutStorageService outStorageService;
-    @Autowired
-    OutStorageDao outStorageDao;
 
     /**
      * 增加记录
@@ -51,7 +49,7 @@ public class AquacultureController{
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         aquaculture.setRecordDate(t);
-        float a=aquacultureService.checkQuantity(aquaculture);
+        float a=outStorageService.checkQuantity(aquaculture);
         if(a<aquaculture.getFeedWeight()){
             return new Message("3", "饲料剩余量不足");
         }
@@ -137,7 +135,7 @@ public class AquacultureController{
     @ResponseBody
     @RequestMapping("checkQuantity")
     public List<Outstorage> checkQuantity(Aquaculture entity) throws Exception {
-        return outStorageService.checkQuantity(entity);
+        return outStorageService.showQuantity(entity);
     }
 
     @ResponseBody

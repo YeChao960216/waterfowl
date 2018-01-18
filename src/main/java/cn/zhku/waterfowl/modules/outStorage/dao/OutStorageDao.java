@@ -4,13 +4,15 @@ import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface OutStorageDao {
     //根据outstorage的模糊物资名并且是未过期的找到那条信息的生产厂家
     @Select("select firm from outstorage where name like concat('%',#{name},'%') where valid='未过期'")
     List<Outstorage> listOutstorageByName(String name);
+
+    @Select("SELECT SUM(rest) from outstorage where name=#{name} and firm=#{firm} and valid='未过期'")
+    Float checkQuantity(@Param("name") String name, @Param("firm") String firm);
 
     @Select("select distinct name,firm from outstorage where type=#{type}")
     List<Outstorage> Listname(String type);
