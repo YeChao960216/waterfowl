@@ -39,7 +39,6 @@ import java.util.UUID;
         @ResponseBody
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
-
             epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             if(epidemicService.add(epidemic) == 1)
                 return new Message("1","添加疾病/免疫记录表成功");
