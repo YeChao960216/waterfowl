@@ -99,6 +99,10 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andIdOutstorageEqualTo(entity.getIdOutstorage());
         if (entity.getType()!=null)
             criteria.andTypeEqualTo(entity.getType());
+        if (entity.getValid()!=null)
+            criteria.andValidEqualTo(entity.getValid());
+        if (entity.getProvide()!=null)
+            criteria.andProvideLike("%"+entity.getProvide()+"%");
         if (entity.getPhone()!=null)
             criteria.andPhoneEqualTo(entity.getPhone());
            //负责人编号
@@ -168,17 +172,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         }
         return outstorageList;
     }
-    }
-
-    public List<Outstorage> showAll(Outstorage entity, CommonQo commonQo) {
-        OutstorageExample outstorageExample =new OutstorageExample();
-        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
-        //  根据时间区间来查找
-        if (commonQo.getStart() != null)
-            criteria.andRecordDateGreaterThanOrEqualTo(commonQo.getStart());
-        if (commonQo.getEnd() != null)
-            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
-        return outstorageMapper.selectByExample(outstorageExample);
     }
 
     public List<Outstorage> listOutstorageByName(String name) throws Exception {
