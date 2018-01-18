@@ -18,8 +18,7 @@ public interface CheckQuantitydao {
      * @return
      */
     //作者叶超，写于1月15 20:41
-    @Select("SELECT SUM(rest) from outstorage where name=#{name} and firm=#{firm} and valid='未过期'")
-    Float checkQuantity(@Param("name") String name, @Param("firm") String firm);
+
 
     /**
      * 修改已有数量

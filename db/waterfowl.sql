@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-18 20:36:00
+Date: 2018-01-18 22:50:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,7 +85,11 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
+INSERT INTO `aquaculture` VALUES ('0E71A9CD304440A58F0D176493DEDF46', '4', '606', '1116606', '2018-01-18 22:30:28', '30', '808鸡饲料', '301', '伟龙供应商', '1', '1', null, null, null);
 INSERT INTO `aquaculture` VALUES ('30ED279F8BDE417EAB506CD2CCB3AE87', '1', '606', '96CAE113218941CAA8ACE604D83984A6', null, '200', '小优223稻谷', '100', '伟龙供应商', '7', '7', null, '30011', '190.2');
+INSERT INTO `aquaculture` VALUES ('52968FF6B368448BAD98E55C5D3B4DE1', '4', '606', '1116606', '2018-01-18 22:18:42', '30', '808鸡饲料', '301', '伟龙供应商', '1', '1', null, null, null);
+INSERT INTO `aquaculture` VALUES ('5C24AA9E5D6E4A889481F68B5F27DE06', '4', null, '1116606', '2018-01-18 22:02:04', '30', '808鸡饲料', '353', '伟龙供应商', '1', '1', null, null, null);
+INSERT INTO `aquaculture` VALUES ('60F2A223368F4CA9AA889B90087FBEA0', '4', '606', '1116606', '2018-01-18 22:09:53', '30', '808鸡饲料', '305', '伟龙供应商', '1', '1', null, null, null);
 INSERT INTO `aquaculture` VALUES ('666', '1', '606', '1116606', '2018-01-15 17:19:03', '20', '谷物', '10', '', '1', '1', null, null, '23');
 INSERT INTO `aquaculture` VALUES ('667', '2', '606', '1116606', '2018-01-15 17:45:50', '20', '谷物', '11', '', '1', '1', null, null, '24');
 INSERT INTO `aquaculture` VALUES ('668', '3', '606', '1116606', '2018-01-15 17:47:28', '20', '谷物', '10', '', '1', '1', null, null, '26');
@@ -93,9 +97,12 @@ INSERT INTO `aquaculture` VALUES ('669', '4', '606', '1116606', '2018-01-15 17:4
 INSERT INTO `aquaculture` VALUES ('670', '5', '606', '1116606', '2018-01-15 17:49:21', '20', '谷物', '12', '', '1', '1', null, null, '30.5');
 INSERT INTO `aquaculture` VALUES ('671', '6', '606', '1116606', '2018-01-15 17:50:39', '20', '谷物', '13', '', '1', '1', null, null, '33.8');
 INSERT INTO `aquaculture` VALUES ('672', '7', '606', '1116606', '2018-01-15 17:51:35', '20', '谷物', '15.7', '没毛病', '1', '1', null, null, '36.7');
+INSERT INTO `aquaculture` VALUES ('6DAA6DF56AE54419ADA53C0ECB3781DD', '4', '606', '1116606', '2018-01-18 22:32:24', '30', '808鸡饲料', '301', '伟龙供应商', '1', '1', null, null, null);
 INSERT INTO `aquaculture` VALUES ('C749A8B9509347D98A0486E9BC2A6D1A', '2', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '300', '伟龙供应商', '7', '7', null, '30011', '260');
 INSERT INTO `aquaculture` VALUES ('CAF270B869C140D0BCFA7C4F89106E58', '1', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '320', '伟龙供应商', null, null, null, '30011', '250');
+INSERT INTO `aquaculture` VALUES ('CDB7C3A51D7C48CF93C9B3C088AB1DC7', '4', '606', '1116606', '2018-01-18 22:09:24', '30', '808鸡饲料', '305', '伟龙供应商', '1', '1', null, null, null);
 INSERT INTO `aquaculture` VALUES ('E571729208C14254A873B8711A8F18BD', '3', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '300', '伟龙供应商', '6', '7', null, '30011', '262');
+INSERT INTO `aquaculture` VALUES ('F3AEC71B7994481F8DCF39AB8A0C50AB', '4', '606', '1116606', '2018-01-18 22:05:40', '30', '808鸡饲料', '320', '伟龙供应商', '1', '1', null, null, null);
 INSERT INTO `aquaculture` VALUES ('F52345BBCDAE457CAF69DEB2673C1389', '1', '606', '96CAE113218941CAA8ACE604D83984A6', null, '200', '小优223稻谷', '80', '伟龙供应商', '7', '7', null, '30011', '180');
 
 -- ----------------------------
@@ -105,8 +112,8 @@ DROP TABLE IF EXISTS `aqua_stor`;
 CREATE TABLE `aqua_stor` (
   `id_outstorage` varchar(45) NOT NULL COMMENT '物资编号',
   `id` varchar(45) NOT NULL COMMENT '养殖编号',
-  `key` varchar(45) NOT NULL COMMENT '主键',
-  PRIMARY KEY (`key`),
+  `aid` varchar(45) NOT NULL COMMENT '主键',
+  PRIMARY KEY (`aid`),
   KEY `FK_aqua_stor_id` (`id`),
   KEY `FK_out_id` (`id_outstorage`),
   CONSTRAINT `FK_aqua_stor_id` FOREIGN KEY (`id`) REFERENCES `aquaculture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -116,6 +123,7 @@ CREATE TABLE `aqua_stor` (
 -- ----------------------------
 -- Records of aqua_stor
 -- ----------------------------
+INSERT INTO `aqua_stor` VALUES ('7', '6DAA6DF56AE54419ADA53C0ECB3781DD', '206B55659DE445EDA9E901A1FDA66995');
 
 -- ----------------------------
 -- Table structure for `ddl`
@@ -285,8 +293,8 @@ DROP TABLE IF EXISTS `epi_stor`;
 CREATE TABLE `epi_stor` (
   `id_outstorage` varchar(45) NOT NULL COMMENT '物资编号',
   `id` varchar(45) NOT NULL COMMENT '免疫编号',
-  `key` varchar(45) NOT NULL COMMENT '主键',
-  PRIMARY KEY (`key`),
+  `eid` varchar(45) NOT NULL COMMENT '主键',
+  PRIMARY KEY (`eid`),
   KEY `FK_epi_outstor_id` (`id`),
   KEY `FK_outstorage_id` (`id_outstorage`),
   CONSTRAINT `FK_epi_outstor_id` FOREIGN KEY (`id`) REFERENCES `epidemic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -369,6 +377,7 @@ INSERT INTO `outstorage` VALUES ('3', '小优223稻谷', '曼曼农场', '2018-0
 INSERT INTO `outstorage` VALUES ('4', '708鸡饲料', '成君饲料厂', '2018-01-13 17:39:59', '3000', '0', '1', '1', '伟龙供应商', '65001', '2018-01-16 23:02:23', '300', null, '未过期', null, null, null);
 INSERT INTO `outstorage` VALUES ('5', '碘酒', '成君杂货店', '2018-01-13 17:41:02', '2000', '0', '1', '1', '伟佳供应商', '65002', '2018-01-16 23:02:25', '300', null, '未过期', null, null, null);
 INSERT INTO `outstorage` VALUES ('6', '流感疫苗', '沃德天病房疾控中心', '2018-01-16 19:01:52', '1000', '20002', '7', '6', '阿里龙龙供应商', '65003', '2018-01-18 15:40:15', '300', '', '未过期', null, null, null);
+INSERT INTO `outstorage` VALUES ('7', '808鸡饲料', '成君饲料厂', '2018-01-01 21:35:05', '5000', '0', '1', '1', '伟龙供应商', '65001', '2018-02-10 21:35:21', '14', null, '未过期', null, null, null);
 INSERT INTO `outstorage` VALUES ('74A3A97C9AED459DBB04F487971DF44A', 'asd', 'asd', '2018-01-18 15:11:53', '12', '20001', '7', '7', 'asd', '65001', '2018-02-06 00:00:00', null, '12', null, null, null, null);
 
 -- ----------------------------
@@ -441,7 +450,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES (null, null, null, null, null, null, null, null, '2018-01-18 20:22:37', '080086A26BA546A490DBB0571208DC98', '2', null);
+INSERT INTO `patch` VALUES ('3', '80001', '70001', '20', '6', '608', '1', '1', '2018-01-18 21:38:08', '080086A26BA546A490DBB0571208DC98', '2', '未售完');
 INSERT INTO `patch` VALUES ('111', '80001', '70001', '20', '6', '606', '1', '1', '2018-01-18 20:22:53', '1116606', '20', '未售完');
 INSERT INTO `patch` VALUES ('123', '60001', '70003', '200', '6', '606', '7', '7', '2018-01-18 20:22:30', '96CAE113218941CAA8ACE604D83984A6', '45', '养殖中');
 INSERT INTO `patch` VALUES ('123', '60001', '70003', '300', '6', '608', '7', '7', '2018-01-18 20:22:45', 'BE97BF7B9F224D2883506C7CC0224F6A', '424', '养殖中');

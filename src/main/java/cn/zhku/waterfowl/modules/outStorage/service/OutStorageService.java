@@ -99,6 +99,10 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andIdOutstorageEqualTo(entity.getIdOutstorage());
         if (entity.getType()!=null)
             criteria.andTypeEqualTo(entity.getType());
+        if (entity.getValid()!=null)
+            criteria.andValidEqualTo(entity.getValid());
+        if (entity.getProvide()!=null)
+            criteria.andProvideLike("%"+entity.getProvide()+"%");
         if (entity.getPhone()!=null)
             criteria.andPhoneEqualTo(entity.getPhone());
            //负责人编号
@@ -109,8 +113,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         return outstorageMapper.selectByExample(outstorageExample);
     }
-    public List<Outstorage> checkQuantity(Aquaculture entity) throws Exception {
-        float num=dao.checkQuantity(entity.getFeedType(),entity.getRemark());
+    public List<Outstorage> showQuantity(Aquaculture entity) throws Exception {
+        float num=outStorageDao.checkQuantity(entity.getFeedType(),entity.getRemark());
         float count=entity.getFeedWeight();
         List<Outstorage> outstorageList=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(entity.getFeedType(),entity.getRemark(),count));
         if(count>num) {
@@ -170,15 +174,10 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     }
     }
 
-    public List<Outstorage> showAll(Outstorage entity, CommonQo commonQo) {
-        OutstorageExample outstorageExample =new OutstorageExample();
-        OutstorageExample.Criteria criteria = outstorageExample.createCriteria();
-        //  根据时间区间来查找
-        if (commonQo.getStart() != null)
-            criteria.andRecordDateGreaterThanOrEqualTo(commonQo.getStart());
-        if (commonQo.getEnd() != null)
-            criteria.andRecordDateLessThanOrEqualTo(commonQo.getEnd());
-        return outstorageMapper.selectByExample(outstorageExample);
+    public float checkQuantity(Aquaculture entity)throws Exception {
+        String name=entity.getFeedType();
+        String firm=entity.getRemark();
+        return outStorageDao.checkQuantity(name,firm);
     }
 
     public List<Outstorage> listOutstorageByName(String name) throws Exception {
@@ -193,7 +192,7 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     //一个有效期的调度算法
     public void manageOutstorage(Aquaculture entity) throws Exception {
         //把manageOutstorage返回的值放在ArrayList里面
-        float num=dao.checkQuantity(entity.getFeedType(),entity.getRemark());
+        float num=outStorageDao.checkQuantity(entity.getFeedType(),entity.getRemark());
         float count=entity.getFeedWeight();
         List<Outstorage> outstorageList=new ArrayList<Outstorage>(outStorageDao.manageOutstorage(entity.getFeedType(),entity.getRemark(),count));
         //定义两个float变量sum，表示累加数;temp为定值float的0
@@ -205,34 +204,37 @@ public class OutStorageService  implements IBaseService<Outstorage> {
                 float a = outstorageList.get(i).getRest();
                 //进行累加
                 sum += a;
-                for (int k = 0; k < i - 1; k++) {
-                    //将符合记录但是没有剩余量的记录取出来
-                    outstorageList.get(k).setRest(temp);
-                    //将这些记录的剩余量变为0
-                    //将更改后的记录放到数据库
-                    outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
-                    AquaStor aquaStor=new AquaStor();
-                    aquaStor.setKey(UUID.randomUUID().toString().replace("-","").toUpperCase());
-                    aquaStor.setId(entity.getId());
-                    aquaStor.setIdOutstorage(outstorageList.get(k).getIdOutstorage());
-                    aquaStorService.add(aquaStor);
-                }
                 if (sum == count) {
-                    outstorageList.get(i).setRest(temp);
-                    //改变该记录的剩余量
-//                    less.setRest(sum - quantity);
-                    //将更改后的记录放到数据库
-                    outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(i));
-                    //结束上一层循环体，即跳出循环
-                    AquaStor aquaStor=new AquaStor();
-                    aquaStor.setKey(UUID.randomUUID().toString().replace("-","").toUpperCase());
-                    aquaStor.setId(entity.getId());
-                    aquaStor.setIdOutstorage(outstorageList.get(i).getIdOutstorage());
-                    aquaStorService.add(aquaStor);
+                    for (int k = 0; k <=i; k++) {
+                        //将符合记录但是没有剩余量的记录取出来
+                        outstorageList.get(k).setRest(temp);
+                        //将这些记录的剩余量变为0
+                        //将更改后的记录放到数据库
+                        outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
+                        AquaStor aquaStor=new AquaStor();
+                        aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                        aquaStor.setId(entity.getId());
+                        aquaStor.setIdOutstorage(outstorageList.get(k).getIdOutstorage());
+                        aquaStorService.add(aquaStor);
+                    }
                     break;
+                    //结束上一层循环体，即跳出循环
+
                 }
                 //如果累加的结果大于所需要的量quantity
                 else if (sum > count) {
+                    for (int k = 0; k < i; k++) {
+                        //将符合记录但是没有剩余量的记录取出来
+                        outstorageList.get(k).setRest(temp);
+                        //将这些记录的剩余量变为0
+                        //将更改后的记录放到数据库
+                        outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
+                        AquaStor aquaStor=new AquaStor();
+                        aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                        aquaStor.setId(entity.getId());
+                        aquaStor.setIdOutstorage(outstorageList.get(k).getIdOutstorage());
+                        aquaStorService.add(aquaStor);
+                    }
                     //将符合条件的但是仍有剩余量的记录取出来
                     //进行循环体
                     outstorageList.get(i).setRest(sum - count);
@@ -241,13 +243,15 @@ public class OutStorageService  implements IBaseService<Outstorage> {
                     //将更改后的记录放到数据库
                     outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(i));
                     AquaStor aquaStor=new AquaStor();
-                    aquaStor.setKey(UUID.randomUUID().toString().replace("-","").toUpperCase());
+                    aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
                     aquaStor.setId(entity.getId());
                     aquaStor.setIdOutstorage(outstorageList.get(i).getIdOutstorage());
                     aquaStorService.add(aquaStor);
                     //结束上一层循环体，即跳出循环
                     break;
                 }
+
+
             }
 
         }
