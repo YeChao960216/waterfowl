@@ -74,9 +74,9 @@
     font-weight: bold;
 }
 .pop{
-    /*overflow-y: auto;*/
-    height: calc(100vh*0.7);
-    min-height: 800px;
+    /*overflow:hidden;*/
+    /*height: calc(100vh*0.7);*/
+    /*min-height: 800px;*/
 }
 .pop h2{
     position:relative;
