@@ -12,7 +12,7 @@
      */
     const oURL = {
         PRONAME : '/waterfowl' ,
-        POST : '/dict/new',//最终数据提交路径
+        POST : '/admin/new',//最终数据提交路径
         GETDICT:'/dict/list?pid=0&pageSize=10000',//字典
     }
 

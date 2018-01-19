@@ -5,6 +5,7 @@ import cn.zhku.waterfowl.pojo.entity.Dictionary;
 import cn.zhku.waterfowl.pojo.entity.DictionaryExample;
 import cn.zhku.waterfowl.pojo.mapper.DictionaryMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.dozer.loader.xml.ELEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,31 +41,51 @@ public class DictionaryService  implements IBaseService<Dictionary> {
     }
 
     public String insert() throws Exception {
-        List<Dictionary> dictionaryList=new ArrayList<Dictionary>(dictionaryDao.addP());
-        int i;
+        List<Dictionary> dictionaryList=new ArrayList<Dictionary>(dictionaryDao.addid(String.valueOf(0)));
+        int i=10000;
+        String r=null;
+        if (dictionaryList.isEmpty()||dictionaryList==null){
+            return String.valueOf(i);
+        }
+        else{
         for (i=10000;i<100000;i+=1000){
-           int b=Integer.parseInt(dictionaryList.get(i/10000-1).getId());
-            if (i!=b){
+            if (dictionaryList.size()==i/1000-9){
+                r=String.valueOf(i+1000);
                 break;
-           }
-
+            }
+           else if(i<Integer.parseInt(dictionaryList.get(i/1000-10).getId())){
+                r=String.valueOf(i);
+                break;
+            }
        }
-        return String.valueOf(i);
+            return r;
+        }
+
     }
 
 
     public String raise(String pid) throws Exception {
         List<Dictionary> dictionaryList=new ArrayList<Dictionary>(dictionaryDao.addid(pid));
         int k=0;
-        for (int i=0;i<1000;i++){
-            int b=Integer.parseInt(dictionaryList.get(i).getId());
-            k=Integer.parseInt(pid)+1+i;
-            if (k!=b){
-                break;
+        String r=null;
+        if (dictionaryList.isEmpty()||dictionaryList==null){
+            k = Integer.parseInt(pid)+1;
+            return String.valueOf(k);
+        }
+        else {
+            for (int i = 0; i < 1000; i++) {
+                k = Integer.parseInt(pid) + i + 1;
+                if (k - Integer.parseInt(pid) == dictionaryList.size()) {
+                    r = String.valueOf(k + 1);
+                    break;
+                } else if (k < Integer.parseInt(dictionaryList.get(i).getId())) {
+                    r = String.valueOf(k);
+                    break;
+                }
             }
         }
-        return String.valueOf(k);
-    }
+        return r;
+        }
 
 
     @Override
