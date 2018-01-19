@@ -24,10 +24,10 @@
      * 获取禽舍规格
      */
     $.get(oURL.PRONAME+oURL.GETSIZE,function(res){
-        if(res){
+        if(res.list){
             viewCommand({
                 command:'display',
-                param:[$('#size')[0],res,'id_name']
+                param:[$('#size')[0],res.list,'id_name']
             })
         }else{
             alert('获取禽舍养殖标识失败');
@@ -76,7 +76,6 @@
             }else{
                 alert('增加禽舍信息失败');
             }
-            console.log(res);
         });
     }
 
