@@ -1,5 +1,7 @@
 package cn.zhku.waterfowl.modules.ddl.controller;
 
+import cn.zhku.waterfowl.modules.ddl.dao.DDLDao;
+import cn.zhku.waterfowl.modules.ddl.model.DeathMethodVo;
 import cn.zhku.waterfowl.modules.ddl.service.DdlService;
 import cn.zhku.waterfowl.pojo.entity.Ddl;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -21,6 +23,9 @@ import java.util.UUID;
 @Controller
 @RequestMapping("ddl")
 public class DdlController extends BaseController{
+
+    @Autowired
+    private DDLDao ddlDao;
 
     @Autowired
     DdlService ddlService;
@@ -112,5 +117,16 @@ public class DdlController extends BaseController{
         return new PageInfo<Ddl>(ddlList);
     }
 
+    /**
+     * 查找各种死法的数目
+     * @param idPatch   批次号
+     * @return  死法和死法数量的集合
+     * @throws Exception sql
+     */
+    @ResponseBody
+    @RequestMapping("deathMethod")
+    public List<DeathMethodVo> deathMethod(String idPatch) throws Exception {
+        return ddlDao.findDeathMethod(idPatch);
+    }
 
 }
