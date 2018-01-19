@@ -38,12 +38,19 @@ public class EpiStorService implements IBaseService<EpiStor> {
     @Override
     public EpiStor get(EpiStor entity) throws Exception {
         EpiStorExample epiStorExample=new EpiStorExample();
-
-        return null;}
+        epiStorExample.or().andIdEqualTo(entity.getEid());
+        return null;
+    }
 
 
     @Override
     public List<EpiStor> findList(EpiStor entity) throws Exception {
-        return null;
+        EpiStorExample epiStorExample=new EpiStorExample();
+        EpiStorExample.Criteria criteria=epiStorExample.createCriteria();
+        if (entity.getId() != null)
+            criteria.andIdEqualTo(entity.getId());
+        if (entity.getIdOutstorage() != null)
+            criteria.andIdOutstorageEqualTo(entity.getIdOutstorage());
+        return epiStorMapper.selectByExample(epiStorExample);
     }
 }
