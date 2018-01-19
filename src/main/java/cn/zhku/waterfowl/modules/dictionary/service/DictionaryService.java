@@ -98,6 +98,10 @@ public class DictionaryService  implements IBaseService<Dictionary> {
         return dictionaryMapper.deleteByPrimaryKey(entity.getId());
     }
 
+    public void deleteAll(String pid) throws Exception {
+        dictionaryDao.deleteAll(pid);
+    }
+
     /**
      *  通过字典id获取id
      * @param id
