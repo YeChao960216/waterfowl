@@ -1,8 +1,6 @@
 package cn.zhku.waterfowl.modules.outStorage.service;
 
 import cn.zhku.waterfowl.modules.aquaStor.service.AquaStorService;
-import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
-import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.pojo.entity.AquaStor;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
@@ -10,11 +8,8 @@ import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
-import cn.zhku.waterfowl.util.modle.CommonQo;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.java2d.ScreenUpdateManager;
 
 import java.util.*;
 
@@ -24,8 +19,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     private OutstorageMapper outstorageMapper;
     @Autowired
     private OutStorageDao outStorageDao;
-    @Autowired
-    private CheckQuantitydao dao;
     @Autowired
     private AquaStorService aquaStorService;
 
@@ -179,12 +172,6 @@ public class OutStorageService  implements IBaseService<Outstorage> {
         String firm=entity.getRemark();
         return outStorageDao.checkQuantity(name,firm);
     }
-
-    public List<Outstorage> listOutstorageByName(String name) throws Exception {
-        //把listOutstorageByName返回的值放在ArrayList里面
-        return outStorageDao.listOutstorageByName(name);
-    }
-
     public List<Outstorage> Listname(String type) throws Exception {
         //把listOutstorageByName返回的值放在ArrayList里面
         return outStorageDao.Listname(type);

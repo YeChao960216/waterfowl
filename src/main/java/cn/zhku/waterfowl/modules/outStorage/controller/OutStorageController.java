@@ -128,22 +128,6 @@ public class OutStorageController extends BaseController{
          * @throws Exception    sql
          */
 
-    /**
-     *  根据用户输入的name模糊查询matrical表
-     * @param name   物资名称
-     * @return  一个带有List<Material>
-     * @throws Exception    sql
-     */
-
-    @ResponseBody
-    @RequestMapping("select/{name}")
-    public List<Outstorage> listOutstorageByName(@PathVariable String name) throws Exception {
-        //  通过服务层获取查询后的用户列表
-        //将返回的值放在ArrayList里面，以Outstorage模板呈现，没有的字段为null
-        List<Outstorage> outStorageList =  new ArrayList<Outstorage> (outStorageService.listOutstorageByName(name));
-        //  返回 pageBean实体
-        return outStorageList;
-    }
 
     @ResponseBody
     @RequestMapping("listName/{type}")

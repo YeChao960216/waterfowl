@@ -85,15 +85,27 @@ public class DictionaryController {
      */
     @RequestMapping("/admin/new")
     public Message add(Dictionary dictionary) throws Exception {
-        if (dictionaryService.update(dictionary) == 1)
-            return new Message("1","增加字典成功");
+        dictionary.setId(dictionaryService.raise(dictionary.getPid()));
+        if (dictionaryService.add(dictionary) == 1)
+            return new Message("1","增加字典信息成功");
         else
-            return new Message("2","增加字典失败,请检查主键或名字是否重复");
+            return new Message("2","增加字典信息失败");
     }
 
 
-
-
-
-
+    /**
+     *  增加字典,不能增加名字相同或主键id相同的字典
+     * @param dictionary    字典的所有属性
+     * @return  message
+     * @throws Exception    sql
+     */
+    @RequestMapping("/admin/insert")
+    public Message insert(Dictionary dictionary) throws Exception {
+        dictionary.setId(dictionaryService.insert());
+        dictionary.setPid(String.valueOf(0));
+        if (dictionaryService.add(dictionary) == 1)
+            return new Message("1","增加字典栏目成功");
+        else
+            return new Message("2","增加字典栏目失败");
+    }
 }

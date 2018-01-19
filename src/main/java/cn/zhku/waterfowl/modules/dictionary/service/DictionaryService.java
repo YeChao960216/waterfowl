@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.dictionary.service;
 
+import cn.zhku.waterfowl.modules.dictionary.dao.DictionaryDao;
 import cn.zhku.waterfowl.pojo.entity.Dictionary;
 import cn.zhku.waterfowl.pojo.entity.DictionaryExample;
 import cn.zhku.waterfowl.pojo.mapper.DictionaryMapper;
@@ -7,6 +8,7 @@ import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ public class DictionaryService  implements IBaseService<Dictionary> {
 
     @Autowired
     DictionaryMapper dictionaryMapper;
+    @Autowired
+    DictionaryDao dictionaryDao;
 
     /**
      *  增加字典
@@ -34,6 +38,34 @@ public class DictionaryService  implements IBaseService<Dictionary> {
             return 500;
         return dictionaryMapper.insert(entity);
     }
+
+    public String insert() throws Exception {
+        List<Dictionary> dictionaryList=new ArrayList<Dictionary>(dictionaryDao.addP());
+        int i;
+        for (i=10000;i<100000;i+=1000){
+           int b=Integer.parseInt(dictionaryList.get(i/10000-1).getId());
+            if (i!=b){
+                break;
+           }
+
+       }
+        return String.valueOf(i);
+    }
+
+
+    public String raise(String pid) throws Exception {
+        List<Dictionary> dictionaryList=new ArrayList<Dictionary>(dictionaryDao.addid(pid));
+        int k=0;
+        for (int i=0;i<1000;i++){
+            int b=Integer.parseInt(dictionaryList.get(i).getId());
+            k=Integer.parseInt(pid)+1+i;
+            if (k!=b){
+                break;
+            }
+        }
+        return String.valueOf(k);
+    }
+
 
     @Override
     public int update(Dictionary entity) throws Exception {

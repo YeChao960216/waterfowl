@@ -138,20 +138,6 @@ public class AquacultureController{
         return outStorageService.showQuantity(entity);
     }
 
-    @ResponseBody
-    @RequestMapping("listremark")
-    public List<Outstorage> listOutstorageByname(String name) throws Exception {
-        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        return aquacultureService.listOutstorageByname(name);
-    }
-
-    @ResponseBody
-    @RequestMapping("listid")
-    public List<Outstorage> listOutstorageid(String name,String remark) throws Exception {
-        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        return aquacultureService.listOutstorageid(name,remark);
-    }
-
     /**
      *  计算相同批次的小于指定name的养殖记录的feedWeight， weight
      * @param aquaculture 参数：name   idPatch

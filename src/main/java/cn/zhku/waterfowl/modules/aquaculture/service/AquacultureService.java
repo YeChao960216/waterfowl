@@ -1,10 +1,8 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
-import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
 import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.AquacultureMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,6 @@ import java.util.List;
 public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
     private AquacultureMapper aquacultureMapper;
-    @Autowired
-    private CheckQuantitydao checkQuantitydao;
 
 
     /**
@@ -86,13 +82,6 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             aquacultureExample.or().andIdPatchEqualTo(entity.getIdPatch());
             //  使用get(0)的原因是Example参数的东西是集合，但我们只要一个符合条件的记录
             Aquaculture aquaculture = aquacultureMapper.selectByExample(aquacultureExample).get(0);
-
-//           AquacultureVo aquacultureVo = new AquacultureVo();
-//           aquacultureVo.setAquaculture(aquaculture);
-//
-//            Outstorage outstorage = outstorageMapper.selectByPrimaryKey("1");
-//            aquacultureVo.setOutstorage(outstorage);
-
             return aquaculture;
         } else {
             return null;
@@ -136,15 +125,6 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             criteria.andIdChargeEqualTo(entity.getIdCharge());
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
-
-
-    public List<Outstorage> listOutstorageByname(String name)throws Exception {
-        return checkQuantitydao.listOutstorageByname(name);
-    }
-    public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
-        return checkQuantitydao.listOutstorageid(name,remark);
-    }
-
 
     /**
      *  查找重量
