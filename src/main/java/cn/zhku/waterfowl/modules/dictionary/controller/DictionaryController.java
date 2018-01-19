@@ -57,10 +57,17 @@ public class DictionaryController {
     @RequestMapping("/admin/delete/{id}")
     public Message delete(@PathVariable String id, Dictionary dictionary) throws Exception {
         dictionary.setId(id);
-        if (dictionaryService.delete(dictionary) == 1)
-            return new Message("1","删除字典成功");
-        else
-            return new Message("2","删除字典失败");
+        if(Integer.parseInt(dictionaryService.get(id).getPid())==0){
+        dictionaryService.delete(dictionary);
+        dictionaryService.deleteAll(id);
+            return new Message("1","删除字典栏目成功");
+        }
+        else if(dictionaryService.delete(dictionary)==1){
+            return new Message("2","删除字典信息成功");
+        }
+        else{
+            return new Message("3","删除字典信息失败");
+        }
     }
 
     /**
