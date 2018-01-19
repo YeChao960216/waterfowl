@@ -71,11 +71,11 @@ public class BaseController {
 	@Value("${urlSuffix}")
 	protected String urlSuffix;
 	
-	/**
-	 * 验证Bean实例对象
-	 */
-	@Autowired
-	protected Validator validator;
+//	/**
+//	 * 验证Bean实例对象
+//	 */
+//	@Autowired
+//	protected Validator validator;
 	
 	protected final static String ARTISAN_ID = "artisan_id";
 	
@@ -123,10 +123,10 @@ public class BaseController {
 	 * @param groups 验证组，不传入此参数时，同@Valid注解验证
 	 * @return 验证成功：继续执行；验证失败：抛出异常跳转400页面。
 	 */
-	protected void beanValidator(Object object, Class<?>... groups) {
-		BeanValidators.validateWithException(validator, object, groups);
-	}
-	
+//	protected void beanValidator(Object object, Class<?>... groups) {
+//		BeanValidators.validateWithException(validator, object, groups);
+//	}
+//
 //	/**
 //	 * 添加Model消息
 //	 * @param
