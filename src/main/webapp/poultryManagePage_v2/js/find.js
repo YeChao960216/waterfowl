@@ -6,7 +6,7 @@
  */
 /**
  * 失策：下面有很多代码的冗余，写的时候匆匆忙忙没有选好设计模式，导致写了一堆垃圾代码,虽然是实现了业务需求，但是代码的可维护性差。
- *  像这种多视图重复渲染的情况，就应该使用视图命名模式+安全工厂模式......and so on
+ *  像这种多视图重复渲染的情况，就应该使用视图命名模式+安全工厂模式......
  */
 (function(){
 
@@ -100,7 +100,7 @@
             qStr.push(key+'='+q[key]);
         }
         $('#back').show();
-        pageController.other = '&'+qStr.toString();
+        pageController.other = '&'+qStr.join('&');
         pageController.init();
     });
 
@@ -267,11 +267,13 @@
             url:oURL.PRONAME+oURL.GETPOSITON,     //位置
             dom:selectNodes[0],
             tpl:'id_name',
+            dataDescription:'list',
             cb:function () {
                 render({
                     url:oURL.PRONAME+oURL.GETHOMETYPE,  //类型
                     dom:selectNodes[1],
                     tpl:'id_name',
+                    dataDescription:'list',
                     cb:function () {
                         render({
                             url:oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //类型->大宿舍
@@ -873,6 +875,7 @@
                     url:oURL.PRONAME+oURL.GETSTATUSLIST, //养殖状态
                     dom:selectNodes[3],
                     tpl:'id_name',
+                    dataDescription:'list',
                 });
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){
                     if(res){
@@ -983,10 +986,10 @@
 
         //渲染方式操作
         $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
-            if(res){
+            if(res.list){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[0],res,'option'],
+                    param:[selectNodes[0],res.list,'id_name'],
                 });
             }else{
                 alert('溯源提示：\n\n获取丢弃方式失败');
@@ -1088,10 +1091,10 @@
         }
         //渲染丢弃方式操作
         $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
-            if(res){
+            if(res.list){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[1],res,'option'],
+                    param:[selectNodes[1],res.list,'id_name'],
                 });
             }else{
                 alert('溯源提示：\n\n获取丢弃方式失败');
@@ -1184,7 +1187,8 @@
         render({                     //发病名称
            url:oURL.PRONAME+oURL.GETFABINGMINGHENG,
            dom:selectNodes[1],
-           tpl:'id_name'
+           tpl:'id_name',
+            dataDescription:'list',
         });
 
         render({                     //药物名称
@@ -1209,13 +1213,15 @@
         render({                     //给药方式
             url:oURL.PRONAME+oURL.GETGEIYAOFANGSHI,
             dom:selectNodes[3],
-            tpl:'id_name'
+            tpl:'id_name',
+            dataDescription:'list',
         });
         
         render({                     //剂量单位
             url:oURL.PRONAME+oURL.GETDANWEI,
             dom:selectNodes[4],
-            tpl:'id_name'
+            tpl:'id_name',
+            dataDescription:'list',
         });
 
         $.get(oURL.PRONAME+oURL.GETEMP,function(res){      //人员信息

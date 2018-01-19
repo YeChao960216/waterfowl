@@ -56,22 +56,25 @@ var zNodes_aquaInfoM = [
     {
         name:"死淘管理", open:true, tid:'./ddl_v2/find.html',children:
         [
-            {name:"删除",tid:'./ddl_v2/del.html',pName:"死淘管理",pUrl:'./ddl_v2/find.html'},
+            {name:"管理",tid:'./ddl_v2/find.html',pName:"死淘管理",pUrl:'./ddl_v2/find.html'},
         ]
     },
     {
         name:"免疫/疾病管理", open:true, tid:'./epi_v2/find.html',children:
         [
-            {name:"删除",tid:'./epi_v2/add.html',pName:"免疫隔离管理",pUrl:'./epi_v2/find.html'},
-
+            {name:"管理",tid:'./epi_v2/find.html',pName:"免疫/疾病管理",pUrl:'./epi_v2/find.html'},
+        ]
+    },
+    {
+        name:"大禽舍管理", open:true, tid:'./affi_v2/find.html',children:
+        [
+            {name:"增加",tid:'./affi_v2/add.html',pName:"大禽舍管理",pUrl:'./affi_v2/find.html'},
         ]
     },
     {
         name:"禽舍管理", open:true, tid:'./fowleryManagePage_v2/find.html',children:
         [
-            {name:"增加",tid:'./fowleryManagePage_v2/aqua_add.html',pName:"禽舍管理管理",pUrl:'./fowleryManagePage_v2/find.html'},
-
-
+            {name:"增加",tid:'./fowleryManagePage_v2/aqua_add.html',pName:"禽舍管理",pUrl:'./fowleryManagePage_v2/find.html'},
         ]
     },
     {

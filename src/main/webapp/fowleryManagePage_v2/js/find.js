@@ -68,8 +68,22 @@
             }
             qStr.push(key+'='+q[key]);
         }
-        console.log(qStr.join('&'));
-        pageController.other = '&'+qStr.toString();
+        $('#back').show();
+        pageController.other = '&'+qStr.join('&');
+        pageController.init();
+    });
+
+    /**
+     * 返回键
+     * 每当成功查找出一项时 此按钮显示
+     * 此按钮被按下时
+     *      清空查询表单的字
+     *      并初始化页面
+     */
+    $('#back').click(function () {
+        $('#searchForm input').val('');
+        $(this).hide();
+        pageController.other = '';
         pageController.init();
     });
 

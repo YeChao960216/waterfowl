@@ -5,27 +5,28 @@
  * @Last Modified time: 2017-11-19 20:07:52
  */
 
-(function(global){
+(function(){
     
         /**
          * oURL 对象
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/outstorage/list',
-            DEL:'/outstorage/delete/',
-            GETTYPE:'/dict/list?pid=65000',
+            FINDLIST:'/admin/affiliation/listAffiliation',
+            DEL:'/admin/affiliation/deleteAffiliation/',
+            GETPOSITION:'/dict/list?pid=70000', //方位
+            GETGUIMO:'/dict/list?pid=60000',   //大小规模
         };
     /**
      * 实例化一个分页控制者
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
+        url:oURL.PRONAME+oURL.FINDLIST,
 
         view:{
             container : $('#content')[0],
-            tpl:'outStorage_show',
+            tpl:'affi_v2_show',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -37,7 +38,7 @@
             count:'10',
         },
         dataFilter:{
-            tpl:'filterTimeAndNull',
+            tpl:'filterTimeAndNull'
         },
         dom:{
             nextBtn :$('#next')[0],
@@ -54,6 +55,30 @@
     pageController.init();
 
     /**
+     * 方位、规模
+     */
+    $.get(oURL.PRONAME+oURL.GETPOSITION,function(res){
+        if(res){
+            viewCommand({
+                command:'display',
+                param:[$('select')[0],res.list,'id_name']
+            });
+        }else{
+            alert('溯源提示:\n\n获取方位信息失败');
+        }
+    });
+    $.get(oURL.PRONAME+oURL.GETGUIMO,function(res){
+        if(res){
+            viewCommand({
+                command:'display',
+                param:[$('select')[1],res.list,'id_name']
+            });
+        }else{
+            alert('溯源提示:\n\n获取规模信息失败');
+        }
+    });
+
+    /**
      * 查询功能
      * 点击了就序列化表单
      * 更改视图控制器的other属性
@@ -63,9 +88,9 @@
         var q = queryParse.call($('#searchForm'));
         var qStr = [];
         for(var key in q) {
-            if (!q[key]) {
+            if (!q[key]) {   //如果填充值为空，我就去除这个属性
                 delete q[key];
-                continue;
+                continue;    //就不压入堆栈中
             }
             qStr.push(key+'='+q[key]);
         }
@@ -89,29 +114,17 @@
     });
 
     /**
-     * 删除
+     * 提交删除的id值
+     1、删除成功后，初始化视图
      */
-    $('#content').on('click','[data-id*="del"]',function () {
-       var id = $(this).attr('data-id').substr(3);
-       if(confirm('溯源提示:\n\n确认删除该物资料信息吗？')){
-           pageController.init();
-           var pointer = new Image();//利用图片信标发送请求
-               pointer.src = oURL.PRONAME+oURL.DEL+id;
-       }
-
+    $('#content').on('click',"[data-id*='del']",function(){
+        var id = $(this).attr('data-id').substr(3);
+        $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+            if(res.status){
+                pageController.init();
+            }else{
+                alert('删除对象条目失败');
+            }
+        });
     });
-
-    /**
-     * 渲染物资类型
-     */
-    $.get(oURL.PRONAME+oURL.GETTYPE,function (res) {
-        if(res){
-            viewCommand({
-               command:'display',
-                param:[$('select')[0],res.list,'id_name']
-            });
-        }else{
-            alert('溯源提示:\n\n获取物资的类型失败');
-        }
-    })
 })();

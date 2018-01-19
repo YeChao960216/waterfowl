@@ -678,7 +678,7 @@ var viewCommand = (function(msg){
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
-             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#idOutstorage#}">修改</a></td>',
              '</tr>'
          ].join(''),
          dict:[
@@ -688,6 +688,49 @@ var viewCommand = (function(msg){
              '<td >{#pid#}</td>',
              '<td >{#remark#}</td>',
              '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         ddl_v2_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#numProcessed#}</td>',
+             '<td >{#processingMode#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         epi_v2_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#diseaes#}</td>',
+             '<td >{#numInfected#}</td>',
+             '<td >{#medicationMode#}</td>',
+             '<td >{#dose#}</td>',
+             '<td >{#doseUnit#}</td>',
+             '<td >{#name#}</td>',
+             '<td >{#processingMode#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         affi_v2_show:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#status#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
