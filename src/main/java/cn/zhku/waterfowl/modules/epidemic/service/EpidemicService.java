@@ -100,7 +100,7 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //负责人编号
         if (StringUtils.isNoneBlank(entity.getIdCharge()))
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-//        //批次编号
+       //批次编号
         if (StringUtils.isNoneBlank(entity.getIdPatch()))
             criteria.andIdPatchEqualTo(entity.getIdPatch());
         //记录者编号

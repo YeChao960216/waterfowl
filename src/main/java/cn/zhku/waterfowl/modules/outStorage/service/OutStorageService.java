@@ -189,31 +189,34 @@ public class OutStorageService  implements IBaseService<Outstorage> {
             for (int i = 0; i < outstorageList.size(); i++) {
                 //将每个记录的剩余量取出来
                 float a = outstorageList.get(i).getRest();
-                //进行累加
+                //进行累加，将值给sum
                 sum += a;
+                //如果sum和所需要的量刚好相等
                 if (sum == count) {
+                    //进行循环体
                     for (int k = 0; k <=i; k++) {
-                        //将符合记录但是没有剩余量的记录取出来
+                        //将符合的记录取出来，将他们的剩余量变为0
                         outstorageList.get(k).setRest(temp);
-                        //将这些记录的剩余量变为0
                         //将更改后的记录放到数据库
                         outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
+                        //接下来创建一个实体，把他们写到养殖与物资的关系表中
                         AquaStor aquaStor=new AquaStor();
                         aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
                         aquaStor.setId(entity.getId());
                         aquaStor.setIdOutstorage(outstorageList.get(k).getIdOutstorage());
                         aquaStorService.add(aquaStor);
                     }
+                    //break为跳出一重循环
                     break;
                     //结束上一层循环体，即跳出循环
 
                 }
                 //如果累加的结果大于所需要的量quantity
                 else if (sum > count) {
+                    //进行循环体
                     for (int k = 0; k < i; k++) {
-                        //将符合记录但是没有剩余量的记录取出来
+                        //将符合记录但是没有剩余量的记录取出来，将这些记录的剩余量变为0
                         outstorageList.get(k).setRest(temp);
-                        //将这些记录的剩余量变为0
                         //将更改后的记录放到数据库
                         outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(k));
                         AquaStor aquaStor=new AquaStor();
@@ -222,11 +225,8 @@ public class OutStorageService  implements IBaseService<Outstorage> {
                         aquaStor.setIdOutstorage(outstorageList.get(k).getIdOutstorage());
                         aquaStorService.add(aquaStor);
                     }
-                    //将符合条件的但是仍有剩余量的记录取出来
-                    //进行循环体
+                    //将符合条件的但是仍有剩余量的记录取出来，并改变剩余量
                     outstorageList.get(i).setRest(sum - count);
-                    //改变该记录的剩余量
-//                    less.setRest(sum - quantity);
                     //将更改后的记录放到数据库
                     outstorageMapper.updateByPrimaryKeySelective(outstorageList.get(i));
                     AquaStor aquaStor=new AquaStor();
