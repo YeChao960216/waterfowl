@@ -31,7 +31,7 @@ public class MaterialTask {
     /**
      * 定时增加一个Material记录
      */
-    @Scheduled(cron = "55 59 23 * * ?")  //    每天23时55分59秒触发任务
+    @Scheduled(cron = "1 0 0 * * ?")  //    每天0时0分1秒触发任务
     public void addMaterialTask() {
         OutstorageExample outstorageExample = new OutstorageExample();
         List<Outstorage> outstorageList = new ArrayList<Outstorage>(outstorageMapper.selectByExample(outstorageExample));

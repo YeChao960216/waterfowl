@@ -36,13 +36,6 @@
 
 
 
-
-	<!-- 配置 JSR303 Bean Validator 定义 -->
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-
-    <!-- 配置使Spring采用CGLIB代理 -->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
-
     <util:properties id="appProperties" location="classpath:/app.properties" />
 
 </beans>

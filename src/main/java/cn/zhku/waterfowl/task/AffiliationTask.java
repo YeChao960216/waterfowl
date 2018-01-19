@@ -19,8 +19,8 @@ import java.util.List;
  * Created by jin on 2017/11/30.
  * 大禽舍的定时器，定时更改状态
  */
-//@Service
-//@EnableScheduling
+@Service
+@EnableScheduling
 public class AffiliationTask {
     @Autowired
     private AffiliationMapper affiliationMapper ;

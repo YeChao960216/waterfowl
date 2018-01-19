@@ -11,4 +11,6 @@ import java.util.List;
 public interface DictionaryDao {
     @Select("select id from dictionary where pid=#{pid} order by id")
     List<Dictionary> addid(String pid);
+    @Select("delete * from dictionary where pid=#{pid}")
+    void deleteAll(String pid);
 }

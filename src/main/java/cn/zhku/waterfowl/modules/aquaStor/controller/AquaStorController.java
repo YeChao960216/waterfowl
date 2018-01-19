@@ -43,14 +43,14 @@ public class AquaStorController extends BaseController{
     /**
      * 在删除死淘表时 会根据死淘表填写的numProcessed(死淘个体数)动态更新patch表的numtotal数目
      * 删除未提交Ddl表记录
-     *  @param key
+     *  @param aid
      * @return  Messages
      */
     @ResponseBody
     @RequestMapping("delete/{id}")
-    public Message deteleAquaStor(@PathVariable String key) throws Exception {
+    public Message deteleAquaStor(@PathVariable String aid) throws Exception {
         AquaStor aquaStor =new AquaStor();
-        aquaStor.setAid(key);
+        aquaStor.setAid(aid);
         if (aquaStorService.delete(aquaStor) == 1) {
             return new Message("1", "删除饲料记录成功");
         } else
@@ -72,14 +72,14 @@ public class AquaStorController extends BaseController{
     }
     /**
      * 修改Ddl表记录
-     *  @param key
+     *  @param eid
      *  @param aquaStor
      * @return  Messages
      */
     @ResponseBody
     @RequestMapping("edit/{id}")
-    public Message editAquaStor(@PathVariable  String key,AquaStor aquaStor) throws Exception {
-        aquaStor.setAid(key);
+    public Message editAquaStor(@PathVariable  String eid,AquaStor aquaStor) throws Exception {
+        aquaStor.setAid(eid);
         if (aquaStorService.update(aquaStor) == 1) {
             return new Message("1", "修改饲料记录成功");
         } else
@@ -88,12 +88,12 @@ public class AquaStorController extends BaseController{
 
     /**
      * 根据Id查询Ddl表记录
-     *  @param key
+     *  @param aid
      */
     @ResponseBody
-    @RequestMapping("show/{key}")
-    public AquaStor showById(@PathVariable String key) throws Exception {
-        return aquaStorService.get(key);
+    @RequestMapping("show/{eid}")
+    public AquaStor showById(@PathVariable String aid) throws Exception {
+        return aquaStorService.get(aid);
     }
     /**
      * 多条件查询
@@ -103,7 +103,7 @@ public class AquaStorController extends BaseController{
      */
     @ResponseBody
     @RequestMapping("findList")
-    public PageInfo<AquaStor> findListDdl(AquaStor aquaStor, CommonQo commonQo) throws Exception {
+    public PageInfo<AquaStor> findListAquaStor(AquaStor aquaStor, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
         PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize());
         //  通过服务层获取查询后的用户列表
