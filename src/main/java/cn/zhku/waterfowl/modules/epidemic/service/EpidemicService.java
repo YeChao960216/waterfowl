@@ -79,7 +79,6 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
             criteria.andRecordDateEqualTo(entity.getRecordDate());
         //疾病
         if (StringUtils.isNoneBlank(entity.getDiseaes()))
-        if (StringUtils.isNoneBlank(entity.getDiseaes()))
             criteria.andDiseaesLike("%"+entity.getDiseaes()+"%");
         //给药方式
         if (StringUtils.isNoneBlank(entity.getProcessingMode()))
@@ -105,6 +104,10 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         //染病个体数
         if (entity.getNumInfected()!=null)
             criteria.andNumInfectedEqualTo(entity.getNumInfected());
+        //id
+        if(entity.getId()!=null)
+            criteria.andIdEqualTo(entity.getId());
+        //名称
         if (StringUtils.isNoneBlank(entity.getName()))
             criteria.andNameLike("%"+entity.getName()+"%");
         return epidemicMapper.selectByExample(epidemicExample);

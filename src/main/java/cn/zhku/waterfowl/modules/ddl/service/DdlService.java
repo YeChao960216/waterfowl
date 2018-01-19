@@ -132,20 +132,23 @@ public class DdlService implements IBaseService<Ddl> {
     public List<Ddl> findList(Ddl entity) throws Exception {
         DdlExample ddlExample = new DdlExample();
         DdlExample.Criteria criteria = ddlExample.createCriteria();
-        if (entity.getIdCharge() != null&&!entity.getIdCharge().equals(""))
+        if (entity.getIdCharge() != null)
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-        if (entity.getIdPatch() != null&&!entity.getIdPatch().equals(""))
+        if (entity.getIdPatch() != null)
             criteria.andIdPatchEqualTo(entity.getIdPatch());
-        if (entity.getIdRecorder() != null&&!entity.getIdRecorder().equals(""))
+        if (entity.getIdRecorder() != null)
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         if (entity.getNumProcessed()!= null)
             criteria.andNumProcessedEqualTo(entity.getNumProcessed());
-        if (entity.getRecordDate()!= null&&!entity.getRecordDate().equals(""))
+        if (entity.getRecordDate()!=null)
             criteria.andRecordDateEqualTo(entity.getRecordDate());
-        if (entity.getRemark() != null&&!entity.getRemark().equals(""))
+        if (entity.getRemark() != null)
             criteria.andRemarkLike("%" + entity.getRemark() + "%");
-        if (entity.getProcessingMode() != null&&!entity.getProcessingMode().equals(""))
+        if (entity.getProcessingMode() != null)
             criteria.andProcessingModeLike("%" + entity.getProcessingMode() + "%");
+        //id
+        if(entity.getId()!=null)
+            criteria.andIdEqualTo(entity.getId());
         return ddlMapper.selectByExample(ddlExample);
     }
 }
