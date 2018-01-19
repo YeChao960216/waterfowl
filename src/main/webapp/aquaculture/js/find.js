@@ -68,7 +68,7 @@
             qStr.push(key+'='+q[key]);
         }
         $('#back').show();
-        pageController.other = '&'+qStr.toString();
+        pageController.other = '&'+qStr.join('&');
         pageController.init();
     });
 

@@ -3,6 +3,7 @@ import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.pojo.entity.EpidemicExample;
 import cn.zhku.waterfowl.pojo.mapper.EpidemicMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -63,7 +64,6 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
             return null;
         }
     }
-
     @Override
     /**
      * 根据epidemic实体多条件查询
@@ -72,39 +72,40 @@ public class EpidemicService  implements IBaseService<Epidemic>  {
         EpidemicExample epidemicExample =new EpidemicExample();
         EpidemicExample.Criteria criteria = epidemicExample.createCriteria();
         //禽舍编号
-        if(entity.getIdPatch()!=null)
+        if(StringUtils.isNoneBlank(entity.getIdPatch()))
             criteria.andIdPatchEqualTo(entity.getIdPatch());
         //  日期
         if (entity.getRecordDate()!=null)
             criteria.andRecordDateEqualTo(entity.getRecordDate());
         //疾病
-        if (entity.getDiseaes()!=null)
+        if (StringUtils.isNoneBlank(entity.getDiseaes()))
+        if (StringUtils.isNoneBlank(entity.getDiseaes()))
             criteria.andDiseaesLike("%"+entity.getDiseaes()+"%");
         //给药方式
-        if (entity.getProcessingMode()!=null)
+        if (StringUtils.isNoneBlank(entity.getProcessingMode()))
             criteria.andProcessingModeLike("%"+entity.getProcessingMode()+"%");
         //负责人编号
-        if (entity.getIdCharge()!=null)
+        if (StringUtils.isNoneBlank(entity.getIdCharge()))
             criteria.andIdChargeEqualTo(entity.getIdCharge());
 //        //批次编号
-//        if (entity.getIdBatch()!=null)
-//            criteria.andIdBatchEqualTo(entity.getIdBatch());
+        if (StringUtils.isNoneBlank(entity.getIdPatch()))
+            criteria.andIdPatchEqualTo(entity.getIdPatch());
         //记录者编号
-        if (entity.getIdRecorder()!=null)
+        if (StringUtils.isNoneBlank(entity.getIdRecorder()))
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         //备注
-        if (entity.getRemark()!=null)
+        if (StringUtils.isNoneBlank(entity.getRemark()))
             criteria.andRemarkLike("%"+entity.getRemark()+"%");
         //处理方式
-        if (entity.getProcessingMode()!=null)
+        if (StringUtils.isNoneBlank(entity.getProcessingMode()))
             criteria.andProcessingModeLike("%"+entity.getProcessingMode()+"%");
         //免疫，疾病标志
-        if (entity.getSign()!=null)
+        if (StringUtils.isNoneBlank(entity.getSign()))
             criteria.andSignEqualTo(entity.getSign());
         //染病个体数
         if (entity.getNumInfected()!=null)
             criteria.andNumInfectedEqualTo(entity.getNumInfected());
-        if (entity.getName()!=null)
+        if (StringUtils.isNoneBlank(entity.getName()))
             criteria.andNameLike("%"+entity.getName()+"%");
         return epidemicMapper.selectByExample(epidemicExample);
     }

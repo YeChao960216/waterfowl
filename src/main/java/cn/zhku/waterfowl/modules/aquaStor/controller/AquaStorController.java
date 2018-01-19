@@ -34,11 +34,11 @@ public class AquaStorController extends BaseController{
     @ResponseBody
     @RequestMapping("save")
     public Message addAquaStor(AquaStor aquaStor) throws Exception {
-        aquaStor.setKey(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
         if (aquaStorService.add(aquaStor)==1) {
-            return new Message("1", "增加病死淘记录表成功");
+            return new Message("1", "增加饲料记录成功");
         } else
-            return new Message("2","增加病死淘记录表失败，已经提交的数据无法删除");
+            return new Message("2","增加饲料记录失败");
     }
     /**
      * 在删除死淘表时 会根据死淘表填写的numProcessed(死淘个体数)动态更新patch表的numtotal数目
@@ -50,11 +50,11 @@ public class AquaStorController extends BaseController{
     @RequestMapping("delete/{id}")
     public Message deteleAquaStor(@PathVariable String key) throws Exception {
         AquaStor aquaStor =new AquaStor();
-        aquaStor.setKey(key);
+        aquaStor.setAid(key);
         if (aquaStorService.delete(aquaStor) == 1) {
-            return new Message("1", "删除病死淘记录表成功");
+            return new Message("1", "删除饲料记录成功");
         } else
-            return new Message("2","删除病死淘记录表失败，已经提交的数据无法删除");
+            return new Message("2","删除饲料记录失败");
     }
     /**
      * 在修改死淘表时 会根据死淘表填写的numProcessed(死淘个体数)动态更新patch表的numtotal数目
@@ -66,9 +66,9 @@ public class AquaStorController extends BaseController{
     @RequestMapping("edit")
     public Message editAquaStor(AquaStor aquaStor) throws Exception {
         if (aquaStorService.update(aquaStor) == 1) {
-            return new Message("1", "修改病死淘记录表成功");
+            return new Message("1", "修改饲料记录成功");
         } else
-            return new Message("2","修改病死淘记录表失败,已经提交的数据无法删除");
+            return new Message("2","修改饲料记录失败");
     }
     /**
      * 修改Ddl表记录
@@ -79,11 +79,11 @@ public class AquaStorController extends BaseController{
     @ResponseBody
     @RequestMapping("edit/{id}")
     public Message editAquaStor(@PathVariable  String key,AquaStor aquaStor) throws Exception {
-        aquaStor.setKey(key);
+        aquaStor.setAid(key);
         if (aquaStorService.update(aquaStor) == 1) {
-            return new Message("1", "修改病死淘记录表成功");
+            return new Message("1", "修改饲料记录成功");
         } else
-            return new Message("2","修改病死淘记录表失败，已经提交的数据无法修改");
+            return new Message("2","修改饲料记录失败");
     }
 
     /**
@@ -105,7 +105,7 @@ public class AquaStorController extends BaseController{
     @RequestMapping("findList")
     public PageInfo<AquaStor> findListDdl(AquaStor aquaStor, CommonQo commonQo) throws Exception {
         //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize());
         //  通过服务层获取查询后的用户列表
         List<AquaStor> aquaStorList =  aquaStorService.findList(aquaStor);
         //  返回 pageBean实体

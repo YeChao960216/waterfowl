@@ -27,7 +27,7 @@ public class EpiStorService implements IBaseService<EpiStor> {
 
     @Override
     public int delete(EpiStor entity) throws Exception {
-        return epiStorMapper.deleteByPrimaryKey(entity.getKey());
+        return epiStorMapper.deleteByPrimaryKey(entity.getEid());
     }
 
     @Override

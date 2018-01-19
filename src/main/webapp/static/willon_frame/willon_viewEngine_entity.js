@@ -157,16 +157,6 @@ var viewCommand = (function(msg){
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
             '</tr>'
         ].join(''),
-         fowlery_del:[
-             '<tr>',
-             '<td >{#size#}</td>',
-             '<td >{#status#}</td>',
-             '<td >{#affiliation#}</td>',
-             '<td >{#idRecord#}</td>',
-             '<td >{#idCharge#}</td>',
-             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
-             '</tr>'
-         ].join(''),
          fowlery_find:[
              '<tr>',
              '<td >{#size#}</td>',
@@ -174,6 +164,7 @@ var viewCommand = (function(msg){
              '<td >{#affiliation#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
+             "<td ><a class='btn' data-id='del{#id#}'>删除</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
              '</tr>'
          ].join(''),
@@ -607,6 +598,10 @@ var viewCommand = (function(msg){
                     '<td>批次号</td>'+
                     '<td><select name="idPatch" class="select-fix-input"></select></td>'+
                 '</tr>'+
+                '<tr>'+
+                    '<td>筛选前几天的数据</td>'+
+                    '<td><select name="name" class="select-fix-input"></select></td>'+
+                '</tr>'+
                 '</table>'+
                 '<div class="viewport"></div>'+
             '</div>'
@@ -683,6 +678,59 @@ var viewCommand = (function(msg){
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#idOutstorage#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         dict:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#name#}</td>',
+             '<td >{#pid#}</td>',
+             '<td >{#remark#}</td>',
+             '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         ddl_v2_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#numProcessed#}</td>',
+             '<td >{#processingMode#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         epi_v2_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#diseaes#}</td>',
+             '<td >{#numInfected#}</td>',
+             '<td >{#medicationMode#}</td>',
+             '<td >{#dose#}</td>',
+             '<td >{#doseUnit#}</td>',
+             '<td >{#name#}</td>',
+             '<td >{#processingMode#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         affi_v2_show:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#status#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),

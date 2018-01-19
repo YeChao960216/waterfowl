@@ -70,7 +70,7 @@
             qStr.push(key+'='+q[key]);
         }
         $('#back').show();
-        pageController.other = '&'+qStr.toString();
+        pageController.other = '&'+qStr.join('&');
         pageController.init();
     });
 
@@ -108,7 +108,7 @@
         if(res){
             viewCommand({
                command:'display',
-                param:[$('select')[0],res,'id_name']
+                param:[$('select')[0],res.list,'id_name']
             });
         }else{
             alert('溯源提示:\n\n获取物资的类型失败');

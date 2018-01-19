@@ -22,7 +22,7 @@
             if(res){
                 viewCommand({
                     command:'display',
-                    param:[$('select')[0],res,'id_name']
+                    param:[$('select')[0],res.list,'id_name']
                 });
             }
      });
@@ -31,7 +31,7 @@
          if(res){
              viewCommand({
                  command:'display',
-                 param:[$('select')[1],res,'id_name']
+                 param:[$('select')[1],res.list,'id_name']
              });
          }
      });

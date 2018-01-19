@@ -1,15 +1,14 @@
 package cn.zhku.waterfowl.modules.aquaculture.service;
 
-import cn.zhku.waterfowl.modules.aquaculture.dao.CheckQuantitydao;
 import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.AquacultureExample;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.AquacultureMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +20,6 @@ import java.util.List;
 public class AquacultureService  implements IBaseService<Aquaculture>{
     @Autowired
     private AquacultureMapper aquacultureMapper;
-    @Autowired
-    private CheckQuantitydao checkQuantitydao;
 
 
     /**
@@ -86,13 +83,6 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
             aquacultureExample.or().andIdPatchEqualTo(entity.getIdPatch());
             //  使用get(0)的原因是Example参数的东西是集合，但我们只要一个符合条件的记录
             Aquaculture aquaculture = aquacultureMapper.selectByExample(aquacultureExample).get(0);
-
-//           AquacultureVo aquacultureVo = new AquacultureVo();
-//           aquacultureVo.setAquaculture(aquaculture);
-//
-//            Outstorage outstorage = outstorageMapper.selectByPrimaryKey("1");
-//            aquacultureVo.setOutstorage(outstorage);
-
             return aquaculture;
         } else {
             return null;
@@ -134,34 +124,8 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         if (entity.getIdCharge() != null)
             //  相当于 duty = entity.getIdCharge()
             criteria.andIdChargeEqualTo(entity.getIdCharge());
-
-
         return aquacultureMapper.selectByExample(aquacultureExample);
     }
-
-    /**
-     * 校验饲料重量
-     * @param entity
-     * @return
-     * @throws Exception
-     */
-    public float checkQuantity(Aquaculture entity)throws Exception {
-        String name=entity.getFeedType();
-        String firm=entity.getRemark();
-        return checkQuantitydao.checkQuantity(name,firm);
-    }
-
-//    public void updateOutstroge(float quantity,String name,String remark) {
-//        checkQuantitydao.updateQuantity(quantity,name,remark);
-//    }
-
-    public List<Outstorage> listOutstorageByname(String name)throws Exception {
-        return checkQuantitydao.listOutstorageByname(name);
-    }
-    public List<Outstorage> listOutstorageid(String name,String remark)throws Exception {
-        return checkQuantitydao.listOutstorageid(name,remark);
-    }
-
 
     /**
      *  查找重量
@@ -169,10 +133,12 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
      * @return FeedWeight
      * @throws Exception sql
      */
-    public FeedWeight showWeight(Aquaculture aquaculture) throws Exception {
-        FeedWeight feedWeight = new FeedWeight();
-        feedWeight.setName(aquaculture.getName());
+    public List<FeedWeight> showWeight(Aquaculture aquaculture) throws Exception {
 
+        List<FeedWeight> feedWeightList = new ArrayList<>();
+
+
+        String maxName = aquaculture.getName();
 
         //  消除name的影响
         aquaculture.setName(null);
@@ -183,14 +149,20 @@ public class AquacultureService  implements IBaseService<Aquaculture>{
         aquacultureList.forEach(
                 aq -> {
                     //  如果name天数小于传进来的参数， 喂养重量相加
-                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(feedWeight.getName())){
-                    feedWeight.setFeedWeight(feedWeight.getFeedWeight()+ aq.getFeedWeight());
-                        //  设置最后的水禽重量
+                    if (Integer.parseInt(aq.getName()) <= Integer.parseInt(maxName)){
+                        FeedWeight feedWeight = new FeedWeight();
+
+                        feedWeight.setFeedWeight( aq.getFeedWeight());
+                        feedWeight.setName(aq.getName());
                         feedWeight.setWeight(aq.getWeight());
+
+                        feedWeightList.add(feedWeight);
                     }
+
+
                 }
         );
-        return feedWeight;
+        return feedWeightList;
     }
 
 }

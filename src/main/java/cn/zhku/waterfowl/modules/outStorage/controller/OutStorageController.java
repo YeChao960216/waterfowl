@@ -9,7 +9,6 @@ package cn.zhku.waterfowl.modules.outStorage.controller;
 import cn.zhku.waterfowl.modules.outStorage.model.OutStorageExcel;
 import cn.zhku.waterfowl.modules.outStorage.model.OutStorageUtilExcel;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
-import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -56,10 +55,10 @@ public class OutStorageController extends BaseController{
             Timestamp t = new Timestamp(System.currentTimeMillis());
             outstorage.setRecordDate(t);
              if (outStorageService.add(outstorage)==1){
-                return new Message("1","添加物资成功");
+                return new Message("1","添加物资记录成功");
             }
             else{
-                 return new Message("2","添加物资失败");
+                 return new Message("2","添加物资记录失败");
              }
 
         }
@@ -76,9 +75,9 @@ public class OutStorageController extends BaseController{
             Outstorage outstorage =  new Outstorage();
             outstorage.setIdOutstorage(idOutStorage);
             if(outStorageService.delete(outstorage) == 1)
-                return new Message("1","删除出库记录成功");
+                return new Message("1","删除物资记录成功");
             else
-                return new Message("2","删除出库记录失败");
+                return new Message("2","删除物资记录失败");
         }
         /** 根据id修改出库记录
          *  测试成功
@@ -91,22 +90,10 @@ public class OutStorageController extends BaseController{
         public Message editOutstorage(@PathVariable String id, Outstorage outstorage) throws Exception {
             outstorage.setIdOutstorage(id);
             if(outStorageService.update(outstorage) == 1)
-                return new Message("1","修改出库记录成功");
+                return new Message("1","修改物资记录成功");
             else
-                return new Message("2","修改出库记录失败");
+                return new Message("2","修改物资记录失败");
         }
-
-//        /** 根据id展示出库信息
-//         * 测试完成
-//         * @param id   只需记录表id
-//         * @return OutStorage实体
-//         * @throws Exception    sql
-//         */
-//        @ResponseBody
-//        @RequestMapping("select/{id}")
-//        public Outstorage selectById(@PathVariable String id) throws Exception {
-//            return outStorageService.get(id);
-//        }
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
          * @param outstorage outstorage实体的各个字段
@@ -118,7 +105,17 @@ public class OutStorageController extends BaseController{
         @RequestMapping("list")
         public PageInfo<Outstorage> select(Outstorage outstorage, CommonQo commonQo) throws Exception {
             //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
+            if (commonQo.getSort().equals("1"))  //字符串"1"是sort的默认值，相当于 order by 1 ,即按主键排序
+            {
+                commonQo.setSort("expiration_date");
+            }
+            else if(commonQo.getSort().equals("2")){
+                commonQo.setSort("record_date");
+            }
+            else{
+                commonQo.setSort("record_date desc");
+            }
+            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),commonQo.getSort());
             //  通过服务层获取查询后的用户列表
             List<Outstorage> outstorageList =  outStorageService.findList(outstorage);
             //  返回 pageBean实体
@@ -131,32 +128,6 @@ public class OutStorageController extends BaseController{
          * @throws Exception    sql
          */
 
-        @ResponseBody
-        @RequestMapping("show")
-        public PageInfo<Outstorage> list(Outstorage entity, CommonQo commonQo) throws Exception {
-            //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
-            PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),"record_date desc");
-            //  通过服务层获取查询后的用户列表
-            List<Outstorage> outstorageList =  outStorageService.showAll(entity,commonQo);
-            //  返回 pageBean实体
-            return new PageInfo<Outstorage>(outstorageList);
-        }
-    /**
-     *  根据用户输入的name模糊查询matrical表
-     * @param name   物资名称
-     * @return  一个带有List<Material>
-     * @throws Exception    sql
-     */
-
-    @ResponseBody
-    @RequestMapping("select/{name}")
-    public List<Outstorage> listOutstorageByName(@PathVariable String name) throws Exception {
-        //  通过服务层获取查询后的用户列表
-        //将返回的值放在ArrayList里面，以Outstorage模板呈现，没有的字段为null
-        List<Outstorage> outStorageList =  new ArrayList<Outstorage> (outStorageService.listOutstorageByName(name));
-        //  返回 pageBean实体
-        return outStorageList;
-    }
 
     @ResponseBody
     @RequestMapping("listName/{type}")
@@ -234,6 +205,5 @@ public class OutStorageController extends BaseController{
         // 直接调用工具类生成xls或xlsx文件,用户访问此链接直接下载
         return exportExcelUtil.exportXLSXOutput("物资表", headers, outstorageList);
     }
-
-    }
+}
 

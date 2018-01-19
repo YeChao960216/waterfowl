@@ -29,7 +29,7 @@ public class AquaStorService implements IBaseService<AquaStor>{
 
     @Override
     public int delete(AquaStor entity) throws Exception {
-        return aquaStorMapper.deleteByPrimaryKey(entity.getKey());
+        return aquaStorMapper.deleteByPrimaryKey(entity.getAid());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class AquaStorService implements IBaseService<AquaStor>{
     @Override
     public AquaStor get(AquaStor entity) throws Exception {
         AquaStorExample aquaStorExample=new AquaStorExample();
-        aquaStorExample.or().andIdEqualTo(entity.getKey());
+        aquaStorExample.or().andIdEqualTo(entity.getAid());
         return aquaStorMapper.selectByExample(aquaStorExample).get(0);
     }
 

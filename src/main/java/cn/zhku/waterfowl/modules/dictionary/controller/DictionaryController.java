@@ -2,16 +2,16 @@ package cn.zhku.waterfowl.modules.dictionary.controller;
 
 import cn.zhku.waterfowl.modules.dictionary.service.DictionaryService;
 import cn.zhku.waterfowl.pojo.entity.Dictionary;
+
+import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
-import org.dozer.inject.Inject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 /**
  * @author : 钱伟健 gonefuture@qq.com
@@ -30,8 +30,10 @@ public class DictionaryController {
      * @throws Exception    sql
      */
     @RequestMapping("/dict/list")
-    public List<Dictionary> list(Dictionary dict) throws Exception {
-        return dictionaryService.findList(dict);
+    public PageInfo<Dictionary> list(Dictionary dict, CommonQo commonQo) throws Exception {
+        //  设置页码，页面大小，排序方式,此处的sql相当于 limit pageNum ,pageSize orderBy id desc
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(),commonQo.getSort());
+        return new PageInfo<Dictionary>(dictionaryService.findList(dict));
     }
 
     /**
@@ -85,15 +87,27 @@ public class DictionaryController {
      */
     @RequestMapping("/admin/new")
     public Message add(Dictionary dictionary) throws Exception {
-        if (dictionaryService.update(dictionary) == 1)
-            return new Message("1","增加字典成功");
+        dictionary.setId(dictionaryService.raise(dictionary.getPid()));
+        if (dictionaryService.add(dictionary) == 1)
+            return new Message("1","增加字典信息成功");
         else
-            return new Message("2","增加字典失败,请检查主键或名字是否重复");
+            return new Message("2","增加字典信息失败");
     }
 
 
-
-
-
-
+    /**
+     *  增加字典,不能增加名字相同或主键id相同的字典
+     * @param dictionary    字典的所有属性
+     * @return  message
+     * @throws Exception    sql
+     */
+    @RequestMapping("/admin/insert")
+    public Message insert(Dictionary dictionary) throws Exception {
+        dictionary.setId(dictionaryService.insert());
+        dictionary.setPid(String.valueOf(0));
+        if (dictionaryService.add(dictionary) == 1)
+            return new Message("1","增加字典栏目成功");
+        else
+            return new Message("2","增加字典栏目失败");
+    }
 }
