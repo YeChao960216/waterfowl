@@ -1,4 +1,6 @@
 package cn.zhku.waterfowl.modules.epidemic.controller;
+import cn.zhku.waterfowl.modules.epidemic.dao.EpidemicDao;
+import cn.zhku.waterfowl.modules.epidemic.model.DiseaesMethodVo;
 import cn.zhku.waterfowl.modules.epidemic.service.EpidemicService;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -27,6 +29,9 @@ import java.util.UUID;
     public class EpidemicController extends BaseController {
         @Autowired
         EpidemicService epidemicService;
+
+        @Autowired
+        private EpidemicDao epidemicDao;
 
         /** 增加免疫记录
          * 测试完成
@@ -125,6 +130,17 @@ import java.util.UUID;
 
             //  返回 pageBean实体
             return new PageInfo<Epidemic>(epidemicList);
+        }
+
+        /**\
+         *  显示疾病方法
+         * @param idPatch   批次号
+         * @return 疾病方法
+         */
+        @ResponseBody
+        @RequestMapping("diseaesMethod")
+        public List<DiseaesMethodVo> findDiseasMethod(String idPatch) {
+            return epidemicDao.findDiseaesMethod(idPatch);
         }
 
     }

@@ -191,7 +191,7 @@ var willon_option_pie = {
  */
 var willon_option_bar = {
     title : {
-        text: '免疫/疾病占比',
+        text: '免疫/疾病情况统计',
         subtext: '依据分批到当前该时间段统计',
         x:'center'
     },

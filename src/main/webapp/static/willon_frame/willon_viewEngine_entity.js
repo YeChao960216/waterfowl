@@ -564,7 +564,7 @@ var viewCommand = (function(msg){
             '</tr>'+
             '<tr>'+
             '<td>联系电话</td>'+
-            '<td><input type="phone" name="phone" id="phone" class="select-fix-input"></td>'+
+            '<td><input type="text" name="phone" id="phone" class="select-fix-input" pattern="^1[3-9]\d{9}$"></td>'+
             '</tr>'+
              '<tr>'+
              '<td>记录人</td>'+
@@ -715,7 +715,6 @@ var viewCommand = (function(msg){
          ].join(''),
          dict:[
              '<tr>',
-             '<td >{#id#}</td>',
              '<td >{#name#}</td>',
              '<td >{#pid#}</td>',
              '<td >{#remark#}</td>',
@@ -769,18 +768,43 @@ var viewCommand = (function(msg){
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){
-            return obj[key];
+             if(+obj[key]){   //判断是不是数字
+                 var word = localStorage.getItem('waterfowl'+obj[key]);     //字典过滤
+                 if(word){          //利用强制类型转换 是数字的
+                     return word;
+                 }else{
+                     return obj[key];
+                 }
+             }else{
+                 return obj[key];
+             }
          })
      }
+    function noneformateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
+        return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){
+            return obj[key];
+        })
+    }
      var Action = {                            //方法集合
          create : function(data,view){         //批量格式化字符串
-            if(data.length){
-                for(var i=0,len=data.length;i<len;i++){
-                    html+=formateString(tpl[view],data[i]);
-                }
-            }else{
-                html+=formateString(tpl[view],data); //不是一个数组直接格式化字符串缓存到html 中
-            }
+             if(view === 'id_name'){  //如果是字典渲染
+                 if(data.length){
+                     for(var i=0,len=data.length;i<len;i++){
+                         html+=noneformateString(tpl[view],data[i]);
+                     }
+                 }else{
+                     html+=noneformateString(tpl[view],data); //不是一个数组直接格式化字符串缓存到html 中
+                 }
+             }else{
+                 if(data.length){
+                     for(var i=0,len=data.length;i<len;i++){
+                         html+=formateString(tpl[view],data[i]);
+                     }
+                 }else{
+                     html+=formateString(tpl[view],data); //不是一个数组直接格式化字符串缓存到html 中
+                 }
+             }
+
          },
          append : function(container,data,view){
             if(data){
@@ -789,7 +813,9 @@ var viewCommand = (function(msg){
             if(typeof container !='object'){
                 throw new Error('第一个参数的类型应该为jq对象')
             }else{
-                container.append(html)//,此时container为jq 对象 拼接展示
+                var df = document.createDocumentFragment();
+                $(df).append(html);
+                $(container).append($(df));//,此时container为jq 对象 拼接展示
                 html = '';                 //展示后清空模板缓冲
             }
          },
@@ -800,7 +826,9 @@ var viewCommand = (function(msg){
              if(typeof container !='object'){
                  throw new Error('第一个参数的类型应该为jq对象')
              }else{
-                 container.after(html)//,此时container为jq 对象 拼接展示
+                 var df = document.createDocumentFragment();
+                 $(df).append(html);
+                 $(container).after($(df));//,此时container为jq 对象 拼接展示
                  html = '';                 //展示后清空模板缓冲
              }
          },
@@ -811,8 +839,10 @@ var viewCommand = (function(msg){
              if(typeof container !='object'){
                  throw new Error('第一个参数的类型应该为obj string')
              }else{
-                 container.innerHTML = html;//展示
-                 html = '';                 //展示后清空模板缓冲
+                 var df = document.createDocumentFragment();
+                 $(df).append(html);
+                 $(container).html($(df));//展示
+                 html = '';               //展示后清空模板缓冲
              }
          }
      }
