@@ -554,12 +554,12 @@
                                                             param:[$(oDetail),[],'view_ddl'],
                                                         });
                                                         var ddl_vue = oDetail.getElementsByClassName('detail-content')[3],
-                                                            selectNodes = ddl_vue.getElementsByTagName('select'),
+                                                            selectNodes_ddl = ddl_vue.getElementsByTagName('select'),
                                                             viewPort_ddl = ddl_vue.getElementsByClassName('viewport')[0];
 
                                                         viewCommand({
                                                             command:'display',
-                                                            param:[selectNodes[0],resPatchList.object,'id'],
+                                                            param:[selectNodes_ddl[0],resPatchList.object,'id'],
                                                         });
 
                                                         if(which==='D'){
@@ -579,9 +579,10 @@
                                                         echarts.init(viewPort_ddl).setOption(willon_option_pie);  //DDL情况的echarts的渲染
                                                         detail_view_ctrl.num = 4;
 
-                                                        selectNodes[0].onchange = function () {
+                                                        selectNodes_ddl[0].onchange = function () {
+                                                            console.log('asdasd');
                                                             $.get(oURL.PRONAME+oURL.GETDDLVUE+this.value,function (res) {
-                                                                if(res){
+                                                                if(res.length){
                                                                     $(viewPort_ddl).show();
                                                                     var view_ddl_data = {name:[],data:[]};
                                                                     res.forEach(function (ele) {
@@ -596,8 +597,8 @@
                                                                 }
                                                             });
                                                         }
-                                                        $.get(oURL.PRONAME+oURL.GETEPIVUE+selectNodes[0].value,function (res) {
-                                                            if(res.length){
+                                                        $.get(oURL.PRONAME+oURL.GETEPIVUE+selectNodes_ddl[0].value,function (res) {
+                                                            if(res){
                                                                 //免疫图
                                                                 viewCommand({
                                                                     command:'append',
@@ -630,9 +631,9 @@
                                                                 echarts.init(viewPort_epi).setOption(willon_option_bar);  //免疫情况的echarts的渲染
                                                                 detail_view_ctrl.num = 5;
 
-                                                                selectNodes[0].onchange = function () {
+                                                                selectNodes_epi[0].onchange = function () {
                                                                     $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
-                                                                        if(res){
+                                                                        if(res.length){
                                                                             $(viewPort_epi).show();
                                                                             var view_epi_data = {name:[],data:[]};
                                                                             res.forEach(function (ele) {
@@ -653,7 +654,7 @@
 
                                                     }else{  //没有死淘记录
                                                         $.get(oURL.PRONAME+oURL.GETEPIVUE+resPatchList.object[0].id,function (res) {
-                                                            if(res.length){
+                                                            if(res){
                                                                 viewCommand({
                                                                     command:'append',
                                                                     param:[$(oDetail),[],'view_epi'],
@@ -685,7 +686,7 @@
 
                                                                 selectNodes[0].onchange = function () {
                                                                     $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
-                                                                        if(res){
+                                                                        if(res.length){
                                                                             $(viewPort_ddl).show();
                                                                             var view_ddl_data = {name:[],data:[]};
                                                                             res.forEach(function (ele) {
