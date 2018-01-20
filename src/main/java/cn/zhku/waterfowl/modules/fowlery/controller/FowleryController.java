@@ -71,8 +71,10 @@ public class FowleryController {
     @ResponseBody
     @RequestMapping("newFowlery")
     public Message addFowlery(Fowlery fowlery) throws Exception {
-        fowlery.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        if(fowleryService.add(fowlery)==1){
+        if (fowlery.getId()==null||fowlery.getId().isEmpty()){
+            return new Message("3","添加禽舍失败，请填写禽舍编号");
+        }
+        else if(fowleryService.add(fowlery)==1){
             return new Message("1","添加禽舍成功");
         }else{
             return new Message("0","添加禽舍失败");

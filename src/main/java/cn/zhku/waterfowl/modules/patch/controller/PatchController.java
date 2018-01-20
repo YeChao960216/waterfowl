@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -132,8 +133,10 @@ public class PatchController {
     @ResponseBody
     @RequestMapping("newPatch")
     public Message addPatch( Patch patch) throws Exception {
-
-        patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String a=sdf.format(t);
+        patch.setId(poultryService.get(patch.getIdPoultry())+patch.getIdAffilation()+patch.getIdFowlery()+a);
 //        //设置时间格式
 //        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 //        Calendar c=Calendar.getInstance();
@@ -142,7 +145,7 @@ public class PatchController {
 //        //将时间变成date类型
 //        Date date=sd.parse(stime);
         //  因为储存进树据库时是时间戳，所以这这里设置的时间格式一般是不会生效的
-        patch.setDate(new Date());
+        patch.setDate(t);
         if (patchService.add(patch) == 1) {
             return new Message("1","增加分批记录成功");
         } else {
