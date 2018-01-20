@@ -623,7 +623,7 @@ var viewCommand = (function(msg){
              '</div>'
          ].join(''),
          view_epi:[
-             '<div class="detail-content">'+
+             '<div class="detail-content view-epi">'+
              '<table>'+
              '<caption>家禽免疫/疾病情况图</caption>'+
              '<tr>'+
@@ -685,7 +685,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '<td><textarea  name="processingMode" placeholder="备注" class="select-fix-input"></textarea></td>'+
              '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
@@ -745,8 +745,8 @@ var viewCommand = (function(msg){
              '<td >{#dose#}</td>',
              '<td >{#doseUnit#}</td>',
              '<td >{#name#}</td>',
-             '<td >{#processingMode#}</td>',
              '<td >{#remark#}</td>',
+             '<td >{#processingMode#}</td>',
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
