@@ -51,7 +51,7 @@
      * 更改视图控制器的other属性
      * 初始化页面
      */
-    $.get(oURL.PRONAME+oURL.GETLIST+'?pid=0',function (res) {  //渲染所有的栏目
+    $.get(oURL.PRONAME+oURL.GETLIST+'?pid=0&pageSize=1000&pageNum=1',function (res) {  //渲染所有的栏目
         if(res.list){
 
             viewCommand({

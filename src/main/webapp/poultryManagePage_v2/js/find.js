@@ -571,8 +571,8 @@
 
                                                         var view_ddl_data = {name:[],data:[]};
                                                         res.forEach(function (ele) {
-                                                            view_ddl_data.name.push(ele.name);
-                                                            view_ddl_data.data.push({name:ele.name,value:ele.value});
+                                                            view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                            view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                         });
                                                         willon_option_pie.legend.data = view_ddl_data.name;
                                                         willon_option_pie.series[0].data = view_ddl_data.data;
@@ -582,14 +582,17 @@
                                                         selectNodes[0].onchange = function () {
                                                             $.get(oURL.PRONAME+oURL.GETDDLVUE+this.value,function (res) {
                                                                 if(res){
+                                                                    $(viewPort_ddl).show();
                                                                     var view_ddl_data = {name:[],data:[]};
                                                                     res.forEach(function (ele) {
-                                                                        view_ddl_data.name.push(ele.name);
-                                                                        view_ddl_data.data.push({name:ele.name,value:ele.value});
+                                                                        view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                        view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                                     });
                                                                     willon_option_pie.legend.data = view_ddl_data.name;
                                                                     willon_option_pie.series[0].data = view_ddl_data.data;
                                                                     echarts.init(viewPort_ddl).setOption(willon_option_pie);  //DDL情况的echarts的渲染
+                                                                }else{
+                                                                    $(viewPort_ddl).hide();
                                                                 }
                                                             });
                                                         }
@@ -619,8 +622,8 @@
 
                                                                 var view_epi_data = {name:[],data:[]};
                                                                 res.forEach(function (ele) {
-                                                                    view_epi_data.name.push(ele.name);
-                                                                    view_epi_data.data.push({name:ele.name,value:ele.value});
+                                                                    view_epi_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                    view_epi_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                                 });
                                                                 willon_option_bar.xAxis[0].data = view_epi_data.name;
                                                                 willon_option_bar.series[0].data = view_epi_data.data;
@@ -630,14 +633,17 @@
                                                                 selectNodes[0].onchange = function () {
                                                                     $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
                                                                         if(res){
+                                                                            $(viewPort_epi).show();
                                                                             var view_epi_data = {name:[],data:[]};
                                                                             res.forEach(function (ele) {
-                                                                                view_epi_data.name.push(ele.name);
-                                                                                view_epi_data.data.push({name:ele.name,value:ele.value});
+                                                                                view_epi_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                                view_epi_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                                             });
                                                                             willon_option_bar.xAxis[0].data = view_epi_data.name;
                                                                             willon_option_bar.series[0].data = view_epi_data.data;
                                                                             echarts.init(viewPort_epi).setOption(willon_option_bar);  //免疫情况的echarts的渲染
+                                                                        }else{
+                                                                            $(viewPort_epi).hide();
                                                                         }
                                                                     });
                                                                 }
@@ -669,8 +675,8 @@
 
                                                                 var view_ddl_data = {name:[],data:[]};
                                                                 res.forEach(function (ele) {
-                                                                    view_ddl_data.name.push(ele.name);
-                                                                    view_ddl_data.data.push({name:ele.name,value:ele.value});
+                                                                    view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                    view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                                 });
                                                                 willon_option_bar.xAxis[0].data = view_ddl_data.name;
                                                                 willon_option_bar.series[0].data = view_ddl_data.data;
@@ -680,14 +686,17 @@
                                                                 selectNodes[0].onchange = function () {
                                                                     $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
                                                                         if(res){
+                                                                            $(viewPort_ddl).show();
                                                                             var view_ddl_data = {name:[],data:[]};
                                                                             res.forEach(function (ele) {
-                                                                                view_ddl_data.name.push(ele.name);
-                                                                                view_ddl_data.data.push({name:ele.name,value:ele.value});
+                                                                                view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                                view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
                                                                             });
                                                                             willon_option_bar.xAxis[0].data = view_ddl_data.name;
                                                                             willon_option_bar.series[0].data = view_ddl_data.data;
                                                                             echarts.init(viewPort_ddl).setOption(willon_option_bar);  //养殖情况的echarts的渲染
+                                                                        }else{
+                                                                            $(viewPort_ddl).hide();
                                                                         }
                                                                     });
                                                                 }
