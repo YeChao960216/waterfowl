@@ -127,13 +127,12 @@ public class AffiliationService implements IBaseService<Affiliation> {
      * 通过这三个查 找数据
      * @param type
      * @param position
-     * @param size
      * @return
      */
-    public List<Affiliation> selectAffiliation(String type, String position, String size) {
+    public List<Affiliation> selectAffiliation(String type, String position) {
         AffiliationExample affiliationExample=new AffiliationExample();
         AffiliationExample.Criteria criteria=affiliationExample.createCriteria();
-        criteria.andTypeEqualTo(type).andPositionEqualTo(position).andSizeEqualTo(size);
+        criteria.andTypeEqualTo(type).andPositionEqualTo(position).andStatusEqualTo("未满员");
         return affiliationMapper.selectByExample(affiliationExample);
     }
 }
