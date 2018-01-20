@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -132,8 +133,10 @@ public class PatchController {
     @ResponseBody
     @RequestMapping("newPatch")
     public Message addPatch( Patch patch) throws Exception {
-
-        patch.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String a=sdf.format(t);
+        patch.setId(poultryService.get(patch.getIdPoultry())+patch.getIdAffilation()+patch.getIdFowlery()+a);
 //        //设置时间格式
 //        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 //        Calendar c=Calendar.getInstance();
@@ -142,7 +145,7 @@ public class PatchController {
 //        //将时间变成date类型
 //        Date date=sd.parse(stime);
         //  因为储存进树据库时是时间戳，所以这这里设置的时间格式一般是不会生效的
-        patch.setDate(new Date());
+        patch.setDate(t);
         if (patchService.add(patch) == 1) {
             return new Message("1","增加分批记录成功");
         } else {
@@ -151,50 +154,40 @@ public class PatchController {
     }
 
     /**
-     * 通过type,position,size去选取大禽舍
-     * @param type
-     * @param position
-     * @param size
+     * 通过type,position去选取大禽舍
      * @return  没有被使用完的归属表集合
      */
     @ResponseBody
     @RequestMapping("selectAffliation")
-    public List<Affiliation> selectAffiliation(String type, String position, String size){
-
+    public List<Affiliation> selectAffiliation(Affiliation affiliation){
         //前端输进来的是数据字典的name的字段，我们要保存的是数据字典中的id
-        List<Affiliation> affiliationList=affiliationService.selectAffiliation(type,position,size);
-
+        List<Affiliation> affiliationList=new ArrayList<>(affiliationService.selectAffiliation(affiliation.getType(),affiliation.getPosition()));
         //如果该归属表是还没有被使用的话
-        for(int i=0;i<affiliationList.size();i++){
+/*        for(int i=0;i<affiliationList.size();i++){
             //返回那些没有被使用完的
             if(affiliationList.get(i).getStatus().equals("满员")){
                 affiliationList.remove(i);      //如果归属表被使用了，移除
             }
         }
+        叶超改动了这里的代码，底层刷选已经完成该工作*/
         return affiliationList;
     }
 
 
     /**
      * 根据选好的归属表去确定小禽舍
-     * @param affiliation
      * @return
      */
     @ResponseBody
-    @RequestMapping("selectFowlery/{affiliation}")
-    public List<Fowlery> selectFowlery(@PathVariable String affiliation){
-        Fowlery fowlery=new Fowlery();
-        fowlery.setAffiliation(affiliation);
-
-        List<Fowlery> fowleryList=patchService.selectFowlery(affiliation);
-        System.out.print(affiliation);
-        for(int i=0;i<fowleryList.size();i++){
-            if(fowleryList.get(i).getStatus().equals("不可使用")){
-                //该小禽舍被使用了
-                fowleryList.remove(i);
-            }
-        }
-
+    @RequestMapping("selectFowlery")
+    public List<Fowlery> selectFowlery(Fowlery fowlery){
+        List<Fowlery> fowleryList=new ArrayList<>(patchService.selectFowlery(fowlery.getAffiliation()));
+//        for(int i=0;i<fowleryList.size();i++){
+//            if(fowleryList.get(i).getStatus().equals("不可使用")){
+//                //该小禽舍被使用了
+//                fowleryList.remove(i);
+//            }
+//        }
         return  fowleryList;     //返回一个没有被使用的小禽舍集合
     }
 
