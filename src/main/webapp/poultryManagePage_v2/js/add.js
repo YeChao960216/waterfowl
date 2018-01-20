@@ -22,10 +22,10 @@
       *查找供货厂商
       */
      $.get(oURL.PRONAME+oURL.GETFIRM,function(res){
-         if(res){
+         if(res.list){
              viewCommand({
                  command:'display',
-                 param:[$('#associatedFirm')[0],res,'id_name']
+                 param:[$('#associatedFirm')[0],res.list,'id_name']
              });
          }else{
              alert('查找供货厂商失败');
@@ -36,10 +36,10 @@
       *养殖类型
       */
      $.get(oURL.PRONAME+oURL.GETTYPE,function(res){
-         if(res){
+         if(res.list){
              viewCommand({
                  command:'display',
-                 param:[$('#type')[0],res,'id_name']
+                 param:[$('#type')[0],res.list,'id_name']
              });
          }else{
              alert('获取养殖类型失败');

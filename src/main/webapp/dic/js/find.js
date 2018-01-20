@@ -89,13 +89,15 @@
      1、删除成功后，初始化视图
      */
     $('#content').on('click',"[data-id*='del']",function(){
-        var id = $(this).attr('data-id').substr(3);
-        $.get(oURL.PRONAME+oURL.DEL+id,function(res){
-            if(res.status){
-                pageController.init();
-            }else{
-                alert('删除对象条目失败');
-            }
-        });
+        if(confirm('溯源提示:\n\n若删除次栏目，跟随的子栏目都会被删除')){
+            var id = $(this).attr('data-id').substr(3);
+            $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+                if(res.status){
+                    pageController.init();
+                }else{
+                    alert('删除对象条目失败');
+                }
+            });
+        }
     });
 })();

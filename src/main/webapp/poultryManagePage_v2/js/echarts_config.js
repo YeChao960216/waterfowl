@@ -2,12 +2,15 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2018-01-15 20:12:31 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2018-01-15 22:07:36
+ * @Last Modified time: 2018-01-19 22:05:17
  */
 
- //折线图
+/**
+ * 折线图的配置
+ * @type {{title: {left: string, color: string}, tooltip: {trigger: string, axisPointer: {type: string, label: {backgroundColor: string}}, textStyle: {color: string}}, legend: {data: [*], selected: {饲料投放量: boolean, 该批家禽的重量: boolean}}, toolbox: {feature: {saveAsImage: {}}}, grid: {left: string, right: string, bottom: string, containLabel: boolean}, xAxis: [*], yAxis: [*], series: [*]}}
+ */
 
- var willon_option = {
+var willon_option = {
     title: {
         // text: '家禽生长状况图',
         left:'center',
@@ -69,7 +72,7 @@
             name:'饲料投放量',
             type:'line',
             stack: '总量1',
-            areaStyle: {normal: {color:'#99dc31'}},
+            areaStyle: {normal: {color:'gold'}},
             label: {
                 normal: {
                     show: true,
@@ -91,7 +94,7 @@
             name:'该批家禽的重量',
             type:'line',
             stack: '总量2',
-            areaStyle: {normal: {color:'#31cbdc'}},
+            areaStyle: {normal: {color:'#19C1E4'}},
             label: {
                 normal: {
                     show: true,
@@ -114,6 +117,120 @@
     ]
 };
 
+
+/**
+ * 饼状图的配置
+ * willon_option_pie.legend,
+ * willon_option_pie.series[0].data
+ */
+var willon_option_pie = {
+        title : {
+            text: '死淘原因占比',
+            subtext: '依据分批到当前该时间段统计',
+            x:'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            // data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+            data:[]
+        },
+        series: [
+            {
+                name:'死亡原因',
+                type:'pie',
+                radius : '55%',
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                data:[]
+                // label: {
+                //     normal: {
+                //         show: false,
+                //         position: 'center'
+                //     },
+                //     emphasis: {
+                //         show: true,
+                //         textStyle: {
+                //             fontSize: '30',
+                //             fontWeight: 'bold'
+                //         }
+                //     }
+                // },
+                // labelLine: {
+                //     normal: {
+                //         show: false
+                //     }
+                // },
+
+                // data:[
+                //     // {value:335, name:'直接访问'},
+                //     // {value:310, name:'邮件营销'},
+                //     // {value:234, name:'联盟广告'},
+                //     // {value:135, name:'视频广告'},
+                //     // {value:1548, name:'搜索引擎'}
+                // ]
+            }
+        ],
+    color: ['#19c1e4','#8c258a','gold','#b53c32','#19880a','#4c920a','#1FB763']
+
+};
+
+/**
+ * 柱状图的配置
+ */
+var willon_option_bar = {
+    title : {
+        text: '免疫/疾病占比',
+        subtext: '依据分批到当前该时间段统计',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : [],
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'涉及数量',
+            type:'bar',
+            barWidth: '60%',
+            data:[]               //{name:'',value:''}
+        }
+    ],
+    color: ['#19c1e4','#8c258a','gold','#b53c32','#19880a','#4c920a','#1FB763']
+};
  // var Willon_echarts = function(obj){
 //    this.dom = obj.dom;
 //    this.option = obj.option;

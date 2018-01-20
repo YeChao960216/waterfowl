@@ -420,7 +420,7 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="numTotal" id="numTotal" placeholder="圈养个体数"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>饲料名</td>'+
+                 '<td>供应商-饲料名</td>'+
                  '<td><select name="feedType" id="feed_type" placeholder="饲料种类" class="select-fix-input"></select></td>'+
                  '</tr>'+
                  '<tr>'+
@@ -473,12 +473,12 @@ var viewCommand = (function(msg){
              '<td><input  type="number" disabled ></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>处理方式</td>'+
-             '<td><select name="processingMode" class="select-fix-input"></select></td>'+
+             '<td>死亡原因</td>'+
+             '<td><select name="remark" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea id="remark" name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '<td>处理方式</td>'+
+             '<td><select name="processingMode" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
              '<td>记录人</td>'+
@@ -514,6 +514,10 @@ var viewCommand = (function(msg){
              '<td><input  type="number" min="1" name="numProcessed"></td>'+
              '</tr>'+
              '<tr>'+
+             '<td>死亡原因</td>'+
+             '<td><select name="remark" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
              '<td>处理方式</td>'+
              '<td><select name="processingMode" class="select-fix-input"></select></td>'+
              '</tr>'+
@@ -524,10 +528,6 @@ var viewCommand = (function(msg){
              '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea id="remark" name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
              '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
@@ -606,6 +606,38 @@ var viewCommand = (function(msg){
                 '<div class="viewport"></div>'+
             '</div>'
         ].join(''),
+         view_ddl:[
+             '<div class="detail-content">'+
+             '<table>'+
+             '<caption>家禽死淘情况图</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td><select name="idPatch" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '</table>'+
+             '<div class="viewport"></div>'+
+             '</div>'
+         ].join(''),
+         view_epi:[
+             '<div class="detail-content view-epi">'+
+             '<table>'+
+             '<caption>家禽免疫/疾病情况图</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次号</td>'+
+             '<td><select name="idPatch" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '</table>'+
+             '<div class="viewport"></div>'+
+             '</div>'
+         ].join(''),
          epi_add:[
              '<div class="detail-content">'+
              '<form onsubmit="return false">'+
@@ -653,7 +685,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '<td><textarea  name="processingMode" placeholder="备注" class="select-fix-input"></textarea></td>'+
              '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
@@ -687,7 +719,7 @@ var viewCommand = (function(msg){
              '<td >{#name#}</td>',
              '<td >{#pid#}</td>',
              '<td >{#remark#}</td>',
-             '<td ><a class="btn" data-id="del{#idOutstorage#}">删除</a></td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
@@ -713,8 +745,8 @@ var viewCommand = (function(msg){
              '<td >{#dose#}</td>',
              '<td >{#doseUnit#}</td>',
              '<td >{#name#}</td>',
-             '<td >{#processingMode#}</td>',
              '<td >{#remark#}</td>',
+             '<td >{#processingMode#}</td>',
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
