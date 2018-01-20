@@ -76,7 +76,7 @@
 .pop{
     /*overflow:hidden;*/
     /*height: calc(100vh*0.7);*/
-    /*min-height: 800px;*/
+    min-height: 800px;
 }
 .pop h2{
     position:relative;
