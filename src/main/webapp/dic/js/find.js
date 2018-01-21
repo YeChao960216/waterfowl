@@ -12,7 +12,7 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/dict/list',
+            GETLIST:'/dict/list',
             DEL:'/dict/delete/',
         };
     /**
@@ -20,7 +20,7 @@
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
+        url:oURL.PRONAME+oURL.GETLIST,
 
         view:{
             container : $('#content')[0],
@@ -44,10 +44,6 @@
 
     });
 
-    /**
-     * 初始化视图,绑定事件操作，分页功能完成
-     */
-    pageController.init();
 
     /**
      * 查询功能
@@ -55,47 +51,44 @@
      * 更改视图控制器的other属性
      * 初始化页面
      */
-    $('#search').click(function () {
-        var q = queryParse.call($('#searchForm'));
-        var qStr = [];
-        for(var key in q) {
-            if (!q[key]) {
-                delete q[key];
-                continue;
-            }
-            qStr.push(key+'='+q[key]);
+    $.get(oURL.PRONAME+oURL.GETLIST+'?pid=0&pageSize=1000&pageNum=1',function (res) {  //渲染所有的栏目
+        if(res.list){
+
+            viewCommand({
+                command:'display',
+                param:[$('select')[0],res.list,'id_name']
+            });
+
+            pageController.other = '&pid='+$('select')[0].value;
+
+            pageController.init();
         }
-        $('#back').show();
-        pageController.other = '&'+qStr.join('&');
-        pageController.init();
     });
 
-    /**
-     * 返回键
-     * 每当成功查找出一项时 此按钮显示
-     * 此按钮被按下时
-     *      清空查询表单的字
-     *      并初始化页面
-     */
-    $('#back').click(function () {
-        $('#searchForm input').val('');
-        $(this).hide();
-        pageController.other = '';
+
+
+    $('select')[0].onchange = function () {
+
+        pageController.other = '&pid='+this.value;
+
         pageController.init();
-    });
+
+    }
 
     /**
      * 提交删除的id值
      1、删除成功后，初始化视图
      */
     $('#content').on('click',"[data-id*='del']",function(){
-        var id = $(this).attr('data-id').substr(3);
-        $.get(oURL.PRONAME+oURL.DEL+id,function(res){
-            if(res.status){
-                pageController.init();
-            }else{
-                alert('删除对象条目失败');
-            }
-        });
+        if(confirm('溯源提示:\n\n若删除次栏目，跟随的子栏目都会被删除')){
+            var id = $(this).attr('data-id').substr(3);
+            $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+                if(res.status){
+                    pageController.init();
+                }else{
+                    alert('删除对象条目失败');
+                }
+            });
+        }
     });
 })();

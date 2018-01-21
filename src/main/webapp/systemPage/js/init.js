@@ -62,6 +62,21 @@
     document.getElementById('login-out').onclick = function () {
         window.location.href = './loginPage/login.html';
     }
+
+    /**
+     * 缓存字典信息
+     */
+    $.get('/waterfowl/dict/list?pageSize=1000&pageNum=1',function (res) {
+       if(res){
+            res.list.forEach(function (ele) {
+                if(ele.id){
+                    localStorage.setItem('waterfowl'+ele.id,ele.name);
+                }
+            });
+       }else{
+           alert('溯源提示:\n\n获取栏目信息失败，可能会造成某些字段晦涩难懂');
+       }
+    });
 })();
 /*
 *一定要用这个设置路径显示,路径目前最多三层

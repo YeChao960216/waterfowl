@@ -92,8 +92,6 @@ public class PatchService implements IBaseService<Patch>{
         return  dao.selectFowlery(affiliation);
     }
 
-
-
     /**
      * 修改小禽舍的状态
      * @param id

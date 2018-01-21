@@ -1,4 +1,6 @@
 package cn.zhku.waterfowl.modules.epidemic.controller;
+import cn.zhku.waterfowl.modules.epidemic.dao.EpidemicDao;
+import cn.zhku.waterfowl.modules.epidemic.model.DiseaesMethodVo;
 import cn.zhku.waterfowl.modules.epidemic.service.EpidemicService;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -28,6 +30,9 @@ import java.util.UUID;
         @Autowired
         EpidemicService epidemicService;
 
+        @Autowired
+        private EpidemicDao epidemicDao;
+
         /** 增加免疫记录
          * 测试完成
          * @param  epidemic 实体类的各种字段，如
@@ -40,10 +45,13 @@ import java.util.UUID;
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
             epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
-            if(epidemicService.add(epidemic) == 1)
+            if(epidemicService.add(epidemic) == 1){
+                epidemicService.manageOutstorage(epidemic);
                 return new Message("1","添加疾病/免疫记录表成功");
-            else
+            }
+            else{
                 return new Message("2","添加疾病/免疫记录表失败");
+            }
         }
 
         /** 根据记录表id删除对象
@@ -122,6 +130,17 @@ import java.util.UUID;
 
             //  返回 pageBean实体
             return new PageInfo<Epidemic>(epidemicList);
+        }
+
+        /**\
+         *  显示疾病方法
+         * @param idPatch   批次号
+         * @return 疾病方法
+         */
+        @ResponseBody
+        @RequestMapping("diseaesMethod")
+        public List<DiseaesMethodVo> findDiseasMethod(String idPatch) {
+            return epidemicDao.findDiseaesMethod(idPatch);
         }
 
     }

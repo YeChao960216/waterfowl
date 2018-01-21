@@ -15,7 +15,7 @@
 }
 #detail{
     position: relative;
-    width: 2700px;
+    width: 3700px;
     height: 100%;
     border-radius:5px;
 }
@@ -76,7 +76,7 @@
 .pop{
     /*overflow:hidden;*/
     /*height: calc(100vh*0.7);*/
-    /*min-height: 800px;*/
+    min-height: 800px;
 }
 .pop h2{
     position:relative;

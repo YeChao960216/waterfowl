@@ -29,7 +29,7 @@ public interface PatchDao {
      * @param affiliation
      * @return
      */
-    @Select("select * from fowlery where affiliation=#{id}")
+    @Select("select * from fowlery where affiliation=#{affiliation} and status='可使用'")
     List<Fowlery> selectFowlery(String affiliation);
 
     /**

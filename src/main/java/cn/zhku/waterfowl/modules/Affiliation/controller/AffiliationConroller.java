@@ -106,8 +106,10 @@ public class AffiliationConroller {
     @ResponseBody
     @RequestMapping("newAffiliation")
     public Message addAffiliation(Affiliation affiliation) throws Exception {
-        affiliation.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
-        if(affiliationService.add(affiliation)==1){
+        if (affiliation.getId()==null||affiliation.getId().isEmpty()){
+            return new Message("3","添加失败，请填写大禽舍编号");
+        }
+        else if(affiliationService.add(affiliation)==1){
            return new Message("1","添加成功");
         }else{
             return new Message("0","添加失败");

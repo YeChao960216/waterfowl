@@ -58,10 +58,11 @@ public class DdlService implements IBaseService<Ddl> {
         try {
             Patch patch = patchMapper.selectByPrimaryKey(idPatch);
             System.out.println("jvlsdghdwjghdffgjkl"+patch);
-            int numTotal = patch.getNumTotal();
-            numTotal-=numProcessed;
-            patch.setNumTotal(numTotal);
-            patchMapper.updateByPrimaryKey(patch);
+            int size = patch.getSize();
+            size-=numProcessed;
+            patch.setSize(size);
+            //  必须只更改size这一属性
+            patchMapper.updateByPrimaryKeySelective(patch);
             ddlMapper.insertSelective(entity);
             return 1;
         }catch (Exception e){
