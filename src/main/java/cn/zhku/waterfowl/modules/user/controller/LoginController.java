@@ -3,6 +3,10 @@ package cn.zhku.waterfowl.modules.user.controller;
 import cn.zhku.waterfowl.modules.user.service.LoginService;
 import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.util.modle.Message;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +37,16 @@ public class LoginController {
     public Message login(User form, HttpSession httpSession){
         User user = loginService.login(form);
         if(user != null){
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getId(), user.getPassword());
+            Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+
+            //   记住用户登陆状态
+            token.setRememberMe(true);
+
             httpSession.setAttribute("user",user);
+            //  shiro登陆用户信息
+            subject.login(token);
             return new Message("1","用户登录成功");
         }
         else
