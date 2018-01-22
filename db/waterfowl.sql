@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mydb
-Source Server Version : 50716
+Source Server         : localhost_3306
+Source Server Version : 50536
 Source Host           : localhost:3306
 Source Database       : waterfowl
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-20 22:18:07
+Date: 2018-01-22 13:21:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,6 +27,7 @@ CREATE TABLE `affiliation` (
   `status` varchar(45) DEFAULT '未满员' COMMENT '是否满员',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
+  `name` varchar(45) NOT NULL COMMENT '大禽舍名称',
   PRIMARY KEY (`id`),
   KEY `FK_affi_dic_type` (`type`),
   KEY `FK_affi_dic_position` (`position`),
@@ -34,8 +35,9 @@ CREATE TABLE `affiliation` (
   KEY `FK_affi_dic_status` (`status`),
   KEY `FK_affi_user_record` (`id_record`),
   KEY `FK_affi_user_charge` (`id_charge`),
-  CONSTRAINT `FK_affi_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `name` (`name`),
   CONSTRAINT `FK_affi_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_affi_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_affi_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -44,8 +46,7 @@ CREATE TABLE `affiliation` (
 -- ----------------------------
 -- Records of affiliation
 -- ----------------------------
-INSERT INTO `affiliation` VALUES ('6', '60001', '70003', null, '未满员', '1', '1');
-INSERT INTO `affiliation` VALUES ('7', '60002', '70002', null, '未满员', '1', '1');
+INSERT INTO `affiliation` VALUES ('6', '60001', '70003', null, '未满员', '1', '1', '7');
 
 -- ----------------------------
 -- Table structure for `aquaculture`
@@ -85,21 +86,7 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('0A5B47A5BCBD41DBBE07C503F2C2AD7B', '7', '606', '1116606', '2018-01-19 15:52:32', '20', '808鸡饲料', '10', '伟龙供应商', '6', '7', null, '30011', '43.3');
-INSERT INTO `aquaculture` VALUES ('30ED279F8BDE417EAB506CD2CCB3AE87', '1', '606', '96CAE113218941CAA8ACE604D83984A6', null, '200', '小优223稻谷', '100', '伟龙供应商', '7', '7', null, '30011', '190.2');
-INSERT INTO `aquaculture` VALUES ('53C7269C10984217B0594DED400EA1AA', '7', '606', '1116606', '2018-01-19 15:53:54', '20', '808鸡饲料', '11', '伟龙供应商', '7', '7', null, '30011', '45.3');
-INSERT INTO `aquaculture` VALUES ('666', '1', '606', '1116606', '2018-01-15 17:19:03', '20', '谷物', '10', '', '1', '1', null, null, '23');
-INSERT INTO `aquaculture` VALUES ('667', '2', '606', '1116606', '2018-01-15 17:45:50', '20', '谷物', '11', '', '1', '1', null, null, '24');
-INSERT INTO `aquaculture` VALUES ('668', '3', '606', '1116606', '2018-01-15 17:47:28', '20', '谷物', '10', '', '1', '1', null, null, '26');
-INSERT INTO `aquaculture` VALUES ('669', '4', '606', '1116606', '2018-01-15 17:48:19', '20', '谷物', '14', '', '1', '1', null, null, '28');
-INSERT INTO `aquaculture` VALUES ('670', '5', '606', '1116606', '2018-01-15 17:49:21', '20', '谷物', '12', '', '1', '1', null, null, '30.5');
-INSERT INTO `aquaculture` VALUES ('671', '6', '606', '1116606', '2018-01-15 17:50:39', '20', '谷物', '13', '', '1', '1', null, null, '33.8');
-INSERT INTO `aquaculture` VALUES ('672', '2', '606', '1116606', '2018-01-15 17:51:35', '20', '谷物', '15.7', '没毛病', '1', '1', null, null, '36.7');
-INSERT INTO `aquaculture` VALUES ('C749A8B9509347D98A0486E9BC2A6D1A', '2', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '300', '伟龙供应商', '7', '7', null, '30011', '260');
-INSERT INTO `aquaculture` VALUES ('CAF270B869C140D0BCFA7C4F89106E58', '1', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '320', '伟龙供应商', null, null, null, '30011', '250');
-INSERT INTO `aquaculture` VALUES ('D1A31B93C8024323B86F39E2EAD2AD14', '8', '606', '1116606', '2018-01-20 19:58:55', '18', '稻谷', '3', '阿里龙龙供应商', '7', '7', null, '30011', '39.5');
-INSERT INTO `aquaculture` VALUES ('E571729208C14254A873B8711A8F18BD', '3', '608', 'BE97BF7B9F224D2883506C7CC0224F6A', null, '300', '808鸡饲料', '300', '伟龙供应商', '6', '7', null, '30011', '262');
-INSERT INTO `aquaculture` VALUES ('F52345BBCDAE457CAF69DEB2673C1389', '1', '606', '96CAE113218941CAA8ACE604D83984A6', null, '200', '小优223稻谷', '80', '伟龙供应商', '7', '7', null, '30011', '180');
+INSERT INTO `aquaculture` VALUES ('1', '1', '604', '1', '2018-01-22 13:08:57', '1', null, null, null, '1', '1', '6', '10000', '1');
 
 -- ----------------------------
 -- Table structure for `aqua_stor`
@@ -119,7 +106,6 @@ CREATE TABLE `aqua_stor` (
 -- ----------------------------
 -- Records of aqua_stor
 -- ----------------------------
-INSERT INTO `aqua_stor` VALUES ('74A3A97C9AED459DBB04F487971DF44A', 'D1A31B93C8024323B86F39E2EAD2AD14', 'B3EA0D981D95446190AA198512D2B070');
 
 -- ----------------------------
 -- Table structure for `ddl`
@@ -146,11 +132,6 @@ CREATE TABLE `ddl` (
 -- ----------------------------
 -- Records of ddl
 -- ----------------------------
-INSERT INTO `ddl` VALUES ('4BB45AB521984775B45B55EFDD1D19C9', '96CAE113218941CAA8ACE604D83984A6', '2018-01-19 22:54:34', '1', '95002', '12001', '7', '7');
-INSERT INTO `ddl` VALUES ('869C10F795314378BF2797750AEC2061', '1116606', '2018-01-20 13:58:30', '1', '95001', '12003', '7', '7');
-INSERT INTO `ddl` VALUES ('C0E95C49DD6B4BFFB0A369A560C6AC0B', '1116606', '2018-01-20 14:21:07', '1', '95002', '12004', '7', '7');
-INSERT INTO `ddl` VALUES ('E8B9923EED3F40B3B339C0768347AFBD', '1116606', '2018-01-19 22:28:59', '2', '95001', '12001', '9', '9');
-INSERT INTO `ddl` VALUES ('F9ED168FAEE44EF6870B855307F659B4', '96CAE113218941CAA8ACE604D83984A6', '2018-01-19 22:52:27', '1', '95001', '12001', 'D94918840C0F44B2814E0C7CAD660B7E', 'D94918840C0F44B2814E0C7CAD660B7E');
 
 -- ----------------------------
 -- Table structure for `dictionary`
@@ -282,9 +263,6 @@ CREATE TABLE `epidemic` (
 -- ----------------------------
 -- Records of epidemic
 -- ----------------------------
-INSERT INTO `epidemic` VALUES ('1116606', '流感疫苗', null, '2018-01-20 16:53:36', '\'有\'', '85002', '2', null, '25002', '5', '14001', '阿里龙龙供应商', '7', '7', '666');
-INSERT INTO `epidemic` VALUES ('1116606', '流感疫苗', null, '2018-02-01 16:55:25', null, '85001', '18', null, '25001', '5', '14001', '阿里龙龙供应商', '7', '7', '6DCF11DE7BC24B9B842D87D26B4945F5');
-INSERT INTO `epidemic` VALUES ('1116606', '流感疫苗', null, '2018-01-20 16:54:10', '\'有\'', '85001', '4', null, '25001', '1', '14001', '阿里龙龙供应商', '7', '7', '777');
 
 -- ----------------------------
 -- Table structure for `epi_stor`
@@ -304,7 +282,6 @@ CREATE TABLE `epi_stor` (
 -- ----------------------------
 -- Records of epi_stor
 -- ----------------------------
-INSERT INTO `epi_stor` VALUES ('6', '6DCF11DE7BC24B9B842D87D26B4945F5', '6B6A466F34134B529A8E062E99CE507E');
 
 -- ----------------------------
 -- Table structure for `fowlery`
@@ -317,13 +294,15 @@ CREATE TABLE `fowlery` (
   `affiliation` varchar(45) DEFAULT NULL COMMENT '归属的大禽舍',
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
+  `name` varchar(45) DEFAULT NULL COMMENT '禽舍名称',
   PRIMARY KEY (`id`),
   KEY `FK_fowlery_affili_id` (`affiliation`),
   KEY `FK_fowlery_dic_size` (`size`),
   KEY `FK_fowlery_dic_status` (`status`),
   KEY `FK_fowlery_user_charge` (`id_charge`),
   KEY `FK_fowlery_user_record` (`id_record`),
-  CONSTRAINT `FK_fowlery_affili_id` FOREIGN KEY (`affiliation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `name` (`name`),
+  CONSTRAINT `FK_affili_id` FOREIGN KEY (`affiliation`) REFERENCES `affiliation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_dic_size` FOREIGN KEY (`size`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -332,10 +311,51 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('4859C85C81FD4A22BEE9E0E70E886389', '60001', '可使用', '7', '7', '7');
-INSERT INTO `fowlery` VALUES ('606', '60001', '可使用', '6', '1', '1');
-INSERT INTO `fowlery` VALUES ('608', '60002', '可使用', '6', '1', '1');
-INSERT INTO `fowlery` VALUES ('708', '60002', '可使用', '6', '6', '7');
+INSERT INTO `fowlery` VALUES ('606', '60001', '可使用', '6', '1', '1', '604');
+INSERT INTO `fowlery` VALUES ('608', '60002', '可使用', '6', '1', '1', '605');
+INSERT INTO `fowlery` VALUES ('708', '60002', '可使用', '6', '6', '7', '606');
+
+-- ----------------------------
+-- Table structure for `manufacture`
+-- ----------------------------
+DROP TABLE IF EXISTS `manufacture`;
+CREATE TABLE `manufacture` (
+  `id` varchar(45) NOT NULL COMMENT '加工编号',
+  `firm` varchar(45) DEFAULT NULL COMMENT '加工厂商',
+  `site` varchar(45) DEFAULT NULL COMMENT '加工地点',
+  `method` varchar(45) DEFAULT NULL COMMENT '加工方式',
+  `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
+  `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '加工日期',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '加工负责人',
+  `id_patch` varchar(45) DEFAULT NULL COMMENT '加工的批次',
+  `quantity` int(45) DEFAULT NULL COMMENT '加工该批次的数量',
+  PRIMARY KEY (`id`),
+  KEY `FK_trans_patch` (`id_patch`),
+  CONSTRAINT `FK_trans_patch` FOREIGN KEY (`id_patch`) REFERENCES `trans_patch` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of manufacture
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `man_outpou`
+-- ----------------------------
+DROP TABLE IF EXISTS `man_outpou`;
+CREATE TABLE `man_outpou` (
+  `id` varchar(45) NOT NULL COMMENT '出场的批次和加工的关系编号',
+  `man_id` varchar(45) NOT NULL COMMENT '加工编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '批次编号',
+  PRIMARY KEY (`id`),
+  KEY `FK_man_man_id` (`man_id`),
+  KEY `FK_man_outpo_patch` (`id_patch`),
+  CONSTRAINT `FK_man_outpo_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_man_man_id` FOREIGN KEY (`man_id`) REFERENCES `manufacture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of man_outpou
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `outstorage`
@@ -417,7 +437,7 @@ CREATE TABLE `patch` (
   `id_poultry` varchar(45) DEFAULT NULL COMMENT '入厂批次',
   `type` varchar(45) DEFAULT NULL COMMENT '类型',
   `position` varchar(45) DEFAULT NULL COMMENT '方位',
-  `size` int(45) DEFAULT NULL COMMENT '规格',
+  `size` int(45) DEFAULT NULL COMMENT '该批次总数量',
   `id_affilation` varchar(45) DEFAULT NULL COMMENT '所属大禽舍',
   `id_fowlery` varchar(45) DEFAULT NULL COMMENT '禽舍编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
@@ -425,7 +445,7 @@ CREATE TABLE `patch` (
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
   `id` varchar(45) NOT NULL COMMENT '禽舍管理表',
   `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
-  `status` varchar(45) DEFAULT '未售完' COMMENT '是否售完',
+  `status` varchar(45) DEFAULT NULL COMMENT '溯源阶段',
   PRIMARY KEY (`id`),
   KEY `fk_fowlery_user1_idx` (`id_recorder`),
   KEY `fk_fowlery_user2_idx` (`id_charge`),
@@ -435,9 +455,12 @@ CREATE TABLE `patch` (
   KEY `FK_patch_dic_type` (`type`),
   KEY `FK_patch_dic_position` (`position`),
   KEY `FK_patch_dic_size` (`size`),
-  CONSTRAINT `FK_fowlery_fowl_id` FOREIGN KEY (`id_fowlery`) REFERENCES `fowlery` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `FK_patch_dic_status` (`status`),
+  CONSTRAINT `FK_afflii_name` FOREIGN KEY (`id_affilation`) REFERENCES `affiliation` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_flowlery_name` FOREIGN KEY (`id_fowlery`) REFERENCES `fowlery` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_fowlery_poultry` FOREIGN KEY (`id_poultry`) REFERENCES `poultry` (`id_poultry`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_position` FOREIGN KEY (`position`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_patch_dic_status` FOREIGN KEY (`status`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_patch_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `patch_ibfk_1` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `patch_ibfk_2` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -446,11 +469,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES (null, null, null, null, null, null, null, null, '2018-01-18 20:22:37', '080086A26BA546A490DBB0571208DC98', '2', null);
-INSERT INTO `patch` VALUES ('111', '80001', '70001', '18', '6', '606', '1', '1', '2018-01-18 20:22:53', '1116606', '20', '未售完');
-INSERT INTO `patch` VALUES ('111', '60001', '70003', '30', '6', '708', '7', '7', '2018-01-20 19:42:52', '95ECE5DE10D9438C85A55CA208918F4E', null, '养殖中');
-INSERT INTO `patch` VALUES ('123', '60001', '70003', '41', '6', '606', '7', '7', '2018-01-18 20:22:30', '96CAE113218941CAA8ACE604D83984A6', '43', '养殖中');
-INSERT INTO `patch` VALUES ('123', '60001', '70003', '300', '6', '608', '7', '7', '2018-01-18 20:22:45', 'BE97BF7B9F224D2883506C7CC0224F6A', '424', '养殖中');
+INSERT INTO `patch` VALUES ('111', '10000', '10000', '30', '7', '604', '1', '1', '2018-01-22 13:08:14', '1', '22', '10000');
 
 -- ----------------------------
 -- Table structure for `poultry`
@@ -519,6 +538,51 @@ CREATE TABLE `role_permission` (
 -- ----------------------------
 INSERT INTO `role_permission` VALUES ('1', '50001');
 INSERT INTO `role_permission` VALUES ('1', '50002');
+
+-- ----------------------------
+-- Table structure for `transportation`
+-- ----------------------------
+DROP TABLE IF EXISTS `transportation`;
+CREATE TABLE `transportation` (
+  `id` varchar(45) NOT NULL COMMENT '运输编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '运输的批次号',
+  `method` varchar(45) DEFAULT NULL COMMENT '运输方式',
+  `firm` varchar(45) DEFAULT NULL COMMENT '运输公司',
+  `site` varchar(45) DEFAULT NULL COMMENT '目的地地址',
+  `phone` varchar(45) DEFAULT NULL COMMENT '运输公司联系方式',
+  `customer` varchar(45) DEFAULT NULL COMMENT '顾客名称',
+  `c_phone` varchar(45) DEFAULT NULL COMMENT '顾客联系方式',
+  `address` varchar(45) DEFAULT NULL COMMENT '起始地址',
+  `quantity` int(45) DEFAULT NULL COMMENT '运输该批次的数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of transportation
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `trans_patch`
+-- ----------------------------
+DROP TABLE IF EXISTS `trans_patch`;
+CREATE TABLE `trans_patch` (
+  `id` varchar(45) NOT NULL COMMENT '加工与批次关系编号',
+  `trans_id` varchar(45) NOT NULL COMMENT '运输编号',
+  `id_patch` varchar(45) NOT NULL COMMENT '运输的批次号',
+  `site` varchar(45) DEFAULT NULL COMMENT '目前位置',
+  `date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '运输负责人',
+  `phone` varchar(45) DEFAULT NULL COMMENT '运输人联系方式',
+  PRIMARY KEY (`id`),
+  KEY `FK_trans_id` (`trans_id`),
+  KEY `FK_outpou_patch` (`id_patch`),
+  CONSTRAINT `FK_outpou_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_trans_id` FOREIGN KEY (`trans_id`) REFERENCES `transportation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of trans_patch
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `user`
