@@ -19,7 +19,8 @@
             GETINFOBYPID:'/poultry/selectBy/',
             GETPOSITON:'/dict/list?pid=70000',
             GETHOMETYPE:'/dict/list?pid=60000',
-            GETDANWEI:'/dict/list?pid=3000',
+            GETDANWEI:'/dict/list?pid=14000',
+            GETSIWANGYUANYING:'/dict/list?pid=12000',//死亡原因
             GETGEIYAOFANGSHI:'/dict/list?pid=25000',
             GETYAOWULEIXING:'/outstorage/listName/65003',
             GETFABINGMINGHENG:'/dict/list?pid=85000',
@@ -44,7 +45,9 @@
             GETMAXFOOD:'',//
             GETAQUABYPATCH:'/aquaculture/list?idPatch=',//根据批次号返回养殖的记录 测试接口 后面会有一个更新的
             EPIPOST:'/epidemic/save', //提交免疫信息
-            GETAQUAVUE:'/aquaculture/showWeight?idPatch='
+            GETAQUAVUE:'/aquaculture/showWeight?idPatch=',//养殖视图呈现
+            GETDDLVUE:'/ddl/deathMethod?idPatch=',//死淘信息视图呈现
+            GETEPIVUE:'/epidemic/diseaesMethod?idPatch=',//免疫表的呈现
             };
     /**
      * 实例化一个分页控制者
@@ -150,10 +153,9 @@
         if(!unbind){
             var id = $(this).attr('data-view').substr(1);
             showVue.call(oShadow);
-            showDetailData(id);
+            showDetailData(id,'A');
         }
         return;
-
     });
 
     /**
@@ -191,7 +193,7 @@
          * @type {Element}
          */
         showVue.call(oShadow);
-        showDetailData(id);
+        showDetailData(id,'P');
         showVue.call(oAdd);
         viewCommand({                //渲染插入的模板
             command:'display',
@@ -237,14 +239,18 @@
         sub_btn.onclick = function () {
             if(selectNodes[3].value!='undefined' && selectNodes[3].value){
                 var obj = queryParse.call($(form));
-                obj.idPoultry = oURL.idPoultry;
-                $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
-                    if(res){
-                        alert(res.msg);
-                    }else{
-                        alert('划分批次失败');
-                    }
-                });
+                if(/^[1-9]\d{0,6}$/.test(obj.size)){
+                    obj.idPoultry = oURL.idPoultry;
+                    $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
+                        if(res){
+                            alert(res.msg);
+                        }else{
+                            alert('划分批次失败');
+                        }
+                    });
+                }else{
+                    alert('溯源提示:\n\n您输入的养殖数量不合法');
+                }
             }else{
                 alert('溯源提示:\n\n禽舍编号没有安排得当，无法分批');
             }
@@ -383,7 +389,7 @@
     /**
      * 数据级联呈现
      */
-    function showDetailData(id){
+    function showDetailData(id,which){
 
         /**
          * 呈现数据
@@ -423,7 +429,12 @@
                                                 dom:patch_data
                                             });
                                         }
-
+                                        if(which==='P'){
+                                            $(oDetail).animate({left: -(detail_view_ctrl.step*1)},function () {  //移动oDetail
+                                                detail_view_ctrl.left = -(detail_view_ctrl.step*1);
+                                                showVue.call(oShadow,true);
+                                            });
+                                        }
                                         detail_view_ctrl.num = 2;           //如果批次信息成功渲染，那么我就要修改这个动画大小
 
                                         /**
@@ -441,6 +452,7 @@
                                                 command:'display',
                                                 param:[aquaSelectNodes[0],resPatchList.object,'id'],
                                             });
+
                                         //渲染养殖的总天数
                                         $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=1000',function (res) {
                                             if(res){
@@ -452,8 +464,9 @@
                                                 alert('溯源提示:\n\n获取该批家禽养殖的总天数失败');
                                             }
                                         });
+
                                         //养殖情况的echarts的渲染
-                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=7',function (res) {
+                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=10000',function (res) {
                                             if(res){      //渲染视图空白框
                                                     // res.list.reverse();//数组倒置
                                                     var viewdata = {feedWeight:[],weight:[],days:[]};
@@ -462,11 +475,12 @@
                                                         viewdata.weight.push(ele.weight);
                                                         viewdata.days.push('第'+(index+1)+'天');
                                                     });
-                                                    $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
-                                                        detail_view_ctrl.left = -(detail_view_ctrl.step*2);
-                                                        showVue.call(oShadow,true);
-                                                    });
-
+                                                    if(which==='A'){
+                                                        $(oDetail).animate({left: -(detail_view_ctrl.step*2)},function () {  //移动oDetail
+                                                            detail_view_ctrl.left = -(detail_view_ctrl.step*2);
+                                                            showVue.call(oShadow,true);
+                                                        });
+                                                    }
                                                     willon_option.series[0].data = viewdata.feedWeight;  //饲料量
                                                     willon_option.series[1].data = viewdata.weight;     //重量
                                                     willon_option.xAxis[0].data = viewdata.days;  //天数
@@ -476,6 +490,40 @@
                                                      * 养殖批次的监听 name + idpatch
                                                      */
                                                     aquaSelectNodes[0].onchange = function () {
+                                                        $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name=1000',function (res) {
+                                                            if(res.length){
+                                                                $(viewPort).show();
+                                                                viewCommand({
+                                                                    command:'display',
+                                                                    param:[aquaSelectNodes[1],res,'option'],
+                                                                });
+                                                                var viewdata = {feedWeight:[],weight:[],days:[]};
+                                                                $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name='+aquaSelectNodes[1].value,function (res) {
+                                                                    if(res){      //渲染视图空白框
+                                                                        // res.list.reverse();//数组倒置
+                                                                        res.forEach(function (ele,index) {
+                                                                            viewdata.feedWeight.push(ele.feedWeight);
+                                                                            viewdata.weight.push(ele.weight);
+                                                                            viewdata.days.push('第'+(index+1)+'天');
+                                                                        });
+                                                                        willon_option.series[0].data = viewdata.feedWeight;  //饲料量
+                                                                        willon_option.series[1].data = viewdata.weight;     //重量
+                                                                        willon_option.xAxis[0].data = viewdata.days;  //天数
+                                                                        echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
+                                                                    }
+                                                                });
+                                                            }else{
+                                                                viewCommand({
+                                                                    command:'display',
+                                                                    param:[aquaSelectNodes[1],[],'option'],
+                                                                });
+                                                                $(viewPort).hide();
+                                                            }
+                                                        });
+
+                                                    }
+
+                                                    aquaSelectNodes[1].onchange = function () {
                                                         var viewdata = {feedWeight:[],weight:[],days:[]};
                                                         $.get(oURL.PRONAME+oURL.GETAQUAVUE+aquaSelectNodes[0].value+'&name='+aquaSelectNodes[1].value,function (res) {
                                                             if(res){      //渲染视图空白框
@@ -492,7 +540,172 @@
                                                             }
                                                         });
                                                     }
-                                                aquaSelectNodes[1].onchange = aquaSelectNodes[0].onchange;
+
+
+
+                                                /**
+                                                 * 渲染死淘视图
+                                                 */
+                                                $.get(oURL.PRONAME+oURL.GETDDLVUE+resPatchList.object[0].id,function (res) {
+                                                    if(res){
+
+                                                        viewCommand({
+                                                            command:'append',
+                                                            param:[$(oDetail),[],'view_ddl'],
+                                                        });
+                                                        var ddl_vue = oDetail.getElementsByClassName('detail-content')[3],
+                                                            selectNodes_ddl = ddl_vue.getElementsByTagName('select'),
+                                                            viewPort_ddl = ddl_vue.getElementsByClassName('viewport')[0];
+
+                                                        viewCommand({
+                                                            command:'display',
+                                                            param:[selectNodes_ddl[0],resPatchList.object,'id'],
+                                                        });
+
+                                                        if(which==='D'){
+                                                            $(oDetail).animate({left:-(detail_view_ctrl.step*3)},function () {  //移动oDetail
+                                                                detail_view_ctrl.left = -(detail_view_ctrl.step*3);
+                                                                showVue.call(oShadow,true);
+                                                            });
+                                                        }
+
+                                                        var view_ddl_data = {name:[],data:[]};
+                                                        res.forEach(function (ele) {
+                                                            view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                            view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                        });
+                                                        willon_option_pie.legend.data = view_ddl_data.name;
+                                                        willon_option_pie.series[0].data = view_ddl_data.data;
+                                                        echarts.init(viewPort_ddl).setOption(willon_option_pie);  //DDL情况的echarts的渲染
+                                                        detail_view_ctrl.num = 4;
+
+                                                        selectNodes_ddl[0].onchange = function () {
+                                                            console.log('asdasd');
+                                                            $.get(oURL.PRONAME+oURL.GETDDLVUE+this.value,function (res) {
+                                                                if(res.length){
+                                                                    $(viewPort_ddl).show();
+                                                                    var view_ddl_data = {name:[],data:[]};
+                                                                    res.forEach(function (ele) {
+                                                                        view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                        view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                                    });
+                                                                    willon_option_pie.legend.data = view_ddl_data.name;
+                                                                    willon_option_pie.series[0].data = view_ddl_data.data;
+                                                                    echarts.init(viewPort_ddl).setOption(willon_option_pie);  //DDL情况的echarts的渲染
+                                                                }else{
+                                                                    $(viewPort_ddl).hide();
+                                                                }
+                                                            });
+                                                        }
+                                                        $.get(oURL.PRONAME+oURL.GETEPIVUE+selectNodes_ddl[0].value,function (res) {
+                                                            if(res){
+                                                                //免疫图
+                                                                viewCommand({
+                                                                    command:'append',
+                                                                    param:[$(oDetail),[],'view_epi'],
+                                                                });
+
+                                                                var epi_vue = oDetail.getElementsByClassName('detail-content')[4],
+                                                                    selectNodes_epi = epi_vue.getElementsByTagName('select'),
+                                                                    viewPort_epi = epi_vue.getElementsByClassName('viewport')[0];
+
+                                                                viewCommand({
+                                                                    command:'display',
+                                                                    param:[selectNodes_epi[0],resPatchList.object,'id'],
+                                                                });
+
+                                                                if(which==='E'){
+                                                                    $(oDetail).animate({left:-(detail_view_ctrl.step*4)},function () {  //移动oDetail
+                                                                        detail_view_ctrl.left = -(detail_view_ctrl.step*4);
+                                                                        showVue.call(oShadow,true);
+                                                                    });
+                                                                }
+
+                                                                var view_epi_data = {name:[],data:[]};
+                                                                res.forEach(function (ele) {
+                                                                    view_epi_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                    view_epi_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                                });
+                                                                willon_option_bar.xAxis[0].data = view_epi_data.name;
+                                                                willon_option_bar.series[0].data = view_epi_data.data;
+                                                                echarts.init(viewPort_epi).setOption(willon_option_bar);  //免疫情况的echarts的渲染
+                                                                detail_view_ctrl.num = 5;
+
+                                                                selectNodes_epi[0].onchange = function () {
+                                                                    $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
+                                                                        if(res.length){
+                                                                            $(viewPort_epi).show();
+                                                                            var view_epi_data = {name:[],data:[]};
+                                                                            res.forEach(function (ele) {
+                                                                                view_epi_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                                view_epi_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                                            });
+                                                                            willon_option_bar.xAxis[0].data = view_epi_data.name;
+                                                                            willon_option_bar.series[0].data = view_epi_data.data;
+                                                                            echarts.init(viewPort_epi).setOption(willon_option_bar);  //免疫情况的echarts的渲染
+                                                                        }else{
+                                                                            $(viewPort_epi).hide();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+
+                                                        });
+
+                                                    }else{  //没有死淘记录
+                                                        $.get(oURL.PRONAME+oURL.GETEPIVUE+resPatchList.object[0].id,function (res) {
+                                                            if(res){
+                                                                viewCommand({
+                                                                    command:'append',
+                                                                    param:[$(oDetail),[],'view_epi'],
+                                                                });
+                                                                var ddl_vue = oDetail.getElementsByClassName('detail-content')[3],
+                                                                    selectNodes = ddl_vue.getElementsByTagName('select'),
+                                                                    viewPort_ddl = ddl_vue.getElementsByClassName('viewport')[0];
+
+                                                                viewCommand({
+                                                                    command:'display',
+                                                                    param:[selectNodes[0],resPatchList.object,'id'],
+                                                                });
+                                                                if(which==='E'){
+                                                                    $(oDetail).animate({left:-(detail_view_ctrl.step*3)},function () {  //移动oDetail
+                                                                        detail_view_ctrl.left = -(detail_view_ctrl.step*3);
+                                                                        showVue.call(oShadow,true);
+                                                                    });
+                                                                }
+
+                                                                var view_ddl_data = {name:[],data:[]};
+                                                                res.forEach(function (ele) {
+                                                                    view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                    view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                                });
+                                                                willon_option_bar.xAxis[0].data = view_ddl_data.name;
+                                                                willon_option_bar.series[0].data = view_ddl_data.data;
+                                                                echarts.init(viewPort_ddl).setOption(willon_option_bar);  //养殖情况的echarts的渲染
+                                                                detail_view_ctrl.num = 4;
+
+                                                                selectNodes[0].onchange = function () {
+                                                                    $.get(oURL.PRONAME+oURL.GETEPIVUE+this.value,function (res) {
+                                                                        if(res.length){
+                                                                            $(viewPort_ddl).show();
+                                                                            var view_ddl_data = {name:[],data:[]};
+                                                                            res.forEach(function (ele) {
+                                                                                view_ddl_data.name.push(localStorage.getItem('waterfowl'+ele.name));
+                                                                                view_ddl_data.data.push({name:localStorage.getItem('waterfowl'+ele.name),value:ele.value});
+                                                                            });
+                                                                            willon_option_bar.xAxis[0].data = view_ddl_data.name;
+                                                                            willon_option_bar.series[0].data = view_ddl_data.data;
+                                                                            echarts.init(viewPort_ddl).setOption(willon_option_bar);  //养殖情况的echarts的渲染
+                                                                        }else{
+                                                                            $(viewPort_ddl).hide();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+
+                                                        });
+                                                    }
+                                                });
 
                                             }else{
                                                 showVue.call(oShadow);
@@ -515,30 +728,6 @@
 
     }
 
-    // /**
-    //  * 养殖图呈现
-    //  */
-    // function vue_aqua(idPatch,day,cb) {
-    //     day = day ? day : 7;
-    //     $.get(oURL.PRONAME+oURL.GETAQUABYPATCH+idPatch+'&name='+day,function (res) {
-    //         if(res.list.length){      //渲染视图空白框
-    //             res.list.reverse();//数组倒置
-    //             res.list.forEach(function (ele) {
-    //                 viewdata.feedWeight.push(ele.feedWeight);
-    //                 viewdata.weight.push(ele.weight);
-    //             });
-    //             $(oDetail).animate({left:-(detail_view_ctrl.step*2)},function () {  //移动oDetail
-    //                 detail_view_ctrl.left = -(detail_view_ctrl.step*2);
-    //                 showVue.call(oShadow,true);
-    //             });
-    //
-    //             willon_option.series[0].data = viewdata.feedWeight;  //饲料量
-    //             willon_option.series[1].data = viewdata.weight;     //重量
-    //             echarts.init(viewPort).setOption(willon_option);  //养殖情况的echarts的渲染
-    //             cb&&cb(res.list);
-    //         }
-    //     });
-    // }
     /**render
      * 图层渲染选择
      */
@@ -746,7 +935,7 @@
     function renderTpl(id,tpl) {
         tpl = tpl?tpl:'aqua_add';
         showVue.call(oShadow);
-        showDetailData(id);
+        showDetailData(id,'A');
         showVue.call(oAdd);
         viewCommand({
             command:'display',
@@ -760,7 +949,7 @@
             inputs = aPNode.getElementsByTagName('input');
         switch (tpl){
             case 'aqua_add':render_other(id,'aqua_add');break;
-            case 'outPoultry_add':render_other('outPoultry_add');break;
+            case 'outPoultry_add':render_other(id,'outPoultry_add');break;
             default:break;
         }
 
@@ -768,17 +957,26 @@
             var post = '';
             switch (tpl){
                 case 'aqua_add':post = oURL.APOST;render_a(id);break;
-                case 'outPoultry_add':post = oURL.OPOST;render_o();break;
+                case 'outPoultry_add':post = oURL.OPOST;render_o(id);break;
                 default:break;
             }
             sub_btn.onclick = function () {
                 var obj = queryParse.call($(form));
                     obj.remark = selectNodes[2].value.split('$')[0];
                     obj.feedType = selectNodes[2].value.split('$')[1];
-                if(post==oURL.APOST){
-                    if(inputs[2]>MAX_FOOD){
-                        alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
-                        return
+                    if(post==oURL.APOST){
+                        if(inputs[2]>MAX_FOOD){
+                            alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
+                            return
+                        }else{
+                            $.post(oURL.PRONAME+post,obj,function (res) {
+                                if(res){
+                                    alert(res.msg);
+                                }else{
+                                    alert('溯源提示:\n\n提交失败');
+                                }
+                            });
+                        }
                     }else{
                         $.post(oURL.PRONAME+post,obj,function (res) {
                             if(res){
@@ -788,15 +986,6 @@
                             }
                         });
                     }
-                }else{
-                    $.post(oURL.PRONAME+post,obj,function (res) {
-                        if(res){
-                            alert(res.msg);
-                        }else{
-                            alert('溯源提示:\n\n提交失败');
-                        }
-                    });
-                }
 
             }
             function render_a(id) {
@@ -922,8 +1111,11 @@
                                     resetInput.value = this.value;
                                     if(this.value<PTACH_SIZE){      //养殖数少了，那么我就要知道为什么少了
                                         //弹出死逃表
-                                        alert('溯源提示:\n\n您输入的数据少于预订值，将左侧为您提供死淘信息记录表');
-                                        render_ddl(res.id);
+                                        if(confirm('溯源提示:\n\n您输入的数据少于预订值，将左侧为您提供死淘信息记录表')){
+                                            render_ddl(res.id);
+                                            sub_btn.disabled = true;
+                                        };
+
                                         /**
                                          * 死淘表呈现
                                          * 1、oShadow上移，
@@ -934,7 +1126,6 @@
                                          * 3、把原来的值设置回来
                                          * @type {boolean}
                                          */
-                                        sub_btn.disabled = true;
                                     }else{
                                         sub_btn.disabled = false;
                                     }
@@ -947,7 +1138,29 @@
                 });
 
             }
-            function render_o() {
+            function render_o(id) {
+                $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) {    //渲染入场ID对应的批次号
+                    if(res.object.length){
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[0],res.object,'id']
+                        });
+                        var inputNodes = oAdd.getElementsByClassName('detail-content')[0].getElementsByTagName('input');
+                        $.get(oURL.PRONAME+oURL.GETPATHBYID+selectNodes[0].value,function (res) {
+                            if(res){
+                                inputNodes[0].value = +res.size;
+                            }
+                        });
+                        selectNodes[0].onchange = function () {
+                            $.get(oURL.PRONAME+oURL.GETPATHBYID+this.value,function (res) {
+                                if(res){
+                                    inputNodes[0].value = +res.size;
+                                }
+                            });
+                        }
+                    }
+                });
+
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){
                     if(res){
                         viewCommand({
@@ -973,7 +1186,6 @@
 
         var ddlContent = oDDl.getElementsByTagName('div');
 
-        console.log(ddlContent);
         //空白框
         viewCommand({
             command:'display',
@@ -984,15 +1196,42 @@
         var ddlClose = oDDl.getElementsByTagName('a')[0],
             selectNodes = oDDl.getElementsByTagName('select');
 
-        //渲染方式操作
-        $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
+        //渲染死亡原因
+        $.get(oURL.PRONAME+oURL.GETSIWANGYUANYING,function (res) {
             if(res.list){
                 viewCommand({
                     command:'display',
                     param:[selectNodes[0],res.list,'id_name'],
                 });
             }else{
+                alert('溯源提示：\n\n获取死亡原因失败');
+            }
+        });
+
+        //渲染方式操作
+        $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
+            if(res.list){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[1],res.list,'id_name'],
+                });
+            }else{
                 alert('溯源提示：\n\n获取丢弃方式失败');
+            }
+        });
+
+        $.get(oURL.PRONAME+oURL.GETEMP,function(res){      //人员信息
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[2],res.list,'id_name']
+                });
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[3],res.list,'id_name']
+                });
+            }else{
+                alert('人员获取失败');
             }
         });
 
@@ -1049,8 +1288,7 @@
         $(oDDl_own).removeClass('none'); //弹出动画
         $(oDDl_own).animate({left:705});
         showVue.call(oShadow);
-        showDetailData(id);
-
+        showDetailData(id,'D');
         viewCommand({                      //渲染DDL_own
             command:'append',
             param:[$(oDDl_own),[],'ddl_own_add']
@@ -1089,12 +1327,24 @@
                 sub_btn.disabled = false;
             }
         }
+
+        //渲染死亡原因
+        $.get(oURL.PRONAME+oURL.GETSIWANGYUANYING,function (res) {
+            if(res.list){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[1],res.list,'id_name'],
+                });
+            }else{
+                alert('溯源提示：\n\n获取死亡原因失败');
+            }
+        });
         //渲染丢弃方式操作
         $.get(oURL.PRONAME+oURL.GETPMODE,function (res) {
             if(res.list){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[1],res.list,'id_name'],
+                    param:[selectNodes[2],res.list,'id_name'],
                 });
             }else{
                 alert('溯源提示：\n\n获取丢弃方式失败');
@@ -1105,11 +1355,11 @@
             if(res){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[2],res.list,'id_name']
+                    param:[selectNodes[3],res.list,'id_name']
                 });
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[3],res.list,'id_name']
+                    param:[selectNodes[4],res.list,'id_name']
                 });
             }else{
                 alert('人员获取失败');
@@ -1166,7 +1416,7 @@
         $(oEPI).removeClass('none'); //弹出动画
         $(oEPI).animate({left:705});
         showVue.call(oShadow);
-        showDetailData(id);
+        showDetailData(id,'E');
         $(oEPI).removeClass('none');
         viewCommand({                      //渲染EPI
             command:'append',
@@ -1196,7 +1446,6 @@
             dom:selectNodes[2],
             tpl:'firm_name',
             cb:function(){
-                console.log(selectNodes[2].value);
                 obj.remark = selectNodes[2].value.split('$')[0];
                 obj.feedType = selectNodes[2].value.split('$')[1];
                 obj.feedWeight = 1000000000;
@@ -1243,7 +1492,7 @@
             if(inputs[1].value<=PTACH_SIZE && inputs[0].value<=FOOD_MAX){
                 var json = queryParse.call($(form));
                     json.name = selectNodes[2].value.split('$')[1];
-                    json.processingMode = selectNodes[2].value.split('$')[0];//变成了公司的名称额
+                    json.remark = selectNodes[2].value.split('$')[0];//变成了公司的名称额
                 $.post(oURL.PRONAME+oURL.EPIPOST,json,function(res){      //免疫信息的提交
                     if(res){
                        alert(res.msg);
