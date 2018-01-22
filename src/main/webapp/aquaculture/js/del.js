@@ -13,7 +13,7 @@
     const oURL = {
         PRONAME:'/waterfowl',
         GETAQUACULTURELIST:'/aquaculture/list',
-        DEL:'/aquaculture/delete/',
+
     };
 
      /**

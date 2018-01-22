@@ -48,6 +48,7 @@
             GETAQUAVUE:'/aquaculture/showWeight?idPatch=',//养殖视图呈现
             GETDDLVUE:'/ddl/deathMethod?idPatch=',//死淘信息视图呈现
             GETEPIVUE:'/epidemic/diseaesMethod?idPatch=',//免疫表的呈现
+            DEL:'/poultry/delete/',
             };
     /**
      * 实例化一个分页控制者
@@ -145,6 +146,29 @@
         btn_pre = doc.getElementById('btn-pre'),
         btn_next = doc.getElementById('btn-next'),
         unbind = false;
+
+    /**
+     * 新增按钮的视图切换
+     */
+    $('#new').click(function () {
+        window.location.href ='./aqua_add.html'
+    });
+    /**
+     * 提交删除的id值
+     1、删除成功后，初始化视图
+     */
+    $('#content').on('click',"[data-id*='del']",function(){
+        if(confirm('溯源提示:\n\n确认删除?')){
+            var id = $(this).attr('data-id').substr(3);
+            $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+                if(res.status){
+                    pageController.init();
+                }else{
+                    alert('溯源提示:\n\n删除对象条目失败');
+                }
+            });
+        }
+    });
 
     /**
      *2、详细按钮监听打开

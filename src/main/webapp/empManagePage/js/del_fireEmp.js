@@ -68,20 +68,21 @@
             }
         });
     }
+
     /**
      * 触发两个事件委托
      */
     $('#content').on("click","[id*='fire']",function(){
         if(confirm('确认解雇该员工吗？')){
             var id = $(this).attr('id').substr(4);
-            option(oURL.PRONAME+oURL.FIREEMP,id,pageController.init());
+            option(oURL.PRONAME+oURL.FIREEMP,id,pageController.init);
         }
     });
 
     $('#content').on("click","[id*='del']",function(){
         if(confirm('确认删除该员工的所有信息吗？')){
             var id = $(this).attr('id').substr(3);
-            option(oURL.PRONAME+oURL.DELEMP,id,pageController.init());
+            option(oURL.PRONAME+oURL.DELEMP,id,pageController.init);
         }
     });
     /**

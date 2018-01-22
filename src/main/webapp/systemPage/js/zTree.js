@@ -36,12 +36,9 @@ var zNodes_userInfoM = [
  */
 var zNodes_aquaInfoM = [
     {
-        name:"家禽养殖流程管理", open:true, tid:'./poultryManagePage_v2/find.html',children:
+        name:"流程管理", open:true, tid:'./poultryManagePage_v2/find.html',children:
         [
-            {name:"新增入厂记录",tid:'./poultryManagePage_v2/aqua_add.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
-
-            {name:"删除入厂记录",tid:'./poultryManagePage_v2/del.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
-
+            {name:"养殖管理",tid:'./aquaculture/find.html',pName:"养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
         ]
     },
     {

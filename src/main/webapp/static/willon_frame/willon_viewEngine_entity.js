@@ -120,14 +120,15 @@ var viewCommand = (function(msg){
              '<td >{#idFowlery#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#numTotal#}</td>',
+             '<td >{#remark#}</td>',
              '<td >{#feedType#}</td>',
              '<td >{#feedWeight#}</td>',
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td >{#idOutstorage#}</td>',
              '<td >{#status#}</td>',
-             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
+             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
              '</tr>'
          ].join(''),
          del_out_poultry:[
@@ -182,6 +183,7 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" data-check="true" data-id="D{#idPoultry#}">死淘记录</a></td>',
              '<td ><a class="btn" data-check="true" data-id="E{#idPoultry#}">免疫卫生</a></td>',
              '<td ><a class="btn" data-check="true" data-id="O{#idPoultry#}">出厂记录</a></td>',
+             '<td ><a class="btn" data-id="del{#idPoultry#}">删除</a></td>',
              '</tr>'
          ].join(''),
          poultry_del:[
