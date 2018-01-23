@@ -49,6 +49,7 @@
             GETDDLVUE:'/ddl/deathMethod?idPatch=',//死淘信息视图呈现
             GETEPIVUE:'/epidemic/diseaesMethod?idPatch=',//免疫表的呈现
             DEL:'/poultry/delete/',
+            GETLIUCHENGZHUANTAI:'/dict/list?pid=11000',//流程状态
             };
     /**
      * 实例化一个分页控制者
@@ -308,13 +309,13 @@
                         render({
                             url:oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //类型->大宿舍
                             dom:selectNodes[2],
-                            tpl:'id',
+                            tpl:'option',
                             dataDescription:'list',
                             cb:function () {                                        //大宿舍->小宿舍
                                 render({
                                     url:oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,
                                     dom:selectNodes[3],
-                                    tpl:'id',
+                                    tpl:'option',
                                     dataDescription:'list'
                                 });
                             }
@@ -332,13 +333,13 @@
                 if(res.list){
                     viewCommand({
                         command:'display',
-                        param:[selectNodes[2],res.list,'id']
+                        param:[selectNodes[2],res.list,'option']
                     });
                     $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
                         if(res.list){         //只有小宿舍号被划分了才行
                             viewCommand({
                                 command:'display',
-                                param:[selectNodes[3],res.list,'id']
+                                param:[selectNodes[3],res.list,'option']
                             });
                             sub_btn.disabled = false;
                         }
@@ -355,13 +356,13 @@
                 if(res.list){
                     viewCommand({
                         command:'display',
-                        param:[selectNodes[2],res.list,'id']
+                        param:[selectNodes[2],res.list,'option']
                     });
                     $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
                         if(res.list){
                             viewCommand({
                                 command:'display',
-                                param:[selectNodes[3],res.list,'id']
+                                param:[selectNodes[3],res.list,'option']
                             });
                             sub_btn.disabled = false;
                         }
@@ -380,7 +381,7 @@
                     if(res.list){   //大宿舍-》小宿舍
                         viewCommand({
                             command:'display',
-                            param:[selectNodes[3],res.list,'id']
+                            param:[selectNodes[3],res.list,'option']
                         });
                         sub_btn.disabled = false;
                     }else{
@@ -394,16 +395,22 @@
             }
 
         }
+        $.get(oURL.PRONAME+oURL.GETLIUCHENGZHUANTAI,function(res){        //流程状态
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[4],res.list,'id_name']
+                });
+            }else{
+                alert('获取人员信息失败');
+            }
+        });
 
         $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
             if(res){
                 viewCommand({
                     command:'display',
                     param:[selectNodes[5],res.list,'id_name']
-                });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[6],res.list,'id_name']
                 });
             }else{
                 alert('获取人员信息失败');
@@ -996,6 +1003,7 @@
                             $.post(oURL.PRONAME+post,obj,function (res) {
                                 if(res){
                                     alert(res.msg);
+                                    renderTpl(id);
                                 }else{
                                     alert('溯源提示:\n\n提交失败');
                                 }
@@ -1092,13 +1100,10 @@
                 });
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){
                     if(res){
+
                         viewCommand({
                             command:'display',
                             param:[selectNodes[4],res.list,'id_name']
-                        });
-                        viewCommand({
-                            command:'display',
-                            param:[selectNodes[5],res.list,'id_name']
                         });
                     }else{
                         alert('人员获取失败');
@@ -1191,10 +1196,6 @@
                             command:'display',
                             param:[selectNodes[1],res.list,'id_name']
                         });
-                        viewCommand({
-                            command:'display',
-                            param:[selectNodes[2],res.list,'id_name']
-                        });
                     }else{
                         alert('人员获取失败');
                     }
@@ -1249,10 +1250,6 @@
                 viewCommand({
                     command:'display',
                     param:[selectNodes[2],res.list,'id_name']
-                });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[3],res.list,'id_name']
                 });
             }else{
                 alert('人员获取失败');
@@ -1381,10 +1378,6 @@
                     command:'display',
                     param:[selectNodes[3],res.list,'id_name']
                 });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[4],res.list,'id_name']
-                });
             }else{
                 alert('人员获取失败');
             }
@@ -1396,6 +1389,7 @@
                 $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
                     if(res.status==1){
                         alert('溯源提示:\n\n死淘信息提交成功');
+                        renderDDL_OWN(id,patchs);
                     }else{
                         alert('溯源提示:\n\n死淘信息提交失败');
                     }
@@ -1503,10 +1497,6 @@
                     command:'display',
                     param:[selectNodes[5],res.list,'id_name']
                 });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[6],res.list,'id_name']
-                });
             }else{
                 alert('人员获取失败');
             }
@@ -1520,6 +1510,7 @@
                 $.post(oURL.PRONAME+oURL.EPIPOST,json,function(res){      //免疫信息的提交
                     if(res){
                        alert(res.msg);
+                        renderEPI(id,patchs);
                     }else{
                         alert('溯源提示：\n\n提交免疫记录失败');
                     }

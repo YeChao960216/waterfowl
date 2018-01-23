@@ -136,7 +136,7 @@ public class PatchController {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String a=sdf.format(t);
-        patch.setId(poultryService.get(patch.getIdPoultry())+patch.getIdAffilation()+patch.getIdFowlery()+a);
+        patch.setId(poultryService.get(patch.getIdPoultry()).getAssociatedFirm()+patch.getIdAffilation()+patch.getIdFowlery()+a);
 //        //设置时间格式
 //        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 //        Calendar c=Calendar.getInstance();

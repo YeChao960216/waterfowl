@@ -4,9 +4,9 @@
     min-height:720px !important;
 }
 .baseFrame{
-    min-width: 1200px !important;
+    min-width: 1400px !important;
     /* padding: 5px 5px; */
-    min-height:720px !important;
+    min-height:900px !important;
     margin: 0 auto;
 }
 .nav{
@@ -209,7 +209,7 @@
     /*width:66%;*/
     height: 90%;
     /*max-width: 707px;*/
-    width:842px;
+    width:1024px;
 
 }
 .all-option ul{
@@ -222,7 +222,7 @@
 .all-option ul li{
     position: relative;
     float:left;
-    width:14%;
+    width:11%;
     height: 100%;
     padding: 5px 35px 5px 5px;
     cursor: pointer;
