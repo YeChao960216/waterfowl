@@ -13,6 +13,7 @@
         const oURL = {
             PRONAME:'/waterfowl',
             GETAQUACULTURELIST:'/aquaculture/list',
+            DEL:'/aquaculture/delete/',
         };
     /**
      * 实例化一个分页控制者
@@ -85,4 +86,20 @@
         pageController.other = '';
         pageController.init();
     });
+
+    /**
+     * 提交删除的id值
+     1、删除成功后，初始化视图
+     */
+    $('#content').on('click',"[data-id*='del']",function(){
+        var id = $(this).attr('data-id').substr(3);
+        $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+            if(res.status){
+                pageController.init();
+            }else{
+                alert('删除对象条目失败');
+            }
+        });
+    });
+
 })();

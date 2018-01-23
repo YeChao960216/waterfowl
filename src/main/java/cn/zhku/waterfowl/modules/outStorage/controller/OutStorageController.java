@@ -57,6 +57,10 @@ public class OutStorageController extends BaseController{
             outstorage.setIdOutstorage(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             Timestamp t = new Timestamp(System.currentTimeMillis());
             outstorage.setRecordDate(t);
+            outstorage.setRest(outstorage.getQuantity());
+            if (outstorage.getValid()==null||outstorage.getValid().isEmpty()){
+                outstorage.setValid("未过期");
+            }
              if (outStorageService.add(outstorage)==1){
                 return new Message("1","添加物资记录成功");
             }

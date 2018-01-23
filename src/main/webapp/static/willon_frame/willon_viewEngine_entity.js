@@ -120,14 +120,15 @@ var viewCommand = (function(msg){
              '<td >{#idFowlery#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#numTotal#}</td>',
+             '<td >{#remark#}</td>',
              '<td >{#feedType#}</td>',
              '<td >{#feedWeight#}</td>',
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td >{#idOutstorage#}</td>',
              '<td >{#status#}</td>',
-             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
+             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
              '</tr>'
          ].join(''),
          del_out_poultry:[
@@ -159,9 +160,9 @@ var viewCommand = (function(msg){
         ].join(''),
          fowlery_find:[
              '<tr>',
+             '<td >{#affiliation#}</td>',
              '<td >{#size#}</td>',
              '<td >{#status#}</td>',
-             '<td >{#affiliation#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
              "<td ><a class='btn' data-id='del{#id#}'>删除</a></td>",
@@ -182,6 +183,7 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" data-check="true" data-id="D{#idPoultry#}">死淘记录</a></td>',
              '<td ><a class="btn" data-check="true" data-id="E{#idPoultry#}">免疫卫生</a></td>',
              '<td ><a class="btn" data-check="true" data-id="O{#idPoultry#}">出厂记录</a></td>',
+             '<td ><a class="btn" data-id="del{#idPoultry#}">删除</a></td>',
              '</tr>'
          ].join(''),
          poultry_del:[
@@ -256,7 +258,7 @@ var viewCommand = (function(msg){
              '</tr>',
              '<tr>',
              '<td>大禽舍编号</td>',
-             '<td>{#idAffilation#}</td>',
+             '<td>{#name#}</td>',
              '</tr>',
              '<tr>',
              '<td>禽舍编号</td>',
@@ -369,14 +371,8 @@ var viewCommand = (function(msg){
              '<td>该批次状态</td>',
              '<td>',
              '<select name="status" class="select-fix-input">',
-             '<option value="批次出厂">该批次已出厂</option>',
-             '<option value="养殖中" selected>养殖中</option>',
              '</select>',
              '</td>',
-             '</tr>',
-             '<tr>',
-             '<td>记录人</td>',
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>',
              '</tr>',
              '<tr>',
              '<td>负责人</td>',
@@ -436,10 +432,6 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="weight"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>记录人</td>'+
-                 '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-                 '</tr>'+
-                 '<tr>'+
                  '<td>负责人</td>'+
                  '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
                  '</tr>'+
@@ -481,10 +473,6 @@ var viewCommand = (function(msg){
              '<td><select name="processingMode" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
              '</tr>'+
@@ -520,10 +508,6 @@ var viewCommand = (function(msg){
              '<tr>'+
              '<td>处理方式</td>'+
              '<td><select name="processingMode" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
              '<td>负责人</td>'+
@@ -564,12 +548,8 @@ var viewCommand = (function(msg){
             '</tr>'+
             '<tr>'+
             '<td>联系电话</td>'+
-            '<td><input type="text" name="phone" id="phone" class="select-fix-input" pattern="^1[3-9]\d{9}$"></td>'+
+            '<td><input type="text" name="phone" id="phone" class="select-fix-input" ></td>'+
             '</tr>'+
-             '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
              '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
@@ -676,10 +656,6 @@ var viewCommand = (function(msg){
              '<td><input type="number" name="numInfected" min="1" placeholder="给药/处理个数"></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
              '</tr>'+
@@ -754,7 +730,7 @@ var viewCommand = (function(msg){
          ].join(''),
          affi_v2_show:[
              '<tr>',
-             '<td >{#id#}</td>',
+             '<td >{#name#}</td>',
              '<td >{#position#}</td>',
              '<td >{#type#}</td>',
              '<td >{#size#}</td>',
