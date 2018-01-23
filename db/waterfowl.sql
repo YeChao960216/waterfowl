@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-23 15:45:31
+Date: 2018-01-23 21:47:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -135,6 +135,7 @@ CREATE TABLE `customer` (
   `gender` varchar(45) DEFAULT NULL COMMENT '性别',
   `phone` varchar(45) DEFAULT NULL COMMENT '电话号码',
   `address` varchar(45) DEFAULT NULL COMMENT '地址',
+  `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -214,7 +215,7 @@ INSERT INTO `dictionary` VALUES ('10604', '登陆管理', '10006', '10000');
 INSERT INTO `dictionary` VALUES ('10700', '字典管理', '10007', '10000');
 INSERT INTO `dictionary` VALUES ('11000', '阶段状态', '0', '');
 INSERT INTO `dictionary` VALUES ('11001', '养殖中', '11000', '');
-INSERT INTO `dictionary` VALUES ('12000', '死亡原因', '0', '我');
+INSERT INTO `dictionary` VALUES ('12000', '死亡原因', '0', '');
 INSERT INTO `dictionary` VALUES ('12001', '丢失', '12000', '水水');
 INSERT INTO `dictionary` VALUES ('12002', '生病死去', '12000', '水水');
 INSERT INTO `dictionary` VALUES ('12003', '打斗死去', '12000', '水水完善');
@@ -371,6 +372,7 @@ CREATE TABLE `manufacture` (
   `id_charge` varchar(45) DEFAULT NULL COMMENT '加工负责人',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '加工的批次',
   `quantity` int(45) DEFAULT NULL COMMENT '加工该批次的数量',
+  `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `FK_trans_patch` (`id_patch`),
   CONSTRAINT `FK_manu_outpoul_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -494,7 +496,6 @@ CREATE TABLE `patch` (
 -- Records of patch
 -- ----------------------------
 INSERT INTO `patch` VALUES ('A1D15C8F04A6428EB76F33602E051ED5', '60001', '70001', '6', '6', '606', '3', null, '2018-01-22 17:17:02', '75001660620180122', null, '11001');
-INSERT INTO `patch` VALUES (null, null, null, null, null, null, null, null, '2018-01-22 17:08:12', 'nullnullnull20180122', null, null);
 
 -- ----------------------------
 -- Table structure for `poultry`
@@ -572,6 +573,7 @@ CREATE TABLE `transcompany` (
   `name` varchar(45) DEFAULT NULL COMMENT '运输公司',
   `phone` varchar(45) DEFAULT NULL COMMENT '运输公司联系方式',
   `address` varchar(45) DEFAULT NULL COMMENT '公司地址',
+  `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`tid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -585,20 +587,21 @@ CREATE TABLE `transcompany` (
 DROP TABLE IF EXISTS `transportation`;
 CREATE TABLE `transportation` (
   `id` varchar(45) NOT NULL COMMENT '运输编号',
-  `cid` varchar(45) NOT NULL COMMENT '运输的批次号',
-  `tid` varchar(45) NOT NULL COMMENT '运输方式',
-  `oid` varchar(45) NOT NULL COMMENT '运输公司',
-  `curQuantity` float(11,0) DEFAULT NULL COMMENT '目的地地址',
-  `curPosition` varchar(45) DEFAULT NULL COMMENT '起始地址',
-  `date` timestamp NULL DEFAULT NULL COMMENT '顾客名称',
-  `driver` varchar(45) DEFAULT NULL,
-  `phone` varchar(45) DEFAULT NULL COMMENT '顾客联系方式',
+  `cid` varchar(45) NOT NULL COMMENT '顾客id',
+  `tid` varchar(45) NOT NULL COMMENT '运输公司id',
+  `id_patch` varchar(45) NOT NULL COMMENT '批次id',
+  `curQuantity` float(11,0) DEFAULT NULL COMMENT '当前数量',
+  `curPosition` varchar(45) DEFAULT NULL COMMENT '当前地址',
+  `curDate` timestamp NULL DEFAULT NULL COMMENT '当前日期',
+  `driver` varchar(45) DEFAULT NULL COMMENT '司机姓名',
+  `phone` varchar(45) DEFAULT NULL COMMENT '司机联系方式',
+  `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `FK_trans_customer_cid` (`cid`),
   KEY `FK_trans_transCompany_tid` (`tid`),
-  KEY `FK_trans_outpoul_oid` (`oid`),
-  CONSTRAINT `FK_trans_outpoul_oid` FOREIGN KEY (`oid`) REFERENCES `out_poultry` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  KEY `FK_trans_outpoul_oid` (`id_patch`),
   CONSTRAINT `FK_trans_customer_cid` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FK_trans_outpoul_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `FK_trans_transCompany_tid` FOREIGN KEY (`tid`) REFERENCES `transcompany` (`tid`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -144,7 +144,7 @@ public class PatchController {
         Fowlery fowlery=new Fowlery();
         fowlery.setAffiliation(patch.getIdAffilation());
         fowlery.setName(patch.getIdFowlery());
-        if (flowleryService.findList(fowlery).get(0).getStatus()=="不可使用"){
+        if (flowleryService.findList(fowlery).get(0).getStatus().equals("不可使用")){
             return new Message("3","选取的禽舍已使用");
         }
         else if (patchService.add(patch) == 1) {
