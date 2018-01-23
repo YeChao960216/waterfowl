@@ -141,10 +141,13 @@ public class PatchController {
         String a=sdf.format(t);
         patch.setId(poultryService.get(patch.getIdPoultry()).getAssociatedFirm()+patch.getIdAffilation()+patch.getIdFowlery()+a);
         patch.setDate(t);
-        if (patchService.add(patch) == 1) {
-            Fowlery fowlery=new Fowlery();
-            fowlery.setAffiliation(patch.getIdAffilation());
-            fowlery.setName(patch.getIdFowlery());
+        Fowlery fowlery=new Fowlery();
+        fowlery.setAffiliation(patch.getIdAffilation());
+        fowlery.setName(patch.getIdFowlery());
+        if (flowleryService.findList(fowlery).get(0).getStatus()=="不可使用"){
+            return new Message("3","选取的禽舍已使用");
+        }
+        else if (patchService.add(patch) == 1) {
             flowleryService.findList(fowlery).get(0).setStatus("不可使用");
             flowleryService.update(flowleryService.findList(fowlery).get(0));
             return new Message("1","增加分批记录成功");

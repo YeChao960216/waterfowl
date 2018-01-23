@@ -355,7 +355,7 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('05805E2D4F854608A39B5974EE2F8B2E', '60', '可使用', '6', null, '3', '606');
+INSERT INTO `fowlery` VALUES ('05805E2D4F854608A39B5974EE2F8B2E', '60', '不可使用', '6', null, '3', '606');
 
 -- ----------------------------
 -- Table structure for `manufacture`
