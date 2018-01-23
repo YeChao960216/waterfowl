@@ -2,6 +2,7 @@ package cn.zhku.waterfowl.modules.outPoultry.controller;
 
 import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +31,8 @@ public class OutPoultryController {
     @ResponseBody
     @RequestMapping("/add")
     public Message addOutPoultry(OutPoultry outPoultry) throws Exception{
+        //  从shrio Session中获取user的session,填充记录员的字段
+        outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
         outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         if(outPoultryService.add(outPoultry)==1)
             return new Message("1","成功增加1条记录");

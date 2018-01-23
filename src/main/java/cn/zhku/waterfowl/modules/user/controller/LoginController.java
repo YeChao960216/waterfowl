@@ -35,6 +35,7 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/user/login")
     public Message login(User form, HttpSession httpSession){
+        System.out.println("========================="+form);
         User user = loginService.login(form);
         if(user != null){
             UsernamePasswordToken token = new UsernamePasswordToken(user.getId(), user.getPassword());
@@ -44,13 +45,14 @@ public class LoginController {
             //   记住用户登陆状态
             token.setRememberMe(true);
 
-            httpSession.setAttribute("user",user);
+            //httpSession.setAttribute("user",user);
+            session.setAttribute("user",user);
             //  shiro登陆用户信息
             subject.login(token);
             return new Message("1","用户登录成功");
         }
         else
-            return new Message("2","用户登录失败");
+            return new Message("2","用户不存在或者密码输入失败");
     }
 
     @ResponseBody
@@ -100,7 +102,9 @@ public class LoginController {
     @RequestMapping("/user/nowUserInfo")
     @ResponseBody
     public User nowUserInfo(HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute("user");
+        //User user = (User) httpSession.getAttribute("user");
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User) session.getAttribute("user");
         if (user == null)
             return null;
         user.setPassword("  ");

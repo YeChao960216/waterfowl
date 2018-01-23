@@ -4,6 +4,7 @@ import cn.zhku.waterfowl.modules.ddl.dao.DDLDao;
 import cn.zhku.waterfowl.modules.ddl.model.DeathMethodVo;
 import cn.zhku.waterfowl.modules.ddl.service.DdlService;
 import cn.zhku.waterfowl.pojo.entity.Ddl;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
@@ -38,6 +39,8 @@ public class DdlController extends BaseController{
     @ResponseBody
     @RequestMapping("save")
     public Message addDdl(Ddl ddl) throws Exception {
+        //  从shrio Session中获取user的session,填充记录员的字段
+        ddl.setIdRecorder(SessionUtil.getUserSession().getId());
         ddl.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
         ddl.setRecordDate(new Date());
         if (ddlService.add(ddl)==1) {
