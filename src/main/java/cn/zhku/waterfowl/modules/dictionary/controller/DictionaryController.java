@@ -58,6 +58,7 @@ public class DictionaryController {
     public Message delete(@PathVariable String id, Dictionary dictionary) throws Exception {
         dictionary.setId(id);
         if(Integer.parseInt(dictionaryService.get(id).getPid())==0){
+//            if (id.equals(10000)||id.equals(11000)||id.equals(12000)||id.equals(11000)){}
         dictionaryService.delete(dictionary);
         dictionaryService.deleteAll(id);
             return new Message("1","删除字典栏目成功");
