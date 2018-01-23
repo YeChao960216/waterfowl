@@ -104,7 +104,7 @@
           self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
-                if(res){
+                if(res[self.dataDescription]){
                     var list = res[self.dataDescription];
                     if(self.filterTpl){
                         list = new DataFilter({
@@ -136,7 +136,7 @@
           self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
-                if(res){
+                if(res[self.dataDescription]){
 
                     var list = res[self.dataDescription];
                     if(self.filterTpl){
@@ -181,8 +181,7 @@
           self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
           if(!self.cache[self.nowPage]){
             $.get(self.url,function(res){
-                if(res){
-
+                if(res[self.dataDescription]){
                     var list = res[self.dataDescription];
                     if(self.filterTpl){
                         list = new DataFilter({
@@ -233,7 +232,7 @@
         self.nowPage = 1;
         self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
         $.get(self.url,function(res){
-            if(res){
+            if(res[self.dataDescription]){
                 self.allPage = res[self.totalDescription];
                 self.showNowPage();
                 self.showAllPage();
