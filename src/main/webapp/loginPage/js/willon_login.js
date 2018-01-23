@@ -68,11 +68,11 @@
                         //sessionStorage.setItem('system_user',data.username);
                         window.location.href='/waterfowl/index.html';
                     }else{
-                        alert('可能是系统的内部错误，登陆失败');
+                        alert('溯源提示:\n\n密码错误或用户名不存在');
                     }
                 })
             }else{
-                alert('填写格式有误，或为空');
+                alert('溯源提示:\n\n填写格式有误，或为空');
             }
         }else{
             var phone = cellphone.value;
@@ -86,7 +86,7 @@
                     //sessionStorage.setItem('user',data.username);
                     window.location.href='/waterfowl/index.html';
                 }else{
-                    alert('可能是系统的内部错误，登陆失败');
+                    alert('溯源提示:\n\n密码错误或用户名不存在');
                 }
             })
         }
