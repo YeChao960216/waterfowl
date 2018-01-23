@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mydb
-Source Server Version : 50716
+Source Server         : localhost_3306
+Source Server Version : 50536
 Source Host           : localhost:3306
 Source Database       : waterfowl
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-23 14:48:07
+Date: 2018-01-23 15:45:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -124,6 +124,23 @@ INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'D53AEA16147
 INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'ECD2FA2743BB4AA4A7A347D54541A187', 'A08440CCC47E45C9B31EFB89F9866F6F');
 INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '32CC636689D940AFA6A06015645DC13B', 'B91E0EE657D84BB6B19E572FCAAB0034');
 INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'FDC54D490B9B482284BF7D5F854D502A', 'EDFB472A478645F1A851A87DD30C3C42');
+
+-- ----------------------------
+-- Table structure for `customer`
+-- ----------------------------
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE `customer` (
+  `cid` varchar(45) NOT NULL COMMENT '顾客id',
+  `name` varchar(45) DEFAULT NULL COMMENT '顾客姓名',
+  `gender` varchar(45) DEFAULT NULL COMMENT '性别',
+  `phone` varchar(45) DEFAULT NULL COMMENT '电话号码',
+  `address` varchar(45) DEFAULT NULL COMMENT '地址',
+  PRIMARY KEY (`cid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of customer
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `ddl`
@@ -356,30 +373,11 @@ CREATE TABLE `manufacture` (
   `quantity` int(45) DEFAULT NULL COMMENT '加工该批次的数量',
   PRIMARY KEY (`id`),
   KEY `FK_trans_patch` (`id_patch`),
-  CONSTRAINT `FK_trans_patch` FOREIGN KEY (`id_patch`) REFERENCES `trans_patch` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_manu_outpoul_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of manufacture
--- ----------------------------
-
--- ----------------------------
--- Table structure for `man_outpou`
--- ----------------------------
-DROP TABLE IF EXISTS `man_outpou`;
-CREATE TABLE `man_outpou` (
-  `id` varchar(45) NOT NULL COMMENT '出场的批次和加工的关系编号',
-  `man_id` varchar(45) NOT NULL COMMENT '加工编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '批次编号',
-  PRIMARY KEY (`id`),
-  KEY `FK_man_man_id` (`man_id`),
-  KEY `FK_man_outpo_patch` (`id_patch`),
-  CONSTRAINT `FK_man_man_id` FOREIGN KEY (`man_id`) REFERENCES `manufacture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_man_outpo_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of man_outpou
 -- ----------------------------
 
 -- ----------------------------
@@ -566,48 +564,46 @@ INSERT INTO `role_permission` VALUES ('1', '50001');
 INSERT INTO `role_permission` VALUES ('1', '50002');
 
 -- ----------------------------
+-- Table structure for `transcompany`
+-- ----------------------------
+DROP TABLE IF EXISTS `transcompany`;
+CREATE TABLE `transcompany` (
+  `tid` varchar(45) NOT NULL COMMENT '运输公司编号',
+  `name` varchar(45) DEFAULT NULL COMMENT '运输公司',
+  `phone` varchar(45) DEFAULT NULL COMMENT '运输公司联系方式',
+  `address` varchar(45) DEFAULT NULL COMMENT '公司地址',
+  PRIMARY KEY (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of transcompany
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `transportation`
 -- ----------------------------
 DROP TABLE IF EXISTS `transportation`;
 CREATE TABLE `transportation` (
   `id` varchar(45) NOT NULL COMMENT '运输编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '运输的批次号',
-  `method` varchar(45) DEFAULT NULL COMMENT '运输方式',
-  `firm` varchar(45) DEFAULT NULL COMMENT '运输公司',
-  `site` varchar(45) DEFAULT NULL COMMENT '目的地地址',
-  `phone` varchar(45) DEFAULT NULL COMMENT '运输公司联系方式',
-  `customer` varchar(45) DEFAULT NULL COMMENT '顾客名称',
-  `c_phone` varchar(45) DEFAULT NULL COMMENT '顾客联系方式',
-  `address` varchar(45) DEFAULT NULL COMMENT '起始地址',
-  `quantity` int(45) DEFAULT NULL COMMENT '运输该批次的数量',
-  PRIMARY KEY (`id`)
+  `cid` varchar(45) NOT NULL COMMENT '运输的批次号',
+  `tid` varchar(45) NOT NULL COMMENT '运输方式',
+  `oid` varchar(45) NOT NULL COMMENT '运输公司',
+  `curQuantity` float(11,0) DEFAULT NULL COMMENT '目的地地址',
+  `curPosition` varchar(45) DEFAULT NULL COMMENT '起始地址',
+  `date` timestamp NULL DEFAULT NULL COMMENT '顾客名称',
+  `driver` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL COMMENT '顾客联系方式',
+  PRIMARY KEY (`id`),
+  KEY `FK_trans_customer_cid` (`cid`),
+  KEY `FK_trans_transCompany_tid` (`tid`),
+  KEY `FK_trans_outpoul_oid` (`oid`),
+  CONSTRAINT `FK_trans_outpoul_oid` FOREIGN KEY (`oid`) REFERENCES `out_poultry` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FK_trans_customer_cid` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FK_trans_transCompany_tid` FOREIGN KEY (`tid`) REFERENCES `transcompany` (`tid`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of transportation
--- ----------------------------
-
--- ----------------------------
--- Table structure for `trans_patch`
--- ----------------------------
-DROP TABLE IF EXISTS `trans_patch`;
-CREATE TABLE `trans_patch` (
-  `id` varchar(45) NOT NULL COMMENT '加工与批次关系编号',
-  `trans_id` varchar(45) NOT NULL COMMENT '运输编号',
-  `id_patch` varchar(45) NOT NULL COMMENT '运输的批次号',
-  `site` varchar(45) DEFAULT NULL COMMENT '目前位置',
-  `date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
-  `id_charge` varchar(45) DEFAULT NULL COMMENT '运输负责人',
-  `phone` varchar(45) DEFAULT NULL COMMENT '运输人联系方式',
-  PRIMARY KEY (`id`),
-  KEY `FK_trans_id` (`trans_id`),
-  KEY `FK_outpou_patch` (`id_patch`),
-  CONSTRAINT `FK_outpou_patch` FOREIGN KEY (`id_patch`) REFERENCES `out_poultry` (`id_patch`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_trans_id` FOREIGN KEY (`trans_id`) REFERENCES `transportation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of trans_patch
 -- ----------------------------
 
 -- ----------------------------
