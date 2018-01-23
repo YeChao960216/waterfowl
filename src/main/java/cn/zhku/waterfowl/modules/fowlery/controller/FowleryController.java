@@ -4,6 +4,7 @@ import cn.zhku.waterfowl.modules.fowlery.model.FowleryExcel;
 import cn.zhku.waterfowl.modules.fowlery.model.FowleryUtilExcel;
 import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -71,6 +72,8 @@ public class FowleryController {
     @ResponseBody
     @RequestMapping("newFowlery")
     public Message addFowlery(Fowlery fowlery) throws Exception {
+        //  从shrio Session中获取user的session,填充记录员的字段
+        fowlery.setIdRecord(SessionUtil.getUserSession().getId());
         if (fowlery.getId()==null||fowlery.getId().isEmpty()){
             return new Message("3","添加禽舍失败，请填写禽舍编号");
         }

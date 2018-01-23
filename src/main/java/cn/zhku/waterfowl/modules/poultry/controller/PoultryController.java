@@ -5,6 +5,7 @@ import cn.zhku.waterfowl.modules.poultry.model.PoultryExcel;
 import cn.zhku.waterfowl.modules.poultry.model.PoultryUtilExcel;
 import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -44,6 +45,8 @@ public class PoultryController extends BaseController {
         @ResponseBody
         @RequestMapping("add")
         public Message addPoultry(Poultry poultry) throws Exception {
+            //  从shrio Session中获取user的session,填充记录员的字段
+            poultry.setIdRecorder(SessionUtil.getUserSession().getId());
             poultry.setIdPoultry(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
             Timestamp t = new Timestamp(System.currentTimeMillis());
             poultry.setRecordDate(t);

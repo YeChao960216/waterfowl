@@ -3,6 +3,7 @@ import cn.zhku.waterfowl.modules.epidemic.dao.EpidemicDao;
 import cn.zhku.waterfowl.modules.epidemic.model.DiseaesMethodVo;
 import cn.zhku.waterfowl.modules.epidemic.service.EpidemicService;
 import cn.zhku.waterfowl.pojo.entity.Epidemic;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
@@ -44,6 +45,8 @@ import java.util.UUID;
         @ResponseBody
         @RequestMapping("save")
         public Message addEpidemic(Epidemic epidemic) throws Exception {
+            //  从shrio Session中获取user的session,填充记录员的字段
+            epidemic.setIdRecorder(SessionUtil.getUserSession().getId());
             epidemic.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             if(epidemicService.add(epidemic) == 1){
                 epidemicService.manageOutstorage(epidemic);

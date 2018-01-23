@@ -8,12 +8,16 @@ import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.User;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jdk.nashorn.internal.ir.WhileNode;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +54,9 @@ public class AquacultureController{
     @ResponseBody
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
+        //  从shrio Session中获取user的session,填充记录员的字段
+        aquaculture.setIdRecorder(SessionUtil.getUserSession().getId());
+
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         aquaculture.setRecordDate(t);

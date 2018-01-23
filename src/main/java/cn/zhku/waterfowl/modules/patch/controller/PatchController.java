@@ -7,6 +7,7 @@ import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.pojo.entity.Poultry;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.util.modle.Msg;
@@ -133,6 +134,9 @@ public class PatchController {
     @ResponseBody
     @RequestMapping("newPatch")
     public Message addPatch( Patch patch) throws Exception {
+        //  从shrio Session中获取user的session,填充记录员的字段
+        patch.setIdRecorder(SessionUtil.getUserSession().getId());
+
         Timestamp t = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String a=sdf.format(t);

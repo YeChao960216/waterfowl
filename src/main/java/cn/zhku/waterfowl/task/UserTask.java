@@ -17,7 +17,7 @@ import java.util.UUID;
  * 说明：这是有关user的定时任务类
  */
 @Service
-@EnableScheduling   // 开启定时任务
+//@EnableScheduling   // 开启定时任务
 public class UserTask {
 
     @Autowired
@@ -26,7 +26,7 @@ public class UserTask {
     /**
      * 定时增加一个User记录
      */
-    @Scheduled(cron = "0 0 12,16 * * ?")  //    每天中午十二点和下午十六点触发任务
+    //@Scheduled(cron = "0 0 12,16 * * ?")  //    每天中午十二点和下午十六点触发任务
     public void addUserTask() {
         User user = new User(); //  生成实体类，并填充它
         user.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
