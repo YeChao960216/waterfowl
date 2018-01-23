@@ -23,10 +23,8 @@
         <!--<property name="storedCredentialsHexEncoded" value="true" />-->
     <!--</bean>-->
 
-    <bean id="shiroService" class="cn.zhku.waterfowl.shiro.ShiroService" />
     <!-- Realm实现 -->
     <bean id="userRealm" class="cn.zhku.waterfowl.shiro.UsaerRealm">
-        <property name="shiroService"  ref="shiroService" />
         <!--<property name="credentialsMatcher" ref="credentialsMatcher" />-->
 
     </bean>
@@ -45,8 +43,8 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/adminlog.html" />
-        <property name="unauthorizedUrl" value="/adminlog.html" />
+        <property name="loginUrl" value="/loginPage/login.html" />
+        <property name="unauthorizedUrl" value="/loginPage/login.html" />
         <!--<property name="filterChainDefinitions">-->
         <!--<property name="filters">s-->
             <!--<map>-->
@@ -55,10 +53,10 @@
         <!--</property>-->
         <property name="filterChainDefinitions">
         <value>
+            /fff = roles["游客"]
 
 
-
-                /logout = logout
+            /logout = logout
             </value>
         </property>
     </bean>
