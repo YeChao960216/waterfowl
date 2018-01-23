@@ -3,10 +3,10 @@ package cn.zhku.waterfowl.modules.patch.controller;
 import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
 import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
+import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
 import cn.zhku.waterfowl.pojo.entity.Patch;
-import cn.zhku.waterfowl.pojo.entity.Poultry;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.util.modle.Msg;
@@ -33,9 +33,10 @@ public class PatchController {
     PatchService patchService;    //批次号
     @Autowired
     AffiliationService affiliationService;
-
     @Autowired
     private PoultryService poultryService;
+    @Autowired
+    private FowleryService flowleryService;
 
     /**
      * 通过id展示批次列表
@@ -137,16 +138,13 @@ public class PatchController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String a=sdf.format(t);
         patch.setId(poultryService.get(patch.getIdPoultry()).getAssociatedFirm()+patch.getIdAffilation()+patch.getIdFowlery()+a);
-//        //设置时间格式
-//        SimpleDateFormat sd=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-//        Calendar c=Calendar.getInstance();
-//        //获取当前时间
-//        String stime=sd.format(c.getTime());
-//        //将时间变成date类型
-//        Date date=sd.parse(stime);
-        //  因为储存进树据库时是时间戳，所以这这里设置的时间格式一般是不会生效的
         patch.setDate(t);
         if (patchService.add(patch) == 1) {
+            Fowlery fowlery=new Fowlery();
+            fowlery.setAffiliation(patch.getIdAffilation());
+            fowlery.setName(patch.getIdFowlery());
+            flowleryService.findList(fowlery).get(0).setStatus("不可使用");
+            flowleryService.update(flowleryService.findList(fowlery).get(0));
             return new Message("1","增加分批记录成功");
         } else {
             return new Message("2","增加分批记录失败");
@@ -275,17 +273,5 @@ public class PatchController {
         return new Msg("1","成功","200",extrasum);
     }
 
-//    @ResponseBody
-//    @RequestMapping("listid")
-//    public List<Affiliation> listAffiliationid(String position,String type) throws Exception {
-//
-//        return patchService.listAffiliationid(position,type);
-//    }
-
-//    @ResponseBody
-//    @RequestMapping("listid")
-//    public List<Affiliation> listAffiliationid(String position,String type) throws Exception {
-//        return patchService.listAffiliationid(position,type);
-//    }
 
 }

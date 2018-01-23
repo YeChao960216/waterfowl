@@ -89,6 +89,9 @@ public class FowleryService implements IBaseService<Fowlery> {
         if(entity.getAffiliation()!=null){
             criteria.andAffiliationEqualTo(entity.getAffiliation());
         }
+        if(entity.getName()!=null){
+            criteria.andNameEqualTo(entity.getName());
+        }
         //通过size
         if(entity.getSize()!=null){
             criteria.andSizeEqualTo(entity.getSize());
