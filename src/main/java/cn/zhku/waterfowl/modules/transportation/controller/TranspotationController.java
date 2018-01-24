@@ -41,7 +41,7 @@ public class TranspotationController {
     public Message addTransportation(Transportation transportation) throws Exception {
         transportation.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
-        transportation.setDate(t);
+        transportation.setCurdate(t);
         if (transportationService.add(transportation) == 1) {
             return new Message("1", "成功增加1条记录");
         } else {
