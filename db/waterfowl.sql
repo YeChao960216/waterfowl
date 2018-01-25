@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-23 21:47:15
+Date: 2018-01-25 21:28:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,7 +94,7 @@ INSERT INTO `aquaculture` VALUES ('965DC8E884F64AECBCB79E8A3FB1D857', '6', '606'
 INSERT INTO `aquaculture` VALUES ('A16BA4D3169046F88FF1FDD241BCC197', '3', '606', '75001660620180122', '2018-01-22 19:31:13', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30011', '14');
 INSERT INTO `aquaculture` VALUES ('D53AEA16147A4705901BCCFBF3C3EC3D', '4', '606', '75001660620180122', '2018-01-22 19:31:53', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '14');
 INSERT INTO `aquaculture` VALUES ('ECD2FA2743BB4AA4A7A347D54541A187', '5', '606', '75001660620180122', '2018-01-22 19:32:21', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '18');
-INSERT INTO `aquaculture` VALUES ('FDC54D490B9B482284BF7D5F854D502A', '7', '606', '75001660620180122', '2018-01-22 19:33:28', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '15');
+INSERT INTO `aquaculture` VALUES ('FDC54D490B9B482284BF7D5F854D502A', '7', '606', '75001660620180122', '2018-01-22 19:33:28', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30014', '15');
 
 -- ----------------------------
 -- Table structure for `aqua_stor`
@@ -429,9 +429,7 @@ DROP TABLE IF EXISTS `out_poultry`;
 CREATE TABLE `out_poultry` (
   `id` varchar(45) NOT NULL COMMENT '出厂编号',
   `record_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录日期',
-  `type` varchar(45) DEFAULT '' COMMENT '类型',
-  `quantity` float(11,0) DEFAULT NULL COMMENT '本批次数量售出数量',
-  `unit` varchar(45) DEFAULT '只' COMMENT '单位',
+  `quantity` int(11) DEFAULT NULL COMMENT '本批次数量售出数量',
   `id_patch` varchar(45) DEFAULT NULL COMMENT '出厂批次',
   `firm` varchar(45) NOT NULL COMMENT '出厂商',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
@@ -439,16 +437,12 @@ CREATE TABLE `out_poultry` (
   `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人',
   PRIMARY KEY (`id`),
-  KEY `FK_out_poul_dic_unit` (`unit`),
-  KEY `FK_out_poul_dic_type` (`type`),
   KEY `FK_out_poultry_user_charge` (`id_charge`),
   KEY `FK_out_poultry_user_record` (`id_record`),
   KEY `FK_out_aqua_fowlery_id` (`id_patch`),
-  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_dic_type` FOREIGN KEY (`type`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_patch_id` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

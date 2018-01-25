@@ -1,7 +1,9 @@
 package cn.zhku.waterfowl.modules.outPoultry.controller;
 
 import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
+import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +24,8 @@ import java.util.UUID;
 public class OutPoultryController {
     @Autowired
     OutPoultryService outPoultryService;
+    @Autowired
+    PatchService patchService;
 
     /**
      * 增加一条记录
@@ -34,6 +39,7 @@ public class OutPoultryController {
         //  从shrio Session中获取user的session,填充记录员的字段
         outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
         outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
+        outPoultry.setQuantity(patchService.get(outPoultry.getIdPatch()).getNumTotal());
         if(outPoultryService.add(outPoultry)==1)
             return new Message("1","成功增加1条记录");
         else
@@ -105,4 +111,20 @@ public class OutPoultryController {
         return new PageInfo<OutPoultry>(outPoultryList);
     }
 
+    /**
+     * 查找出养殖完成可以出厂的批次号
+     * @param
+     * @param
+     * @return outPoultryList
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("listpatch")
+    public List<String> Listname() throws Exception {
+        //  通过服务层获取查询后的用户列表
+        //将返回的值放在ArrayList里面，以Outstorage模板呈现，没有的字段为null
+        List<String> outPoultryList =  new ArrayList<String>(outPoultryService.findOutpoultry());
+        //  返回 pageBean实体
+        return outPoultryList;
+    }
 }
