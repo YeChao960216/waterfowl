@@ -1,7 +1,5 @@
 package cn.zhku.waterfowl.task;
 
-import cn.zhku.waterfowl.modules.dictionary.service.DictionaryService;
-import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import cn.zhku.waterfowl.pojo.entity.Dictionary;
 import cn.zhku.waterfowl.pojo.entity.DictionaryExample;
 import cn.zhku.waterfowl.pojo.mapper.DictionaryMapper;
