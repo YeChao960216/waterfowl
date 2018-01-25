@@ -1,13 +1,14 @@
 package cn.zhku.waterfowl.util.modle;
 
-import java.awt.*;
+import org.apache.poi.ss.formula.functions.T;
+
 import java.util.ArrayList;
 
 /**
  * Created by yechao on 2018/1/24 0024.
  */
 public class Result {
-    private ArrayList result;
+    private ArrayList<T> result;
     /*返回ArrayList结果集*/
     private Object object;
     /*返回Object对象*/
