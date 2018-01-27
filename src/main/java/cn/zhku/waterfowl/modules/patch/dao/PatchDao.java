@@ -61,6 +61,6 @@ public interface PatchDao {
     * 查找出可以养殖完成的批次号
     * author:yechao
     * */
-    @Select("SELECT id FROM patch WHERE id=(SELECT id_patch FROM aquaculture WHERE status=30014)")
-    List<String> findOutpoultry();
+    @Select("SELECT id FROM patch WHERE id=(SELECT id_patch FROM aquaculture WHERE status=30003) and id_poultry=#{id_poultry}")
+    List<String> findOutpoultry(String id_poultry);
 }

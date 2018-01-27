@@ -109,9 +109,9 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
         return outPoultryMapper.selectByExample(outPoultryExample);
     }
 
-    public List<String> findOutpoultry() throws Exception {
+    public List<String> findOutpoultry(String id_poultry) throws Exception {
         //把listOutstorageByName返回的值放在ArrayList里面
-        return patchDao.findOutpoultry();
+        return patchDao.findOutpoultry(id_poultry);
     }
 
 }
