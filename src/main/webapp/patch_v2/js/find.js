@@ -6,14 +6,14 @@
  */
 
 (function(global){
-
-    /**
-     * oURL 对象
-     */
-    const oURL = {
-        PRONAME:'/waterfowl',
-        GETPOUTLTRYLIST:'/poultry/list',
-    };
+    
+        /**
+         * oURL 对象
+         */
+        const oURL = {
+            PRONAME:'/waterfowl',
+            GETPOUTLTRYLIST:'/poultry/list',
+        };
     /**
      * 实例化一个分页控制者
      */
@@ -103,8 +103,8 @@
             type = $this.attr('data-type'),
             recordeDate = $this.attr('data-recordeDate'),
             quantity = $this.attr('data-quantity');
-        window.location.href="./aqua_list.html?id="+id+'&associatedFirm='+associatedFirm+'&idRecorder='+idRecorder+
-            '&idCharge='+idCharge+'&recordeDate='+recordeDate+'&phone='+phone+'&type='+type+'&quantity='+quantity;
+            window.location.href="./patchList.html?id="+id+'&associatedFirm='+associatedFirm+'&idRecorder='+idRecorder+
+                '&idCharge='+idCharge+'&recordeDate='+recordeDate+'&phone='+phone+'&type='+type+'&quantity='+quantity;
     });
 
 })();

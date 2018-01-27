@@ -34,7 +34,7 @@
             GETMATERIL:'/outstorage/listName/65001',  //饲料名称
             GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
-            OPOST:'/outpoultry/add',//出厂路径e
+            OPOST:'/outpoultry/add',//出厂路径
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/',//{id_p}通过PID查找所有已经划分的批次
             GETLASTNUM:'/admin/patch/isEqualSum/',//{id_p}通过PID查出我还能圈养多少只
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
@@ -266,6 +266,8 @@
                 var obj = queryParse.call($(form));
                 if(/^[1-9]\d{0,6}$/.test(obj.size)){
                     obj.idPoultry = oURL.idPoultry;
+                    obj.status = 30001;
+                    obj.numTotal = obj.size;
                     $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
                         if(res){
                             alert(res.msg);
@@ -395,22 +397,13 @@
             }
 
         }
-        $.get(oURL.PRONAME+oURL.GETLIUCHENGZHUANTAI,function(res){        //流程状态
-            if(res){
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[4],res.list,'id_name']
-                });
-            }else{
-                alert('获取人员信息失败');
-            }
-        });
+
 
         $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
             if(res){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[5],res.list,'id_name']
+                    param:[selectNodes[4],res.list,'id_name']
                 });
             }else{
                 alert('获取人员信息失败');
@@ -993,13 +986,13 @@
             }
             sub_btn.onclick = function () {
                 var obj = queryParse.call($(form));
-                    obj.remark = selectNodes[2].value.split('$')[0];
-                    obj.feedType = selectNodes[2].value.split('$')[1];
                     if(post==oURL.APOST){
                         if(inputs[2]>MAX_FOOD){
                             alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
                             return
                         }else{
+                            obj.remark = selectNodes[2].value.split('$')[0];
+                            obj.feedType = selectNodes[2].value.split('$')[1];
                             $.post(oURL.PRONAME+post,obj,function (res) {
                                 if(res){
                                     alert(res.msg);

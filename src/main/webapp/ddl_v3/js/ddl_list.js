@@ -12,8 +12,8 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/aquaculture/list',
-            DEL:'/aquaculture/delete/',
+            GETDDLLIST:'/ddl/findList',
+            DEL:'/ddl/delete/',
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/'+getRequest()['id'],
         };
 
@@ -37,7 +37,7 @@
             });
             viewCommand({
                 command:'display',
-                param:[$('#content')[0],data,'aqua_list']
+                param:[$('#content')[0],data,'ddl_list']
             });
         }
     });
@@ -49,11 +49,11 @@
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
+        url:oURL.PRONAME+oURL.GETDDLLIST,
 
         view:{
             container : $('#content')[0],
-            tpl:'find_edit_aquaculture',
+            tpl:'ddl_v2_show',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -79,11 +79,11 @@
     /**
      * 找出该批次号对应的养殖记录信息
      */
-    $('#content').on('click',"[data-id*='A']",function(){
+    $('#content').on('click',"[data-id*='D']",function(){
         var id = $(this).attr('data-id').substr(1);
         pageController.other = '&idPatch='+id;
         $('#patchInfo').addClass('none');
-        $('#aquaInfo').removeClass('none');
+        $('#ddlInfo').removeClass('none');
         // var $tar = $(this).parent().parent();
         // var child_length  = $tar.children().length;
         // $tar.find('td')[child_length-1].remove();

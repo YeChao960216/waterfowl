@@ -103,7 +103,7 @@
             type = $this.attr('data-type'),
             recordeDate = $this.attr('data-recordeDate'),
             quantity = $this.attr('data-quantity');
-        window.location.href="./aqua_list.html?id="+id+'&associatedFirm='+associatedFirm+'&idRecorder='+idRecorder+
+        window.location.href="./ddl_list.html?id="+id+'&associatedFirm='+associatedFirm+'&idRecorder='+idRecorder+
             '&idCharge='+idCharge+'&recordeDate='+recordeDate+'&phone='+phone+'&type='+type+'&quantity='+quantity;
     });
 
