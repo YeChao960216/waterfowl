@@ -40,10 +40,6 @@ var zNodes_aquaInfoM = [
         [//affi_v2
             {name:"养殖管理",tid:'./aquaculture/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-            {name:"大禽舍管理",tid:'./affi_v2/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
-
-            {name:"禽舍管理",tid:'./fowleryManagePage_v2/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
-
             {name:"死淘管理",tid:'./ddl_v2/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
             {name:"免疫/疾病管理",tid:'./epi_v2/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
@@ -82,6 +78,12 @@ var zNodes_storageInfoM = [
 
         ]
     },
+    {
+        name:"大禽舍管理", open:true, tid:'./affi_v2/find.html',children:
+        [
+            {name:"小禽舍管理",tid:'./fowleryManagePage_v2/find.html',pName:"大禽舍管理",pUrl:'./affi_v2/find.html'},
+        ]
+    }
 ];
 
 var zNodes_empInfoM = [

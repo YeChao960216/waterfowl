@@ -14,18 +14,17 @@
             PRONAME:'/waterfowl',
             GETAQUACULTURELIST:'/aquaculture/list',
             DEL:'/aquaculture/delete/',
-            GETPOUTLTRYLIST:'/poultry/list',
         };
     /**
      * 实例化一个分页控制者
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETPOUTLTRYLIST,
+        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
 
         view:{
             container : $('#content')[0],
-            tpl:'aqua_first',
+            tpl:'find_edit_aquaculture',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },

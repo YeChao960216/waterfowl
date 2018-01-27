@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50536
+Source Server         : mydb
+Source Server Version : 50716
 Source Host           : localhost:3306
 Source Database       : waterfowl
 
 Target Server Type    : MYSQL
-Target Server Version : 50536
+Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-01-25 21:28:45
+Date: 2018-01-27 17:36:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,16 +85,16 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('0597F1B070DE4AE5BEFAC19FCE7EB927', '1', '606', '75001660620180122', '2018-01-22 19:30:16', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30011', '13');
-INSERT INTO `aquaculture` VALUES ('07D4E122BD65402893A14BECCE346727', '8', '606', '75001660620180122', '2018-01-22 19:34:11', '11', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '15');
-INSERT INTO `aquaculture` VALUES ('32CC636689D940AFA6A06015645DC13B', '9', '606', '75001660620180122', '2018-01-22 20:20:32', '7', '超级水稻', '5', '阿里龙空供应商', null, '3', null, '30011', '13.2');
-INSERT INTO `aquaculture` VALUES ('3F5C8499ACC84AA2AF99BA724B34ACFE', '10', '606', '75001660620180122', '2018-01-22 20:25:09', '6', '超级水稻', '4.5', '阿里龙空供应商', null, '3', null, '30011', '13.5');
-INSERT INTO `aquaculture` VALUES ('897EEBB6547F441C90918BC386D6834B', '2', '606', '75001660620180122', '2018-01-22 19:31:00', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30011', '13.2');
-INSERT INTO `aquaculture` VALUES ('965DC8E884F64AECBCB79E8A3FB1D857', '6', '606', '75001660620180122', '2018-01-22 19:32:45', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '14');
-INSERT INTO `aquaculture` VALUES ('A16BA4D3169046F88FF1FDD241BCC197', '3', '606', '75001660620180122', '2018-01-22 19:31:13', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30011', '14');
-INSERT INTO `aquaculture` VALUES ('D53AEA16147A4705901BCCFBF3C3EC3D', '4', '606', '75001660620180122', '2018-01-22 19:31:53', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '14');
-INSERT INTO `aquaculture` VALUES ('ECD2FA2743BB4AA4A7A347D54541A187', '5', '606', '75001660620180122', '2018-01-22 19:32:21', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30011', '18');
-INSERT INTO `aquaculture` VALUES ('FDC54D490B9B482284BF7D5F854D502A', '7', '606', '75001660620180122', '2018-01-22 19:33:28', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30014', '15');
+INSERT INTO `aquaculture` VALUES ('0597F1B070DE4AE5BEFAC19FCE7EB927', '1', '606', '75001660620180122', '2018-01-22 19:30:16', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '13');
+INSERT INTO `aquaculture` VALUES ('07D4E122BD65402893A14BECCE346727', '8', '606', '75001660620180122', '2018-01-22 19:34:11', '11', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '15');
+INSERT INTO `aquaculture` VALUES ('32CC636689D940AFA6A06015645DC13B', '9', '606', '75001660620180122', '2018-01-22 20:20:32', '7', '超级水稻', '5', '阿里龙空供应商', null, '3', null, '30002', '13.2');
+INSERT INTO `aquaculture` VALUES ('3F5C8499ACC84AA2AF99BA724B34ACFE', '10', '606', '75001660620180122', '2018-01-22 20:25:09', '6', '超级水稻', '4.5', '阿里龙空供应商', null, '3', null, '30002', '13.5');
+INSERT INTO `aquaculture` VALUES ('897EEBB6547F441C90918BC386D6834B', '2', '606', '75001660620180122', '2018-01-22 19:31:00', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '13.2');
+INSERT INTO `aquaculture` VALUES ('965DC8E884F64AECBCB79E8A3FB1D857', '6', '606', '75001660620180122', '2018-01-22 19:32:45', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '14');
+INSERT INTO `aquaculture` VALUES ('A16BA4D3169046F88FF1FDD241BCC197', '3', '606', '75001660620180122', '2018-01-22 19:31:13', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '14');
+INSERT INTO `aquaculture` VALUES ('D53AEA16147A4705901BCCFBF3C3EC3D', '4', '606', '75001660620180122', '2018-01-22 19:31:53', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '14');
+INSERT INTO `aquaculture` VALUES ('ECD2FA2743BB4AA4A7A347D54541A187', '5', '606', '75001660620180122', '2018-01-22 19:32:21', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '18');
+INSERT INTO `aquaculture` VALUES ('FDC54D490B9B482284BF7D5F854D502A', '7', '606', '75001660620180122', '2018-01-22 19:33:28', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30003', '15');
 
 -- ----------------------------
 -- Table structure for `aqua_stor`
@@ -232,11 +232,14 @@ INSERT INTO `dictionary` VALUES ('20003', '瓶', '20000', null);
 INSERT INTO `dictionary` VALUES ('25000', '给药方式', '0', null);
 INSERT INTO `dictionary` VALUES ('25001', '注射', '25000', null);
 INSERT INTO `dictionary` VALUES ('25002', '喂药', '25000', null);
-INSERT INTO `dictionary` VALUES ('30000', '家禽养殖阶段', '0', 'status');
-INSERT INTO `dictionary` VALUES ('30011', '小鸡（0~14日龄）', '30000', '');
-INSERT INTO `dictionary` VALUES ('30012', '中鸡（15~35日龄）', '30000', null);
-INSERT INTO `dictionary` VALUES ('30013', '大鸡（36~出栏）', '30000', null);
-INSERT INTO `dictionary` VALUES ('30014', '可出栏', '30000', null);
+INSERT INTO `dictionary` VALUES ('30000', '溯源阶段', '0', 'status');
+INSERT INTO `dictionary` VALUES ('30001', '入厂阶段', '30000', '');
+INSERT INTO `dictionary` VALUES ('30002', '养殖阶段', '30000', '');
+INSERT INTO `dictionary` VALUES ('30003', '可出厂阶段', '30000', null);
+INSERT INTO `dictionary` VALUES ('30004', '已出厂阶段', '30000', null);
+INSERT INTO `dictionary` VALUES ('30005', '加工阶段', '30000', '');
+INSERT INTO `dictionary` VALUES ('30006', '运输阶段', '30000', '');
+INSERT INTO `dictionary` VALUES ('30007', '运输完成阶段', '30000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
 INSERT INTO `dictionary` VALUES ('50001', '删除用户', '50000', null);
 INSERT INTO `dictionary` VALUES ('50002', '增加用户', '50000', null);
@@ -440,9 +443,9 @@ CREATE TABLE `out_poultry` (
   KEY `FK_out_poultry_user_charge` (`id_charge`),
   KEY `FK_out_poultry_user_record` (`id_record`),
   KEY `FK_out_aqua_fowlery_id` (`id_patch`),
+  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `FK_out_poultry_user_charge` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `FK_out_poul_aqua_patch` FOREIGN KEY (`id_patch`) REFERENCES `patch` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `FK_out_poultry_user_record` FOREIGN KEY (`id_record`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

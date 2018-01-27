@@ -97,22 +97,6 @@ var viewCommand = (function(msg){
                 '<td ><button id="powerFor{#id#}" class="btn">赋予角色</button></td>',
             '</tr>'
          ].join(''),
-         del_aquaculture:[
-             '<tr>',
-             '<td >{#name#}</td>',
-             '<td >{#idFowlery#}</td>',
-             '<td >{#idPatch#}</td>',
-             '<td >{#recordDate#}</td>',
-             '<td >{#numTotal#}</td>',
-             '<td >{#feedType#}</td>',
-             '<td >{#feedWeight#}</td>',
-             '<td >{#idRecorder#}</td>',
-             '<td >{#idCharge#}</td>',
-             '<td >{#idOutstorage#}</td>',
-             '<td >{#status#}</td>',
-             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
-             '</tr>'
-         ].join(''),
          find_edit_aquaculture:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -131,6 +115,17 @@ var viewCommand = (function(msg){
              '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
              '</tr>'
          ].join(''),
+        aqua_first:[
+            '<tr>',
+            '<td >{#recordDate#}</td>',
+            '<td >{#type#}</td>',
+            '<td >{#quantity#}</td>',
+            '<td >{#associatedFirm#}</td>',
+            '<td >{#phone#}</td>',
+            '<td >{#idRecorder#}</td>',
+            '<td >{#idCharge#}</td>',
+            '<td ><a class="btn" data-check="true" data-id="A{#idPoultry#}">养殖记录</a></td>',
+        ].join(''),
          del_out_poultry:[
             '<tr>',
             '<td >{#idPatch#}</td>',
@@ -171,6 +166,7 @@ var viewCommand = (function(msg){
          ].join(''),
          poultry_find:[
              '<tr>',
+             '<td >{#recordDate#}</td>',
              '<td >{#type#}</td>',
              '<td >{#quantity#}</td>',
              '<td >{#associatedFirm#}</td>',
