@@ -6,8 +6,10 @@ import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
+import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.pojo.entity.User;
 import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -41,7 +43,8 @@ public class AquacultureController{
     AquacultureService aquacultureService;
     @Autowired
     OutStorageService outStorageService;
-
+    @Autowired
+    PatchService patchService;
     @Autowired
     AquacultureDao aquacultureDao;
 
@@ -66,6 +69,11 @@ public class AquacultureController{
         }
         else if(aquacultureService.add(aquaculture)==1) {
             outStorageService.manageOutstorage(aquaculture);
+            if (aquaculture.getStatus().equals(30003)){
+                Patch patch=patchService.get(aquaculture.getIdPatch());
+                patch.setStatus("30003");
+                patchService.update(patch);
+            }
             return new Message("1", "成功增加1条记录");
         }
         else {

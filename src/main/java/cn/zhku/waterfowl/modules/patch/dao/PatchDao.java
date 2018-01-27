@@ -1,7 +1,6 @@
 package cn.zhku.waterfowl.modules.patch.dao;
 
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
