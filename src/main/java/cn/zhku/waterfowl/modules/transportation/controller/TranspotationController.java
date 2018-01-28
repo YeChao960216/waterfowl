@@ -53,7 +53,7 @@ public class TranspotationController {
         try{
             con = DbUtil.getCon();
             //根据经纬度判断知否为目的地
-            boolean i =transportationService.isArrival(con,transportation.getCid(),transportation.getCurLng(),transportation.getCurLat()) ;
+            boolean i =transportationService.isArrival(con,transportation.getCid(),transportation.getCurlng(),transportation.getCurlat()) ;
             if (transportationService.add(transportation) == 1) {
                 if (i){
                     transportationDao.setPatchStatusFinish(transportation.getIdPatch());

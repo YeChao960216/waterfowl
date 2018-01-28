@@ -67,10 +67,6 @@ public class CustomerService {
 
         if (StringUtils.isNotBlank(customer.getName()))  // 顾客姓名
             criteria.andNameEqualTo(customer.getName());
-        if (StringUtils.isNotBlank(customer.getAddress())) // 顾客地址
-            criteria.andAddressLike("%"+customer.getAddress()+"%");
-        if (StringUtils.isNotBlank(customer.getGender()))  // 性别
-            criteria.andGenderLike(customer.getGender());
         if (StringUtils.isNotBlank(customer.getPhone() )) //  顾客电话
             criteria.andPhoneLike("%"+customer.getPhone()+"%");
         return customerMapper.selectByExample(customerExample);

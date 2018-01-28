@@ -77,8 +77,6 @@ public class TransportationService {
             criteria.andTidEqualTo(transportation.getTid());
         if (StringUtils.isNotBlank(transportation.getCid()))  // 顾客id
             criteria.andCidEqualTo(transportation.getCid());
-        if (StringUtils.isNotBlank(transportation.getCurposition())) // 当前地址
-            criteria.andCurpositionLike("%"+transportation.getCurposition()+"%");
         if (transportation.getCurdate()!=null)  // 当前日期
             criteria.andCurdateEqualTo(transportation.getCurdate());
         if (StringUtils.isNotBlank(transportation.getDriver() )) //  司机
@@ -88,7 +86,7 @@ public class TransportationService {
         return transportationMapper.selectByExample(transportationExample);
     }
 
-    boolean isArrival(Connection con,String id,float lng,float lat)throws Exception{
+    public boolean isArrival(Connection con,String id,float lng,float lat)throws Exception{
             con = DbUtil.getCon();
             ResultSet rs = getLngAndLatDao(con,id);
             float rLng = rs.getFloat("lng");
