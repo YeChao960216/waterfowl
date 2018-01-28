@@ -59,7 +59,6 @@ public class AquacultureController{
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
         //  从shrio Session中获取user的session,填充记录员的字段
         aquaculture.setIdRecorder(SessionUtil.getUserSession().getId());
-
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         aquaculture.setRecordDate(t);
