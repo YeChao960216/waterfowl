@@ -1,7 +1,9 @@
 package cn.zhku.waterfowl.modules.transportation.controller;
 
 
+import cn.zhku.waterfowl.modules.transportation.dao.TransportationDao;
 import cn.zhku.waterfowl.modules.transportation.service.TransportationService;
+import cn.zhku.waterfowl.modules.transportation.util.DbUtil;
 import cn.zhku.waterfowl.pojo.entity.Transcompany;
 import cn.zhku.waterfowl.pojo.entity.Transportation;
 import cn.zhku.waterfowl.util.modle.CommonQo;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +33,8 @@ public class TranspotationController {
 
     @Autowired
     TransportationService transportationService;
+    @Autowired
+    TransportationDao transportationDao;
 
     /**
      * 增加记录
@@ -42,10 +48,31 @@ public class TranspotationController {
         transportation.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         transportation.setCurdate(t);
-        if (transportationService.add(transportation) == 1) {
-            return new Message("1", "成功增加1条记录");
-        } else {
+
+        Connection con = null;
+        try{
+            con = DbUtil.getCon();
+            //根据经纬度判断知否为目的地
+            boolean i =transportationService.isArrival(con,transportation.getCid(),transportation.getCurLng(),transportation.getCurLat()) ;
+            if (transportationService.add(transportation) == 1) {
+                if (i){
+                    transportationDao.setPatchStatusFinish(transportation.getIdPatch());
+                }else {
+                    transportationDao.setPatchStatus(transportation.getIdPatch());
+                }
+                return new Message("1", "成功增加1条记录");
+            } else {
+                return new Message("2", "增加记录失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return new Message("2", "增加记录失败");
+        }finally {
+            try {
+                DbUtil.closeCon(con);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

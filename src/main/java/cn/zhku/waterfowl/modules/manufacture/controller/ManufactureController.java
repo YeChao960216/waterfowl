@@ -1,5 +1,6 @@
 package cn.zhku.waterfowl.modules.manufacture.controller;
 
+import cn.zhku.waterfowl.modules.manufacture.dao.ManufactureDao;
 import cn.zhku.waterfowl.modules.manufacture.service.ManufactureService;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Manufacture;
@@ -18,7 +19,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by weakness on 2018/1/22 0022.
+ * @author 成君
+ * @date  2018/1/24 2018/1/22 0022.
+ * @E-mail 943193747@qq.com
  */
 
 @Controller
@@ -26,6 +29,8 @@ import java.util.UUID;
 public class ManufactureController {
     @Autowired
     ManufactureService manufactureService;
+    @Autowired
+    ManufactureDao manufactureDao;
 
     /**
      * 增加记录
@@ -40,6 +45,7 @@ public class ManufactureController {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         manufacture.setRecordDate(t);
         if (manufactureService.add(manufacture) == 1) {
+            manufactureDao.setPatchStatus(manufacture.getIdPatch());
             return new Message("1", "成功增加1条记录");
         } else {
             return new Message("2", "增加记录失败");
@@ -112,5 +118,19 @@ public class ManufactureController {
         List<Manufacture> manufactureList = manufactureService.findList(manufacture);
         //  返回 pageBean
         return new PageInfo<Manufacture>(manufactureList);
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public Message setPatchStatusToTrans(String id) throws Exception{
+        if (manufactureDao.setPatchStatusToTrans(id) > 0) {
+            return new Message("1", "修改成功");
+        } else {
+            return new Message("2", "修改失败");
+        }
     }
 }
