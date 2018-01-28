@@ -43,6 +43,9 @@ var viewCommand = (function(msg){
          id:[
              "<option value='{#id#}'>{#id#}</option>"
          ].join(''),
+         idPatch:[
+             "<option value='{#idPatch#}'>{#idPatch#}</option>"
+         ].join(''),
          type:[
              "<option value='{#type#}'>{#type#}</option>"
          ].join(''),
@@ -306,6 +309,21 @@ var viewCommand = (function(msg){
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><button class="btn" data-id="E{#id#}">免疫管理</button></td>',
+             '</tr>'
+         ].join(''),
+         outPoultry_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="O{#id#}">出厂信息管理</button></td>',
              '</tr>'
          ].join(''),
          patch_show:[
@@ -782,6 +800,21 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
+         outPoultry_v3_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+
          epi_v2_show:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -812,6 +845,22 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
+         manu:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordeDate#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#site#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#method#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
          poultry_nav:[
              '<td><span>入厂时间:</span><span>{#recordeDate#}</span></td>'+
              '<td><span>家禽类型:</span><span>{#type#}</span></td>'+
@@ -821,6 +870,23 @@ var viewCommand = (function(msg){
              '<td><span>记录人编号:</span><span>{#idRecorder#}</span></td>'+
              '<td><span>负责人编号:</span><span>{#idRecorder#}</span></td>'
          ].join(''),
+         order:[
+             '<tr>',
+             '<td >{#name#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#license#}</td>',
+             '<td >{#remark#}</td>',
+             '<td ><a class="btn" >查看营业执照</a></td>',
+             '<td ><a class="btn" data-id="trans{#cid#}">更新物流信息</a></td>',
+             '<td ><a class="btn" data-id="del{#cid#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#cid#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         blank:[
+             '<tr style="text-align: center">',
+             '<td style="color:red">页面数据为空</td>',
+             '</tr>'
+         ].join('')
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

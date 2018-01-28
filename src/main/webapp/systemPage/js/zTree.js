@@ -45,17 +45,15 @@ var zNodes_aquaInfoM = [
             {name:"死淘管理",tid:'./ddl_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
             {name:"免疫/疾病管理",tid:'./epi_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
+
+            {name:"出库信息管理",tid:'./outPoultry_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
+
+            {name:"加工信息管理",tid:'./manu/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
         ]
     },
 
     {
-        name:"加工环节管理", open:true, tid:'./epi_v2/find.html',children:
-        [
-            {name:"管理",tid:'./epi_v2/find.html',pName:"加工环节管理",pUrl:'./epi_v2/find.html'},
-        ]
-    },
-    {
-        name:"运输环节管理", open:true, tid:'./epi_v2/find.html',children:
+        name:"订单管理", open:true, tid:'./order/find.html',children:
         [
             {name:"管理",tid:'./epi_v2/find.html',pName:"加工环节管理",pUrl:'./epi_v2/find.html'},
         ]

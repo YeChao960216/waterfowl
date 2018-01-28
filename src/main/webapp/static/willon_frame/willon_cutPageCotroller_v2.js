@@ -119,7 +119,11 @@
                     });
 
                 }else{
-                    console.error('获取下一页数据失败');
+                    viewCommand({
+                        command:'display',
+                        param:[self.container,[],'blank']
+                    });
+                    console.error('下一页数据为空');
                 }
             });
           }else{
@@ -152,7 +156,11 @@
                     });
 
                 }else{
-                    console.error('获取上一页数据失败');
+                    viewCommand({
+                        command:'display',
+                        param:[self.container,[],'blank']
+                    });
+                    console.error('上一页数据为空');
                 }
             });
           }else{
@@ -196,7 +204,11 @@
                     });
 
                 }else{
-                    console.error('获取跳转页数据失败');
+                    viewCommand({
+                        command:'display',
+                        param:[self.container,[],'blank']
+                    });
+                    console.log('获取跳转页数据为空');
                 }
             });
           }else{
@@ -250,7 +262,11 @@
                     param:[self.container,list,self.tpl]
                 });
             }else{
-                console.error('页面数据初始化失败');
+                viewCommand({
+                    command:'display',
+                    param:[self.container,[],'blank']
+                });
+                console.log('页面数据为空');
             }
         });
 
