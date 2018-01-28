@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-01-27 17:36:55
+Date: 2018-01-28 21:20:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,16 +85,9 @@ CREATE TABLE `aquaculture` (
 -- ----------------------------
 -- Records of aquaculture
 -- ----------------------------
-INSERT INTO `aquaculture` VALUES ('0597F1B070DE4AE5BEFAC19FCE7EB927', '1', '606', '75001660620180122', '2018-01-22 19:30:16', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '13');
-INSERT INTO `aquaculture` VALUES ('07D4E122BD65402893A14BECCE346727', '8', '606', '75001660620180122', '2018-01-22 19:34:11', '11', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '15');
-INSERT INTO `aquaculture` VALUES ('32CC636689D940AFA6A06015645DC13B', '9', '606', '75001660620180122', '2018-01-22 20:20:32', '7', '超级水稻', '5', '阿里龙空供应商', null, '3', null, '30002', '13.2');
-INSERT INTO `aquaculture` VALUES ('3F5C8499ACC84AA2AF99BA724B34ACFE', '10', '606', '75001660620180122', '2018-01-22 20:25:09', '6', '超级水稻', '4.5', '阿里龙空供应商', null, '3', null, '30002', '13.5');
-INSERT INTO `aquaculture` VALUES ('897EEBB6547F441C90918BC386D6834B', '2', '606', '75001660620180122', '2018-01-22 19:31:00', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '13.2');
-INSERT INTO `aquaculture` VALUES ('965DC8E884F64AECBCB79E8A3FB1D857', '6', '606', '75001660620180122', '2018-01-22 19:32:45', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '14');
-INSERT INTO `aquaculture` VALUES ('A16BA4D3169046F88FF1FDD241BCC197', '3', '606', '75001660620180122', '2018-01-22 19:31:13', '12', '超级水稻', '8', '阿里龙空供应商', null, '3', null, '30002', '14');
-INSERT INTO `aquaculture` VALUES ('D53AEA16147A4705901BCCFBF3C3EC3D', '4', '606', '75001660620180122', '2018-01-22 19:31:53', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '14');
-INSERT INTO `aquaculture` VALUES ('ECD2FA2743BB4AA4A7A347D54541A187', '5', '606', '75001660620180122', '2018-01-22 19:32:21', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30002', '18');
-INSERT INTO `aquaculture` VALUES ('FDC54D490B9B482284BF7D5F854D502A', '7', '606', '75001660620180122', '2018-01-22 19:33:28', '12', '超级水稻', '10', '阿里龙空供应商', null, '3', null, '30003', '15');
+INSERT INTO `aquaculture` VALUES ('2D2BA35BB02D410F9C9067ACBDF52292', '3', '606', '75001660620180127', '2018-01-28 13:12:38', '95', '超级水稻', '10', '阿里龙空供应商', '3', '3', null, '30003', '100');
+INSERT INTO `aquaculture` VALUES ('7CB3D2DBAEE84E88890D78B4C7BDC4A4', '1', '606', '75001660620180127', '2018-01-27 21:48:25', '100', '超级水稻', '30', '阿里龙空供应商', '3', '3', null, '30002', '80');
+INSERT INTO `aquaculture` VALUES ('A59AA061A6FB435C995E2851BE827599', '2', '606', '75001660620180127', '2018-01-27 21:49:02', '100', '超级水稻', '30', '阿里龙空供应商', '3', '3', null, '30002', '81');
 
 -- ----------------------------
 -- Table structure for `aqua_stor`
@@ -114,16 +107,9 @@ CREATE TABLE `aqua_stor` (
 -- ----------------------------
 -- Records of aqua_stor
 -- ----------------------------
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '0597F1B070DE4AE5BEFAC19FCE7EB927', '32B4038E7B7043DDBA566C6B071AC9F5');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'A16BA4D3169046F88FF1FDD241BCC197', '56FE623430084E41886C13019177FC84');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '07D4E122BD65402893A14BECCE346727', '667E05D8C8E742CA8EA05ABB7A774ED2');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '3F5C8499ACC84AA2AF99BA724B34ACFE', '6CDA8083C7594244AF329160B1445EB1');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '965DC8E884F64AECBCB79E8A3FB1D857', '7CB51AE09B0D42808AE88D66A5BA7061');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '897EEBB6547F441C90918BC386D6834B', '803AEF2191CF40648C51B15F3BD65D92');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'D53AEA16147A4705901BCCFBF3C3EC3D', '88DE76D94E7B42B8BA9AD5D11E2D7F94');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'ECD2FA2743BB4AA4A7A347D54541A187', 'A08440CCC47E45C9B31EFB89F9866F6F');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '32CC636689D940AFA6A06015645DC13B', 'B91E0EE657D84BB6B19E572FCAAB0034');
-INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'FDC54D490B9B482284BF7D5F854D502A', 'EDFB472A478645F1A851A87DD30C3C42');
+INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', 'A59AA061A6FB435C995E2851BE827599', '014512878AB64CBE9FAD4AA2A89EE88A');
+INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '2D2BA35BB02D410F9C9067ACBDF52292', '12726465C18D4A29849D3F8981BF7A5F');
+INSERT INTO `aqua_stor` VALUES ('6609A0DD4249493981E483C074E8380D', '7CB3D2DBAEE84E88890D78B4C7BDC4A4', '76546968832549D6AE52F7C2A684B5EA');
 
 -- ----------------------------
 -- Table structure for `customer`
@@ -132,9 +118,10 @@ DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `cid` varchar(45) NOT NULL COMMENT '顾客id',
   `name` varchar(45) DEFAULT NULL COMMENT '顾客姓名',
-  `gender` varchar(45) DEFAULT NULL COMMENT '性别',
   `phone` varchar(45) DEFAULT NULL COMMENT '电话号码',
-  `address` varchar(45) DEFAULT NULL COMMENT '地址',
+  `license` varchar(200) DEFAULT NULL COMMENT '营业执照',
+  `lng` float DEFAULT NULL COMMENT '经度',
+  `lat` float DEFAULT NULL COMMENT '纬度',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -168,11 +155,10 @@ CREATE TABLE `ddl` (
 -- ----------------------------
 -- Records of ddl
 -- ----------------------------
-INSERT INTO `ddl` VALUES ('4BDEF884AFFF40AE8103792610E724E0', '75001660620180122', '2018-01-22 19:35:06', '1', '95001', '12004', '3', '3');
-INSERT INTO `ddl` VALUES ('872CCD5A92994656A4BD069BDD5CC0FE', '75001660620180122', '2018-01-22 19:34:48', '2', '95002', '12001', '3', '3');
-INSERT INTO `ddl` VALUES ('8FB28420ADA54262B9E9973951C0429D', '75001660620180122', '2018-01-22 20:21:02', '1', '95002', '12003', '3', '3');
-INSERT INTO `ddl` VALUES ('96BEC04678A74772AAB24BE9DAFE3DD8', '75001660620180122', '2018-01-22 19:33:51', '1', '95001', '12003', '3', '3');
-INSERT INTO `ddl` VALUES ('E18E9AB0E2004362B7570CFE4466EE5E', '75001660620180122', '2018-01-22 19:35:29', '1', '95001', '12002', '3', '3');
+INSERT INTO `ddl` VALUES ('15FA1CA7E2EE468AAB01B2615352BE85', '75001660620180127', '2018-01-27 22:27:50', '1', '95001', '12002', '3', '3');
+INSERT INTO `ddl` VALUES ('40F1908059D8423593B40E71C25B441C', '75001660620180127', '2018-01-27 22:28:19', '1', '95002', '12001', '3', '3');
+INSERT INTO `ddl` VALUES ('964C6D5E3B934E7FA5C367A7289732F6', '75001660620180127', '2018-01-27 22:27:40', '2', '95002', '12003', '3', '3');
+INSERT INTO `ddl` VALUES ('C2B2A4A82B444AB38BE5A3FB61FC5017', '75001660620180127', '2018-01-27 22:27:59', '1', '95001', '12004', '3', '3');
 
 -- ----------------------------
 -- Table structure for `dictionary`
@@ -214,17 +200,15 @@ INSERT INTO `dictionary` VALUES ('10603', '角色与权限管理', '10006', '100
 INSERT INTO `dictionary` VALUES ('10604', '登陆管理', '10006', '10000');
 INSERT INTO `dictionary` VALUES ('10700', '字典管理', '10007', '10000');
 INSERT INTO `dictionary` VALUES ('11000', '阶段状态', '0', '');
-INSERT INTO `dictionary` VALUES ('11001', '养殖中', '11000', '');
-INSERT INTO `dictionary` VALUES ('12000', '死亡原因', '0', '');
-INSERT INTO `dictionary` VALUES ('12001', '丢失', '12000', '水水');
 INSERT INTO `dictionary` VALUES ('12002', '生病死去', '12000', '水水');
 INSERT INTO `dictionary` VALUES ('12003', '打斗死去', '12000', '水水完善');
 INSERT INTO `dictionary` VALUES ('12004', '饥饿过度', '12000', '水水');
 INSERT INTO `dictionary` VALUES ('13000', '禽舍使用状况', '0', '分为可使用和未使用两种状态');
-INSERT INTO `dictionary` VALUES ('13001', '可使用', '13000', '');
 INSERT INTO `dictionary` VALUES ('14000', '剂量单位', '0', '');
 INSERT INTO `dictionary` VALUES ('14001', '毫克', '14000', '');
 INSERT INTO `dictionary` VALUES ('14002', '克', '14000', '');
+INSERT INTO `dictionary` VALUES ('15000', '加工方式', '0', '加工厂的屠宰方式');
+INSERT INTO `dictionary` VALUES ('15002', '人工清洗屠宰', '15000', '');
 INSERT INTO `dictionary` VALUES ('20000', '国际单位', '0', 'unit');
 INSERT INTO `dictionary` VALUES ('20001', '千克', '20000', 'kg');
 INSERT INTO `dictionary` VALUES ('20002', '只', '20000', null);
@@ -238,8 +222,9 @@ INSERT INTO `dictionary` VALUES ('30002', '养殖阶段', '30000', '');
 INSERT INTO `dictionary` VALUES ('30003', '可出厂阶段', '30000', null);
 INSERT INTO `dictionary` VALUES ('30004', '已出厂阶段', '30000', null);
 INSERT INTO `dictionary` VALUES ('30005', '加工阶段', '30000', '');
-INSERT INTO `dictionary` VALUES ('30006', '运输阶段', '30000', '');
-INSERT INTO `dictionary` VALUES ('30007', '运输完成阶段', '30000', null);
+INSERT INTO `dictionary` VALUES ('30006', '待运输阶段', '30000', '');
+INSERT INTO `dictionary` VALUES ('30007', '运输阶段', '30000', null);
+INSERT INTO `dictionary` VALUES ('30008', '完成', '30000', null);
 INSERT INTO `dictionary` VALUES ('50000', '权限', '0', null);
 INSERT INTO `dictionary` VALUES ('50001', '删除用户', '50000', null);
 INSERT INTO `dictionary` VALUES ('50002', '增加用户', '50000', null);
@@ -309,8 +294,7 @@ CREATE TABLE `epidemic` (
 -- ----------------------------
 -- Records of epidemic
 -- ----------------------------
-INSERT INTO `epidemic` VALUES ('75001660620180122', '退烧灵', null, null, null, '85002', '7', '', '25001', '1', '14001', '阿里健健供应商', '1', '2', '68E0C58432A9416DA8910BBA9712651D');
-INSERT INTO `epidemic` VALUES ('75001660620180122', '消感一号', null, null, null, '85001', '7', '', '25001', '2', '14001', '阿里健健供应商', '3', '3', 'B9784993648144B3AC18EBE3F1955AF1');
+INSERT INTO `epidemic` VALUES ('75001660620180127', '退烧灵', null, null, null, '85002', '95', '', '25001', '1', '14001', '阿里健健供应商', '3', '3', 'CD11458E5B4545E386CCD538B52ECE11');
 
 -- ----------------------------
 -- Table structure for `epi_stor`
@@ -330,8 +314,7 @@ CREATE TABLE `epi_stor` (
 -- ----------------------------
 -- Records of epi_stor
 -- ----------------------------
-INSERT INTO `epi_stor` VALUES ('AAADE922FF7148A18429DDADBD14435F', '68E0C58432A9416DA8910BBA9712651D', '718A73D28EC446D2B2A18D39EAD69723');
-INSERT INTO `epi_stor` VALUES ('9CCA41371F0043ABA0CDFEBDF24B4969', 'B9784993648144B3AC18EBE3F1955AF1', '898BD7F7F5CA4A5C829E9763D1D2F5AA');
+INSERT INTO `epi_stor` VALUES ('AAADE922FF7148A18429DDADBD14435F', 'CD11458E5B4545E386CCD538B52ECE11', '4FC8A973C6494F318BB8ED13D159113F');
 
 -- ----------------------------
 -- Table structure for `fowlery`
@@ -359,7 +342,7 @@ CREATE TABLE `fowlery` (
 -- ----------------------------
 -- Records of fowlery
 -- ----------------------------
-INSERT INTO `fowlery` VALUES ('05805E2D4F854608A39B5974EE2F8B2E', '60', '不可使用', '6', null, '3', '606');
+INSERT INTO `fowlery` VALUES ('05805E2D4F854608A39B5974EE2F8B2E', '60', '可使用', '6', null, '3', '606');
 
 -- ----------------------------
 -- Table structure for `manufacture`
@@ -384,6 +367,60 @@ CREATE TABLE `manufacture` (
 -- ----------------------------
 -- Records of manufacture
 -- ----------------------------
+INSERT INTO `manufacture` VALUES ('DB300C23EF54498DA835051565EA0990', '北京肉联加工厂', '北京中关村', '15001', '13189679384', '2018-01-28 14:47:31', '3', '75001660620180127', '100', '');
+
+-- ----------------------------
+-- Table structure for `material`
+-- ----------------------------
+DROP TABLE IF EXISTS `material`;
+CREATE TABLE `material` (
+  `id_storage` varchar(45) NOT NULL COMMENT '库存表',
+  `date` timestamp NULL DEFAULT NULL COMMENT '进厂时间',
+  `name` varchar(45) DEFAULT NULL COMMENT '材料名称',
+  `expiration_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '产品有效期——用户填写',
+  `associated_firm` varchar(45) DEFAULT NULL COMMENT '关联厂商',
+  `phone` varchar(45) DEFAULT NULL COMMENT '联系电话',
+  `quantity` float(45,0) DEFAULT NULL COMMENT '库存材料数量',
+  `unit` varchar(45) DEFAULT NULL COMMENT '计数单位——字典查给用户选',
+  `storage_site` varchar(45) DEFAULT NULL COMMENT '储存地点',
+  `mode` varchar(45) DEFAULT NULL COMMENT '储存方式',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  PRIMARY KEY (`id_storage`),
+  KEY `fk_storage_user1_idx` (`id_recorder`),
+  KEY `fk_storage_user2_idx` (`id_charge`),
+  KEY `storage_storage_unit_dic_id` (`unit`),
+  KEY `storage_mode_dic_id` (`mode`),
+  CONSTRAINT `material_ibfk_1` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `material_ibfk_2` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `storage_mode_dic_id` FOREIGN KEY (`mode`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `storage_storage_unit_dic_id` FOREIGN KEY (`unit`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of material
+-- ----------------------------
+INSERT INTO `material` VALUES ('1', '2017-11-19 21:59:11', '84消毒液', '2018-01-13 11:44:23', '叶超养鸡场', '123', '100', '20003', '仲恺709', '2001', '', '1', '1');
+INSERT INTO `material` VALUES ('10', '2018-01-10 21:25:48', '84消毒液', '2018-01-13 11:43:52', '叶超养鸡场', '123', '152', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('11', '2018-01-13 11:34:44', '808鸡饲料', '2018-01-13 11:44:58', '成君饲料厂', '15818922646', '2000', '20001', '仲恺709', '2002', null, '2', '1');
+INSERT INTO `material` VALUES ('12', '2018-01-13 11:37:05', '808鸡饲料', '2018-01-13 11:44:52', '成君饲料厂', '15818922646', '3000', '20001', '仲恺709', '2002', null, '2', '1');
+INSERT INTO `material` VALUES ('13', '2018-01-13 11:37:11', '小优223稻谷', '2018-01-13 11:44:52', '曼曼农场', '110', '4000', '20001', '仲恺709', '2002', '', '2', '1');
+INSERT INTO `material` VALUES ('14', '2018-01-13 11:37:08', '708鸡饲料', '2018-01-13 11:44:51', '成君饲料厂', '15818922646', '3500', '20001', '仲恺709', '2002', null, '2', '1');
+INSERT INTO `material` VALUES ('15', '2018-01-13 11:37:12', '小优223稻谷', '2018-01-13 11:46:16', '曼曼农场', '110', '2900', '20001', '仲恺709', '2002', null, '2', '1');
+INSERT INTO `material` VALUES ('16', '2018-01-13 11:56:09', '碘酒', '2018-01-13 11:57:54', '成君杂货店', '15818922646', '100', '20003', '仲恺709', '2001', null, '2', '2');
+INSERT INTO `material` VALUES ('17', '2018-01-13 11:56:10', '碘酒', '2018-01-13 11:57:53', '成君杂货店', '15818922646', '100', '20003', '仲恺709', '2001', null, '2', '2');
+INSERT INTO `material` VALUES ('18', '2018-01-13 11:56:10', '碘酒', '2018-01-13 11:57:53', '成君杂货店', '15818922646', '100', '20003', '仲恺709', '2001', null, '2', '2');
+INSERT INTO `material` VALUES ('19', '2018-01-13 11:56:11', '碘酒', '2018-01-13 11:57:52', '成君杂货店', '15818922646', '120', '20003', '仲恺709', '2001', null, '2', '2');
+INSERT INTO `material` VALUES ('2', '2018-01-10 21:25:57', '84消毒液', '2018-01-13 11:46:39', '叶超养鸡场', '123', '200', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('20', '2018-01-13 11:56:12', '碘酒', '2018-01-13 11:57:52', '成君杂货店', '15818922646', '130', '20003', '仲恺709', '2001', null, '2', '2');
+INSERT INTO `material` VALUES ('3', '2018-01-10 21:25:56', '84消毒液', '2018-01-13 11:46:42', '叶超养鸡场', '123', '152', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('4', '2018-01-10 21:25:56', '84消毒液', '2018-01-13 11:43:59', '叶超养鸡场', '123', '55', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('5', '2018-01-10 21:25:53', '84消毒液', '2018-01-13 11:44:00', '叶超养鸡场', '123', '196', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('6', '2018-01-10 21:25:52', '84消毒液', '2018-01-13 11:44:00', '叶超养鸡场', '123', '250', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('7', '2018-01-10 21:25:51', '84消毒液', '2018-01-13 11:44:02', '叶超养鸡场', '123', '311', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('8', '2018-01-10 21:25:54', '84消毒液', '2018-01-13 11:44:03', '叶超养鸡场', '123', '138', '20003', '仲恺709', '2001', null, '1', '1');
+INSERT INTO `material` VALUES ('9', '2018-01-10 21:25:50', '84消毒液', '2018-01-13 11:44:43', '叶超养鸡场', '123', '115', '20003', '仲恺709', '2001', null, '2', '1');
 
 -- ----------------------------
 -- Table structure for `outstorage`
@@ -421,9 +458,9 @@ CREATE TABLE `outstorage` (
 -- ----------------------------
 -- Records of outstorage
 -- ----------------------------
-INSERT INTO `outstorage` VALUES ('6609A0DD4249493981E483C074E8380D', '超级水稻', '阿里龙龙生产家', '2018-01-22 17:28:30', '200', '20001', '3', null, '阿里龙空供应商', '65001', '2018-01-22 19:28:18', '116', '13189679384', '未过期', null, null, null);
-INSERT INTO `outstorage` VALUES ('9CCA41371F0043ABA0CDFEBDF24B4969', '消感一号', '啊里超超制药厂', '2018-01-22 19:38:03', '100', '20003', null, '3', '阿里健健供应商', '65003', '2018-05-30 00:00:00', '98', '13189679384', '未过期', null, null, null);
-INSERT INTO `outstorage` VALUES ('AAADE922FF7148A18429DDADBD14435F', '退烧灵', '阿里超超制药厂', '2018-01-22 19:40:32', '10', '20003', null, '3', '阿里健健供应商', '65003', '2018-03-29 00:00:00', '9', '13189679385', '未过期', null, null, null);
+INSERT INTO `outstorage` VALUES ('6609A0DD4249493981E483C074E8380D', '超级水稻', '阿里龙龙生产家', '2018-01-22 17:28:30', '200', '20001', '3', null, '阿里龙空供应商', '65001', '2018-01-22 19:28:18', '18', '13189679384', '未过期', null, null, null);
+INSERT INTO `outstorage` VALUES ('9CCA41371F0043ABA0CDFEBDF24B4969', '消感一号', '啊里超超制药厂', '2018-01-22 19:38:03', '100', '20003', null, '3', '阿里健健供应商', '65003', '2018-05-30 00:00:00', '97', '13189679384', '未过期', null, null, null);
+INSERT INTO `outstorage` VALUES ('AAADE922FF7148A18429DDADBD14435F', '退烧灵', '阿里超超制药厂', '2018-01-22 19:40:32', '10', '20003', null, '3', '阿里健健供应商', '65003', '2018-03-29 00:00:00', '8', '13189679385', '未过期', null, null, null);
 
 -- ----------------------------
 -- Table structure for `out_poultry`
@@ -451,6 +488,7 @@ CREATE TABLE `out_poultry` (
 -- ----------------------------
 -- Records of out_poultry
 -- ----------------------------
+INSERT INTO `out_poultry` VALUES ('159B338CD07045438D4245110D77C181', null, '100', '75001660620180127', '北京肉联加工厂', '13189679385', '', '3', '3');
 
 -- ----------------------------
 -- Table structure for `patch`
@@ -492,7 +530,7 @@ CREATE TABLE `patch` (
 -- ----------------------------
 -- Records of patch
 -- ----------------------------
-INSERT INTO `patch` VALUES ('A1D15C8F04A6428EB76F33602E051ED5', '60001', '70001', '6', '6', '606', '3', null, '2018-01-22 17:17:02', '75001660620180122', null, '11001');
+INSERT INTO `patch` VALUES ('3D6A0F37608345FC937D7AD3FDFF0D39', '60001', '70001', '95', '6', '606', '3', '3', '2018-01-28 13:20:13', '75001660620180127', '100', '30001');
 
 -- ----------------------------
 -- Table structure for `poultry`
@@ -569,6 +607,7 @@ CREATE TABLE `transcompany` (
   `tid` varchar(45) NOT NULL COMMENT '运输公司编号',
   `name` varchar(45) DEFAULT NULL COMMENT '运输公司',
   `phone` varchar(45) DEFAULT NULL COMMENT '运输公司联系方式',
+  `license` varchar(200) DEFAULT NULL COMMENT '营业执照',
   `address` varchar(45) DEFAULT NULL COMMENT '公司地址',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`tid`)
@@ -588,7 +627,8 @@ CREATE TABLE `transportation` (
   `tid` varchar(45) NOT NULL COMMENT '运输公司id',
   `id_patch` varchar(45) NOT NULL COMMENT '批次id',
   `curQuantity` float(11,0) DEFAULT NULL COMMENT '当前数量',
-  `curPosition` varchar(45) DEFAULT NULL COMMENT '当前地址',
+  `curLng` float DEFAULT NULL COMMENT '当前经度',
+  `curLat` float DEFAULT NULL COMMENT '当前纬度',
   `curDate` timestamp NULL DEFAULT NULL COMMENT '当前日期',
   `driver` varchar(45) DEFAULT NULL COMMENT '司机姓名',
   `phone` varchar(45) DEFAULT NULL COMMENT '司机联系方式',
@@ -632,7 +672,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '叶超', '960216', null, '叶超', null, '2018-01-22 14:19:22', '1', null, null, '15602495106', null);
 INSERT INTO `user` VALUES ('2', '钱伟健', '123456', null, '钱伟健', null, '2018-01-22 14:20:25', '1', null, null, '15602495106', null);
-INSERT INTO `user` VALUES ('3', 'willon', '8ee1ae4e81a6355693cbd2d36562d69e', null, 'willon', null, '2018-01-22 16:00:40', '3', null, null, '13189679384', null);
+INSERT INTO `user` VALUES ('3', 'willon', '0462b55987128695bd4e0fdd3ce62c01', null, 'willon', null, '2018-01-28 14:52:48', '3', null, null, '13189679385', null);
 
 -- ----------------------------
 -- Table structure for `user_auths`
