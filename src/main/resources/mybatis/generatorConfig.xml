@@ -91,6 +91,7 @@
       <table tableName="transportation"/>
       <table tableName="manufacture"/>
       <table tableName="customer"/>
+      <table tableName="germchit"/>
 
   </context>
 </generatorConfiguration>
