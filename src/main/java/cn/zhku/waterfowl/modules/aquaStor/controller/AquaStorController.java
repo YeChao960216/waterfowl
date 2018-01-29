@@ -2,11 +2,15 @@ package cn.zhku.waterfowl.modules.aquaStor.controller;
 
 import cn.zhku.waterfowl.modules.aquaStor.service.AquaStorService;
 import cn.zhku.waterfowl.pojo.entity.AquaStor;
+import cn.zhku.waterfowl.pojo.entity.User;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +38,7 @@ public class AquaStorController extends BaseController{
     @ResponseBody
     @RequestMapping("save")
     public Message addAquaStor(AquaStor aquaStor) throws Exception {
+
         aquaStor.setAid(UUID.randomUUID().toString().replace("-","").toUpperCase());
         if (aquaStorService.add(aquaStor)==1) {
             return new Message("1", "增加饲料记录成功");

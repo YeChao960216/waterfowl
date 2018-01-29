@@ -5,6 +5,7 @@ import cn.zhku.waterfowl.modules.Affiliation.model.AffiliationUtilExcel;
 import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
 import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
 import cn.zhku.waterfowl.pojo.entity.Affiliation;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -106,7 +107,14 @@ public class AffiliationConroller {
     @ResponseBody
     @RequestMapping("newAffiliation")
     public Message addAffiliation(Affiliation affiliation) throws Exception {
-        if (affiliation.getId()==null||affiliation.getId().isEmpty()){
+        //  从shrio Session中获取user的session,填充记录员的字段
+        affiliation.setIdRecord(SessionUtil.getUserSession().getId());
+
+        affiliation.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+        if (affiliation.getStatus()==null||affiliation.getStatus().isEmpty()){
+            affiliation.setStatus("未满员");
+        }
+        if (affiliation.getName()==null||affiliation.getName().isEmpty()){
             return new Message("3","添加失败，请填写大禽舍编号");
         }
         else if(affiliationService.add(affiliation)==1){

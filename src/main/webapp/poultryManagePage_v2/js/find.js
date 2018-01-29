@@ -34,7 +34,7 @@
             GETMATERIL:'/outstorage/listName/65001',  //饲料名称
             GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
-            OPOST:'/outpoultry/add',//出厂路径e
+            OPOST:'/outpoultry/add',//出厂路径
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/',//{id_p}通过PID查找所有已经划分的批次
             GETLASTNUM:'/admin/patch/isEqualSum/',//{id_p}通过PID查出我还能圈养多少只
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
@@ -48,6 +48,8 @@
             GETAQUAVUE:'/aquaculture/showWeight?idPatch=',//养殖视图呈现
             GETDDLVUE:'/ddl/deathMethod?idPatch=',//死淘信息视图呈现
             GETEPIVUE:'/epidemic/diseaesMethod?idPatch=',//免疫表的呈现
+            DEL:'/poultry/delete/',
+            GETLIUCHENGZHUANTAI:'/dict/list?pid=11000',//流程状态
             };
     /**
      * 实例化一个分页控制者
@@ -147,6 +149,29 @@
         unbind = false;
 
     /**
+     * 新增按钮的视图切换
+     */
+    $('#new').click(function () {
+        window.location.href ='./aqua_add.html'
+    });
+    /**
+     * 提交删除的id值
+     1、删除成功后，初始化视图
+     */
+    $('#content').on('click',"[data-id*='del']",function(){
+        if(confirm('溯源提示:\n\n确认删除?')){
+            var id = $(this).attr('data-id').substr(3);
+            $.get(oURL.PRONAME+oURL.DEL+id,function(res){
+                if(res.status){
+                    pageController.init();
+                }else{
+                    alert('溯源提示:\n\n删除对象条目失败');
+                }
+            });
+        }
+    });
+
+    /**
      *2、详细按钮监听打开
      */
     $('#content').on('click',"[data-view*='V']",function(){
@@ -241,6 +266,8 @@
                 var obj = queryParse.call($(form));
                 if(/^[1-9]\d{0,6}$/.test(obj.size)){
                     obj.idPoultry = oURL.idPoultry;
+                    obj.status = 30001;
+                    obj.numTotal = obj.size;
                     $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
                         if(res){
                             alert(res.msg);
@@ -284,13 +311,13 @@
                         render({
                             url:oURL.PRONAME+oURL.GETBHOME+'?position='+selectNodes[0].value+'&type='+selectNodes[1].value,  //类型->大宿舍
                             dom:selectNodes[2],
-                            tpl:'id',
+                            tpl:'option',
                             dataDescription:'list',
                             cb:function () {                                        //大宿舍->小宿舍
                                 render({
                                     url:oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,
                                     dom:selectNodes[3],
-                                    tpl:'id',
+                                    tpl:'option',
                                     dataDescription:'list'
                                 });
                             }
@@ -308,13 +335,13 @@
                 if(res.list){
                     viewCommand({
                         command:'display',
-                        param:[selectNodes[2],res.list,'id']
+                        param:[selectNodes[2],res.list,'option']
                     });
                     $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
                         if(res.list){         //只有小宿舍号被划分了才行
                             viewCommand({
                                 command:'display',
-                                param:[selectNodes[3],res.list,'id']
+                                param:[selectNodes[3],res.list,'option']
                             });
                             sub_btn.disabled = false;
                         }
@@ -331,13 +358,13 @@
                 if(res.list){
                     viewCommand({
                         command:'display',
-                        param:[selectNodes[2],res.list,'id']
+                        param:[selectNodes[2],res.list,'option']
                     });
                     $.get(oURL.PRONAME+oURL.GETSHOME+'?affiliation='+selectNodes[2].value,function (res){
                         if(res.list){
                             viewCommand({
                                 command:'display',
-                                param:[selectNodes[3],res.list,'id']
+                                param:[selectNodes[3],res.list,'option']
                             });
                             sub_btn.disabled = false;
                         }
@@ -356,7 +383,7 @@
                     if(res.list){   //大宿舍-》小宿舍
                         viewCommand({
                             command:'display',
-                            param:[selectNodes[3],res.list,'id']
+                            param:[selectNodes[3],res.list,'option']
                         });
                         sub_btn.disabled = false;
                     }else{
@@ -371,15 +398,12 @@
 
         }
 
+
         $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
             if(res){
                 viewCommand({
                     command:'display',
-                    param:[selectNodes[5],res.list,'id_name']
-                });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[6],res.list,'id_name']
+                    param:[selectNodes[4],res.list,'id_name']
                 });
             }else{
                 alert('获取人员信息失败');
@@ -962,16 +986,17 @@
             }
             sub_btn.onclick = function () {
                 var obj = queryParse.call($(form));
-                    obj.remark = selectNodes[2].value.split('$')[0];
-                    obj.feedType = selectNodes[2].value.split('$')[1];
                     if(post==oURL.APOST){
                         if(inputs[2]>MAX_FOOD){
                             alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
                             return
                         }else{
+                            obj.remark = selectNodes[2].value.split('$')[0];
+                            obj.feedType = selectNodes[2].value.split('$')[1];
                             $.post(oURL.PRONAME+post,obj,function (res) {
                                 if(res){
                                     alert(res.msg);
+                                    renderTpl(id);
                                 }else{
                                     alert('溯源提示:\n\n提交失败');
                                 }
@@ -1068,13 +1093,10 @@
                 });
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){
                     if(res){
+
                         viewCommand({
                             command:'display',
                             param:[selectNodes[4],res.list,'id_name']
-                        });
-                        viewCommand({
-                            command:'display',
-                            param:[selectNodes[5],res.list,'id_name']
                         });
                     }else{
                         alert('人员获取失败');
@@ -1167,10 +1189,6 @@
                             command:'display',
                             param:[selectNodes[1],res.list,'id_name']
                         });
-                        viewCommand({
-                            command:'display',
-                            param:[selectNodes[2],res.list,'id_name']
-                        });
                     }else{
                         alert('人员获取失败');
                     }
@@ -1225,10 +1243,6 @@
                 viewCommand({
                     command:'display',
                     param:[selectNodes[2],res.list,'id_name']
-                });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[3],res.list,'id_name']
                 });
             }else{
                 alert('人员获取失败');
@@ -1357,10 +1371,6 @@
                     command:'display',
                     param:[selectNodes[3],res.list,'id_name']
                 });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[4],res.list,'id_name']
-                });
             }else{
                 alert('人员获取失败');
             }
@@ -1372,6 +1382,7 @@
                 $.post(oURL.PRONAME+oURL.DDLPOST,obj,function (res) {
                     if(res.status==1){
                         alert('溯源提示:\n\n死淘信息提交成功');
+                        renderDDL_OWN(id,patchs);
                     }else{
                         alert('溯源提示:\n\n死淘信息提交失败');
                     }
@@ -1479,10 +1490,6 @@
                     command:'display',
                     param:[selectNodes[5],res.list,'id_name']
                 });
-                viewCommand({
-                    command:'display',
-                    param:[selectNodes[6],res.list,'id_name']
-                });
             }else{
                 alert('人员获取失败');
             }
@@ -1496,6 +1503,7 @@
                 $.post(oURL.PRONAME+oURL.EPIPOST,json,function(res){      //免疫信息的提交
                     if(res){
                        alert(res.msg);
+                        renderEPI(id,patchs);
                     }else{
                         alert('溯源提示：\n\n提交免疫记录失败');
                     }

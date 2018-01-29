@@ -1,7 +1,5 @@
 package cn.zhku.waterfowl.task;
 
-import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
-import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.OutstorageExample;
 import cn.zhku.waterfowl.pojo.mapper.OutstorageMapper;
@@ -23,11 +21,7 @@ import java.util.List;
 @EnableScheduling
 public class MaterialTask {
     @Autowired
-    private OutStorageService outStorageService;
-    @Autowired
     private OutstorageMapper outstorageMapper;
-    @Autowired
-    private OutStorageDao outStorageDao;
     /**
      * 定时增加一个Material记录
      */

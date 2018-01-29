@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <form id="searchForm">
+            <table>
+                <tr id="preContent" style="color:#1090e6">
+
+                </tr>
+
+            </table>
+        </form>
+        <table>
+            <tr id="patchInfo">
+                <th>批次号</th>
+                <th>位置</th>
+                <th>大禽舍编号</th>
+                <th>小禽舍编号</th>
+                <th>养殖类型</th>
+                <th>初始养殖数量</th>
+                <th>现在养殖数量</th>
+                <th>划分日期</th>
+                <th>记录员编号</th>
+                <th>管理员编号</th>
+                <th>操作</th>
+            </tr>
+            <tr id="ddlInfo" class="none">
+                <th >批次号</th>
+                <th >记录时间</th>
+                <th >死亡数量</th>
+                <th >处理方式</th>
+                <th >备注</th>
+                <th >记录员编号</th>
+                <th >负责人编号</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">1</span>/<span id="all">1</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/ddl_list.js"></script>
+</html>

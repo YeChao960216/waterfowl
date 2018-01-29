@@ -6,14 +6,20 @@ import cn.zhku.waterfowl.modules.aquaculture.model.FeedWeight;
 import cn.zhku.waterfowl.modules.aquaculture.service.AquacultureService;
 import cn.zhku.waterfowl.modules.outStorage.dao.OutStorageDao;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
+import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.Aquaculture;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.Patch;
+import cn.zhku.waterfowl.pojo.entity.User;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jdk.nashorn.internal.ir.WhileNode;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +43,8 @@ public class AquacultureController{
     AquacultureService aquacultureService;
     @Autowired
     OutStorageService outStorageService;
-
+    @Autowired
+    PatchService patchService;
     @Autowired
     AquacultureDao aquacultureDao;
 
@@ -50,6 +57,8 @@ public class AquacultureController{
     @ResponseBody
     @RequestMapping("add")
     public Message addAquaculture(Aquaculture aquaculture) throws Exception {
+        //  从shrio Session中获取user的session,填充记录员的字段
+        aquaculture.setIdRecorder(SessionUtil.getUserSession().getId());
         aquaculture.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         aquaculture.setRecordDate(t);
@@ -59,6 +68,11 @@ public class AquacultureController{
         }
         else if(aquacultureService.add(aquaculture)==1) {
             outStorageService.manageOutstorage(aquaculture);
+            if (aquaculture.getStatus().equals(30003)){
+                Patch patch=patchService.get(aquaculture.getIdPatch());
+                patch.setStatus("30003");
+                patchService.update(patch);
+            }
             return new Message("1", "成功增加1条记录");
         }
         else {

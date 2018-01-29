@@ -13,26 +13,14 @@
     const oURL = {
         PRONAME : '/waterfowl' ,
         POST : '/admin/fowlery/newFowlery',//最终数据提交路径
-        GETSIZE:'/dict/list?pid=60000', //获取禽舍规格
+        // GETSIZE:'/dict/list?pid=60000', //获取禽舍规格
         GETENTITY:'/admin/affiliation/showAffiliation/', //id=1
         GETBHOME:'/admin/affiliation/listAffiliation',
         GETEMP:'/admin/user/list' //人员
     }
 
     var selectNodes = document.getElementsByTagName('select');
-    /**
-      * 获取禽舍规格
-      */
-     $.get(oURL.PRONAME+oURL.GETSIZE,function(res){
-         if(res.list){
-             viewCommand({
-                 command:'display',
-                 param:[$('#size')[0],res.list,'id_name']
-             });
-         }else{
-             alert('获取禽舍养殖标识失败');
-         }
-     });
+
 
      /**
       * 获取大禽舍编号
@@ -41,7 +29,7 @@
          if(res){
              viewCommand({
                  command:'display',
-                 param:[$('#bHome')[0],res.list,'id']
+                 param:[$('#bHome')[0],res.list,'option']
              })
          }else{
              alert('获取大禽舍编号失败');
@@ -52,12 +40,9 @@
          if(res){
              viewCommand({
                  command:'display',
-                 param:[selectNodes[3],res.list,'id_name']
+                 param:[selectNodes[1],res.list,'id_name']
              });
-             viewCommand({
-                 command:'display',
-                 param:[selectNodes[4],res.list,'id_name']
-             });
+
          }else{
              alert('获取人员信息失败');
          }

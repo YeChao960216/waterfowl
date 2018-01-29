@@ -36,55 +36,29 @@ var zNodes_userInfoM = [
  */
 var zNodes_aquaInfoM = [
     {
-        name:"家禽养殖流程管理", open:true, tid:'./poultryManagePage_v2/find.html',children:
-        [
-            {name:"新增入厂记录",tid:'./poultryManagePage_v2/aqua_add.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
+        name:"流程信息录入", open:true, tid:'./poultryManagePage_v2/find.html',children:
+        [//affi_v2
+            {name:"批次管理",tid:'./patch_v2/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-            {name:"删除入厂记录",tid:'./poultryManagePage_v2/del.html',pName:"家禽养殖流程管理",pUrl:'./poultryManagePage_v2/find.html'},
+            {name:"养殖管理",tid:'./aquaculture/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-        ]
-    },
-    {
-        name:"养殖管理", open:true, tid:'./aquaculture/find.html',children:
-        [
-            // {name:"增加",tid:'./aquaculture/aqua_add.html',pName:"养殖管理",pUrl:'./aquaculture/find.html'},
+            {name:"死淘管理",tid:'./ddl_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-            {name:"删除",tid:'./aquaculture/del.html',pName:"养殖管理",pUrl:'./aquaculture/find.html'},
+            {name:"免疫/疾病管理",tid:'./epi_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
-        ]
-    },
-    {
-        name:"死淘管理", open:true, tid:'./ddl_v2/find.html',children:
-        [
-            {name:"管理",tid:'./ddl_v2/find.html',pName:"死淘管理",pUrl:'./ddl_v2/find.html'},
-        ]
-    },
-    {
-        name:"免疫/疾病管理", open:true, tid:'./epi_v2/find.html',children:
-        [
-            {name:"管理",tid:'./epi_v2/find.html',pName:"免疫/疾病管理",pUrl:'./epi_v2/find.html'},
-        ]
-    },
-    {
-        name:"大禽舍管理", open:true, tid:'./affi_v2/find.html',children:
-        [
-            {name:"增加",tid:'./affi_v2/add.html',pName:"大禽舍管理",pUrl:'./affi_v2/find.html'},
-        ]
-    },
-    {
-        name:"禽舍管理", open:true, tid:'./fowleryManagePage_v2/find.html',children:
-        [
-            {name:"增加",tid:'./fowleryManagePage_v2/aqua_add.html',pName:"禽舍管理",pUrl:'./fowleryManagePage_v2/find.html'},
-        ]
-    },
-    {
-        name:"出厂管理", open:true, tid:'./outPoultry/find.html',children:
-        [
-            // {name:"增加",tid:'./outPoultry/add.html',pName:"出库管理",pUrl:'./outPoultry/find.html'},
-            {name:"删除",tid:'./outPoultry/del.html',pName:"出库管理",pUrl:'./outPoultry/find.html'},
+            {name:"出库信息管理",tid:'./outPoultry_v3/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
 
+            {name:"加工信息管理",tid:'./manu/find.html',pName:"流程管理",pUrl:'./poultryManagePage_v2/find.html'},
         ]
-    }
+    },
+
+    {
+        name:"订单管理", open:true, tid:'./order/find.html',children:
+        [
+            {name:"管理",tid:'./epi_v2/find.html',pName:"加工环节管理",pUrl:'./epi_v2/find.html'},
+        ]
+    },
+
 
 ];
 /**
@@ -96,10 +70,20 @@ var zNodes_storageInfoM = [
         name:"物资管理", open:true, tid:'./outStorage_v2/find.html',children:
         [
 
-            {name:"增加",tid:'./outStorage_v2/aqua_add.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
+            {name:"增加",tid:'./outStorage_v2/add.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
+
+            {name:"excel表导入",tid:'./outStorage_v2/xls_add.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
+
+            {name:"excel表导出",tid:'./outStorage_v2/xls_push.html',pName:"物资管理",pUrl:'./outStorage_v2/find.html'},
 
         ]
     },
+    {
+        name:"大禽舍管理", open:true, tid:'./affi_v2/find.html',children:
+        [
+            {name:"小禽舍管理",tid:'./fowleryManagePage_v2/find.html',pName:"大禽舍管理",pUrl:'./affi_v2/find.html'},
+        ]
+    }
 ];
 
 var zNodes_empInfoM = [
@@ -120,6 +104,14 @@ var zNodes_dictM = [
             {name:"增加栏目",tid:'./dic/add.html',pName:"字典管理",pUrl:'./dic/find.html'},
             {name:"增加栏目子字段",tid:'./dic/sub_add.html',pName:"字典管理",pUrl:'./dic/find.html'},
 
+        ]
+    },
+]
+var zNodes_monitor = [
+    {
+        name:"实时监控", open:true,tid:'./monitor/monitor.html',children:
+        [
+            {name:"禽舍室内实时温度",tid:'./monitor/monitor.html',pName:'实时监控',pUrl:'./monitor/monitor.html'},
         ]
     },
 ]
@@ -156,6 +148,10 @@ $(document).ready(function(){
             break;
             case 'dicM':zTree = $.fn.zTree.init($("#menu"), setting, zNodes_dictM);
                 setPath(1,zNodes_dictM[0].tid,zNodes_dictM[0].name);
+                displayPath(1);
+                break;
+            case 'monitor':zTree = $.fn.zTree.init($("#menu"), setting, zNodes_monitor);
+                setPath(1,zNodes_monitor[0].tid,zNodes_monitor[0].name);
                 displayPath(1);
                 break;
             default:break;

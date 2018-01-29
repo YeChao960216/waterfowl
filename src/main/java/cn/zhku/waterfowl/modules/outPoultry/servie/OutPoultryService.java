@@ -1,7 +1,9 @@
 package cn.zhku.waterfowl.modules.outPoultry.servie;
 
+import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
 import cn.zhku.waterfowl.pojo.entity.OutPoultryExample;
+import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.mapper.OutPoultryMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import java.util.List;
 public class OutPoultryService implements IBaseService<OutPoultry>{
     @Autowired
     private OutPoultryMapper outPoultryMapper;
+    @Autowired
+    private PatchDao patchDao;
 
     /**
      * 增加记录
@@ -93,8 +97,6 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
 
         if (entity.getIdPatch() != null)
             criteria.andIdPatchLike("%"+entity.getIdPatch()+"%");
-        if (entity.getType() != null)
-            criteria.andTypeLike("%"+entity.getType()+"%");
         if (entity.getFirm() != null)
             criteria.andFirmLike("%"+entity.getFirm()+"%");
         if (entity.getRecordDate() != null)
@@ -105,6 +107,11 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
             criteria.andIdChargeEqualTo(entity.getIdCharge());
 
         return outPoultryMapper.selectByExample(outPoultryExample);
+    }
+
+    public List<String> findOutpoultry(String id_poultry) throws Exception {
+        //把listOutstorageByName返回的值放在ArrayList里面
+        return patchDao.findOutpoultry(id_poultry);
     }
 
 }

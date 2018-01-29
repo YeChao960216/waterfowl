@@ -38,13 +38,10 @@
 
      $.get(oURL.PRONAME+oURL.GETEMP,function(res){        //人员
          if(res){
+
              viewCommand({
                  command:'display',
                  param:[$('select')[2],res.list,'id_name']
-             });
-             viewCommand({
-                 command:'display',
-                 param:[$('select')[3],res.list,'id_name']
              });
          }else{
              alert('溯源提示:\n\n获取人员信息失败');

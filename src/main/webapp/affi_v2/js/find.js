@@ -79,6 +79,12 @@
     });
 
     /**
+     * 新增
+     */
+    $('#new').click(function () {
+       window.location.href = "./add.html"
+    });
+    /**
      * 查询功能
      * 点击了就序列化表单
      * 更改视图控制器的other属性

@@ -10,6 +10,7 @@ import cn.zhku.waterfowl.modules.outStorage.model.OutStorageExcel;
 import cn.zhku.waterfowl.modules.outStorage.model.OutStorageUtilExcel;
 import cn.zhku.waterfowl.modules.outStorage.service.OutStorageService;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.excel.ExportExcelUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -51,9 +52,15 @@ public class OutStorageController extends BaseController{
         @ResponseBody
         @RequestMapping("add")
         public Message addOutstorage(Outstorage outstorage) throws Exception {
+            //  从shrio Session中获取user的session,填充记录员的字段
+            outstorage.setIdRecorder(SessionUtil.getUserSession().getId());
             outstorage.setIdOutstorage(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置用户id
             Timestamp t = new Timestamp(System.currentTimeMillis());
             outstorage.setRecordDate(t);
+            outstorage.setRest(outstorage.getQuantity());
+            if (outstorage.getValid()==null||outstorage.getValid().isEmpty()){
+                outstorage.setValid("未过期");
+            }
              if (outStorageService.add(outstorage)==1){
                 return new Message("1","添加物资记录成功");
             }
@@ -123,7 +130,6 @@ public class OutStorageController extends BaseController{
         }
         /**
          *  根据多个条件展示一列用户 => 多条件查询分页
-         * @param commonQo   通用查询类，拥有pageSize,
          * @return  PageInfo<Outstorage> 一个带有List<Outstorage>的pageBean
          * @throws Exception    sql
          */
@@ -165,7 +171,6 @@ public class OutStorageController extends BaseController{
                 excelFile.transferTo(newFile);
                 //将新图片名称写到repair中
                 //repair.setRepairPic(newFileName);
-                System.out.println("================" + newFile.toString());
 
                 OutStorageUtilExcel outStorageUtilExcel = new OutStorageUtilExcel(newFile.toString());
                 //userExcelUtil.setEntityMap();

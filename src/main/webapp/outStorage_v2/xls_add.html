@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <style>
+        #progress{
+            width:0%;
+            height:100%;
+            background: #5ccebf;
+            color: #fff;
+            padding: 16px 0px;
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="return false">
+    <table>
+            <tr>
+                <th>条目</th>
+                <th>信息</th>
+            </tr>
+            <tr id="progressTr">
+                <td colspan="2">
+                    <div id="progress"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>物资进货表(.xls/xlsx文件)</td>
+                <td><input type="file" ></td>
+            </tr>
+            <tr>
+                <td>操作</td>
+                <td><input type="submit" id="submit" class="btn" onclick="return false" value="添加"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/xls_add.js"></script>
+</html>

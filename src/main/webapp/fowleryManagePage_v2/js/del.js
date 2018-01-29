@@ -59,7 +59,7 @@
       $('#content').on('click',"[data-id*='del']",function(){
           var id = $(this).attr('data-id').substr(3);
          $.get(oURL.PRONAME+oURL.DEL+id,function(res){
-            if(res.status){
+            if(res){
                 pageController.init();
             }else{
                 alert('删除对象条目失败');

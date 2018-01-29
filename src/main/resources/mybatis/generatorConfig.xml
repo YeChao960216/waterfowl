@@ -87,6 +87,10 @@
       <table tableName="user_auths"/>
       <table tableName="epi_stor"/>
       <table tableName="aqua_stor"/>
+      <table tableName="transcompany"/>
+      <table tableName="transportation"/>
+      <table tableName="manufacture"/>
+      <table tableName="customer"/>
 
   </context>
 </generatorConfiguration>

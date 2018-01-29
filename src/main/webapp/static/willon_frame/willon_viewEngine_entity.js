@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-10-25 14:56:54 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2017-11-21 14:09:18
+ * @Last Modified time: 2018-01-27 21:29:15
  */
 /*
  * @Author: 伟龙-Willon qq:1061258787 
@@ -42,6 +42,9 @@ var viewCommand = (function(msg){
          ].join(''),
          id:[
              "<option value='{#id#}'>{#id#}</option>"
+         ].join(''),
+         idPatch:[
+             "<option value='{#idPatch#}'>{#idPatch#}</option>"
          ].join(''),
          type:[
              "<option value='{#type#}'>{#type#}</option>"
@@ -97,22 +100,6 @@ var viewCommand = (function(msg){
                 '<td ><button id="powerFor{#id#}" class="btn">赋予角色</button></td>',
             '</tr>'
          ].join(''),
-         del_aquaculture:[
-             '<tr>',
-             '<td >{#name#}</td>',
-             '<td >{#idFowlery#}</td>',
-             '<td >{#idPatch#}</td>',
-             '<td >{#recordDate#}</td>',
-             '<td >{#numTotal#}</td>',
-             '<td >{#feedType#}</td>',
-             '<td >{#feedWeight#}</td>',
-             '<td >{#idRecorder#}</td>',
-             '<td >{#idCharge#}</td>',
-             '<td >{#idOutstorage#}</td>',
-             '<td >{#status#}</td>',
-             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
-             '</tr>'
-         ].join(''),
          find_edit_aquaculture:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -120,16 +107,42 @@ var viewCommand = (function(msg){
              '<td >{#idFowlery#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#numTotal#}</td>',
+             '<td >{#remark#}</td>',
              '<td >{#feedType#}</td>',
              '<td >{#feedWeight#}</td>',
              '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td >{#idOutstorage#}</td>',
              '<td >{#status#}</td>',
-             "<td ><a class='btn' href='./detail.html?id={#id#}' >详情</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
+             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
              '</tr>'
          ].join(''),
+         patch_first:[
+             '<tr>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#associatedFirm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="P{#idPoultry#}" data-idR="{#idRecorder#}" ' +
+             'data-idC="{#idCharge#}" data-recordeDate="{#recordDate#}" ' +
+             'data-type="{#type#}" data-quantity="{#quantity#}" data-phone={#phone#} ' +
+             'data-firm="{#associatedFirm#}"  >批次信息</a></td>',
+         ].join(''),
+        aqua_first:[
+            '<tr>',
+            '<td >{#recordDate#}</td>',
+            '<td >{#type#}</td>',
+            '<td >{#quantity#}</td>',
+            '<td >{#associatedFirm#}</td>',
+            '<td >{#phone#}</td>',
+            '<td >{#idRecorder#}</td>',
+            '<td >{#idCharge#}</td>',
+            '<td ><a class="btn"  data-id="P{#idPoultry#}" data-firm="{#associatedFirm#}">批次信息</a></td>',
+        ].join(''),
          del_out_poultry:[
             '<tr>',
             '<td >{#idPatch#}</td>',
@@ -159,9 +172,9 @@ var viewCommand = (function(msg){
         ].join(''),
          fowlery_find:[
              '<tr>',
+             '<td >{#affiliation#}</td>',
              '<td >{#size#}</td>',
              '<td >{#status#}</td>',
-             '<td >{#affiliation#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
              "<td ><a class='btn' data-id='del{#id#}'>删除</a></td>",
@@ -170,6 +183,7 @@ var viewCommand = (function(msg){
          ].join(''),
          poultry_find:[
              '<tr>',
+             '<td >{#recordDate#}</td>',
              '<td >{#type#}</td>',
              '<td >{#quantity#}</td>',
              '<td >{#associatedFirm#}</td>',
@@ -182,6 +196,7 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" data-check="true" data-id="D{#idPoultry#}">死淘记录</a></td>',
              '<td ><a class="btn" data-check="true" data-id="E{#idPoultry#}">免疫卫生</a></td>',
              '<td ><a class="btn" data-check="true" data-id="O{#idPoultry#}">出厂记录</a></td>',
+             '<td ><a class="btn" data-id="del{#idPoultry#}">删除</a></td>',
              '</tr>'
          ].join(''),
          poultry_del:[
@@ -235,6 +250,82 @@ var viewCommand = (function(msg){
                  '</table>',
              '</div>',
          ].join(''),
+         patch_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
+             '<td ><button class="btn" data-id="edit{#id#}">修改</button></td>',
+             '</tr>'
+         ].join(''),
+         aqua_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="A{#id#}">养殖管理</button></td>',
+             '</tr>'
+         ].join(''),
+         ddl_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="D{#id#}">死淘管理</button></td>',
+             '</tr>'
+         ].join(''),
+         epi_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="E{#id#}">免疫管理</button></td>',
+             '</tr>'
+         ].join(''),
+         outPoultry_list:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#position#}</td>',
+             '<td >{#idAffilation#}</td>',
+             '<td >{#idFowlery#}</td>',
+             '<td >{#type#}</td>',
+             '<td >{#numTotal#}</td>',
+             '<td >{#size#}</td>',
+             '<td >{#date#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><button class="btn" data-id="O{#id#}">出厂信息管理</button></td>',
+             '</tr>'
+         ].join(''),
          patch_show:[
              '<div class="detail-content">',
              '<table style="text-align: center"><caption>批次信息</caption>',
@@ -256,7 +347,7 @@ var viewCommand = (function(msg){
              '</tr>',
              '<tr>',
              '<td>大禽舍编号</td>',
-             '<td>{#idAffilation#}</td>',
+             '<td>{#name#}</td>',
              '</tr>',
              '<tr>',
              '<td>禽舍编号</td>',
@@ -369,14 +460,8 @@ var viewCommand = (function(msg){
              '<td>该批次状态</td>',
              '<td>',
              '<select name="status" class="select-fix-input">',
-             '<option value="批次出厂">该批次已出厂</option>',
-             '<option value="养殖中" selected>养殖中</option>',
              '</select>',
              '</td>',
-             '</tr>',
-             '<tr>',
-             '<td>记录人</td>',
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>',
              '</tr>',
              '<tr>',
              '<td>负责人</td>',
@@ -436,10 +521,6 @@ var viewCommand = (function(msg){
                  '<td><input type="number" min="0" name="weight"></td>'+
                  '</tr>'+
                  '<tr>'+
-                 '<td>记录人</td>'+
-                 '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-                 '</tr>'+
-                 '<tr>'+
                  '<td>负责人</td>'+
                  '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
                  '</tr>'+
@@ -481,10 +562,6 @@ var viewCommand = (function(msg){
              '<td><select name="processingMode" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
              '</tr>'+
@@ -520,10 +597,6 @@ var viewCommand = (function(msg){
              '<tr>'+
              '<td>处理方式</td>'+
              '<td><select name="processingMode" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
              '<td>负责人</td>'+
@@ -564,12 +637,8 @@ var viewCommand = (function(msg){
             '</tr>'+
             '<tr>'+
             '<td>联系电话</td>'+
-            '<td><input type="text" name="phone" id="phone" class="select-fix-input" pattern="^1[3-9]\d{9}$"></td>'+
+            '<td><input type="text" name="phone" id="phone" class="select-fix-input" ></td>'+
             '</tr>'+
-             '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
              '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
@@ -676,10 +745,6 @@ var viewCommand = (function(msg){
              '<td><input type="number" name="numInfected" min="1" placeholder="给药/处理个数"></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>记录人</td>'+
-             '<td><select name="idRecorder" id="idRecorder" class="select-fix-input"></select></td>'+
-             '</tr>'+
-             '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
              '</tr>'+
@@ -735,6 +800,21 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
+         outPoultry_v3_show:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecorder#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+
          epi_v2_show:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -754,7 +834,7 @@ var viewCommand = (function(msg){
          ].join(''),
          affi_v2_show:[
              '<tr>',
-             '<td >{#id#}</td>',
+             '<td >{#name#}</td>',
              '<td >{#position#}</td>',
              '<td >{#type#}</td>',
              '<td >{#size#}</td>',
@@ -765,6 +845,48 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
+         manu:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#recordeDate#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#site#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#method#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idRecord#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         poultry_nav:[
+             '<td><span>入厂时间:</span><span>{#recordeDate#}</span></td>'+
+             '<td><span>家禽类型:</span><span>{#type#}</span></td>'+
+             '<td><span>数量:</span><span>{#quantity#}</span></td>'+
+             '<td><span>关联厂家:</span><span>{#associatedFirm#}</span></td>'+
+             '<td><span>联系电话:</span><span>{#phone#}</span></td>'+
+             '<td><span>记录人编号:</span><span>{#idRecorder#}</span></td>'+
+             '<td><span>负责人编号:</span><span>{#idRecorder#}</span></td>'
+         ].join(''),
+         order:[
+             '<tr>',
+             '<td >{#name#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#license#}</td>',
+             '<td >{#remark#}</td>',
+             '<td ><a class="btn" >查看营业执照</a></td>',
+             '<td ><a class="btn" data-id="trans{#cid#}">更新物流信息</a></td>',
+             '<td ><a class="btn" data-id="del{#cid#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#cid#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         blank:[
+             '<tr style="text-align: center">',
+             '<td style="color:red">页面数据为空</td>',
+             '</tr>'
+         ].join('')
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

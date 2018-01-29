@@ -6,24 +6,24 @@
  */
 
 (function(global){
-    
-        /**
-         * oURL 对象
-         */
-        const oURL = {
-            PRONAME:'/waterfowl',
-            GETAQUACULTURELIST:'/aquaculture/list',
-        };
+
+    /**
+     * oURL 对象
+     */
+    const oURL = {
+        PRONAME:'/waterfowl',
+        GETPOUTLTRYLIST:'/poultry/list',
+    };
     /**
      * 实例化一个分页控制者
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETAQUACULTURELIST,
+        url:oURL.PRONAME+oURL.GETPOUTLTRYLIST,
 
         view:{
             container : $('#content')[0],
-            tpl:'find_edit_aquaculture',
+            tpl:'patch_first',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -68,6 +68,7 @@
             qStr.push(key+'='+q[key]);
         }
         $('#back').show();
+        // pageController.url = oURL.PRONAME+oURL.GETAQUACULTURELIST;
         pageController.other = '&'+qStr.join('&');
         pageController.init();
     });
@@ -82,7 +83,28 @@
     $('#back').click(function () {
         $('#searchForm input').val('');
         $(this).hide();
+        // pageController.url = oURL.PRONAME+oURL.GETPOUTLTRYLIST;
         pageController.other = '';
         pageController.init();
     });
+
+    /**
+     * 切换视图
+     * 提交的id值
+     1、成功后，切换视图
+     */
+    $('#content').on('click',"[data-id*='P']",function(){
+        var $this = $(this),
+            id = $this.attr('data-id').substr(1),
+            associatedFirm = $this.attr('data-firm'),
+            phone = $this.attr('data-phone'),
+            idRecorder = $this.attr('data-idR'),
+            idCharge = $this.attr('data-idC'),
+            type = $this.attr('data-type'),
+            recordeDate = $this.attr('data-recordeDate'),
+            quantity = $this.attr('data-quantity');
+        window.location.href="./aqua_list.html?id="+id+'&associatedFirm='+associatedFirm+'&idRecorder='+idRecorder+
+            '&idCharge='+idCharge+'&recordeDate='+recordeDate+'&phone='+phone+'&type='+type+'&quantity='+quantity;
+    });
+
 })();

@@ -1,7 +1,6 @@
 package cn.zhku.waterfowl.modules.patch.dao;
 
 import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Affiliation;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -57,9 +56,10 @@ public interface PatchDao {
     @Select("select quantity from poultry where id_poultry=#{id_poultry}")
     String findQuantity(String id_poultry);
 
-//    @Select("select type from affiliation where position=#{position}")
-//    List<Affiliation> listAffiliationtype(String position);
-
-//    @Select("select id from affiliation where position=#{position} and type=#{type}")
-//    List<Affiliation> listAffiliationid(String position,String type);
+    /*
+    * 查找出可以养殖完成的批次号
+    * author:yechao
+    * */
+    @Select("SELECT id FROM patch WHERE id=(SELECT id_patch FROM aquaculture WHERE status=30003) and id_poultry=#{id_poultry}")
+    List<String> findOutpoultry(String id_poultry);
 }

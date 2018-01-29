@@ -170,7 +170,12 @@ public class OutStorageService  implements IBaseService<Outstorage> {
     public float checkQuantity(Aquaculture entity)throws Exception {
         String name=entity.getFeedType();
         String firm=entity.getRemark();
-        return outStorageDao.checkQuantity(name,firm);
+        if(outStorageDao.checkQuantity(name,firm)!=null&&!outStorageDao.checkQuantity(name,firm).equals("")){
+            return outStorageDao.checkQuantity(name,firm);
+        }
+        else {
+            return 0;
+        }
     }
     public List<Outstorage> Listname(String type) throws Exception {
         //把listOutstorageByName返回的值放在ArrayList里面
