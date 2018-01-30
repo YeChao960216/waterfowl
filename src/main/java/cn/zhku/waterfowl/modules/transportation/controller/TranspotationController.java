@@ -49,13 +49,13 @@ public class TranspotationController {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         transportation.setCurdate(t);
 
-        Connection con = null;
-        try{
-            con = DbUtil.getCon();
+       // Connection con = null;
+       // try{
+            //con = DbUtil.getCon();
             //根据经纬度判断知否为目的地
-            boolean i =transportationService.isArrival(con,transportation.getCid(),transportation.getCurlng(),transportation.getCurlat()) ;
+            //boolean i = transportationService.isArrival(con,transportation.getCid(),transportation.getCurlng(),transportation.getCurlat()) ;
             if (transportationService.add(transportation) == 1) {
-                if (i){
+                if (false){
                     transportationDao.setPatchStatusFinish(transportation.getIdPatch());
                 }else {
                     transportationDao.setPatchStatus(transportation.getIdPatch());
@@ -64,16 +64,16 @@ public class TranspotationController {
             } else {
                 return new Message("2", "增加记录失败");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Message("2", "增加记录失败");
-        }finally {
-            try {
-                DbUtil.closeCon(con);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new Message("2", "增加记录失败");
+//        }finally {
+//            try {
+//                DbUtil.closeCon(con);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     /**
@@ -135,7 +135,7 @@ public class TranspotationController {
     @ResponseBody
     @RequestMapping("listtransportation")
     public PageInfo<Transportation> listTransportation(Transportation transportation, CommonQo commonQo) throws Exception {
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "curDate desc");
         //  通过服务层获取查询后的用户列表
         List<Transportation> transportationList = transportationService.findList(transportation);
         //  返回 pageBean

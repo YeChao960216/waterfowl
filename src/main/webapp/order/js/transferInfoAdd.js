@@ -11,8 +11,9 @@
         PRONAME:'/waterfowl',
         POST:'/transportation/add',
         CHECK:'/transportation/listtransportation?cid=',  //检查是否为发货状态
-        GETPATCH:'/admin/patch/listPatch?status=',
-        GETTRANSFIRM:'/transcompany/listtranscompany',//运输公司
+        GETPATCH:'/admin/patch/listPatch?status=',         //选中批次
+        GETTRANSFIRM:'/transcompany/listtranscompany',//运输公司,
+        GETEND:'/customer/show/',//得到该批发商的位置也就是物流的终点信息
     }
 
     /**
@@ -35,6 +36,7 @@
 
     $.get(oURL.PRONAME + oURL.CHECK + nav.cid, function (res) {
         if (res.list.length > 0) {  //更新
+            var length = res.list.length;
             /**
              * 渲染模板
              */
@@ -47,6 +49,63 @@
 
             $('span').text(res.list[0].curquantity);
 
+            $('p').text('运输公司:'+res.list[0].tid);
+
+            /**
+             * 找出终点经纬度，描绘图例，链接轨迹
+             */
+            var trackMap_init = function () {
+                $.get(oURL.PRONAME+oURL.GETEND+nav.cid,function (cust_info) {
+                    if(cust_info){
+                        res.list.reverse();
+                        // option.series[0].geoCoord.p1 = [res.list[0].curlng,res.list[0].curlat];//起点
+                        res.list.forEach(function (ele,index) {
+                            option.series[0].geoCoord['p'+index] = [ele.curlng,ele.curlat]
+                        });
+                        option.series[0].geoCoord['p'+length] = [cust_info.lng,cust_info.lat]////终点
+                        res.list.forEach(function (item,index) {         //描点
+                            if(index == 0){
+                                option.series[0].markPoint.data[index] = {name:'p'+index,value:60,
+                                    tooltip:{
+                                        formatter:new Date(item.curdate).toLocaleString()+'<br/>出发地:'+item.remark
+                                    },
+                                }
+                                option.series[0].markLine.data.push(       //连线
+                                    [{name: 'p' + index}, {name: 'p' + (index + 1), value: {colorValue: 'green'}}]
+                                );
+                            }else{
+                                if(index == length-1){
+                                    option.series[0].markPoint.data[index] = {name:'p'+index,value:100,
+                                        tooltip:{
+                                            formatter:new Date(item.curdate).toLocaleString()+'<br/>现在到达:'+item.remark
+                                        },
+                                    }
+                                }else{
+                                    option.series[0].markPoint.data[index] = {name:'p'+index,value:30,
+                                        tooltip:{
+                                            formatter:new Date(item.curdate).toLocaleString()+'<br/>经过:'+item.remark
+                                        },
+                                    }
+                                    option.series[0].markLine.data.push(       //连线
+                                        [{name: 'p' + index}, {name: 'p' + (index + 1), value: {colorValue: 'green'}}]
+                                    );
+                                }
+                            }
+                        });
+                        option.series[0].markPoint.data[length] = {name:'p'+length,value:60,   //终点
+                            tooltip:{
+                                formatter:'物流运输<br/>目的地:'+cust_info.name
+                            },
+                        }
+                        option.series[0].markLine.data.push(       //起点连终点
+                            [{name: 'p0'}, {name: 'p'+length, value: {colorValue: 'gold'}}]
+                        );
+                        willon_trackVue(res.list[0].curlng,res.list[0].curlat);
+                    }
+                });
+            }
+
+            trackMap_init();
             /**
              * 添加物流信息
              */
@@ -58,6 +117,8 @@
 
                 json.idPatch = res.list[0].idPatch;
 
+                json.tid = res.list[0].tid;
+
                 json.cid = nav.cid;
 
                 json.curlng = address.lng;
@@ -67,6 +128,7 @@
                 $.post(oURL.PRONAME+oURL.POST,json,function (res) {
                     if(res.status){
                         alert('溯源提示:\n\n'+res.msg);  //更新物流信息
+                        // trackMap_init();
                     }else{
                         alert('溯源提示:\n\n'+res.msg);
                     }
@@ -159,6 +221,7 @@
                 $.post(oURL.PRONAME+oURL.POST,json,function (res) {
                     if(res.status){
                         alert('溯源提示:\n\n'+res.msg);  //更新物流信息
+
                     }else{
                         alert('溯源提示:\n\n'+res.msg);
                     }

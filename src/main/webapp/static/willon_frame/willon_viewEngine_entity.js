@@ -46,6 +46,9 @@ var viewCommand = (function(msg){
          tid_name:[
              "<option value='{#tid#}'>{#name#}</option>"
          ].join(''),
+         cid_name:[
+             "<option value='{#cid#}'>{#name#}</option>"
+         ].join(''),
          idPatch:[
              "<option value='{#idPatch#}'>{#idPatch#}</option>"
          ].join(''),
@@ -810,7 +813,6 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
-
          epi_v2_show:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -887,6 +889,19 @@ var viewCommand = (function(msg){
              '<td ><a class="btn" href="./edit.html?id={#tid#}">修改</a></td>',
              '</tr>'
          ].join(''),
+         transferInfoList_find:[
+             '<tr>',
+             '<td >{#curdate#}</td>',
+             '<td >{#tid#}</td>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#curquantity#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#driver#}</td>',
+             '<td >{#phone#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
          blank:[
              '<tr style="text-align: center">',
              '<td style="color:red">页面数据为空</td>',
@@ -900,7 +915,7 @@ var viewCommand = (function(msg){
              '<th>发货信息</th>'+
              '</tr>'+
              '<tr>'+
-             '<td>批发商地址</td>'+
+             '<td>批发商地址(目的地)</td>'+
              '<td><input type="text" disabled></td>'+
              '</tr>'+
              '<tr>'+
@@ -924,7 +939,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>输入物流站点</td>'+
-             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<td><input type="text" name="remark" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="站点位置"/>'+
              '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
              '</td>'+
              '</tr>'+
@@ -936,10 +951,10 @@ var viewCommand = (function(msg){
              '<td>配送司机电话</td>'+
              '<td><input type="text" name="phone"></td>'+
              '</tr>'+
-             '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
-             '</tr>'+
+             // '<tr>'+
+             // '<td>备注</td>'+
+             // '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             // '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
              '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
@@ -957,7 +972,7 @@ var viewCommand = (function(msg){
              '<th>更新物流信息</th>'+
              '</tr>'+
              '<tr>'+
-             '<td>批发商地址</td>'+
+             '<td>批发商地址(目的地)</td>'+
              '<td><input type="text" disabled></td>'+
              '</tr>'+
              '<tr>'+
@@ -969,8 +984,8 @@ var viewCommand = (function(msg){
              '<td><input type="text" disabled>数量:<span style="color:#387"></span>只</td>'+
              '</tr>'+
              '<tr>'+
-             '<td>输入当前物流所达到的站点</td>'+
-             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<td><p style="color:#387"></p>输入当前物流所达到的站点</td>'+
+             '<td><input type="text" name="remark" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="站点位置"/>'+
              '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
              '</td>'+
              '</tr>'+
@@ -981,10 +996,6 @@ var viewCommand = (function(msg){
              '<tr>'+
              '<td>配送司机电话</td>'+
              '<td><input type="text" name="phone"></td>'+
-             '</tr>'+
-             '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
              '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
