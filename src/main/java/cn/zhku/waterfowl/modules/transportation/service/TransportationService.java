@@ -89,8 +89,10 @@ public class TransportationService {
     public boolean isArrival(Connection con,String id,float lng,float lat)throws Exception{
             con = DbUtil.getCon();
             ResultSet rs = getLngAndLatDao(con,id);
+            System.out.print("=============");
             float rLng = rs.getFloat("lng");
             float rLat = rs.getFloat("lat");
+            System.out.print("经度======"+rLng+"纬度========="+rLat);
             if (lng==rLng&&lat==rLat) {
                 return true;
             }else {

@@ -43,6 +43,9 @@ var viewCommand = (function(msg){
          id:[
              "<option value='{#id#}'>{#id#}</option>"
          ].join(''),
+         tid_name:[
+             "<option value='{#tid#}'>{#name#}</option>"
+         ].join(''),
          idPatch:[
              "<option value='{#idPatch#}'>{#idPatch#}</option>"
          ].join(''),
@@ -457,13 +460,6 @@ var viewCommand = (function(msg){
              '<td><select name="idFowlery" id="idFowlery" class="select-fix-input"></select></td>',
              '</tr>',
              '<tr>',
-             '<td>该批次状态</td>',
-             '<td>',
-             '<select name="status" class="select-fix-input">',
-             '</select>',
-             '</td>',
-             '</tr>',
-             '<tr>',
              '<td>负责人</td>',
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>',
              '</tr>',
@@ -874,19 +870,130 @@ var viewCommand = (function(msg){
              '<tr>',
              '<td >{#name#}</td>',
              '<td >{#phone#}</td>',
-             '<td >{#license#}</td>',
              '<td >{#remark#}</td>',
              '<td ><a class="btn" >查看营业执照</a></td>',
-             '<td ><a class="btn" data-id="trans{#cid#}">更新物流信息</a></td>',
+             '<td ><a class="btn" href="./transferInfoAdd.html?cid={#cid#}&name={#name#}&phone={#phone#}">发货/更新物流</a></td>',
              '<td ><a class="btn" data-id="del{#cid#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#cid#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         transferFirm_find:[
+             '<tr>',
+             '<td >{#name#}</td>',
+             '<td >{#phone#}</td>',
+             '<td >{#remark#}</td>',
+             '<td ><a class="btn" >查看营业执照</a></td>',
+             '<td ><a class="btn" data-id="del{#tid#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#tid#}">修改</a></td>',
              '</tr>'
          ].join(''),
          blank:[
              '<tr style="text-align: center">',
              '<td style="color:red">页面数据为空</td>',
              '</tr>'
-         ].join('')
+         ].join(''),
+         transferInfoAdd:[
+             '<form onsubmit="return false">'+
+             '<table>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>发货信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批发商地址</td>'+
+             '<td><input type="text" disabled></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批发商联系电话</td>'+
+             '<td><input type="text" disabled></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批次状态</td>'+
+             '<td>' +
+             '已出厂:<input type="radio" name="status" value="30004" checked>' +
+             '完成加工/待运输<input type="radio" name="status" value="30006">' +
+             '</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>选择需要被运输的批次号</td>'+
+             '<td><select name="idPatch" class="select-fix-input"></select> 数量:<span style="color:#387"></span>只</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>选择运输公司</td>'+
+             '<td><select name="tid" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>输入物流站点</td>'+
+             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
+             '</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>配送司机姓名</td>'+
+             '<td><input type="text" name="driver"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>配送司机电话</td>'+
+             '<td><input type="text" name="phone"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>备注</td>'+
+             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>操作</td>'+
+             '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
+             '</tr>'+
+             '</table>'+
+             '</form>'
+         ].join(''),
+         transferInfoUpdate:[
+             '<div class="detail-content">'+
+             '<form onsubmit="return false">'+
+             '<table>'+
+             '<caption class="none">更新物流信息</caption>'+
+             '<tr>'+
+             '<th>条目</th>'+
+             '<th>更新物流信息</th>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批发商地址</td>'+
+             '<td><input type="text" disabled></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>批发商联系电话</td>'+
+             '<td><input type="text" disabled></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>正在被运输的批次号</td>'+
+             '<td><input type="text" disabled>数量:<span style="color:#387"></span>只</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>输入当前物流所达到的站点</td>'+
+             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
+             '</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>配送司机姓名</td>'+
+             '<td><input type="text" name="driver"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>配送司机电话</td>'+
+             '<td><input type="text" name="phone"></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>备注</td>'+
+             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>操作</td>'+
+             '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
+             '</tr>'+
+             '</table>'+
+             '</form>'+
+             '</div>'
+         ].join(''),
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){

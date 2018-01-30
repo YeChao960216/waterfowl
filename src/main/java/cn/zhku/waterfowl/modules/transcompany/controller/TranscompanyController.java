@@ -104,7 +104,7 @@ public class TranscompanyController {
     @ResponseBody
     @RequestMapping("listtranscompany")
     public PageInfo<Transcompany> listTranscompany(Transcompany transcompany, CommonQo commonQo) throws Exception {
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "tid desc");
         //  通过服务层获取查询后的用户列表
         List<Transcompany> transcompanyList = transcompanyService.findList(transcompany);
         //  返回 pageBean

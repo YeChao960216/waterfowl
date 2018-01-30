@@ -327,3 +327,7 @@ select{
 form table tr td:nth-of-type(2){
     text-align: left;
 }
+
+.brand form table tr td{
+    text-align: center;
+}
