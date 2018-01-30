@@ -6,6 +6,7 @@ import cn.zhku.waterfowl.util.modle.Message;
 import cn.zhku.waterfowl.web.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,12 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.UUID;
 import cn.zhku.waterfowl.util.SessionUtil;
-
-public class GermchitController {
-
     @Controller
     @RequestMapping("germchit")
-    public class DdlController extends BaseController {
+    public class GermchitController extends BaseController {
 
         @Autowired
         GermchitService germchitService;
@@ -33,11 +31,17 @@ public class GermchitController {
         @ResponseBody
         @RequestMapping("save")
         public Message addGermchit(Germchit germchit) throws Exception {
-            //  从shrio Session中获取user的session,填充记录员的字段
-            germchit.setIdRecord(SessionUtil.getUserSession().getId());
-            germchit.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());
+            //  从shrio Session中获取user的session,填充记录员的字段66666666666666
+//            germchit.setIdRecord(SessionUtil.getUserSession().getId());
+            //溯源码拼接规则为: 上阶段溯源码 +  本阶段标识符“D” +该阶段溯源码
+            //若上阶段溯源码不存在则跳过
+            if (StringUtils.isNoneBlank(germchit.getIdBreeding())){
+                germchit.setId(germchit.getIdBreeding()+"D"+UUID.randomUUID().toString().replace("-","").toLowerCase());
+            }else {
+                germchit.setId("D" + UUID.randomUUID().toString().replace("-", "").toLowerCase());
+            }
             if (germchitService.add(germchit)==1) {
-                return new Message("1", "增加种苗记录表成功");
+                return new Message("1", "增加种苗记录表成功",germchit.getId());
             } else
                 return new Message("2","增加种苗记录表失败");
         }
@@ -100,4 +104,3 @@ public class GermchitController {
 
     }
 
-}

@@ -47,11 +47,12 @@ public class PoultryController extends BaseController {
         public Message addPoultry(Poultry poultry) throws Exception {
             //  从shrio Session中获取user的session,填充记录员的字段
             poultry.setIdRecorder(SessionUtil.getUserSession().getId());
-            poultry.setIdPoultry(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位长度的UUID来设置用户id
+            //溯源码拼接规则为  上阶段溯源码 +  本阶段标识符“E” +该阶段溯源码
+            poultry.setIdPoultry(poultry.getIdGermchit()+"E"+UUID.randomUUID().toString().replace("-", "").toLowerCase());   //用32位长度的UUID来设置用户id
             Timestamp t = new Timestamp(System.currentTimeMillis());
             poultry.setRecordDate(t);
             if (poultryService.add(poultry) == 1)
-                return new Message("1", "插入材料成功");
+                return new Message("1", "插入材料成功",poultry.getIdPoultry());
             else
                 return new Message("2", "插入材料失败");
 

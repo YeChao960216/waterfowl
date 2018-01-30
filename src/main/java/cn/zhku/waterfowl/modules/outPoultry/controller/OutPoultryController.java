@@ -38,10 +38,11 @@ public class OutPoultryController {
     public Message addOutPoultry(OutPoultry outPoultry) throws Exception{
         //  从shrio Session中获取user的session,填充记录员的字段
         outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
-        outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
+        //  溯源码拼接规则为: 上阶段溯源码 +  本阶段标识符“G” +该阶段溯源码
+        outPoultry.setId(outPoultry.getIdPatch()+"G"+UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         outPoultry.setQuantity(patchService.get(outPoultry.getIdPatch()).getNumTotal());
         if(outPoultryService.add(outPoultry)==1)
-            return new Message("1","成功增加1条记录");
+            return new Message("1","成功增加1条记录",outPoultry.getId());
         else
             return new Message("2","增加记录失败");
     }
