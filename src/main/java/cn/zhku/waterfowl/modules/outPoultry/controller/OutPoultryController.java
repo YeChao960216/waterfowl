@@ -4,6 +4,7 @@ import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
 import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
 import cn.zhku.waterfowl.pojo.entity.Outstorage;
+import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -40,10 +41,14 @@ public class OutPoultryController {
         outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
         outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
         outPoultry.setQuantity(patchService.get(outPoultry.getIdPatch()).getNumTotal());
-        if(outPoultryService.add(outPoultry)==1)
+        if(outPoultryService.add(outPoultry)==1){
+            Patch patch=patchService.get(outPoultry.getIdPatch());
+            patch.setStatus("30004");
+            patchService.update(patch);
             return new Message("1","成功增加1条记录");
-        else
-            return new Message("2","增加记录失败");
+        }
+        else{
+            return new Message("2","增加记录失败");}
     }
 
     /**
