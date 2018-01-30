@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mydb
-Source Server Version : 50716
+Source Server         : localhost_3306
+Source Server Version : 50536
 Source Host           : localhost:3306
 Source Database       : waterfowl
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-01-28 21:20:03
+Date: 2018-01-29 20:04:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -345,6 +345,28 @@ CREATE TABLE `fowlery` (
 INSERT INTO `fowlery` VALUES ('05805E2D4F854608A39B5974EE2F8B2E', '60', '可使用', '6', null, '3', '606');
 
 -- ----------------------------
+-- Table structure for `germchit`
+-- ----------------------------
+DROP TABLE IF EXISTS `germchit`;
+CREATE TABLE `germchit` (
+  `id` varchar(45) NOT NULL COMMENT '种苗溯源编号',
+  `incubation_date` timestamp NULL DEFAULT NULL COMMENT '种蛋上孵日期',
+  `collect_date` timestamp NULL DEFAULT NULL COMMENT '种蛋收集日期',
+  `incubation_plant` varchar(45) DEFAULT NULL COMMENT '孵化场编号',
+  `incubator` varchar(45) DEFAULT NULL COMMENT '孵化器编号',
+  `chick_discharger` varchar(45) DEFAULT NULL COMMENT '出雏器编号',
+  `id_breeding` varchar(45) DEFAULT NULL COMMENT '种鸡溯源码',
+  `num_total` int(11) DEFAULT NULL COMMENT '当前个体总数',
+  `id_record` varchar(45) DEFAULT NULL COMMENT '记录者编号',
+  `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of germchit
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `manufacture`
 -- ----------------------------
 DROP TABLE IF EXISTS `manufacture`;
@@ -547,6 +569,7 @@ CREATE TABLE `poultry` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `id_recorder` varchar(45) DEFAULT NULL COMMENT '记录者编号',
   `id_charge` varchar(45) DEFAULT NULL COMMENT '负责人编号',
+  `id_germchit` varchar(45) DEFAULT NULL COMMENT '种苗溯源编号',
   PRIMARY KEY (`id_poultry`),
   UNIQUE KEY `Id_UNIQUE` (`id_poultry`),
   KEY `fk_material_user1_idx` (`id_recorder`),
@@ -554,6 +577,8 @@ CREATE TABLE `poultry` (
   KEY `poultry_name_dictionary_id` (`type`),
   KEY `FK_poultry_dic_unit` (`unit`),
   KEY `dic_id_firm` (`associated_firm`),
+  KEY `germchit_id` (`id_germchit`),
+  CONSTRAINT `germchit_id` FOREIGN KEY (`id_germchit`) REFERENCES `germchit` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `dic_id_firm` FOREIGN KEY (`associated_firm`) REFERENCES `dictionary` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_20` FOREIGN KEY (`id_recorder`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `material_ibfk_30` FOREIGN KEY (`id_charge`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
@@ -562,8 +587,8 @@ CREATE TABLE `poultry` (
 -- ----------------------------
 -- Records of poultry
 -- ----------------------------
-INSERT INTO `poultry` VALUES ('3D6A0F37608345FC937D7AD3FDFF0D39', '2018-01-22 21:18:45', '80001', '1000', null, '75001', '13189679385', '', '3', '3');
-INSERT INTO `poultry` VALUES ('A1D15C8F04A6428EB76F33602E051ED5', '2018-01-22 16:49:35', '80001', '30', null, '75001', '13189679385', '', '3', '3');
+INSERT INTO `poultry` VALUES ('3D6A0F37608345FC937D7AD3FDFF0D39', '2018-01-22 21:18:45', '80001', '1000', null, '75001', '13189679385', '', '3', '3', null);
+INSERT INTO `poultry` VALUES ('A1D15C8F04A6428EB76F33602E051ED5', '2018-01-22 16:49:35', '80001', '30', null, '75001', '13189679385', '', '3', '3', null);
 
 -- ----------------------------
 -- Table structure for `role`
