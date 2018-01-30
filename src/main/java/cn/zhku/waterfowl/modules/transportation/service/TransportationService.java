@@ -1,6 +1,6 @@
 package cn.zhku.waterfowl.modules.transportation.service;
 
-import cn.zhku.waterfowl.modules.transportation.util.DbUtil;
+import cn.zhku.waterfowl.modules.transportation.dao.TransportationDao;
 import cn.zhku.waterfowl.pojo.entity.*;
 import cn.zhku.waterfowl.pojo.mapper.ManufactureMapper;
 import cn.zhku.waterfowl.pojo.mapper.TranscompanyMapper;
@@ -24,6 +24,8 @@ import java.util.List;
 public class TransportationService {
     @Autowired
     TransportationMapper transportationMapper;
+    @Autowired
+    TransportationDao transportationDao;
 
     /**
      * 增加记录
@@ -86,33 +88,13 @@ public class TransportationService {
         return transportationMapper.selectByExample(transportationExample);
     }
 
-    public boolean isArrival(Connection con,String id,float lng,float lat)throws Exception{
-            con = DbUtil.getCon();
-            ResultSet rs = getLngAndLatDao(con,id);
-            System.out.print("=============");
-            float rLng = rs.getFloat("lng");
-            float rLat = rs.getFloat("lat");
-            System.out.print("经度======"+rLng+"纬度========="+rLat);
-            if (lng==rLng&&lat==rLat) {
-                return true;
-            }else {
-                return false;
-            }
-    }
-
     /**
      * 获取顾客的地址的经纬度
-     * @param con
      * @param id
      * @return 经度lng，纬度lat
      * @throws Exception
      */
-    private ResultSet getLngAndLatDao(Connection con, String id) throws Exception{
-
-        String sql = "select lng,lat from customer where cid = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1,id);
-        return ps.executeQuery();
-
+    public List<Customer> getLngAndLat(String id) {
+        return transportationDao.getLanAndLat(id);
     }
 }
