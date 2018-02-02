@@ -2,14 +2,12 @@ package cn.zhku.waterfowl.modules.patch.service;
 
 import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
 import cn.zhku.waterfowl.pojo.entity.*;
-import cn.zhku.waterfowl.pojo.mapper.AffiliationMapper;
 import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +19,6 @@ public class PatchService implements IBaseService<Patch>{
     private PatchMapper patchMapper;
     @Autowired
     private PatchDao dao;
-    @Autowired
-    private AffiliationMapper affiliationMapper;
 
     @Override
     public int add(Patch entity) throws Exception {
@@ -121,17 +117,6 @@ public class PatchService implements IBaseService<Patch>{
         return dao.findPatch(id_poultry);
     }
 
-
-
-
-    /**
-     * 该禽舍中存放的数量
-     * @param id patch 的id
-     * @return  String类型的规格的大小
-     */
-    public String findSize(String id) {
-        return dao.findSize(id);
-    }
 
     /**
      * poultry中的总数量

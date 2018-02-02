@@ -114,14 +114,9 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("getPatch/{id}")
-    public String getPatch(@PathVariable String id) throws Exception {
+    public Patch getPatch(@PathVariable String id) throws Exception {
         //通过id找到该批次
-        Patch patch=new Patch();
-        patch.setId(id);
-        patch = patchService.get(id);     //通过id获取批次
-        String pat=patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
-                +patch.getIdAffilation()+patch.getIdFowlery();
-        return pat;
+        return patchService.get(id);     //通过id获取批次
     }
 
     /**
@@ -206,22 +201,6 @@ public class PatchController {
         //修改小禽舍的状态
         int i=patchService.updateStatusByid(id);
         return i;
-    }
-
-    /**
-     * 获取禽舍中最新的批次号
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("getNewPatch")
-    public  String getNewPatch() throws Exception {
-        Patch patch;
-        String id= patchService.getNewPatch();
-        patch=patchService.get(id);
-
-        return patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
-                +patch.getIdAffilation()+patch.getIdFowlery();
-
     }
 
     /**
