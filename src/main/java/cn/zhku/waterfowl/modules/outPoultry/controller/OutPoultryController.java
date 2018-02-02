@@ -3,8 +3,6 @@ package cn.zhku.waterfowl.modules.outPoultry.controller;
 import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
 import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
-import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
@@ -40,11 +38,10 @@ public class OutPoultryController {
         //  从shrio Session中获取user的session,填充记录员的字段
         outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
         outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-        outPoultry.setQuantity(patchService.get(outPoultry.getIdPatch()).getNumTotal());
-        if(outPoultryService.add(outPoultry)==1){
-            Patch patch=patchService.get(outPoultry.getIdPatch());
-            patch.setStatus("30004");
-            patchService.update(patch);
+        if(outPoultry.getQuantity()>patchService.get(outPoultry.getIdPatch()).getNumTotal()){
+            return new Message("3","增加记录失败，该批次数量不足");
+        }
+        else if(outPoultryService.add(outPoultry)==1){
             return new Message("1","成功增加1条记录");
         }
         else{
