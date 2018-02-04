@@ -24,33 +24,48 @@
 
     var mapper = new Map(); //存放批次与数量的关系
 
-    /**
-     * 获取批次号
-     */
-    $.get(oURL.PRONAME+oURL.GETPATCHS,function(res){
-        if(res){
-            viewCommand({
-                command:'display',
-                param:[selectNodes[0],res.list,'idPatch']
-            });
-            res.list.forEach(function (ele) {
-               mapper.set(ele.idPatch,ele.quantity);
-            });
+    var nav = getRequest();//获取路由信息
+    console.log(nav);
+    if(!nav.idPatch){  //路由信息，没有我就自己加载必要信息
+        /**
+         * 获取批次号
+         */
+        $.get(oURL.PRONAME+oURL.GETPATCHS,function(res){
+            if(res){
+                viewCommand({
+                    command:'display',
+                    param:[selectNodes[0],res.list,'idPatch']
+                });
+                res.list.forEach(function (ele) {
+                    mapper.set(ele.idPatch,ele.quantity);
+                });
 
-            $('#quantity').val(res.list[0].quantity);
-            $('#quantity-none').val(res.list[0].quantity);
-        }else{
-            alert('获取批次号失败');
+                $('#quantity').val(res.list[0].quantity);
+                $('#quantity-none').val(res.list[0].quantity);
+            }else{
+                alert('获取批次号失败');
+            }
+        });
+
+        /**
+         * 批次号的改变->更新加工数量
+         */
+        selectNodes[0].onchange = function () {
+            $('#quantity').val(mapper.get(this.value));
+            $('#quantity-none').val(mapper.get(this.value));
         }
-    });
+    }else{
 
-    /**
-     * 更新加工数量
-     */
-    selectNodes[0].onchange = function () {
-        $('#quantity').val(mapper.get(this.value));
-        $('#quantity-none').val(mapper.get(this.value));
+        /**
+         *填充路由信息
+         */
+        $('#idPatch').html("<option value="+nav.idPatch+">"+nav.idPatch+"</option>");
+        $('#quantity').val(nav.quantity);
+        $('#quantity-none').val(nav.quantity);
+        $('#firm').val(nav.firmId);
+        $('#site').val(nav.firmName);
     }
+
 
     /**
      * 获取加工方式

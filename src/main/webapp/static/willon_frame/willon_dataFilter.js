@@ -41,6 +41,18 @@ DataFilter.prototype = {
         });
         return data;
     },
+    filterTimeAndNull_curDate:function (data) {
+        data.forEach(function (val){
+            for(var item in val) {
+                if (item === 'curdate'&& val[item]) {
+                    val[item] = new Date(val[item]).toLocaleString();
+                } else if (!val[item]) {
+                    val[item] = "<span style='color:#800000'>空</span>";
+                }
+            }
+        });
+        return data;
+    },
     ddlHomeTypeChange:function (data) {  //{map:HOME_TYPE,source:res}    map , arr
         data.source.forEach(function (ele) {
            ele.name = data.map.get(ele.type);

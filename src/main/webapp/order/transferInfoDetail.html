@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <form id="searchForm">
+            <table>
+                <tr>
+                    <td style="text-align:left">
+                        查询:
+                        <input name="id" placeholder="物流单号(暂时为溯源码)"/>
+                        <a class="btn" id="search" >查询</a>
+                        <a class="btn" id="back" style="display: none">返回</a>
+                        <a class="btn" id="addTransInfo">新增物流信息</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table>
+            <tr>
+                <th>物流单号(暂时为溯源码)</th>
+                <th>目的地</th>
+                <th>运输公司</th>
+                <th>所到站点</th>
+                <th>运输数量</th>
+                <th>记录时间</th>
+                <th>配送员</th>
+                <th>配送员联系电话</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/transferInfoDetail.js"></script>
+</html>

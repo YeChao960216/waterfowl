@@ -13,7 +13,7 @@
         const oURL = {
             PRONAME:'/waterfowl',
             GETLIST:'/dict/list',
-            DEL:'/dict/delete/',
+            DEL:'/admin/delete/',
         };
     /**
      * 实例化一个分页控制者
@@ -82,13 +82,9 @@
     $('#content').on('click',"[data-id*='del']",function(){
         if(confirm('溯源提示:\n\n若删除次栏目，跟随的子栏目都会被删除')){
             var id = $(this).attr('data-id').substr(3);
-            $.get(oURL.PRONAME+oURL.DEL+id,function(res){
-                if(res.status){
-                    pageController.init();
-                }else{
-                    alert('删除对象条目失败');
-                }
-            });
+            console.log(id);
+            new Image().src = oURL.PRONAME+oURL.DEL+id;
+            pageController.init();
         }
     });
 })();

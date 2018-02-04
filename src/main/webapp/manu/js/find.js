@@ -14,6 +14,9 @@
             PRONAME:'/waterfowl',
             GETLIST:'/manufacture/list',
             DEL:'/manufacture/delete/',
+            CHECK:'/admin/patch/showPatch/',
+            OK:'/manufacture/',
+            EDITSTATUS:'/manufacture/finishManufacture/'
         };
 
     /**
@@ -123,13 +126,28 @@
             var id = $(this).attr('data-id').substr(3);
             new Image().src = oURL.PRONAME+oURL.DEL+id;
             pageController.init();
-            // $.get(oURL.PRONAME+oURL.DEL+id,function(res){
-            //     if(res.status){
-            //
-            //     }else{
-            //         alert('溯源提示:\n\n'+res.msg);
-            //     }
-            // });
+        }
+    });
+
+    /**
+     * 完成加工
+     */
+    $('#content').on('click',"[data-id*='ok']",function(){
+        if(confirm('溯源提示:\n\n确认该批次完成加工吗？')){
+            var idPatch = $(this).attr('data-patch');
+            $.get(oURL.PRONAME+oURL.CHECK+idPatch,function (res) {
+                if(res.status != 30005){
+                    $.get(oURL.PRONAME+oURL.EDITSTATUS+idPatch,function (resp) {
+                        if(resp){
+                            alert('溯源提示:\n\n'+res.msg);
+                        }else{
+                            alert('溯源提示:\n\n'+res.msg);
+                        }
+                    });
+                }else{
+                    alert('溯源提示:\n\n确认该批次处于非加工状态，修改批次状态失败');
+                }
+            });
         }
     });
 })();

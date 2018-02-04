@@ -14,7 +14,9 @@
             PRONAME:'/waterfowl',
             GETLIST:'/customer/listCustomer',
             DEL:'/customer/delete/',
-
+            EDITSTATUS:'/transportation/finishTransportation?id=',//修改批次为完成状态
+            GETINFOLIST:'/transportation/listtransportation?cid=',//通过id获取批次信息
+            CHECK:'/admin/patch/showPatch/'
         };
 
     /**
@@ -96,6 +98,41 @@
             var id = $(this).attr('data-id').substr(3);
             new Image().src = oURL.PRONAME+oURL.DEL+id;
             pageController.init();
+        }
+    });
+
+    /**
+     * 完成配送
+     */
+    $('#content').on('click',"[data-id*='ok']",function(){
+        if(confirm('溯源提示:\n\n确认该批次完成配送吗？')){
+            var id = $(this).attr('data-id').substr(2);
+            $.get(oURL.PRONAME+oURL.GETINFOLIST+id,function (r) {
+                if(r){
+                    $.get(oURL.PRONAME+oURL.CHECK+r.list[0].idPatch,function (res) {
+                        console.log(+res.status);
+                        if(+res.status >= 30007){
+                            if(+res.status === 30008){
+                                alert('溯源提示:\n\n确认该批次已完成配送,无法重复此操作');
+                                return
+                            }else{
+                                $.get(oURL.PRONAME+oURL.EDITSTATUS+r.list[0].idPatch,function (resp) {
+                                    if(resp){
+                                        alert('溯源提示:\n\n'+resp.msg);
+                                    }else{
+                                        alert('溯源提示:\n\n'+resp.msg);
+                                    }
+                                });
+                            }
+                        }else{
+                            alert('溯源提示:\n\n确认该批次处于非运输状态,无法进行此操作');
+                        }
+                    });
+                }else{
+                    alert('溯源提示:\n\n获取该批发商的物流信息失败');
+                }
+            });
+
         }
     });
 

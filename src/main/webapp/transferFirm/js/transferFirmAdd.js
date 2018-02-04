@@ -12,6 +12,7 @@
      */
     const oURL = {
         PRONAME : '/waterfowl' ,
+        GETCOMTYPE:'/dict/list?pid=17000',//获取公司类型
         POST : '/transcompany/add',//最终数据提交路径
     }
 
@@ -22,8 +23,17 @@
         lng:'',
         lat:''
     }
-    
-   
+
+    $.get(oURL.PRONAME+oURL.GETCOMTYPE,function (res) { //渲染公司类型
+        if(res.list.length>0){
+            viewCommand({
+               command:'display',
+                param:[$('#type'),res.list,'id_name']
+            });
+        }else{
+            alert('溯源提示:\n\n公司类型这一栏目的资料为空，请前往栏目管理模块中添加');
+        }
+    });
     /**
      * 提交表单
      */

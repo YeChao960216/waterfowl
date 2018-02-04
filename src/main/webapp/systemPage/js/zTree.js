@@ -53,12 +53,11 @@ var zNodes_aquaInfoM = [
     },
 
     {
-        name:"运输订单管理", open:true, tid:'./order/find.html',children:
-        [
-            {name:"添加批发商信息",tid:'./order/add.html',pName:"运输订单管理",pUrl:'./order/find.html'},
+        name:"物流信息管理", open:true, tid:'./order/transferInfoList.html'
+    },
 
-            {name:"运输公司信息管理",tid:'./transferFirm/transferFirmFind.html',pName:"运输订单管理",pUrl:'./order/find.html'},
-        ]
+    {
+        name:"各公司信息管理", open:true, tid:'./transferFirm/transferFirmFind.html'
     },
 
 
