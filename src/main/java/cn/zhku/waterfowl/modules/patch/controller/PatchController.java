@@ -1,27 +1,27 @@
 package cn.zhku.waterfowl.modules.patch.controller;
 
-import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
-import cn.zhku.waterfowl.modules.patch.service.PatchService;
-import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
-import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
-import cn.zhku.waterfowl.pojo.entity.Affiliation;
-import cn.zhku.waterfowl.pojo.entity.Fowlery;
-import cn.zhku.waterfowl.pojo.entity.Patch;
-import cn.zhku.waterfowl.util.SessionUtil;
-import cn.zhku.waterfowl.util.modle.CommonQo;
-import cn.zhku.waterfowl.util.modle.Message;
-import cn.zhku.waterfowl.util.modle.Msg;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+        import cn.zhku.waterfowl.modules.Affiliation.service.AffiliationService;
+        import cn.zhku.waterfowl.modules.patch.service.PatchService;
+        import cn.zhku.waterfowl.modules.poultry.service.PoultryService;
+        import cn.zhku.waterfowl.modules.fowlery.service.FowleryService;
+        import cn.zhku.waterfowl.pojo.entity.Affiliation;
+        import cn.zhku.waterfowl.pojo.entity.Fowlery;
+        import cn.zhku.waterfowl.pojo.entity.Patch;
+        import cn.zhku.waterfowl.util.SessionUtil;
+        import cn.zhku.waterfowl.util.modle.CommonQo;
+        import cn.zhku.waterfowl.util.modle.Message;
+        import cn.zhku.waterfowl.util.modle.Msg;
+        import com.github.pagehelper.PageHelper;
+        import com.github.pagehelper.PageInfo;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.web.bind.annotation.PathVariable;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
+        import java.sql.Timestamp;
+        import java.text.SimpleDateFormat;
+        import java.util.*;
 
 /**
  * Created by jin on 2017/11/17.
@@ -114,9 +114,14 @@ public class PatchController {
      */
     @ResponseBody
     @RequestMapping("getPatch/{id}")
-    public Patch getPatch(@PathVariable String id) throws Exception {
+    public String getPatch(@PathVariable String id) throws Exception {
         //通过id找到该批次
-        return patchService.get(id);     //通过id获取批次
+        Patch patch=new Patch();
+        patch.setId(id);
+        patch = patchService.get(id);     //通过id获取批次
+        String pat=patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
+                +patch.getIdAffilation()+patch.getIdFowlery();
+        return pat;
     }
 
     /**
@@ -204,6 +209,22 @@ public class PatchController {
     }
 
     /**
+     * 获取禽舍中最新的批次号
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getNewPatch")
+    public  String getNewPatch() throws Exception {
+        Patch patch;
+        String id= patchService.getNewPatch();
+        patch=patchService.get(id);
+
+        return patch.getIdPoultry()+patch.getType()+patch.getPosition()+patch.getSize()
+                +patch.getIdAffilation()+patch.getIdFowlery();
+
+    }
+
+    /**
      * 通过id_poultry找到patch的id集合
      * @return
      */
@@ -212,12 +233,41 @@ public class PatchController {
     public Msg findPatch(@PathVariable String id_poultry) throws Exception {
 //        List<String> list= new ArrayList<String>();
 //        list = patchService.findPatch(id_poultry);
-      Patch patch = new Patch();
-      patch.setIdPoultry(id_poultry);
-      List<Patch> patchList = patchService.findList(patch);
+        Patch patch = new Patch();
+        patch.setStatus("30002");
+        patch.setIdPoultry(id_poultry);
+        List<Patch> patchList = patchService.findList(patch);
 
         Msg msg = new Msg("1","查找成功","200",patchList);
         return msg;
+    }
+
+
+    /**
+     * 通过id_poultry和status找到patch的id集合
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findPatchByPidAndStatus/{id_poultry}")
+    public Msg findPatchByPidAndStatus(@PathVariable String id_poultry,Patch patch) throws Exception {
+        patch.setIdPoultry(id_poultry);
+        List<Patch> patchList = patchService.findList(patch);
+
+        Msg msg = new Msg("1","查找成功","200",patchList);
+        return msg;
+    }
+
+    /**
+     * 通过id_poultry和status找到patch的id集合,分页版本
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findPatchByPidAndStatusCutPage/{id_poultry}")
+    public PageInfo<Patch> findPatchByPidAndStatusCutPage(@PathVariable String id_poultry,Patch patch,CommonQo commonQo) throws Exception {
+        PageHelper.startPage(commonQo.getPageNum(),commonQo.getPageSize(),"date desc");
+        patch.setIdPoultry(id_poultry);
+        List<Patch> patchList = patchService.findList(patch);
+        return new PageInfo<Patch>(patchList);
     }
 
     List<String> findByPatch( String id_poultry){

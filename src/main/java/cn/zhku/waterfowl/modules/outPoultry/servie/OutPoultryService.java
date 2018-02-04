@@ -94,7 +94,8 @@ public class OutPoultryService implements IBaseService<OutPoultry>{
     public List<OutPoultry> findList(OutPoultry entity) throws Exception {
         OutPoultryExample outPoultryExample = new OutPoultryExample();
         OutPoultryExample.Criteria criteria = outPoultryExample.createCriteria();
-
+        if (entity.getStatus() != null)
+            criteria.andStatusEqualTo(entity.getStatus());
         if (entity.getIdPatch() != null)
             criteria.andIdPatchLike("%"+entity.getIdPatch()+"%");
         if (entity.getFirm() != null)
