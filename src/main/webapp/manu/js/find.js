@@ -14,9 +14,8 @@
             PRONAME:'/waterfowl',
             GETLIST:'/manufacture/list',
             DEL:'/manufacture/delete/',
-            CHECK:'/admin/patch/showPatch/',
-            OK:'/manufacture/',
-            EDITSTATUS:'/manufacture/finishManufacture/'
+            CHECK:'/outpoultry/show/',
+            EDITSTATUS:'/manufacture/finishManufacture?idPatch='
         };
 
     /**
@@ -136,12 +135,12 @@
         if(confirm('溯源提示:\n\n确认该批次完成加工吗？')){
             var idPatch = $(this).attr('data-patch');
             $.get(oURL.PRONAME+oURL.CHECK+idPatch,function (res) {
-                if(res.status != 30005){
+                if(res.status != 30005 || res.status != 30011){
                     $.get(oURL.PRONAME+oURL.EDITSTATUS+idPatch,function (resp) {
                         if(resp){
-                            alert('溯源提示:\n\n'+res.msg);
+                            alert('溯源提示:\n\n'+resp.msg);
                         }else{
-                            alert('溯源提示:\n\n'+res.msg);
+                            alert('溯源提示:\n\n'+resp.msg);
                         }
                     });
                 }else{

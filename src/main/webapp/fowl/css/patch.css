@@ -14,8 +14,8 @@ body{
     /*min-width: 382px;*/
 }
 .myNavBg{
-    /*background:linear-gradient(151deg,#17c 0,#2ca 100%);*/
-    /*border-bottom: 1px solid rgba(255, 255, 255, 0.42);*/
+    background:linear-gradient(151deg,#17c 0,#2ca 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.42);
 }
 
 .navbar-light .navbar-brand{   /*修改名牌颜色*/
@@ -192,7 +192,7 @@ body{
     color:#274
 }
 table{
-    color:#fff;
+    color:#333;
 }
 tbody td:nth-of-type(1){
     width:180px;
@@ -210,7 +210,7 @@ td img{
 caption{
     margin-left: 25px;
     position: relative;
-    color:#fff;
+    color:#39E;
     caption-side:top;
     font-size:25px;
 }
@@ -222,7 +222,24 @@ caption::before{
     left:-25px;
     width:13px;
     height:25px;
-    background: #fff;
+    background:#39E;
+}
+h3{
+    position:relative;
+    margin-left: 15px;
+    margin-top: 15px;
+    font-size:25px;
+    color:#39E;
+}
+h3::before{
+    display: block;
+    content: '';
+    position:absolute;
+    top:3px;
+    left:-25px;
+    width:13px;
+    height:25px;
+    background:#39E;
 }
 .bigImg{
 

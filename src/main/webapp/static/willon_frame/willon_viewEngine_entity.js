@@ -866,7 +866,7 @@ var viewCommand = (function(msg){
              '<td >{#remark#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
-             '<td ><a class="btn" data-id="ok{#id#}" data-patch="{#idPatch#}">完成加工</a></td>',
+             '<td ><a class="btn" data-id="ok{#idPatch#}" data-patch="{#idPatch#}">完成加工</a></td>',
              '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
@@ -943,15 +943,19 @@ var viewCommand = (function(msg){
              '<th>条目</th>'+
              '<th>发货信息</th>'+
              '</tr>'+
-             '<tr>'+
+             '<tr class="firmName-p">'+
              '<td>批发商地址(目的地)</td>'+
              '<td><p id="firmName"></p></td>'+
+             '</tr>'+
+             '<tr class="firmName-select">'+
+             '<td>批发商地址(目的地)</td>'+
+             '<td><select  name="cid" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr class="status">'+
              '<td >批次状态</td>'+
              '<td>' +
-             '待运输:<input type="radio" name="status" value="30007" checked>' +
-             '待运输待加工<input type="radio" name="status" value="30009">' +
+             '待运输:<input type="radio" name="status" data-value="30007"  checked>' +
+             '待运输待加工<input type="radio" name="status" data-value="30009">' +
              '</td>'+
              '</tr>'+
              '<tr>'+

@@ -52,7 +52,20 @@
         var data = Object.prototype.toString.call(objArr) === '[object Array]' ? objArr : [objArr];
             data.forEach(function (item) {
                 html += str.replace(/\{\{(\w+)\}\}/g,function (matchArr,key) {
-                    if(+item[key] && key != 'id'){   //判断是不是数字
+
+                    if(key == 'curdate' || key == 'date' || key == 'recordDate'){
+                        return new Date(item[key]).toLocaleDateString();
+                    }
+                    if(key == 'tid' || key == 'cid' || key == 'firm'){ //公司信息翻译
+                        var word = localStorage.getItem('waterfowl'+item[key]);     //字典过滤
+                        if(word){
+                            return word
+                        }else{
+                            return item[key]
+                        }
+
+                    }
+                    if(+item[key] && key != 'id'){   //是数字又不是id值证明就是字典里的东西
                         var word = localStorage.getItem('waterfowl'+item[key]);     //字典过滤
                         if(word){          //利用强制类型转换 是数字的
                             return word;
@@ -62,6 +75,7 @@
                     }else{
                         return item[key];
                     }
+
                 });
             })
             dom.innerHTML = html;

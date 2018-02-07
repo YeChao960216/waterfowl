@@ -16,7 +16,7 @@ const URL = {
 
     dict_list:{name:'/dict/list?pageSize=1000&pageNum=1',dataDescription:'list'},              //字典翻译
 
-    firm:{name:'/transcompany/listtranscompany?type=17004',dataDescription:'list'},          //本公司信息
+    firm:{name:'/transcompany/listtranscompany?pageSize=1000&pageNum=1',dataDescription:'list'},          //公司信息
 
     company_list_findById:{name:'/transcompany/show/'},                      //根据id查找公司信息
 

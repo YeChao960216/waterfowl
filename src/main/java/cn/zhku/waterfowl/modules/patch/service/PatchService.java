@@ -52,32 +52,32 @@ public class PatchService implements IBaseService<Patch>{
         PatchExample.Criteria criteria=patchExample.createCriteria();
 
         //通过type
-        if(entity.getType()!=null){
-            criteria.andTypeLike("%"+entity.getType()+"%");
+        if(StringUtils.isNotBlank(entity.getType())){
+            criteria.andTypeEqualTo(entity.getType());
         }
         //通过idPoutry
-        if(entity.getIdPoultry()!=null){
-            criteria.andIdPoultryEqualTo("%"+entity.getIdPoultry()+"%");
+        if(StringUtils.isNotBlank(entity.getIdPoultry())){
+            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
         }
         //通过status
-        if(entity.getStatus()!=null){
-            criteria.andStatusLike("%"+entity.getStatus()+"%");
+        if(StringUtils.isNotBlank(entity.getStatus())){
+            criteria.andStatusEqualTo(entity.getStatus());
         }
         //通过size
-        if(entity.getSize()!=null){
+        if(entity.getSize()!= null){
             criteria.andSizeEqualTo(entity.getSize());
         }
         //通过position
-        if(entity.getPosition()!=null){
-            criteria.andPositionLike("%"+entity.getPosition()+"%");
+        if(StringUtils.isNotBlank(entity.getPosition())){
+            criteria.andPositionEqualTo(entity.getPosition());
         }
         //通过idcharger
-        if(entity.getIdCharge()!=null){
+        if(entity.getIdCharge()!= null){
             criteria.andIdChargeLike("%"+entity.getIdCharge()+"%");
         }
         //通过idrecorder
-        if(entity.getIdRecorder()!=null){
-            criteria.andIdRecorderLike("%"+entity.getIdRecorder()+"%");
+        if(StringUtils.isNotBlank(entity.getIdRecorder())){
+            criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         }
 
         if (StringUtils.isNotBlank(entity.getIdPoultry())) {

@@ -25,8 +25,8 @@ public interface TransportationDao {
      * 更改批次状态为完成
      * @param idPatch
      */
-    @Update("update patch set status = '30008' where id_poultry = #{idPacth}")
-    void setPatchStatusFinish(String idPatch);
+    @Update("update out_poultry set status = '30014' where id = #{idPacth}")
+    int setPatchStatusFinish(String idPatch);
 
     /**
      * 获取顾客的地址的经纬度

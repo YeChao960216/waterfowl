@@ -40,6 +40,11 @@
 
         M.getData('firm',function (data) {
 
+            data.forEach(function (item) {
+                console.log(item.tid);
+                localStorage.setItem('waterfowl'+item.tid,item.name);
+            })
+
         });
 
     });
@@ -69,7 +74,7 @@
                  * idPoultry->种苗id
                  */
                 M.getDataDIY('this_poultry',M.getURL('project_name').name+M.getURL('poultry_list').name+'?id='+NAV.idPoultry,function (data) {
-                    render(V.getTPL('poultry'),data,G('poultry'));
+                    render(V.getTPL('poultry'),data[0],G('poultry'));
                     NAV.idGermchit = data[0].idGermchit;
 
                     /**
@@ -82,7 +87,6 @@
                 },'list');
             });
 
-            console.log(data.nextProcess);
             if(data.nextProcess == '16001'){ //本厂加工
                 /**
                  * 出库编号-》加工信息
@@ -95,87 +99,87 @@
                     G('manu').classList.remove('none');
                     render(V.getTPL('manu'),data[0],G('manu'));
                 },'list');
-            }else{
+            }
+
+            /**
+             * 出库编号-》运输信息
+             * 懒得优化以下的变量搜索链了
+             */
+            M.getDataDIY('this_transfer',M.getURL('project_name').name+M.getURL('transferInfo_list_findByIdPatch').name+'?idPatch='+NAV.fowlCode,function (res) {
+
+                if(res.list.length<=0){
+                    G('transfer').classList.add('none');
+                    return
+                }
+                G('transfer').classList.remove('none');
+                render(V.getTPL('transfer'),res.list[res.list.length-1],G('transfer'));//因为数据按时间的降序来排   最后一条是出发地
 
                 /**
-                 * 出库编号-》运输信息
-                 * 懒得优化以下的变量搜索链了
+                 *获取终点信息
                  */
-                M.getDataDIY('this_transfer',M.getURL('project_name').name+M.getURL('transferInfo_list_findByIdPatch').name+'?idPatch='+NAV.fowlCode,function (res) {
 
-                    if(res.list.length<=0){
-                        G('transfer').classList.add('none');
-                        return
-                    }
-                    G('transfer').classList.remove('none');
-                    render(V.getTPL('transfer'),res.list[res.list.length-1],G('transfer'));//因为数据按时间的降序来排   最后一条是出发地
-
+                M.getDataDIY('this_transfer_end',M.getURL('project_name').name+M.getURL('transfer_end').name+res.list[res.list.length-1].cid,function (cust_info) {
                     /**
-                     *获取终点信息
+                     * 找出终点经纬度，描绘图例，链接轨迹
                      */
 
-                    M.getDataDIY('this_transfer_end',M.getURL('project_name').name+M.getURL('transfer_end').name+res.list[res.list.length-1].cid,function (cust_info) {
-                        /**
-                         * 找出终点经纬度，描绘图例，链接轨迹
-                         */
-
-                        var trackMap_init = function () {
-                                if(cust_info){
-                                    res.list.reverse();
-                                    var length = res.list.length;
-                                    // option.series[0].geoCoord.p1 = [res.list[0].curlng,res.list[0].curlat];//起点
-                                    res.list.forEach(function (ele,index) {
-                                        option.series[0].geoCoord['p'+index] = [ele.curlng,ele.curlat]
-                                    });
-                                    option.series[0].geoCoord['p'+length] = [cust_info.lng,cust_info.lat]////终点
-                                    res.list.forEach(function (item,index) {         //描点
-                                        if(index == 0){
-                                            option.series[0].markPoint.data[index] = {name:'p'+index,value:60,
+                    var trackMap_init = function () {
+                            if(cust_info){
+                                res.list.reverse();
+                                var length = res.list.length;
+                                // option.series[0].geoCoord.p1 = [res.list[0].curlng,res.list[0].curlat];//起点
+                                res.list.forEach(function (ele,index) {
+                                    option.series[0].geoCoord['p'+index] = [ele.curlng,ele.curlat]
+                                });
+                                option.series[0].geoCoord['p'+length] = [cust_info.lng,cust_info.lat]////终点
+                                res.list.forEach(function (item,index) {         //描点
+                                    if(index == 0){
+                                        option.series[0].markPoint.data[index] = {name:'p'+index,value:60,
+                                            tooltip:{
+                                                formatter:new Date(item.curdate).toLocaleString()+'<br/>出发地:'+item.remark
+                                            },
+                                        }
+                                        option.series[0].markLine.data.push(       //连线
+                                            [{name: 'p' + index}, {name: 'p' + (index + 1), value: {colorValue: 'green'}}]
+                                        );
+                                    }else{
+                                        if(index == length-1){
+                                            option.series[0].markPoint.data[index] = {name:'p'+index,value:100,
                                                 tooltip:{
-                                                    formatter:new Date(item.curdate).toLocaleString()+'<br/>出发地:'+item.remark
+                                                    formatter:new Date(item.curdate).toLocaleString()+'<br/>现在到达:'+item.remark
+                                                },
+                                            }
+                                        }else{
+                                            option.series[0].markPoint.data[index] = {name:'p'+index,value:30,
+                                                tooltip:{
+                                                    formatter:new Date(item.curdate).toLocaleString()+'<br/>经过:'+item.remark
                                                 },
                                             }
                                             option.series[0].markLine.data.push(       //连线
                                                 [{name: 'p' + index}, {name: 'p' + (index + 1), value: {colorValue: 'green'}}]
                                             );
-                                        }else{
-                                            if(index == length-1){
-                                                option.series[0].markPoint.data[index] = {name:'p'+index,value:100,
-                                                    tooltip:{
-                                                        formatter:new Date(item.curdate).toLocaleString()+'<br/>现在到达:'+item.remark
-                                                    },
-                                                }
-                                            }else{
-                                                option.series[0].markPoint.data[index] = {name:'p'+index,value:30,
-                                                    tooltip:{
-                                                        formatter:new Date(item.curdate).toLocaleString()+'<br/>经过:'+item.remark
-                                                    },
-                                                }
-                                                option.series[0].markLine.data.push(       //连线
-                                                    [{name: 'p' + index}, {name: 'p' + (index + 1), value: {colorValue: 'green'}}]
-                                                );
-                                            }
                                         }
-                                    });
-                                    option.series[0].markPoint.data[length] = {name:'p'+length,value:60,   //终点
-                                        tooltip:{
-                                            formatter:'物流运输<br/>目的地:'+cust_info.name
-                                        },
                                     }
-                                    // option.series[0].markLine.data.push(       //起点连终点
-                                    //     [{name: 'p0'}, {name: 'p'+length, value: {colorValue: 'gold'}}]
-                                    // );
-                                    willon_trackVue(res.list[0].curlng,res.list[0].curlat);
+                                });
+                                option.series[0].markPoint.data[length] = {name:'p'+length,value:60,   //终点
+                                    tooltip:{
+                                        formatter:'物流运输<br/>目的地:'+cust_info.name
+                                    },
                                 }
+                                // option.series[0].markLine.data.push(       //起点连终点
+                                //     [{name: 'p0'}, {name: 'p'+length, value: {colorValue: 'gold'}}]
+                                // );
+                                willon_trackVue(res.list[0].curlng,res.list[0].curlat);
+                            }
 
-                        }
+                    }
 
-                        trackMap_init();
-                    });
-
-
+                    trackMap_init();
                 });
-            }
+
+
+            });
+
 
             /**
              *养殖视图

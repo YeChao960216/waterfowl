@@ -1133,7 +1133,7 @@
                             param:[selectNodes[3],data,'id_name']
                         });
                     }else{
-                        alert('养殖状态');
+                        alert('养殖状态获取失败');
                     }
                 });
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){

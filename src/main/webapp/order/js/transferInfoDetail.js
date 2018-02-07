@@ -76,13 +76,13 @@
      * 添加物流记录
      */
     $('#addTransInfo').click(function () {
+
         $.get(oURL.PRONAME+oURL.GETINFOLIST+'?idPatch='+nav.idPatch,function (res) {
-            if(res.list){
-                var data = res.list[0];
-                console.log(data);
+            if(res.list.length){
+                var data = res.list[res.list.length-1];//第一条记录记录着出发地
                 window.location.href = './transferInfoAdd.html?idPatch='+nav.idPatch+'&cid='+data.cid+'&curquantity='+data.curquantity+'&tid='+data.tid;
             }else{
-                alert('溯源提示:\n\n获取该出库记录失败无法跳转到物流记录更新页面');
+                window.location.href = './transferInfoAdd.html?idPatch='+nav.idPatch;
             }
         });
 

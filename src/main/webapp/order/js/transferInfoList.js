@@ -15,7 +15,7 @@
             GETLIST:'/dict/list?pid=',
             GETINFOLIST:'/outpoultry/list',
             DEL:'/transportation/delete/',
-            FINISHTRAN:'/'
+            FINISHTRAN:'/transportation/finishTrans'
         };
 
     /**
@@ -53,10 +53,10 @@
     /**
      * 依据罗列出的批次的状态，来呈现物流信息
      */
-    $.get(oURL.PRONAME+oURL.GETLIST+30000,function(res){
+    $.get(oURL.PRONAME+oURL.GETLIST+30000+'&pageSize=1000&pageNum=1',function(res){
         if(res.list.length>0){
             var data = res.list.filter(function(item){
-                return (+item.id >= 30007 && +item.id <= 30010)
+                return (+item.id === 30014 ||  +item.id >= 30007 && +item.id <= 30012)
             });
             viewCommand({
                 command:'display',
@@ -129,8 +129,8 @@
      */
     $('#content').on('click',"[data-ok*='ok']",function(){
         if(confirm('溯源提示:\n\n确认完成配送吗？')){
-            var id = $(this).attr('data-id').substr(2);
-            new Image().src = oURL.PRONAME+oURL.FINISHTRAN+id;
+            var id = $(this).attr('data-ok').substr(2);
+            new Image().src = oURL.PRONAME+oURL.FINISHTRAN+'?idPatch='+id;
             pageController.init();
         }
     });

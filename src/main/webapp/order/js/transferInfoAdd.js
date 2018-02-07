@@ -13,6 +13,7 @@
         CHECK:'/transportation/listtransportation',  //检查是否为发货状态
         GETPATCH:'/outpoultry/list?status=',         //选中批次
         GETTRANSFIRM:'/transcompany/listtranscompany?type=17002',//运输公司,
+        GETGONGYINGSHANG:'/transcompany/listtranscompany?type=17003',//批发商,
         GETEND:'/transcompany/show/',//得到该批发商的位置也就是物流的终点信息
         CHECKF:'/outpoultry/show/'//查看批次状态是否完成了？
     }
@@ -161,21 +162,22 @@
             /**
              * 渲染批次
              */
-            if(nav.idPatch){
+            if(nav.idPatch && nav.quantity){
                 $('select:eq(0)').html("<option value="+nav.idPatch+">"+nav.idPatch+"</option>");
                 $('span').text(nav.quantity);
                 $('#firmName').val(nav.firm);
                 $('.status:eq(0)').addClass('none');
-            }else{
-                $.get(oURL.PRONAME+oURL.GETPATCH+'30007',function (res) { //待运输阶段
+                $('.firmName-select').hide();
+            }else{ //全新的发货状态
+                $.get(oURL.PRONAME+oURL.GETPATCH+'30007',function (res) { //待运输阶段的出库记录
                     if(res.list.length>0){
-
+                        $('.firmName-p').hide();
                         viewCommand({
                             command:'display',
-                            param:[$('select')[0],res.list,'id']
+                            param:[$('select')[1],res.list,'id']
                         });
 
-                        $('span').text(res.list[0].size);
+                        $('span').text(res.list[0].quantity);
 
                         res.list.forEach(function (ele) {
                             patchMap.set(ele.id,ele.quantity);
@@ -184,11 +186,11 @@
                         /**
                          * 批次号的变化更新数量的信息
                          */
-                        $('select')[0].onchange = function () {
+                        $('select')[1].onchange = function () {
                             $('span').text(patchMap.get(this.value));
                         }
                     }else{
-                        $('select')[0].empty();
+                        $('select')[1].empty();
                     }
                 });
             }
@@ -201,7 +203,18 @@
                 if(res.list.length>0){
                     viewCommand({
                         command:'display',
-                        param:[$('select')[1],res.list,'tid_name']
+                        param:[$('select')[2],res.list,'tid_name']
+                    });
+                }
+            });
+            /**
+             * 渲染批发商公司
+             */
+            $.get(oURL.PRONAME+oURL.GETGONGYINGSHANG,function (res) {
+                if(res.list.length>0){
+                    viewCommand({
+                        command:'display',
+                        param:[$('select')[0],res.list,'tid_name']
                     });
                 }
 
@@ -211,18 +224,18 @@
              * 监听radio数据变化   这里可以做一个缓存以免反复请求相同的数据   我就懒得写了因为要赶时间
              */
             $('[type=radio]').click(function () {
-                $.get(oURL.PRONAME+oURL.GETPATCH+$(this).val(),function (res) {
+                $.get(oURL.PRONAME+oURL.GETPATCH+$(this).attr('data-value'),function (res) {
                     if(res.list.length>0){
                         viewCommand({
                             command:'display',
-                            param:[$('select')[0],res.list,'id']
+                            param:[$('select')[1],res.list,'id']
                         });
-                        $('span').text(res.list[0].size);
+                        $('span').text(res.list[0].quantity);
                         res.list.forEach(function (ele) {
                             patchMap.set(ele.id,ele.quantity);
                         });
                     }else{
-                        $('select')[0].innerHTML = '';
+                        $('select')[1].innerHTML = '';
                     }
                 });
             });
@@ -236,9 +249,9 @@
 
                 var json = queryParse.call($('form'));
 
-                json.curquantity = nav.quantity || patchMap.get($('select')[0].value);
+                json.curquantity = nav.quantity || patchMap.get($('select')[1].value);
 
-                json.cid = nav.cid;
+                nav.cid?json.cid = nav.cid :'';
 
                 json.curlng = address.lng;
 
