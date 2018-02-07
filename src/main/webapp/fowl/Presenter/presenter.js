@@ -53,7 +53,7 @@
             data.forEach(function (item) {
                 html += str.replace(/\{\{(\w+)\}\}/g,function (matchArr,key) {
 
-                    if(key == 'curdate' || key == 'date' || key == 'recordDate'){
+                    if(key == 'curdate' || key == 'date' || key == 'recordDate' || key == 'collectDate' || key == 'incubationDate'){
                         return new Date(item[key]).toLocaleDateString();
                     }
                     if(key == 'tid' || key == 'cid' || key == 'firm'){ //公司信息翻译
