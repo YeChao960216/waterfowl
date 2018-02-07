@@ -28,7 +28,7 @@
             $('#user').text(res.name);
             localStorage.setItem('uId',res.id);
         }else{
-            alert('获取当前登陆用户信息失败');
+            window.location.href = './loginPage/login.html';
         }
     });
     /*
