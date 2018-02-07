@@ -14,7 +14,7 @@
         GETPATCH:'/outpoultry/list?status=',         //选中批次
         GETTRANSFIRM:'/transcompany/listtranscompany?type=17002',//运输公司,
         GETEND:'/transcompany/show/',//得到该批发商的位置也就是物流的终点信息
-        CHECKF:'/admin/patch/showPatch/'//查看批次状态是否完成了？
+        CHECKF:'/outpoultry/show/'//查看批次状态是否完成了？
     }
 
     /**
@@ -46,13 +46,14 @@
                 param:[$('.transferInfoAdd')[0],[],'transferInfoUpdate']
             });
 
-            $('input')[0].value = res.list[0].cid;
+            $('p:eq(0)').text( res.list[0].cid );
 
-            $('input')[1].value = res.list[0].idPatch;
+            $('p:eq(1)').text( res.list[0].idPatch );
+
 
             $('span').text(res.list[0].curquantity);
 
-            $('p').text('运输公司:'+res.list[0].tid);
+            $('p:eq(2)').text('运输公司:'+res.list[0].tid);
 
             /**
              * 找出终点经纬度，描绘图例，链接轨迹
@@ -100,9 +101,9 @@
                                 formatter:'物流运输<br/>目的地:'+cust_info.name
                             },
                         }
-                        option.series[0].markLine.data.push(       //起点连终点
-                            [{name: 'p0'}, {name: 'p'+length, value: {colorValue: 'gold'}}]
-                        );
+                        // option.series[0].markLine.data.push(       //起点连终点
+                        //     [{name: 'p0'}, {name: 'p'+length, value: {colorValue: 'gold'}}]
+                        // );
                         willon_trackVue(res.list[0].curlng,res.list[0].curlat);
                     }
                 });
@@ -113,38 +114,41 @@
              * 更新物流信息
              */
             $('button')[0].onclick = function () {
-                $.get(oURL.PRONAME+oURL.CHECKF+res.list[0].idPatch,function (resp) {
-                    console.log(resp);
-                   if(resp.status != 30008){
-                       var json = queryParse.call($('form'));
+                $.get(oURL.PRONAME+oURL.CHECKF+nav.idPatch,function (resp) {
 
-                       json.curquantity = res.list[0].curquantity;
-
-                       json.idPatch = res.list[0].idPatch;
-
-                       json.tid = res.list[0].tid;
-
-                       json.cid = nav.cid;
-
-                       json.curlng = address.lng;
-
-                       json.curlat = address.lat;
-
-                       $.post(oURL.PRONAME+oURL.POST,json,function (respo) {
-                           if(respo.status){
-                               alert('溯源提示:\n\n'+respo.msg);  //更新物流信息
-                               // trackMap_init();
-                           }else{
-                               alert('溯源提示:\n\n'+respo.msg);
-                           }
-                       });
-                   }
-                    if(resp.status == 30008){
-                        alert('溯源提示:\n\n该批次已经送达目的地，无法更新物流信息');
-                    }else if(resp.status != 30007){
-                            alert('溯源提示:\n\n该批次状态有误，无法更新物流信息');
+                    if(resp.status != '30008' && resp.status != '30010'){
+                        alert('溯源提示:\n\n该批次状态有误，无法更新物流信息');
+                        return
                     }
+                    if(resp.status == '30014'){
+                        alert('溯源提示:\n\n该批次已经送达目的地，无法更新物流信息');
+                        return
+                    }
+                    if(resp.status != '30014'){   //不等于完成状态 可以提交表单
 
+                        var json = queryParse.call($('form'));
+
+                        json.curquantity = res.list[0].curquantity;
+
+                        json.idPatch = res.list[0].idPatch;
+
+                        json.tid = res.list[0].tid;
+
+                        json.cid = nav.cid;
+
+                        json.curlng = address.lng;
+
+                        json.curlat = address.lat;
+
+                        $.post(oURL.PRONAME+oURL.POST,json,function (respo) {
+                            if(respo.status){
+                                alert('溯源提示:\n\n'+respo.msg);  //更新物流信息
+                                // trackMap_init();
+                            }else{
+                                alert('溯源提示:\n\n'+respo.msg);
+                            }
+                        });
+                    }
                 });
             }
 
@@ -160,12 +164,12 @@
             if(nav.idPatch){
                 $('select:eq(0)').html("<option value="+nav.idPatch+">"+nav.idPatch+"</option>");
                 $('span').text(nav.quantity);
-                console.log($('#firmName')[0],nav.firm);
                 $('#firmName').val(nav.firm);
                 $('.status:eq(0)').addClass('none');
             }else{
-                $.get(oURL.PRONAME+oURL.GETPATCH+'30004',function (res) {
+                $.get(oURL.PRONAME+oURL.GETPATCH+'30007',function (res) { //待运输阶段
                     if(res.list.length>0){
+
                         viewCommand({
                             command:'display',
                             param:[$('select')[0],res.list,'id']
@@ -174,7 +178,7 @@
                         $('span').text(res.list[0].size);
 
                         res.list.forEach(function (ele) {
-                            patchMap.set(ele.id,ele.size);
+                            patchMap.set(ele.id,ele.quantity);
                         });
 
                         /**
@@ -215,7 +219,7 @@
                         });
                         $('span').text(res.list[0].size);
                         res.list.forEach(function (ele) {
-                            patchMap.set(ele.id,ele.size);
+                            patchMap.set(ele.id,ele.quantity);
                         });
                     }else{
                         $('select')[0].innerHTML = '';

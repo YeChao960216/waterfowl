@@ -117,6 +117,9 @@ public class PoultryService  implements IBaseService<Poultry> {
         //负责人编号
         if (entity.getIdCharge()!=null)
             criteria.andIdChargeEqualTo(entity.getIdCharge());
+        //种苗信息查找
+        if (entity.getIdGermchit()!=null)
+            criteria.andIdGermchitEqualTo(entity.getIdGermchit());
         //记录者编号
         if (entity.getIdRecorder()!=null)
             criteria.andIdRecorderEqualTo(entity.getIdRecorder());

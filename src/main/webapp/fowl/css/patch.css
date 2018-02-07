@@ -5,6 +5,9 @@
     background: linear-gradient(90deg,#3ce 0,#39e 100%);
     box-shadow: 0 10px 20px 0 rgba(51,153,238,.3);
 }
+.none{
+    display: none;
+}
 body{
     background:url('../image/body_bg.png') repeat ;
     background:linear-gradient(151deg,#17c 0,#2ca 100%);
@@ -188,11 +191,53 @@ body{
 .info p:hover{
     color:#274
 }
+table{
+    color:#fff;
+}
+tbody td:nth-of-type(1){
+    width:180px;
+}
+tbody td:nth-of-type(2){
+    text-indent: 15%;
+}
+.table thead th{
+    border-bottom: 1px solid #dee2e6 ;
+}
+td img{
+    width: 60%;
+    height:20%;
+}
+caption{
+    margin-left: 25px;
+    position: relative;
+    color:#fff;
+    caption-side:top;
+    font-size:25px;
+}
+caption::before{
+    display: block;
+    content: '';
+    position:absolute;
+    top:21px;
+    left:-25px;
+    width:13px;
+    height:25px;
+    background: #fff;
+}
+.bigImg{
 
+}
+.smallImg{
+   display: none;
+}
+.smallImg img{
+    width: 100%;
+}
 @media only screen and (min-width: 991px){ /*修改导航文字间距*/
     .navbar-nav .nav-item{
         margin-left:4.2rem;
     }
+
 
 }
 
@@ -247,5 +292,14 @@ body{
     }
     .btn{
         margin-top: 1%;
+    }
+    #firmName{
+        display: none;
+    }
+    .bigImg{
+        display: none;
+    }
+    .smallImg{
+        display: block;
     }
 }

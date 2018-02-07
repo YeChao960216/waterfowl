@@ -68,6 +68,8 @@ public class TranscompanyService {
 
         TranscompanyExample.Criteria criteria = transcompanyExample.createCriteria();
 
+        if (StringUtils.isNotBlank(transcompany.getType()))   // 公司类型
+            criteria.andTypeLike("%"+transcompany.getType()+"%");
         if (StringUtils.isNotBlank(transcompany.getName()))   // 运输公司名称
             criteria.andNameLike("%"+transcompany.getName()+"%");
         if (StringUtils.isNotBlank(transcompany.getAddress())) // 运输公司地址

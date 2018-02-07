@@ -124,7 +124,7 @@ public class TranspotationController {
     @ResponseBody
     @RequestMapping("listtransportation")
     public PageInfo<Transportation> listTransportation(Transportation transportation, CommonQo commonQo) throws Exception {
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "curdate desc");
         //  通过服务层获取查询后的用户列表
         List<Transportation> transportationList = transportationService.findList(transportation);
         //  返回 pageBean

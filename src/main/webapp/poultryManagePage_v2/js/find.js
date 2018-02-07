@@ -1027,7 +1027,7 @@
                                         if(confirm('溯源提示:\n\n已为您生成该批次的溯源码\n\n'+res.object+'\n\n'+'将为您跳转后续操作页面')){
                                             switch(+obj.nextProcess){//出完库之后的后续步骤
                                                 case 16001:window.location.href='../manu/add.html?firmId='+firmId+'&firmName='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//本公司加工 ->填加工表
-                                                case 16002:break;//送到其他加工企业 ->运输表
+                                                case 16002:window.location.href='../order/transferInfoAdd.html?cid='+firmId+'&firm='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//送到其他加工企业 ->运输表
                                                 case 16003:window.location.href='../order/transferInfoAdd.html?cid='+firmId+'&firm='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//直接运输给批发商 ->运输表
                                                 default:break;
                                             }
@@ -1289,7 +1289,7 @@
                 selectNodes[1].onchange = function () {
                     switch (+this.value){
                         case 16001:selectNodesEnable(2);outPoultryStatus = 30005;break;//本公司加工        设置待加工状态
-                        case 16002:selectNodesEnable(0);outPoultryStatus = 30008;break;//送到其他加工企业  设置待运输待加工状态
+                        case 16002:selectNodesEnable(0);outPoultryStatus = 30009;break;//送到其他加工企业  设置待运输待加工状态
                         case 16003:selectNodesEnable(1);outPoultryStatus = 30007;break;//直接运输给批发商  设置待运输状态
                         default:break;
                     }

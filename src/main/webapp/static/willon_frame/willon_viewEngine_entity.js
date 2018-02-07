@@ -945,13 +945,13 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>批发商地址(目的地)</td>'+
-             '<td><input type="text" id="firmName" disabled></td>'+
+             '<td><p id="firmName"></p></td>'+
              '</tr>'+
              '<tr class="status">'+
              '<td >批次状态</td>'+
              '<td>' +
-             '已出厂:<input type="radio" name="status" value="30004" checked>' +
-             '完成加工/待运输<input type="radio" name="status" value="30006">' +
+             '待运输:<input type="radio" name="status" value="30007" checked>' +
+             '待运输待加工<input type="radio" name="status" value="30009">' +
              '</td>'+
              '</tr>'+
              '<tr>'+
@@ -998,11 +998,15 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>批发商地址(目的地)</td>'+
-             '<td><input type="text" disabled></td>'+
+             '<td><p></p></td>'+
              '</tr>'+
              '<tr>'+
              '<td>正在被运输的批次号</td>'+
-             '<td><input type="text" disabled>数量:<span style="color:#387"></span>只</td>'+
+             '<td><p></p></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>数量(单位:只)</td>'+
+             '<td><span style="color:#387"></span></td>'+
              '</tr>'+
              '<tr>'+
              '<td><p style="color:#387"></p>输入当前物流所达到的站点</td>'+
