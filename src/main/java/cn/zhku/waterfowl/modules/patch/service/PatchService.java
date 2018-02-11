@@ -59,6 +59,10 @@ public class PatchService implements IBaseService<Patch>{
         if(entity.getType()!=null){
             criteria.andTypeLike("%"+entity.getType()+"%");
         }
+        //通过status
+        if(entity.getStatus()!=null){
+            criteria.andStatusLike("%"+entity.getStatus()+"%");
+        }
         //通过size
         if(entity.getSize()!=null){
             criteria.andSizeEqualTo(entity.getSize());

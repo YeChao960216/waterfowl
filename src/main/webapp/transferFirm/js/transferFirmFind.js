@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-11-19 20:06:12 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2018-01-28 14:18:14
+ * @Last Modified time: 2018-01-29 21:48:16
  */
 
 (function(){
@@ -12,8 +12,8 @@
          */
         const oURL = {
             PRONAME:'/waterfowl',
-            GETLIST:'/customer/listCustomer',
-            DEL:'/customer/delete/',
+            GETLIST:'/transcompany/listtranscompany',
+            DEL:'/transcompany/delete/',
 
         };
 
@@ -26,7 +26,7 @@
 
         view:{
             container : $('#content')[0],
-            tpl:'order',
+            tpl:'transferFirm_find',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -92,7 +92,7 @@
      1、删除成功后，初始化视图
      */
     $('#content').on('click',"[data-id*='del']",function(){
-        if(confirm('溯源提示:\n\n确认删除该条加工记录吗？')){
+        if(confirm('溯源提示:\n\n确认删除该条记录吗？')){
             var id = $(this).attr('data-id').substr(3);
             new Image().src = oURL.PRONAME+oURL.DEL+id;
             pageController.init();

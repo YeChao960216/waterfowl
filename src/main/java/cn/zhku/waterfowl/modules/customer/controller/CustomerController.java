@@ -107,7 +107,7 @@ public class CustomerController {
     @ResponseBody
     @RequestMapping("listCustomer")
     public PageInfo<Customer> listCustomer(Customer customer, CommonQo commonQo) throws Exception {
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "cid desc");
         //  通过服务层获取查询后的用户列表
         List<Customer> customerServiceList = customerService.findList(customer);
         //  返回 pageBean

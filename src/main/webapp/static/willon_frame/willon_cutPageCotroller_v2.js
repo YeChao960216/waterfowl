@@ -245,7 +245,7 @@
         self.url = self.subUrl + '?' + self.countDescription + '=' + self.count + '&' + self.pageDescription + '=' + self.nowPage + self.other;
         $.get(self.url,function(res){
             console.log(res[self.dataDescription].length>0);
-            if(res[self.dataDescription].length){
+            if(res[self.dataDescription].length>0){
                 self.allPage = res[self.totalDescription];
                 self.showNowPage();
                 self.showAllPage();

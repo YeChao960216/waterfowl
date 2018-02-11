@@ -119,7 +119,7 @@
      1、删除成功后，初始化视图
      */
     $('#content').on('click',"[data-id*='del']",function(){
-        if(confirm('溯源提示:\n\n确认删除该条加工记录吗？')){
+        if(confirm('溯源提示:\n\n确认删除该条记录吗？')){
             var id = $(this).attr('data-id').substr(3);
             new Image().src = oURL.PRONAME+oURL.DEL+id;
             pageController.init();

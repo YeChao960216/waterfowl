@@ -1,6 +1,7 @@
 package cn.zhku.waterfowl.modules.transportation.dao;
 
 import cn.zhku.waterfowl.pojo.entity.Customer;
+import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.pojo.entity.Transportation;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -26,5 +27,13 @@ public interface TransportationDao {
      */
     @Update("update patch set status = '30008' where id_poultry = #{idPacth}")
     void setPatchStatusFinish(String idPatch);
+
+    /**
+     * 获取顾客的地址的经纬度
+     * @param id
+     * @return
+     */
+    @Select("select lng,lat from customer where cid = #{id}")
+    List<Customer> getLanAndLat(String id);
 
 }

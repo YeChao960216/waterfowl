@@ -78,7 +78,7 @@
     /*height: calc(100vh*0.7);*/
     min-height: 800px;
 }
-.pop h2{
+.brand h2{
     position:relative;
     /*text-align: center;*/
     margin-top:3px;
@@ -86,7 +86,7 @@
     background:rgba(240, 241, 241, 0.93);
     z-index: -1;
 }
-.pop h2::after{
+.brand h2::after{
     display: block;
     content: '';
     position: absolute;
@@ -186,6 +186,51 @@
     border-radius: 5px;
     overflow: hidden;
     padding-left:21px;
+    z-index: 3;
+    transition: .3s;
+}
+
+#transferInfoVue{
+    position: absolute;
+    left:8px;
+    width: 660px;
+    /*min-width: 575px;*/
+    height: 80%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding:5px;
+    z-index: 3;
+    transition: .3s;
+}
+
+/*#transferInfo{*/
+    /*position: absolute;*/
+    /*left:8px;*/
+    /*top:43%;*/
+    /*width: 500px;*/
+    /*height: 42%;*/
+    /*background:rgba(240, 241, 241, 0.93);*/
+    /*box-shadow: 2px 2px 4px #333;*/
+    /*border-radius: 5px;*/
+    /*overflow: hidden;*/
+    /*padding:5px;*/
+    /*z-index: 3;*/
+    /*transition: .3s;*/
+/*}*/
+
+#transferInfoAdd{
+    position: absolute;
+    left:672px;
+    width:655px;
+    /*min-width: 507px;*/
+    height: 80%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding:5px;
     z-index: 3;
     transition: .3s;
 }

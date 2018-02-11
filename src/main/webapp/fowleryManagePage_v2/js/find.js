@@ -14,6 +14,7 @@
             PRONAME:'/waterfowl',
             GETAQUACULTURELIST:'/admin/fowlery/listFowlery',
             DEL:'/admin/fowlery/deleteFowlery/',//{{id}}
+            GETALLAFFI:'/admin/affiliation/listAffiliation?pageSize=1000&pageNum=1'
         };
     /**
      * 实例化一个分页控制者
@@ -47,50 +48,33 @@
 
     });
 
+
+
     /**
-     * 初始化视图,绑定事件操作，分页功能完成
+     * 罗列出所有的大禽舍编号
      */
-    pageController.init();
+    $.get(oURL.PRONAME+oURL.GETALLAFFI,function (res) {
+        if(res.list){
+            viewCommand({
+                command:'display',
+                param:[$('select')[0],res.list,'option']
+            });
+
+            pageController.other = '&affiliation='+$('select')[0].value;
+            pageController.init();
+        }
+    });
+
+    $('select')[0].onchange = function () {
+        pageController.other = '&affiliation='+this.value;
+        pageController.init();
+    }
 
     /**
      * 新增页面
      */
     $('#new ').click(function () {
        window.location.href = './add.html'
-    });
-    /**
-     * 查询功能
-     * 点击了就序列化表单
-     * 更改视图控制器的other属性
-     * 初始化页面
-     */
-    $('#search').click(function () {
-        var q = queryParse.call($('#searchForm'));
-        var qStr = [];
-        for(var key in q) {
-            if (!q[key]) {
-                delete q[key];
-                continue;
-            }
-            qStr.push(key+'='+q[key]);
-        }
-        $('#back').show();
-        pageController.other = '&'+qStr.join('&');
-        pageController.init();
-    });
-
-    /**
-     * 返回键
-     * 每当成功查找出一项时 此按钮显示
-     * 此按钮被按下时
-     *      清空查询表单的字
-     *      并初始化页面
-     */
-    $('#back').click(function () {
-        $('#searchForm input').val('');
-        $(this).hide();
-        pageController.other = '';
-        pageController.init();
     });
 
     /**
