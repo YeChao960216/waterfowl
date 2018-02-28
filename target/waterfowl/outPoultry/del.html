@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <table>
+            <tr>
+                <th>出厂批次</th>
+                <th>家禽种类</th>
+                <th>本批次数量</th>
+                <th>单位</th>
+                <th>出厂商</th>
+                <th>联系电话</th>
+                <th>记录员编号</th>
+                <th>负责人编号</th>
+                <th>操作</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js" defer></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js" defer></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js" defer ></script>
+<script src="./js/del_v2.js" defer></script>
+</html>

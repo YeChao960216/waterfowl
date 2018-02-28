@@ -1,0 +1,236 @@
+﻿#shadow{
+    position: absolute;
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-left:21px;
+    z-index: 3;
+}
+.init-shadow{
+    width: 700px;
+    height: 90%;
+}
+#detail{
+    position: relative;
+    width: 3700px;
+    height: 100%;
+    border-radius:5px;
+}
+#btn-pre{
+    position: absolute;
+    top:44%;
+    left:10px;
+    width: 68px;
+    height:51px;
+    border-radius: 5px;
+    text-align: center;
+    background: url("../images/btn-pre.jpg") no-repeat center;
+    color: #e9e9e9;
+}
+#btn-next{
+    position: absolute;
+    top:44%;
+    left:611px;
+    width: 68px;
+    height:51px;
+    border-radius: 5px;
+    text-align: center;
+    background: url("../images/btn-next.jpg") no-repeat center;
+}
+.close{
+    position: absolute;
+    top:5px;
+    right:6px;
+    width: 30px;
+    padding: 1px 0px;
+    border-radius: 5px;
+    color:#b9c9d6;
+    text-align: center;
+    font-size: 21px;
+    font-weight: bold;
+    z-index: 3;
+}
+.detail-content{
+    width:560px;
+    height:100%;
+    float: left;
+    /*overflow: auto;*/
+}
+.detail-content:nth-of-type(1){
+    margin-left:41px !important;
+}
+.detail-content:nth-of-type(1n+1){
+    margin-left:68px;
+}
+/*.detail-content tr{*/
+   /*background: none;*/
+/*}*/
+.detail-content caption{
+    margin: 8px 0px 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.pop{
+    /*overflow:hidden;*/
+    /*height: calc(100vh*0.7);*/
+    min-height: 800px;
+}
+.brand h2{
+    position:relative;
+    /*text-align: center;*/
+    margin-top:3px;
+    padding: 0px 7px;
+    background:rgba(240, 241, 241, 0.93);
+    z-index: -1;
+}
+.brand h2::after{
+    display: block;
+    content: '';
+    position: absolute;
+    left:-10%;
+    top:110%;
+    width: 110%;
+    height: 1px;
+    border-top:1px solid #d3d5d8;
+}
+
+/**插入信息
+ */
+#add{
+    position: absolute;
+    left:705px;
+    width: 600px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow:hidden;
+    padding-left:21px;
+    z-index: 3;
+}
+.low-black{
+    color: #e0e0e0;
+}
+
+#add .detail-content{
+    margin: 3px auto !important;
+}
+.detail-content th{
+    background: #1090e6;
+}
+
+
+/**插入信息
+ */
+#ddl{
+    position: absolute;
+    top:calc(100vh*0.9);
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    /*overflow-y: auto;*/
+    padding-left:21px;
+    z-index: 3;
+}
+#ddl-own{
+    position: absolute;
+    left:100vw;       /*left:705px;*/
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-left:21px;
+    z-index: 3;
+    transition: .3s;
+}
+.rotate360{
+    transform: rotateZ(360deg);
+    animation: left 0.5s;
+}
+@keyframes left {
+    0%{
+        left:850px;
+        width:500px;
+        height:500px;
+    }
+    100%{
+        left:-850px;
+        width:0px;
+        height:0px;
+    }
+}
+
+.viewport{
+    margin: 5px auto;
+    width:97%;
+    min-width: 500px;
+    height:75%;
+    min-height: 620px;
+    /*border:1px solid #0ccece;*/
+}
+
+#epi{
+    position: absolute;
+    left:100vw;
+    width: 700px;
+    height: 90%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-left:21px;
+    z-index: 3;
+    transition: .3s;
+}
+
+#transferInfoVue{
+    position: absolute;
+    left:8px;
+    width: 660px;
+    /*min-width: 575px;*/
+    height: 80%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding:5px;
+    z-index: 3;
+    transition: .3s;
+}
+
+/*#transferInfo{*/
+    /*position: absolute;*/
+    /*left:8px;*/
+    /*top:43%;*/
+    /*width: 500px;*/
+    /*height: 42%;*/
+    /*background:rgba(240, 241, 241, 0.93);*/
+    /*box-shadow: 2px 2px 4px #333;*/
+    /*border-radius: 5px;*/
+    /*overflow: hidden;*/
+    /*padding:5px;*/
+    /*z-index: 3;*/
+    /*transition: .3s;*/
+/*}*/
+
+#transferInfoAdd{
+    position: absolute;
+    left:672px;
+    width:655px;
+    /*min-width: 507px;*/
+    height: 80%;
+    background:rgba(240, 241, 241, 0.93);
+    box-shadow: 2px 2px 4px #333;
+    border-radius: 5px;
+    overflow: hidden;
+    padding:5px;
+    z-index: 3;
+    transition: .3s;
+}

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false" ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水禽溯源管理系统</title>
+    <link rel="icon" href="./systemPage/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./systemPage/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./systemPage/css/public.css">
+    <link rel="stylesheet" href="./static/zTree_v3/css/zTreeStyle/zTreeStyle.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="./systemPage/css/baseFrame_ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="./systemPage/css/baseFrame.css">
+    <link rel="stylesheet" href="./systemPage/css/detail.css">
+</head>
+<body>
+    <div id="shadow" class="none pop brand" >
+        <h2>溯源记录</h2>
+        <a href="javascript:void(0)" id="close" class="close pointer" title="关闭">X</a>
+            <div id="detail">
+
+            </div>
+        <a href="javascript:void(0)" id="btn-pre" class="pointer pre none"></a>
+        <a href="javascript:void(0)" id="btn-next" class="pointer next"></a>
+    </div>
+    <div id="add" class="none pop brand"  >
+        <h2 >信息录入</h2>
+        <a href="javascript:void(0)"  id="add-close" class="close pointer" title="关闭">X</a>
+        <div id="addContent"></div>
+    </div>
+    <div id="ddl" class="none pop brand"  >
+        <h2 >死淘汰信息录入</h2>
+        <a href="javascript:void(0) "  id="ddl-close" class="close pointer" title="关闭">X</a>
+        <div id="ddlContent"></div>
+    </div>
+    <div id="ddl-own" class="none pop brand"  >
+        <h2 >死淘汰信息录入</h2>
+        <a href="javascript:void(0)"  id="ddl-own-close" class="close pointer" title="关闭">X</a>
+        <!--<div id="ddlContent_own"></div>-->
+    </div>
+    <div id="epi" class="none pop brand"  >
+        <h2 >免疫/疾病信息录入</h2>
+        <a href="javascript:void(0)"  id="epi-close" class="close pointer" title="关闭">X</a>
+    </div>
+    <div id="transferInfoVue" class="none brand"  >
+        <h2 >物流记录</h2>
+        <a href="javascript:void(0)"  id="transferInfoVue-close" class="close pointer" title="关闭">X</a>
+    </div>
+    <div id="transferInfoAdd" class="none brand"  >
+        <h2 >物流信息录入</h2>
+        <a href="javascript:void(0)"  id="transferInfoAdd-close" class="close pointer" title="关闭">X</a>
+    </div>
+    <div class="baseFrame" id='baseFrame'>
+        <div class="nav">
+            <div class="logo"><img src="/waterfowl/systemPage/images/icon.png"></div>
+            <div class="logo-name"><h2>水禽溯源管理系统</h2></div>
+            <div class="out pointer" title="注销登录" id="login-out"></div>
+            <div class="all-option">
+                <ul>
+                    <li>
+                        <label id="userInfoM">
+                            <img src="/waterfowl/systemPage/images/userInfo.png" class="pointer">
+                            <span class="pointer">个人信息管理</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label id="aquaInfoM">
+                            <img src="/waterfowl/systemPage/images/yangzhi.png" class="pointer">
+                            <span class="pointer">生产流程管理</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label id="storageInfoM">
+                            <img src="/waterfowl/systemPage/images/wuliao.png" class="pointer">
+                            <span class="pointer">禽舍物资管理</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label id="empInfoM">
+                            <img src="/waterfowl/systemPage/images/emp.png" class="pointer">
+                            <span class="pointer">员工信息管理</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label id="dicM">
+                            <img src="/waterfowl/systemPage/images/dic.png" class="pointer">
+                            <span class="pointer">栏目字段管理</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label id="monitor">
+                            <img src="/waterfowl/systemPage/images/monitor.png" class="pointer">
+                            <span class="pointer">实时监控</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="aside">
+                <div class="userInfo">
+                    <div class="user-logo"></div><div class="user-name" id="user">管理员</div>
+                </div>
+                <div class="menu ztree"  id="menu">
+                </div>
+            </div>
+            <div class="r-aside">
+                <div class="path" id="paths">
+                    <div class="site-logo"></div><div class="site-name" >位置&gt</div>
+                    <label id="path1"></label><label id="path2"></label><label id="path3"></label><label id="path4"></label>
+                    <!-- 注销登录需要一个接口把session清除 -->
+                    <!--<div class="f-right login-out"><span id="nowTime"></span></div>-->
+                    <div class="f-right login-out"><div class="clock-name" id="nowTime"></div><div  class="clock-logo"></div></div>
+                </div>
+                <div class="content">
+                       <iframe id="whichPage" src="./systemPage/first.html" frameborder="0" name="whichPage"></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./static/zTree_v3/js/jq.min.js"></script>
+<script src="./systemPage/js/init.js"></script>
+<script src="./systemPage/js/detail_move.js"></script>
+<script src="./static/zTree_v3/js/jquery.ztree.all.min.js"></script>
+<script src="./systemPage/js/zTree.js"></script>
+</html>

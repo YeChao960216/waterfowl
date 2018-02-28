@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>未上传记录列表</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //页面初始化时获取数据
+            showList(1);
+
+            //查询：绑定事件
+            $("#search").click(function () {
+                showList(1);
+            })
+
+            //上传所选记录:因为在注册事件里面才获取动态加载的元素，所以不用放在回调函数中
+            zhanjia.upLoadList(document.getElementById("upLoad"),"/waterfowl/epidemic/editFlagById")
+
+            function edit() {
+                var editBtns =document.getElementsByClassName("edit");
+                for(var i=0;i<editBtns.length;i++){
+                    editBtns[i].onclick =function () {
+                        //获取本记录的id
+                        var id =this.parentNode.parentNode.firstChild.lastChild.value;
+                        console.log(id);
+                        if(id!=null){
+                            //跳转到编辑页面
+                            window.location.href ="/waterfowl/epidemicManagePage/edit.html?id="+id;
+                        }
+                    }
+                }
+            }
+
+            function deleteFun() {
+                var deleteBtns =document.getElementsByClassName("delete");
+                for(var i=0;i<deleteBtns.length;i++) {
+                    deleteBtns[i].onclick = function () {
+                        //获取本记录的id
+                        var id = this.parentNode.parentNode.firstChild.lastChild.value;
+                        if (id != null && confirm("确定要删除？")) {
+                            //跳转到编辑页面
+                            //window.location.href ="/waterfowl/ddlManagePage/edit.html?id="+id;
+                            console.log(id);
+                            $.post(
+                                "/waterfowl/epidemic/delete/"+id,
+                                function () {
+                                    alert("删除成功！");
+                                    showList(document.getElementById("pageNum").value)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            /**
+             * 展示查询列表函数
+             * @param pageNum：int  将要跳转的页数
+             */
+            function showList(pageNum) {
+                //将前台调用后台接口所需要的数据封装为对象
+                var obj ={
+                    flag: 0,
+                    pageNum: pageNum//表示将要跳转的页数
+                };
+                if($("#record_date").val()){
+                    obj.recordDate =$("#id_patch").val();
+                }else if($("#name").val()){
+                    obj.name =$("#name").val();
+                }
+                else if($("#diseaes").val()){
+                    obj.diseaes =$("#diseaes").val();
+                }else if($("#processing_mode").val()){
+                    obj.processingMode =$("#processing_mode").val();
+                }else if($("#id_recorder").val()){
+                    obj.idRecorder =$("#id_recorder").val();
+                }else if($("#id_charge").val()){
+                    obj.idCharge =$("#id_charge").val();
+                }
+
+                $.post(
+                    "/waterfowl/epidemic/findList",
+                    obj,
+                    function (data) {
+                        console.log(data);
+                        var content =""
+                        var o =null;
+                        for(var i=0;i<data.list.length;i++){
+                            o =data.list[i];
+                            content+='<tr>'+
+                                '<td><input type="checkbox" class="select"><input type="hidden" value='+o.id+'></td>'+//隐藏域获取id
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
+                                '<td>'+o.name+'</td>'+
+                                '<td>'+o.sign+'</td>'+
+                                '<td>'+o.diseaes+'</td>'+
+                                '<td>'+o.numInfected+'</td>'+
+                                '<td>'+o.processingMode+'</td>'+
+                                '<td>'+o.medicationMode+'</td>'+
+                                '<td>'+o.dose+'</td>'+
+                                '<td>'+o.doseUnit+'</td>'+
+                                '<td>'+o.idRecorder+'</td>'+
+                                '<td>'+o.idCharge+'</td>'+
+                                '<td>'+o.remark+'</td>'+
+                                '<td><button class="btn edit">修改</button><button class="btn delete">删除</button></td>'+
+                                '</tr>'+' '
+                        }
+                        //向tbody中插入内容
+                        $("#content").html(content);
+
+                        //保存page对象的currentPage值和totalPage值
+                        zhanjia.showPageCut(data.pageNum,data.pages,showList);//调用展示分页函数,传入当前页数和总页数
+
+                        //全选全不选方法
+                        zhanjia.selectAll(document.getElementById("selectAll"),document.getElementsByClassName("select"))
+
+                        //edit方法
+                        edit();
+
+                        //删除方法
+                        deleteFun();
+                    },
+                    "json"
+                )
+            }
+        })
+    </script>
+</head>
+<body>
+    <div id="action">
+        <input type="date" id="record_date">
+        <input type="text" id="name" placeholder="药品名称">
+        <input type="text" id="diseaes" placeholder="所患疾病">
+        <input type="text" id="processing_mode" placeholder="处理方式">
+        <input type="text" id="id_patch" placeholder="禽舍编号">
+        <input type="text" id="id_recorder" placeholder="记录者">
+        <input type="text" id="id_charge" placeholder="负责人">
+        <input type="button" value="查询" class="btn" id="search">
+        <span>|</span>
+        <input type="button" value="上传记录" class="btn" id="upLoad">
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll">全选</th>
+            <th>记录日期</th>
+            <th>批次编号</th>
+            <th>药品名称</th>
+            <th>免疫、疫病标志</th>
+            <th>疾病</th>
+            <th>染病个体数</th>
+            <th>处理方式</th>
+            <th>给药方式</th>
+            <th>剂量</th>
+            <th>剂量单位</th>
+            <th>记录者编号</th>
+            <th>负责人编号</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="content">
+
+        </tbody>
+    </table>
+    <div id="pageCut">
+        <span id="first">首页</span>
+        <span id="pre">&lt;&lt;</span>
+        <span>第</span> <input type="text" id="pageNum"><span>页</span>
+        <span id="pages"></span>
+        <span id="next">&gt;&gt;</span>
+        <span id="last">尾页</span>
+    </div>
+</body>
+<script src="../ddlManagePage/js/base.js"></script>
+</html>

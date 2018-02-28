@@ -1,0 +1,172 @@
+﻿
+*{
+    box-sizing: border-box;
+}
+a, abbr, address, blockquote, body, caption, cite, code, dd, del, dfn, 
+div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, 
+img, ins, label, legend, li, object, ol, p, pre, q, small, span, strong, 
+sub, sup, table, tbody, td, tfoot, th, thead, tr, ul{
+    border:0;
+    margin: 0;
+    padding: 0;
+}
+
+/*a标签的处理*/
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    
+}
+/* a:hover{
+    text-decoration:underline;
+} */
+/*按钮*/
+.btn{
+    display: inline-block;
+    outline: none;
+    border:none;
+    border-radius: 5px;
+    text-align:center;
+    color: #fff;
+    margin: 3px;
+}
+.btn-s{
+    padding: 4px 13px 8px;
+}
+.btn-m{
+    padding: 8px 25px 11px;
+}
+.btn-l{
+    padding: 15px 35px 18px;
+}
+.fill{
+    width:100%;
+    height: 100%;
+}
+/*消失隐藏*/
+.none{
+    display: none;
+}
+/*鼠标指向样式*/
+.pointer{
+    cursor: pointer;
+}
+/*溢出滚动*/
+.scroll{
+    overflow:scroll;
+}
+/*导航栏墨绿渐变*/
+.handler{                             
+    width: 100%;
+    max-height:40px;
+    background: -webkit-linear-gradient(to right, #198190 ,#19c1e4); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(to right, #198190,#19c1e4); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(to right, #198190 ,#19c1e4); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #198190 ,#19c1e4); /* 标准样式写最后 */
+}
+.handler ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.handler li{
+    float: left;
+}
+.handler li a{
+	display:block;
+	text-align:center;
+	padding:10px;
+	font-size:15px;
+	color:#fff;
+}
+.handler li a:hover{
+	background:#19c1e4;
+}
+/*栏目贴条*/
+.head{
+    width: 100%;
+    padding: 3px;
+    background: -webkit-linear-gradient(to right, #198190,#0ccece );
+    background: -o-linear-gradient(to right, #198190  ,#0ccece ); 
+   	background: -moz-linear-gradient(to right, #198190,#0ccece ); 
+    background: linear-gradient(to right, #198190  ,#0ccece); 
+    color: #fff;
+}
+/*表格处理*/
+caption{
+    caption-side: top;
+    font-size:30px;
+}
+tr{
+	border-bottom:2px dotted #f0f0f0;
+}
+tr:nth-child(odd){/*偶数行添加背景*/
+    background: #f0f0f0;
+}
+
+table{
+	width:100%;
+	border-collapse:collapse;
+	border:none;
+}
+
+td ,th {
+	border:0px;
+}
+td{
+
+	width: 30%;
+	height: 60px;
+	text-align: center;
+	font-size: 15px;
+}
+
+th{
+	background: rgba(32, 116, 126, 0.76);
+	box-shadow: 2px 2px 4px rgba(15, 90, 90, 0.85);
+	color: #fff;
+	padding:5px 2px;
+	text-shadow: 2px 2px 4px rgb(0, 0, 0);
+}
+tr{
+	border-bottom:2px solid #fff;
+}
+tr:last-child{/*因为要配合<tr><th></th></tr>使用列标题上不能有边框*/
+	border:none;
+}
+/*字体处理*/
+.text-reflect{/*方向，间距，渐变效果  这能是webkit 内核的*/
+    -webkit-box-reflect:below 1px linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
+    
+}
+/*内容完美居中处理*/
+.divCenter{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.toFlex{
+    display: flex;
+}
+.center{
+    margin: auto;
+}
+
+/* width:600px;   关键是这个
+padding: 10px;
+margin: 100px auto;   还有是这个
+overflow: hidden; */
+/*左右float*/
+.f-right{
+    float:right;
+}
+.f-left{
+    float:left;
+}
+textarea{
+    resize:none;
+    width:80%;
+    height:150px;
+}

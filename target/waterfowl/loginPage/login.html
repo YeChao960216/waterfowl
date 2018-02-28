@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html  onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用户登录</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon"/>
+    <link type="text/css" rel="stylesheet" href="./css/willon.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/login.css"/>
+    <!--[if lte IE 8]>
+        <script src='./js/ie_cartoon.js'></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="login-view">
+        <div class="login-logo">
+            <a href="/waterfowl/fowl/index.html" title="溯源首页">
+                <img src="/waterfowl/systemPage/images/n-logo.png" alt="logo加载失败">
+                <h3 style="color:#91c147">仲恺智慧农业溯源系统</h3>
+            </a>
+        </div>
+        <div class="login-input-group">
+            <input type="text" id="cellphone" class="login-input" placeholder="手机号" autocomplete="off"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="password" id="password" class="login-input" placeholder="密码" autocomplete="off"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-btn" id="login">登录</div>
+        <div class="login-tips"> 
+            <input type="checkbox" id="remeber" ><span>记住我</span>
+            <div>
+                <a href="#">忘记密码</a>
+                <a href="register.html"target="_blank">注册新账号</a>
+            </div>
+            <div class="login-tips-other">版权&copy仲恺智慧农业创新团队</div>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <!--[if lte IE 8]>
+        <div id="canvas"></div>
+    <![endif]-->
+</body>
+<script src="./js/canvas.js"></script>
+<script src="./js/willon_js_baseFrame.js"></script>
+<script src="./js/willon_checkForm_entity.js"></script>
+<script src="./js/willon_login.js"></script>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/md5.js"></script>
+</html>

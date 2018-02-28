@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form >
+    <table>
+        <tr>
+            <th>条目</th>
+            <th>信息</th>
+        </tr>
+        <tr>
+            <td>批次号</td>
+            <td><span id="idPatch"></span></td>
+        </tr>
+        <tr>
+            <td>处理方式</td>
+            <td><select name="processingMode" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>处理数量</td>
+            <td><input type="number" min="1"  name="numProcessed" id="numProcessed"></td>
+        </tr>
+        <tr>
+            <td>备注</td>
+            <td><textarea name="remark" placeholder="备注" id="remark"></textarea></td>
+        </tr>
+        <tr>
+            <td>记录人</td>
+            <td><select  name="idRecorder" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>负责人</td>
+            <td><select  name="idCharge" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>操作</td>
+            <td><input type="submit" id="submit" class="btn" onclick="return false" value="添加"></td>
+        </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="./js/edit.js"></script>
+</html>

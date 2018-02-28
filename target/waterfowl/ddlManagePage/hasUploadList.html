@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>已上传记录列表</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <!--此处引入base.js>-->
+    <script src="js/base.js"></script>
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //页面初始化时获取数据
+            showList(1);
+            //showPageCut(currentPage,totalPage);
+
+            //查询：绑定事件
+            $("#search").click(function () {
+                showList();
+            })
+
+            /**
+             * 展示查询列表函数
+             * @param pageNum：int  将要跳转的页数
+             */
+            function showList(pageNum) {
+                //将调用后台接口所需要的查询条件封装为对象
+                var obj ={
+                    processingMode:$("#processing_mode").val(),
+                    flag: 0,
+                    pageNum: pageNum//表示将要跳转的页数
+                };
+                if($("#id_patch").val()){
+                    obj.idPatch =$("#id_patch").val();
+                }else if($("#id_recorder").val()){
+                    obj.idRecorder =$("#id_recorder").val();
+                }else if($("#id_charge").val()){
+                    obj.idCharge =$("#id_charge").val();
+                }
+
+                $.post(
+                    "/waterfowl/ddl/findList",
+                    obj,
+                    function (data) {
+                        console.log(data);
+                        var content =""
+                        var o =null;
+                        for(var i=0;i<data.list.length;i++){
+                            o =data.list[i];
+                            content+='<tr>'+
+                                '<td>'+o.recordDate+'</td>'+
+                                '<td>'+o.idPatch+'</td>'+
+                                '<td>'+o.numProcessed+'</td>'+
+                                '<td>'+o.processingMode+'</td>'+
+                                '<td>'+o.idRecorder+'</td>'+
+                                '<td>'+o.idCharge+'</td>'+
+                                '<td>'+o.remark+'</td>'+
+                                '</tr>'+' '
+                        }
+                        $("#content").html(content);
+                        //保存page对象的currentPage值和totalPage值
+                        zhanjia.showPageCut(data.pageNum,data.pages,showList);//调用展示分页函数,传入当前页数和总页数
+
+                    },
+                    "json"
+                )
+            }
+        })
+    </script>
+    <style>
+        body,html {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="action">
+        <input type="date" id="record_date">
+        <input type="text" id="id_patch" placeholder="疾控批次">
+        <input type="text" id="processing_mode" placeholder="处理方式">
+        <input type="text" id="id_recorder" placeholder="记录者">
+        <input type="text" id="id_charge" placeholder="负责人">
+        <input type="button" value="查询" class="btn" id="search">
+    </div>
+    <table>
+        <tr>
+            <th>记录日期</th>
+            <th>疾控批次</th>
+            <th>处理数量</th>
+            <th>处理方式</th>
+            <th>记录者</th>
+            <th>负责人</th>
+            <th>备注</th>
+        </tr>
+        <tbody id="content">
+
+        </tbody>
+    </table>
+    <div id="pageCut">
+        <span id="first">首页</span>
+        <span id="pre">&lt;&lt;</span>
+        <span>第</span> <input type="text" id="pageNum"><span>页</span>
+        <span id="pages"></span>
+        <span id="next">&gt;&gt;</span>
+        <span id="last">尾页</span>
+    </div>
+</body>
+</html>

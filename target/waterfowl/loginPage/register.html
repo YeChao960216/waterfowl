@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html  onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用户注册</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon"/>
+    <link type="text/css" rel="stylesheet" href="./css/willon.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/login.css"/>
+</head>
+<body>
+    <div class="login-view">
+        <div class="login-logo">
+            <a href="/waterfowl/fowl/index.html" title="溯源首页">
+                <img src="/waterfowl/systemPage/images/n-logo.png" alt="logo加载失败">
+                <h3 style="color:#91c147">仲恺智慧农业溯源系统</h3>
+            </a>
+        </div>
+        <div class="login-input-group">
+            <input type="text" id="cellphone" class="login-input" placeholder="手机号" autocomplete="off"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="text" id="nickname" class="login-input" placeholder="昵称" autocomplete="off"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="password" id="password1" class="login-input" placeholder="密码"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="password" id="password2" class="login-input" placeholder="再次输入密码"/>
+            <span class="tips"></span>
+        </div>
+        <div class="login-input-group">
+            <input type="text" id="verify" class="login-input" placeholder="验证码" autocomplete="off"/>
+            <span class="tips" style="top:28px;right:88px;"></span>
+            <div class="verifyCode"><img id="imgC" src="/waterfowl/images/imagecode?p=123123" alt="验证码加载失败" style="height:24px"></div>
+        </div>
+        <div class="login-input-group">
+            <div id="sign_in"class="login-btn">注册</div>
+            <span class="tips"></span>
+        </div>
+        <div class="login-tips" style="text-align:center;color:#c0c0c0">
+                <span>点击“注册”按钮，即代表您同意</span><a href="#" style="color:#339822" title="查看该协议">《我们公司的用户协议》</a>
+                <div class="login-tips-other" style="left:37%">版权&copyWillon</div>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+</body>
+<script src="./js/canvas.js"></script>
+<script src="./js/willon_js_baseFrame.js"></script>
+<script src="./js/willon_checkForm_entity.js"></script>
+<script src="/waterfowl/static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/willon_register.js"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+</html>

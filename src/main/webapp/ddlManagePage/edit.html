@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改记录</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/base.js"></script>
+    <script>
+        $(function () {
+            //获取url中的参数
+            var id =getQueryString("id");
+            console.log(id);
+            $.post(
+                "/waterfowl/ddl/show/"+id,
+                function (data) {
+                    $("#record_date").val(data.recordDate)
+                    $("#id_patch").val(data.idPatch)
+                    $("#num_processed").val(data.numProcessed)
+                    $("#processing_mode").val(data.processingMode)
+                    $("#id_recorder").val(data.idRecorder)
+                    $("#id_charge").val(data.idCharge)
+                    $("#remark").val(data.remark)
+                },
+                "json"
+            )
+           $("#edit").click(function () {
+               $.post(
+                   "/waterfowl/ddl/edit",
+                   {
+                       "id":id,
+                       "recordDate": $("#record_date").val(),
+                       "idPatch": $("#id_patch").val(),
+                       "numProcessed": $("#num_processed").val(),
+                       "processingMode": $("#processing_mode").val(),
+                       "idRecorder": $("#id_recorder").val(),
+                       "idCharge": $("#id_charge").val(),
+                       "remark": $("#remark").val()
+                   },
+                   function () {
+                       window.location.href ="/waterfowl/ddlManagePage/waitUploadList.html";
+                   },
+                   "json"
+               )
+           })
+        })
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null){
+                return  unescape(r[2]);
+            }
+            return null;
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>记录日期</th>
+            <th>所属疾控批次</th>
+            <th>处理数量</th>
+            <th>处理方式</th>
+            <th>记录者编号</th>
+            <th>负责人编号</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="date" id="record_date"></td>
+                <td><input type="text" id="id_patch" placeholder="所属批次" ></td>
+                <td><input type="text" id="num_processed" placeholder="处理数量" ></td>
+                <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
+                <td><input type="text" id="id_recorder" placeholder="记录者"></td>
+                <td><input type="text" id="id_charge" placeholder="负责人"></td>
+                <td><input type="text" id="remark" placeholder="备注"></td>
+                <td><button class="btn" id="edit">修改</button></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿ <!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <table>
+        <tr>
+            <th>选项</th>
+            <th>填写</th>
+            <th>备注</th>
+        </tr>
+        <tr>
+           <td>手机号</td>
+           <td><input type="text" id="phone" placeholder="手机号"></td>
+           <td></td>
+        </tr>
+        <tr>
+            <td>昵称</td>
+            <td><input type="text" id="username" placeholder="昵称"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>真实姓名</td>
+            <td><input type="text" id="name" placeholder="真实姓名"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td>
+                <input type="radio"  name="gender" value="1">男
+                <input type="radio"  name="gender" value="2">女
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>个人备注</td>
+            <td><textarea id="remark" cols="30" rows="10" placeholder="填写个人信息备注项"></textarea></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>操作</td>
+            <td><button id="submit" class="btn">提交</button></td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="./js/update.js"></script>
+</html>

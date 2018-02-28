@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/patch.css">
+</head>
+<body style="background: #fff">
+    <!-- 导航栏 -->
+    <div class="myNavBg">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light" style="padding: .5rem 0rem">
+                <img src="./image/logo.png" style="width:40px;height:40px;margin-right: 15px;">
+                <a class="navbar-brand" href="./index.html" id="firmName" >食品安全质量追溯云平台</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                    <!--<a class="nav-link" href=""><span class="sr-only">(current)</span></a>-->
+                    </li>
+                    <li class="nav-item ">
+                    <!--<a class="nav-link" href=""><span class="sr-only">(current)</span></a>-->
+                    </li>
+                </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input name="fowlCode" class="form-control mr-sm-2" type="search" placeholder="输入溯源码" aria-label="Search">
+                        <button class="btn  my-2 my-sm-0" type="submit" style="color:#5a756e">搜索</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 25px;">
+        <table class="table" id="germchit">
+            <caption>种苗信息</caption>
+            <tbody>
+                <tr>
+                    <td>孵化公司</td>
+                    <td>{{incubationPlant}}</td>
+                </tr>
+                <tr>
+                    <td>种蛋上孵日期</td>
+                    <td>{{incubationDate}}</td>
+                </tr>
+                <tr>
+                    <td>种蛋收集日期</td>
+                    <td>{{collectDate}}</td>
+                </tr>
+                <tr>
+                    <td>孵化器编号</td>
+                    <td>{{incubator}}</td>
+                </tr>
+                <tr>
+                    <td>出雏器编号</td>
+                    <td>{{chickDischarger}}</td>
+                </tr>
+                <tr>
+                    <td>孵化数量</td>
+                    <td>{{numTotal}}</td>
+                </tr>
+                <tr>
+                    <td>负责人编号</td>
+                    <td>{{idCharge}}</td>
+                </tr>
+                <tr class="bigImg">
+                    <td>检疫合格证书</td>
+                    <td><img src="./image/timg.jpg"></td>
+                </tr>
+                <!--<tr class="smallImg">-->
+                    <!--<td>检疫合格证书</td>-->
+                    <!--<td>如下</td>-->
+                <!--</tr>-->
+                <!--<tr class="smallImg">-->
+                    <!--<td colspan="2"><img src="./image/timg.jpg"></td>-->
+                <!--</tr>-->
+            </tbody>
+        </table>
+        <table class="table" id="poultry">
+            <caption>入厂信息</caption>
+            <tbody>
+            <tr>
+                <td>供应商</td>
+                <td>{{associatedFirm}}</td>
+            </tr>
+            <tr>
+                <td>供应商联系电话</td>
+                <td>{{phone}}</td>
+            </tr>
+            <tr>
+                <td>入厂日期</td>
+                <td>{{recordDate}}</td>
+            </tr>
+            <tr>
+                <td>入厂种类</td>
+                <td>{{type}}</td>
+            </tr>
+            <tr>
+                <td>入厂数量(单位:只)</td>
+                <td>{{quantity}}</td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td>{{idCharge}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table" id="patch">
+            <caption>批次信息</caption>
+            <tbody>
+            <tr>
+                <td>所属批次号</td>
+                <td>{{id}}</td>
+            </tr>
+            <tr>
+                <td>分批养殖时间</td>
+                <td>{{date}}</td>
+            </tr>
+            <tr>
+                <td>该批次起始养殖(单位:只)</td>
+                <td>{{numTotal}}</td>
+            </tr>
+            <tr>
+                <td>现在养殖(单位:只)</td>
+                <td>{{size}}</td>
+            </tr>
+            <tr>
+                <td>大禽舍方位</td>
+                <td>{{position}}</td>
+            </tr>
+            <tr>
+                <td>大禽舍编号</td>
+                <td>{{idAffilation}}</td>
+            </tr>
+            <tr>
+                <td>小禽舍编号</td>
+                <td>{{idFowlery}}</td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td>{{idCharge}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table" id="outPoultry">
+            <caption>出厂信息</caption>
+            <tbody>
+            <tr>
+                <td>本次溯源编号</td>
+                <td>{{id}}</td>
+            </tr>
+            <tr>
+                <td>出厂时间</td>
+                <td>{{recordDate}}</td>
+            </tr>
+            <tr>
+                <td>出厂配送到</td>
+                <td>{{firm}}</td>
+            </tr>
+            <tr>
+                <td>出厂数量(单位:只)</td>
+                <td>{{quantity}}</td>
+            </tr>
+            <tr>
+                <td>归属批次</td>
+                <td>{{idPatch}}</td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td>{{idCharge}}</td>
+            </tr>
+            <tr class="bigImg">
+                <td>出厂资格证</td>
+                <td><img src="./image/timg.jpg"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table none" id="manu">
+            <caption>加工信息</caption>
+            <tbody>
+            <tr>
+                <td>加工厂商地址</td>
+                <td>{{site}}</td>
+            </tr>
+            <tr>
+                <td>加工方式</td>
+                <td>{{method}}</td>
+            </tr>
+            <tr>
+                <td>加工数量</td>
+                <td>{{quantity}}</td>
+            </tr>
+            <tr>
+                <td>开始加工时间</td>
+                <td>{{recordDate}}</td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td>{{idCharge}}</td>
+            </tr>
+            <tr class="bigImg">
+                <td>加工厂资格证</td>
+                <td><img src="./image/timg.jpg"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table none" id="transfer">
+            <caption>运输信息</caption>
+            <tbody>
+            <tr>
+                <td>出发地</td>
+                <td>{{remark}}</td>
+            </tr>
+            <tr>
+                <td>目的地</td>
+                <td>{{cid}}</td>
+            </tr>
+            <tr>
+                <td>运输公司</td>
+                <td>{{tid}}</td>
+            </tr>
+            <tr>
+                <td>配送数量(单位:只)</td>
+                <td>{{curquantity}}</td>
+            </tr>
+            <tr>
+                <td>出发时间时间</td>
+                <td>{{curdate}}</td>
+            </tr>
+            <tr>
+                <td>配送人姓名</td>
+                <td>{{driver}}</td>
+            </tr>
+            <tr>
+                <td>配送人联系电话</td>
+                <td>{{phone}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <h3>生长曲线图</h3>
+        <div id="aqua_vue" style="width:100%;height:500px;">
+
+        </div>
+    </div>
+    <div class="container">
+        <h3>死淘记录图</h3>
+        <div id="ddl_vue" style="width:100%;height:500px;">
+
+        </div>
+    </div>
+    <div class="container" >
+        <h3>免疫记录图</h3>
+        <div id="epi_vue" style="width:100%;height:500px;">
+
+        </div>
+    </div>
+    <div class="container" style="padding-bottom: 100px">
+        <h3>物流信息图</h3>
+        <div  id="main" style="width:100%;height:500px;">
+
+        </div>
+    </div>
+</body>
+<!--请以后的童鞋自己进行压缩吧-->
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="./Model/URL.js"></script>
+<script src="./Model/model.js"></script>
+<script src="./View/view.js"></script>
+<script src="./Presenter/presenter.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/echarts.common.min.js"></script>
+<script src="./js/echarts_config.js"></script>
+<script src="./js/myMapApi.js"></script>
+<script src="./echarts/echarts.js"></script>
+<script src="./js/echarts.js"></script>
+<script src="./js/require.js"></script>
+<script src="./js/myEcharts_option.js"></script>
+<script src="./js/track2.js"></script>
+<script src="./js/component.js"></script>
+</html>

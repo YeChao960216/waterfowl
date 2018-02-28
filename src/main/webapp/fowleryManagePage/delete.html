@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手动删除禽舍记录</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+<table id="table">
+
+    <div>
+
+        <!--查询规格-->
+        <select id="size">
+            <!--<option>规格</option>-->
+            <!--<option>规格1</option>-->
+            <!--<option>规格2</option>-->
+        </select>
+
+        <!--查询使用状态-->
+        <select id="status">
+            <!--<option>使用状态</option>-->
+            <!--<option>可用</option>-->
+            <!--<option>不可用</option>-->
+        </select>
+
+        <!--查询大禽舍-->
+        <select id="affiliation">
+            <!--<option>使用状态</option>-->
+            <!--<option>可用</option>-->
+            <!--<option>不可用</option>-->
+        </select>
+
+        <input id="idRecorder" type="text" placeholder="请输入记录者编号" >
+        <input id="idRharge" type="text" placeholder="请输入负责人编号" >
+        <button class="btn" id="btn">查询</button>
+
+    </div>
+
+    <tr>
+        <th><input type="checkbox" id="checkAll">全选</th>
+        <th>规格</th>
+        <th>使用状态</th>
+        <th>归属的大禽舍</th>
+        <th>负责人编号</th>
+        <th>记录者编号</th>
+        <th>操作</th>
+    </tr>
+    <tbody id="tbody"></tbody>
+
+
+</table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/delete.js"></script>
+
+</html>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <form id="searchForm">
+            <table>
+                <tr>
+                    <td style="text-align:left">
+                        状态:
+                        <select class="select-fix-input"></select>
+                        <input name="id" placeholder="溯源码"/>
+                        <input name="idPatch" placeholder="所属批次号"/>
+                        <a class="btn" id="search" >查询</a>
+                        <a class="btn" id="back" style="display: none">返回</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table>
+            <tr>
+                <th>出库溯源码</th>
+                <th>所属批次号</th>
+                <th>运输公司</th>
+                <th>运输数量</th>
+                <th>批次状态</th>
+                <th>批次出库时间</th>
+                <th>备注</th>
+                <th>负责人</th>
+                <th>查看该出库批次的物流信息</th>
+                <th>该批出库记录完成配送</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/transferInfoList.js"></script>
+</html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form >
+    <table>
+            <tr>
+                <th>条目</th>
+                <th>信息</th>
+            </tr>
+            <tr>
+                <td>禽舍类型</td>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <td>禽舍编号</td>
+                <td id="id_fowlery"></td>
+            </tr>
+            <tr>
+                <td>批次编号</td>
+                <td id="id_patch"></td>
+            </tr>
+            <tr>
+                <td>当前圈养个体数</td>
+                <td id="num_total"></td>
+            </tr>
+            <tr>
+                <td>饲料种类</td>
+                <td id="feed_type"></td>
+            </tr>
+            <tr>
+                <td>饲料投放量(单位/kg)</td>
+                <td id="feed_weight"></td>
+            </tr>
+            <tr>
+                <td>记录时间</td>
+                <td id="record_date"></td>
+            </tr>
+            <tr>
+                <td>记录员编号</td>
+                <td id="id_recorder"></td>
+            </tr>
+            <tr>
+                <td>负责人编号</td>
+                <td id="id_charge"></td>
+            </tr>
+            <tr>
+                <td>出库编号</td>
+                <td id="id_outstorage"></td>
+            </tr>
+            <tr>
+                <td>禽类的阶段标识</td>
+                <td id="status"></td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td><textarea id="remark" disabled></textarea></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="./js/detail.js"></script>
+</html>

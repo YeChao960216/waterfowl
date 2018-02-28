@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <form id="searchForm">
+            <table>
+                <tr>
+                    <td style="text-align:left">
+                        <input type="text" name="phone" placeholder="电话号码">
+                        <input type="text" name="name" placeholder="员工真实姓名">
+                        <input type="text" name="gender"  placeholder="性别">
+                        <a class="btn" id="search">查询</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table>
+            <tr>
+                <th>电话号码</th>
+                <th>真实姓名</th>
+                <th>性别</th>
+                <th>入职时间</th>
+                <th>标记</th>
+                <th>角色</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/del_fireEmp.js"></script>
+</html>

@@ -1,0 +1,333 @@
+﻿/*清楚默认样式 企业级reset操作*/
+a, abbr, address, blockquote, body, caption, cite, code, dd, del, dfn, 
+div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, 
+img, ins, label, legend, li, object, ol, p, pre, q, small, span, strong, 
+sub, sup, table, tbody, td, tfoot, th, thead, tr, ul{
+    border:0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /*font-family: '黑体';*/
+}
+
+/*a标签的处理*/
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+}
+/* a:hover{
+    text-decoration:underline;
+} */
+
+/*按钮*/
+.btn{
+    display: inline-block;
+    outline: none;
+    border:none;
+    min-width: 85px;
+    border:1px solid #1090e6;
+    border-radius: 15px;
+    padding: 2px 13px 2px;
+    text-align:center;
+    color: #fff;
+    margin: 3px;
+    background: #0872b9;
+    cursor: pointer;
+    box-shadow: inset 0px 2px 9px 1px;
+    /*#3a87a5*/
+}
+.btn:hover{
+    background: #2194e8;
+    /*color:#1090e6;*/
+}
+.btn-m{
+    padding: 10px 25px 9px;
+    font-size:18px;
+}
+.btn-l{
+    padding: 15px 35px 14px;
+    font-size:22px;
+}
+.fill{
+    width:100%;
+    height: 100%;
+}
+/*消失隐藏*/
+.none{
+    display: none;
+}
+/*消失隐藏*/
+.show{
+    display: block;
+}
+/*鼠标指向样式*/
+.pointer{
+    cursor: pointer;
+}
+/*溢出滚动*/
+.scroll{
+    overflow:scroll;
+}
+.scroll-Y{
+    overflow-y: auto;
+}
+/*导航栏墨绿渐变*/
+.handler{                             
+    width: 100%;
+    max-height:100px;
+    background: -webkit-linear-gradient(to right, #198190 ,#19c1e4); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(to right, #198190,#19c1e4); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(to right, #198190 ,#19c1e4); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #198190 ,#19c1e4); /* 标准样式写最后 */
+}
+.handler ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.handler li{
+    float: left;
+}
+.handler li a{
+	display:block;
+    text-align:center;
+    width: 100px;
+	padding:10px 0px;
+	font-size:15px;
+	color:#fff;
+}
+.handler li a:hover{
+	background:#19c1e4;
+}
+
+/* 表格处理
+
+
+[type='checkbox'],[type='radio']{
+    outline: none;
+    width:17px;
+    height:17px;
+}
+[type='radio']{
+    border-radius: 50%;
+} */
+select{
+    /* height:34px; */
+    /* outline: none; */
+    /* text-indent: 15px; */
+    width: 137px;
+    height: 24px;
+    margin: 3px;
+    text-align: center;
+    /* border:1px solid #1090e6;
+    border-radius: 5px; */
+    cursor: pointer;
+}
+
+input{
+    /* height:30px; */
+    /* outline: none; */
+    /* text-indent: 15px; */
+    width:173px;
+    text-align: center;
+    margin: 3px;
+    cursor: pointer;
+    /* border:1px solid #1090e6;
+    border-radius: 5px; */
+}
+[type*='radio']{
+    width:20px;
+}
+caption{
+    caption-side: top;
+    font-size:30px;
+}
+tr:nth-child(odd){
+	/*border-bottom:2px dotted #f0f0f0;*/
+    /*border-bottom: 1px dotted #f0f0f0;*/
+    background: rgba(231, 245, 245, 0.38);
+}
+/*tr:nth-child(odd){!*偶数行添加背景*!*/
+    /*background: #f0f0f0;*/
+/*}*/
+/*tr:before{*/
+    /*counter-increment:counter 1;*/
+/*}*/
+table{
+	width:100%;
+	border-collapse:collapse;
+    border:none;
+    font-size: 13px;
+    text-align: center;
+    /*font-weight: 300;*/
+    letter-spacing: 1px;
+}
+td ,th {
+    border:0px;
+    min-width:125px;
+    width:135px;
+    
+}
+td{
+    width:135px;
+	height: 58px;
+}
+
+th{
+	/*background: rgb(136, 144, 150);*/
+    background: #3691d6;
+	/* box-shadow: 2px 2px 4px rgba(15, 90, 90, 0.85); */
+    color: #fff;
+    padding:5px 2px;
+    height: 30px;
+	text-shadow: 2px 2px 4px rgb(0, 0, 0);
+
+}
+/*tr{*/
+	/*border-bottom:2px solid #fff;*/
+/*}*/
+tr:last-child{/*因为要配合<tr><th></th></tr>使用列标题上不能有边框*/
+	border:none;
+}
+/*字体处理*/
+.text-reflect{/*方向，间距，渐变效果  这能是webkit 内核的*/
+    -webkit-box-reflect:below 1px linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
+}
+/*内容完美居中处理 仅ie9+*/
+.divCenter{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.toFlex{
+    display: flex;
+}
+.center{
+    margin: auto;
+}
+
+/*左右float*/
+.f-right{
+    float:right;
+}
+.f-left{
+    float:left;
+}
+textarea{
+    resize:none;
+    outline: none;
+    border-radius: 5px;
+    width:50%;
+    height:150px;
+    border:1px solid #1090e6;    
+    text-indent: 25px;
+    line-height: 25px;
+    font-size:13px;
+    overflow-y: auto;
+}
+
+/*iframe的处理*/
+iframe{
+    width:100%;
+    height:93%;
+    overflow-x:auto;
+    overflow-y: auto;
+}
+
+.show-content{
+    height:650px;
+}
+.cutPage{
+    margin-top:20px;
+    border-top:1px solid #f0f0f0;
+    padding: 10px 0px;
+    text-align: center;
+    color:#7d9090;
+}
+#pre,#next,[id^='jump']:hover{
+    cursor: pointer;
+}
+.input-min{
+    width:34px;
+}
+select{
+    height:22px;
+}
+.select-fix-input{
+    width:173px;
+
+}
+.red{
+    color:#800000;
+}
+
+#pre{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+
+}
+#pre:hover{
+    background: none;
+    color:#50acf1;
+}
+#next{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+}
+#next:hover{
+    background: none;
+    color:#50acf1;
+}
+#jumpTo{
+    outline: none;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    background: #0872b9;
+    border:1px solid #50acf1;
+    color:#fff;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: inset 0px 2px 9px 1px;
+}
+#jumpTo:hover{
+    background: none;
+    color:#50acf1;
+}
+/*#search{*/
+    /*display: inline-block;*/
+    /*width:35px;*/
+    /*height:35px;*/
+    /*transform:rotate(-90deg);*/
+    /*background: url("../images/search.png") no-repeat;*/
+    /*background-size: cover;*/
+/*}*/
+/*form table tr td:nth-of-type(1){*/
+    /*text-align: right;*/
+/*}*/
+
+form table tr td:nth-of-type(2){
+    text-align: left;
+}
+
+.brand form table tr td{
+    text-align: center;
+}

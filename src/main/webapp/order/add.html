@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form onsubmit="return false">
+    <table>
+            <tr>
+                <td colspan="2">
+                    <div id="l-map" style="height:400px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>批发公司地址</td>
+                <td >
+                    <input type="text" name="name" id="suggestId" size='40' value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>
+                    <div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td ><input type="text" name="phone" placeholder="联系电话"/></td>
+            </tr>
+            <!--<tr>-->
+                <!--<td>批发公司营业执照</td>-->
+                <!--<td><input type="file" name="license" /></td>-->
+            <!--</tr>-->
+            <tr>
+                <td>备注</td>
+                <td ><textarea name="remark"  cols="30" rows="10"></textarea></td>
+            </tr>
+            <tr>
+                <td>操作</td>
+                <td><input type="submit" id="submit" class="btn" onclick="return false" value="添加"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/myMapApi.js"></script>
+<script src="./js/add.js"></script>
+</html>

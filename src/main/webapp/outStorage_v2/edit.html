@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form onsubmit="return false" >
+    <table>
+        <tr>
+            <th>条目</th>
+            <th>信息</th>
+        </tr>
+        <tr>
+            <td>生产厂家</td>
+            <td><input type="text" name="remark" id="remark" placeholder="生产厂家"></td>
+        </tr>
+        <tr>
+            <td>供应商</td>
+            <td><input type="text" name="firm" id="firm" placeholder="供应商"></td>
+        </tr>
+        <tr>
+            <td>产品名称</td>
+            <td><input  name="name" id="name" placeholder="产品名称"></td>
+        </tr>
+        <tr>
+            <td>供应商联系电话</td>
+            <td><input type="number" name="phone" id="phone" placeholder="供应商联系电话" ></td>
+        </tr>
+        <tr>
+            <td>类型</td>
+            <td><select name="type" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>进货数量</td>
+            <td><input type="number" name="quantity" id="quantity" placeholder="进货数量" ></td>
+        </tr>
+        <tr>
+            <td>剩余数量</td>
+            <td><input type="number" name="rest" id="rest" placeholder="剩余数量" ></td>
+        </tr>
+        <tr>
+            <td>单位</td>
+            <td><select name="unit" id="unit" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>有效期</td>
+            <td><input type="date" name="expirationDate"></td>
+        </tr>
+        <tr>
+            <td>负责人</td>
+            <td><select name="idCharge" class="select-fix-input"></select></td>
+        </tr>
+        <tr>
+            <td>操作</td>
+            <td><input type="submit" id="submit" class="btn" onclick="return false" value="添加"></td>
+        </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="./js/edit.js"></script>
+</html>

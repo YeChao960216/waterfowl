@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <div class="show-content">
+        <form id="searchForm">
+            <table>
+                <tr>
+                    <td style="text-align:left">
+                        <span style="font-size: 16px;font-weight: 300">查询:</span>
+                        <input type="text" name="idPatch" placeholder="批次号">
+                        <select name="diseaes" class="select-fix-input"></select>
+                        <a class="btn" id="search">查询</a>
+                        <a class="btn" id="back" style="display: none">返回</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table>
+            <tr>
+                <th>批次号</th>
+                <th>疾病类型</th>
+                <th>发病数量</th>
+                <th>给药方式</th>
+                <th>注射剂量</th>
+                <th>剂量单位</th>
+                <th>药物名称</th>
+                <th>药物供应商</th>
+                <th>备注</th>
+                <th>记录人</th>
+                <th>负责人</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+            <tbody id="content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="cutPage">
+        <button id="pre" >&lt;</button>
+        <span id="now">0</span>/<span id="all">0</span>
+        <button id="next" >&gt;</button>
+        <input type="text" id="jumpText" class="input-min" placeholder="跳转">
+        <button  id="jumpTo">Go</button>
+    </div>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_dataFilter.js"></script>
+<script src="../static/willon_frame/willon_cutPageCotroller_v2.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/find.js"></script>
+</html>

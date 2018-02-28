@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表展示   bootstrap+jq ajax 的示例</title>
+    <!--引入static文件夹中的css布局文件-->
+    <link rel="stylesheet" href="/waterfowl/static/bootstrap/bootstrap.min.css" />
+    <!--引用static文件夹中的jq库等静态文件-->
+    <script src="/waterfowl/static/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/waterfowl/static/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="box">
+    <table class="table table-striped">
+        <caption>项目开发人员-条纹表格布局   --Jq对象写法</caption>
+        <thead>
+        <tr>
+            <th>用户id</th>
+            <th>用户姓名</th>
+            <th>用户密码</th>
+            <th>用户类型</th>
+            <th>用户电话</th>
+            <th>用户职责</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <!--此处的位置用来放置动态生成的dom节点-->
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    <!--使用 jq对象的方式实现解析json并构建dom展示-->
+    function showUserList() {
+        let url = "/waterfowl/admin/user/list";   // 这里可以加各种参数，例如 url = "/admin/user/list"+ param   ,param是根据用户行为有不同的值，例如 param="?type=1&duty=饲养员"
+        let tboby = $("#tbody");  //    找到挂在的dom节点
+        $.ajax({ url:url, data:{
+            pageSize:3
+        },success :function (pageBean) {    //  ajax成功后执行的函数
+            let data = pageBean.list;   //  从pageBean提取需要的信息,这里是List<User>
+            $(data).each(function (index,element) { //  遍历用户列表List
+                let tr = $("<tr/>");    //  创建新的<tr>节点
+                for( i in element){
+                    let td = $("<td>"+element[i]+"</td>");  //  //  创建新的<td>节点,并填充数据
+                    $(tr).append(td);   //  将td节点放入tr节点
+                }
+                $(tbody).append(tr);    //  将tr节点放入tbody中
+            });
+        }
+        });
+    }
+    showUserList(); //  执行渲染的函数
+
+</script>
+
+</body>
+</html>

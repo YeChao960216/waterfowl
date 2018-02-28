@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手动增加禽舍</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+<table>
+    <tr>
+        <th>规格</th>
+        <th>归属的大禽舍</th>
+        <th>负责人编号</th>
+        <th>记录者编号</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td>
+            <select id="size">
+                <!--<option>规格</option>-->
+                <!--<option>规格1</option>-->
+                <!--<option>规格2</option>-->
+                <!--<option>规格3</option>-->
+            </select>
+        </td>
+
+        <!--<td>-->
+            <!--<div id="status">-->
+                <!--&lt;!&ndash;可用<input id="yes" type="radio" name="sex" checked>&ndash;&gt;-->
+                <!--&lt;!&ndash;不可用<input id="no" type="radio" name="sex">&ndash;&gt;-->
+            <!--</div>-->
+
+        <!--</td>-->
+
+        <!--affiliation对应affiliation的id；当用户填写该表的affiliation字段时，下拉框选项为affiliation表的所有id，-->
+        <td>
+            <select id="affiliation">
+                <!--<option>大禽舍</option>-->
+                <!--<option>大禽舍id1</option>-->
+                <!--<option>大禽舍id2</option>-->
+                <!--<option>大禽舍id3</option>-->
+            </select>
+        </td>
+
+        <td><input id="idCharge" type="text" placeholder="负责人编号"></td>
+
+        <td><input id="idRecorder" type="text"  placeholder="记录者编号"></td>
+
+        <td><button class="btn" id="add">增加</button></td>
+    </tr>
+    <tbody id="tbody"></tbody>
+</table>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/add.js"></script>
+</html>

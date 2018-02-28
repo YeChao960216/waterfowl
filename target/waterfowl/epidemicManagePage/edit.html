@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改记录</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        $(function () {
+            //获取url中的参数
+            var id =getQueryString("id");
+            //根据id从数据库中获取修改前的值
+            console.log(id);
+            $.post(
+                "/waterfowl/epidemic/show/"+id,
+                function (data) {
+                    $("#record_date").val(data.recordDate)
+                    $("#id_patch").val(data.idPatch),
+                        $("#sign").val(data.sign),
+                        $("#diseaes").val(data.diseaes),
+                        $("#num_infected").val(data.numInfected),
+                        $("#processing_mode").val(data.processingMode),
+                        $("#medication_mode").val(data.medicationMode),
+                        $("#dose").val(data.dose),
+                        $("#dose_unit").val(data.doseUnit),
+                        $("#id_outstorage").val(data.idOutstorage),
+                        $("#id_recorder").val(data.idRecorder),
+                        $("#id_charge").val(data.idCharge),
+                     $("#remark").val(data.remark)
+                },
+                "json"
+            )
+            //edit按钮绑定事件
+            $("#edit").click(function () {
+
+                $.post(
+                    "/waterfowl/epidemic/edit/"+id,
+                    {
+                        "id":id,
+                        "recordDate": $("#record_date").val(),
+                        "idPatch": $("#id_patch").val(),
+                        "name": $("#name").val(),
+                        "numProcessed": $("#sign").val(),
+                        "diseaes": $("#diseaes").val(),
+                        "numInfected": $("#num_infected").val(),
+                        "processingMode": $("#processing_mode").val(),
+                        "medicationMode": $("#medication_mode").val(),
+                        "dose": $("#dose").val(),
+                        "doseUnit": $("#dose_unit").val(),
+                        "idRecorder": $("#id_recorder").val(),
+                        "idCharge": $("#id_charge").val(),
+                        "remark": $("#remark").val()
+                    },
+                    function () {
+                        window.location.href ="/waterfowl/epidemicManagePage/waitUploadList.html";
+                    },
+                    "json"
+                )
+            })
+        })
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null){
+                return  unescape(r[2]);
+            }
+            return null;
+        }
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>记录日期</th>
+        <th>批次编号</th>
+        <th>药品名称</th>
+        <th>免疫、疫病标志</th>
+        <th>疾病</th>
+        <th>染病个体数</th>
+        <th>处理方式</th>
+        <th>给药方式</th>
+        <th>剂量</th>
+        <th>剂量单位</th>
+        <th>记录者编号</th>
+        <th>负责人编号</th>
+        <th>备注</th>
+    </tr>
+    <tr>
+        <td><input type="date" id="record_date"></td>
+        <td><input type="text" id="id_patch" placeholder="批次编号" ></td>
+        <td><input type="text" id="name" placeholder="批次编号" ></td>
+        <td><input type="text" id="sign" placeholder="免疫、疫病标志"></td>
+        <td><input type="text" id="diseaes" placeholder="疾病"></td>
+        <td><input type="text" id="num_infected" placeholder="染病个体数"></td>
+        <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
+        <td><input type="text" id="medication_mode" placeholder="给药方式"></td>
+        <td><input type="text" id="dose" placeholder="剂量"></td>
+        <td><input type="text" id="dose_unit" placeholder="剂量单位"></td>
+        <td><input type="text" id="id_recorder" placeholder="记录者"></td>
+        <td><input type="text" id="id_charge" placeholder="负责人"></td>
+        <td><input type="text" id="remark" placeholder="备注"></td>
+        <td><input type="button" class="btn" value="修改" id="edit"></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+    <script src="../static/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/new.js"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>库存记录编号</th>
+        <th>材料名称</th>
+        <th>有效日期</th>
+        <th>来源厂商</th>
+        <th>厂商电话</th>
+        <th>存储地点</th>
+        <th>存储方式</th>
+        <!--<th>记录者编号</th>-->
+        <!--<th>负责人编号</th>-->
+        <th>备注</th>
+    </tr>
+    <tr>
+        <td id="idStor"></td>
+        <td id="mname"></td>
+        <td id="expDate"></td>
+        <td id="assFirm"></td>
+        <td id="phone"></td>
+        <td id="stoSite"></td>
+        <td id="mode"></td>
+        <!--<td id="idReco"></td>-->
+        <!--<td id="idChar"></td>-->
+        <td id="remark"></td>
+    </tr>
+    <tr>
+        <th>库存材料数量</th>
+        <th>库存计数单位</th>
+        <th>本次出库数量</th>
+        <th>本次出库计数单位</th>
+        <th>出库记录者编号</th>
+        <th>出库负责人编号</th>
+        <th>出库备注</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td id="quantity"></td>
+        <td id="unit"></td>
+        <td><input type="text" id="outquantity" placeholder="本次出库数量"></td>
+        <!--<td><input type="text" id="outunit" placeholder="本次出库计数单位"></td>-->
+        <td><select id="outunit"></select></td>
+        <td><input type="text" id="outidReco" placeholder="出库记录者编号"></td>
+        <td><input type="text" id="outidChar" placeholder="出库负责人编号"></td>
+        <td><input type="text" id="outremark" placeholder="出库备注"></td>
+        <td><input type="button" value="提交" id="submit"> </td>
+    </tr>
+</table>
+</body>
+</html>

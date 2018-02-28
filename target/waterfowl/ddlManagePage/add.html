@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加记录</title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>记录日期</th>
+            <th>所属批次</th>
+            <th>处理数量</th>
+            <th>处理方式</th>
+            <th>记录者</th>
+            <th>负责人</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="content">
+            <tr>
+                <td><input type="date" id="record_date"></td>
+                <td><input type="text" id="id_poultry" placeholder="所属批次" ></td>
+                <td><input type="text" id="num_processed" placeholder="处理数量" ></td>
+                <td><input type="text" id="processing_mode" placeholder="处理方式"></td>
+                <td><input type="text" id="id_recorder" placeholder="记录者"></td>
+                <td><input type="text" id="id_charge" placeholder="负责人"></td>
+                <td><input type="text" id="remark" placeholder="备注"></td>
+                <td><button class="btn" >添加</button></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+<script type="text/javascript"  src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //ajax函数，添加数据
+        function add(){
+            $.post(
+                "/waterfowl/ddl/save",
+                {
+                    "recorDate": $("#record_date").val(),
+                    "idPoultry": $("#id_poultry").val(),
+                    "numProcessed": $("#num_processed").val(),
+                    "processingMode": $("#processing_mode").val(),
+                    "idRecorder": $("#id_recorder").val(),
+                    "idCharge": $("#id_charge").val(),
+                    "remark": $("#remark").val()
+                },
+                function (data) {
+                    if(data.status==="1"){
+                        alert("增加成功");
+                    }else{
+                        alert("增加失败");
+                    }
+                    window.location.href ="/waterfowl/ddlManagePage/add.html"
+                },
+                "json"
+            )
+        }
+
+        //点击添加数据的按钮
+        $(".btn").click(function(){
+            //调用ajax添加函数
+            //addDdL();
+            var data ={
+                "date":$("#record_date").val(),
+                "idPoultry":$("#id_poultry").val(),
+                "numProcessed":$("#num_processed").val(),
+                "processingMode":$("#processing_mode").val(),
+                "idRecorder":$("#id_recorder").val(),
+                "idCharge":$("#id_charge").val(),
+                "remark":$("#remark").val()
+            };
+            console.log(data);
+            add();
+        });
+
+        //默认记录日期网为当天
+        var record_date =document.getElementById("record_date");//设置类型为date的input元素的默认值
+        record_date.valueAsDate = new Date()
+
+    });
+</script>
+</html>
