@@ -14,7 +14,8 @@
             PRONAME:'/waterfowl',
             GETEPILIST:'/outpoultry/list',
             DEL:'/outpoultry/delete/',
-            GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/'+getRequest()['id'],
+            GETFINDPATCHBYPID:'/admin/patch/findPatchByPidAndStatusCutPage/'+getRequest()['id'],//入库对应的所有批次号
+            GETOUTP:'/outpoultry/list',  //根据批次号超出所有的出库信息
         };
 
     /**
@@ -26,21 +27,21 @@
         param:[$('#preContent')[0],preDataObj,'poultry_nav']
     });
 
-    /**
-     * 展现所有的批次->批次中管理按钮
-     */
-    $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID,function(res){
-        if(res.object.length){
-            var data = new DataFilter({
-                data:res.object,
-                type:'filterTimeAndNull'
-            });
-            viewCommand({
-                command:'display',
-                param:[$('#content')[0],data,'outPoultry_list']
-            });
-        }
-    });
+    // /**
+    //  * 展现所有的批次->批次中管理按钮
+    //  */
+    // $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID,function(res){
+    //     if(res.object.length){
+    //         var data = new DataFilter({
+    //             data:res.object,
+    //             type:'filterTimeAndNull'
+    //         });
+    //         viewCommand({
+    //             command:'display',
+    //             param:[$('#content')[0],data,'outPoultry_list']
+    //         });
+    //     }
+    // });
 
 
 
@@ -49,11 +50,11 @@
      */
     var pageController = new PageController({
 
-        url:oURL.PRONAME+oURL.GETEPILIST,
+        url:oURL.PRONAME+oURL.GETFINDPATCHBYPID,
 
         view:{
             container : $('#content')[0],
-            tpl:'outPoultry_v3_show',
+            tpl:'outPoultry_list',
             nowView:$('#now')[0],
             allView:$('#all')[0],
         },
@@ -76,22 +77,21 @@
 
     });
 
+    pageController.init();
+
     /**
-     * 找出该批次号对应的养殖记录信息
+     * 找出该批次号对应的出库信息
      */
     $('#content').on('click',"[data-id*='O']",function(){
         var id = $(this).attr('data-id').substr(1);
+        pageController.subUrl = oURL.PRONAME+oURL.GETOUTP;
         pageController.other = '&idPatch='+id;
+        pageController.tpl = 'outPoultry_v3_show';
         $('#patchInfo').addClass('none');
         $('#outInfo').removeClass('none');
-        // var $tar = $(this).parent().parent();
-        // var child_length  = $tar.children().length;
-        // $tar.find('td')[child_length-1].remove();
-        // $('#nowpatchContent').html($tar);
         $('#content').empty();
         pageController.init();
     });
-
     /**
      *
      * 提交删除的id值

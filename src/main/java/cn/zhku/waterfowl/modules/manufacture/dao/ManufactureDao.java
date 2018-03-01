@@ -10,15 +10,15 @@ public interface ManufactureDao {
 
     /**
      * 更改批次状态为加工阶段
-     * @param idPacth
+     * @param idPatch
      */
-    @Update("update patch set status = '30005' where id_poultry = #{idPacth}")
-    void setPatchStatus(String idPacth);
+    @Update("update patch set status = '30005' where id_poultry = #{idPatch}")
+    void setPatchStatus(String idPatch);
 
     /**
      * 更改批次状态为待输阶段
-     * @param idPacth
+     * @param idPatch
      */
-    @Update("update patch set status = '30006' where id_poultry = #{idPacth}")
-    int setPatchStatusToTrans(String idPacth);
+    @Update("update out_poultry set status = '30007' where id = #{idPatch}")
+    int setPatchStatusToTrans(String idPatch);
 }

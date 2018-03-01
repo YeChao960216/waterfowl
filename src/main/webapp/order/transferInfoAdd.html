@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html onselectstart="return false">
+<html ondragstart="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
         .mapVue{
             float:left;
             width:53%;
-            height:723px;
+            /*height:723px;*/
             border:1px solid #f0f0f0;
         }
         .mapVue .address{
@@ -28,7 +28,7 @@
         .mapVue .track{
             margin-top:2px;
             width:100%;
-            height:385px;
+            height:710px;
             border-top: 1px solid #f0f0f0;
             padding: 5px;
         }
@@ -39,17 +39,24 @@
     </style>
 </head>
 <body>
+<div class="transferInfoAdd"></div>
 <div class="mapVue">
     <div class="address">
         <div id="l-map"></div>
     </div>
-    <div class="track"></div>
+    <div class="track" id="main">
+
+    </div>
 </div>
-<div class="transferInfoAdd"></div>
 </body>
 <script src="../static/jquery/jquery-1.9.1.min.js"></script>
 <script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
 <script src="../static/willon_frame/willon_query.js"></script>
 <script src="./js/myMapApi.js"></script>
+<script src="./echarts/echarts.js"></script>
+<script src="./js/echarts.js"></script>
+<script src="./js/require.js"></script>
+<script src="./js/myEcharts_option.js"></script>
+<script src="./js/track2.js"></script>
 <script src="./js/transferInfoAdd.js"></script>
 </html>

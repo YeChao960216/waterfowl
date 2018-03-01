@@ -1,11 +1,10 @@
 package cn.zhku.waterfowl.modules.transportation.controller;
 
 
+import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
 import cn.zhku.waterfowl.modules.transportation.dao.TransportationDao;
 import cn.zhku.waterfowl.modules.transportation.service.TransportationService;
-import cn.zhku.waterfowl.pojo.entity.Customer;
-import cn.zhku.waterfowl.pojo.entity.Transcompany;
-import cn.zhku.waterfowl.pojo.entity.Transportation;
+import cn.zhku.waterfowl.pojo.entity.*;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
 import com.github.pagehelper.PageHelper;
@@ -36,6 +35,9 @@ public class TranspotationController {
     @Autowired
     TransportationDao transportationDao;
 
+    @Autowired
+    OutPoultryService outPoultryService;
+
     /**
      * 增加记录
      * @param transportation
@@ -48,17 +50,14 @@ public class TranspotationController {
         transportation.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());   //用32位大小的UUID来设置记录id
         Timestamp t = new Timestamp(System.currentTimeMillis());
         transportation.setCurdate(t);
-        //根据经纬度判断知否为目的地
 
-        List<Customer> list = transportationService.getLngAndLat(transportation.getCid());
-        if (transportationService.add(transportation) == 1) {
-            float rLng = Float.parseFloat(list.get(0).toString());
-            float rLat = Float.parseFloat(list.get(1).toString());
-            if (transportation.getCurlng()==rLng&&transportation.getCurlat()==rLat) {
-                transportationDao.setPatchStatusFinish(transportation.getIdPatch());
-            }else {
-                transportationDao.setPatchStatus(transportation.getIdPatch());
-            }
+        OutPoultry outPoultry = new OutPoultry();
+        outPoultry.setStatus("30008");
+        outPoultry.setId(transportation.getIdPatch());
+
+
+        if (transportationService.add(transportation) == 1 && outPoultryService.update(outPoultry) == 1) {
+
             return new Message("1", "成功增加1条记录");
         } else {
             return new Message("2", "增加记录失败");
@@ -124,11 +123,27 @@ public class TranspotationController {
     @ResponseBody
     @RequestMapping("listtransportation")
     public PageInfo<Transportation> listTransportation(Transportation transportation, CommonQo commonQo) throws Exception {
-        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "id desc");
+        PageHelper.startPage(commonQo.getPageNum(), commonQo.getPageSize(), "curdate desc");
         //  通过服务层获取查询后的用户列表
         List<Transportation> transportationList = transportationService.findList(transportation);
         //  返回 pageBean
         return new PageInfo<Transportation>(transportationList);
     }
 
+    /**
+     * 完成运输
+     * @param idPatch
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("finishTrans")
+    public Message setPatchStatusToTrans(String idPatch) throws Exception{
+        if (transportationDao.setPatchStatusFinish(idPatch) > 0) {
+
+            return new Message("1", "修改成功");
+        } else {
+            return new Message("2", "修改失败");
+        }
+    }
 }

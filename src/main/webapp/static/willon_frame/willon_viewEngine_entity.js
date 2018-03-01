@@ -43,8 +43,14 @@ var viewCommand = (function(msg){
          id:[
              "<option value='{#id#}'>{#id#}</option>"
          ].join(''),
+         tidAndname:[
+             "<option value='{#tid#}${#name#}'>{#name#}</option>"
+         ].join(''),
          tid_name:[
              "<option value='{#tid#}'>{#name#}</option>"
+         ].join(''),
+         cid_name:[
+             "<option value='{#cid#}'>{#name#}</option>"
          ].join(''),
          idPatch:[
              "<option value='{#idPatch#}'>{#idPatch#}</option>"
@@ -178,7 +184,7 @@ var viewCommand = (function(msg){
              '<td >{#affiliation#}</td>',
              '<td >{#size#}</td>',
              '<td >{#status#}</td>',
-             '<td >{#idRecord#}</td>',
+             '<td >{#name#}</td>',
              '<td >{#idCharge#}</td>',
              "<td ><a class='btn' data-id='del{#id#}'>删除</a></td>",
              "<td ><a class='btn' href='./edit.html?id={#id#}'>修改</a></td>",
@@ -263,7 +269,7 @@ var viewCommand = (function(msg){
              '<td >{#numTotal#}</td>',
              '<td >{#size#}</td>',
              '<td >{#date#}</td>',
-             '<td >{#idRecorder#}</td>',
+             '<td >{#status#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><button class="btn" data-id="del{#id#}">删除</button></td>',
              '<td ><button class="btn" data-id="edit{#id#}">修改</button></td>',
@@ -620,21 +626,29 @@ var viewCommand = (function(msg){
              '<td><select name="idPatch" id="id_patch" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>本批次数量</td>'+
-             '<td><input type="text" name="quantity" id="quantity" placeholder="本批次数量" disabled></td>'+
+             '<td>出库数量</td>'+
+             '<td><input type="number" name="quantity" id="quantity" placeholder="本批次数量" ></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td>下一阶段打算</td>'+
+             '<td><select name="nextProcess" class="select-fix-input"></select></td>'+
              '</tr>'+
              '<tr class="none">'+
              '<td>单位</td>'+
-             '<td><input type="text" name="unit" id="unit" placeholder="单位" value="只" ></td>'+
+             '<td><input type="text" name="unit" id="unit" placeholder="单位" value="20002" ></td>'+
             '</tr>'+
-            '<tr>'+
-            '<td>出厂商</td>'+
-            '<td><input type="text" name="firm" id="firm" class="select-fix-input"></td>'+
+            '<tr class="none firm">'+
+            '<td >选择加工企业</td>'+
+            '<td><select name="firm" class="select-fix-input"></select></td>'+
             '</tr>'+
-            '<tr>'+
-            '<td>联系电话</td>'+
-            '<td><input type="text" name="phone" id="phone" class="select-fix-input" ></td>'+
-            '</tr>'+
+             '<tr class="none firm">'+
+             '<td>选择送往收货批发商/加工企业</td>'+
+             '<td><select name="firm" class="select-fix-input"></select></td>'+
+             '</tr>'+
+             '<tr class="firm">'+
+             '<td >公司地址</td>'+
+             '<td><select name="firm" class="select-fix-input"></select></td>'+
+             '</tr>'+
              '<tr>'+
              '<td>负责人</td>'+
              '<td><select name="idCharge" id="idCharge" class="select-fix-input"></select></td>'+
@@ -765,6 +779,7 @@ var viewCommand = (function(msg){
              '<td >{#phone#}</td>',
              '<td >{#type#}</td>',
              '<td >{#quantity#}</td>',
+             '<td >{#rest#}</td>',
              '<td >{#unit#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#expirationDate#}</td>',
@@ -798,19 +813,18 @@ var viewCommand = (function(msg){
          ].join(''),
          outPoultry_v3_show:[
              '<tr>',
+             '<td >{#id#}</td>',
              '<td >{#idPatch#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#firm#}</td>',
-             '<td >{#phone#}</td>',
              '<td >{#quantity#}</td>',
+             '<td >{#status#}</td>',
              '<td >{#remark#}</td>',
-             '<td >{#idRecorder#}</td>',
              '<td >{#idCharge#}</td>',
              '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
-
          epi_v2_show:[
              '<tr>',
              '<td >{#idPatch#}</td>',
@@ -847,12 +861,12 @@ var viewCommand = (function(msg){
              '<td >{#recordeDate#}</td>',
              '<td >{#firm#}</td>',
              '<td >{#site#}</td>',
-             '<td >{#phone#}</td>',
              '<td >{#quantity#}</td>',
              '<td >{#method#}</td>',
              '<td >{#remark#}</td>',
              '<td >{#idRecord#}</td>',
              '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="ok{#idPatch#}" data-patch="{#idPatch#}">完成加工</a></td>',
              '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
@@ -873,18 +887,48 @@ var viewCommand = (function(msg){
              '<td >{#remark#}</td>',
              '<td ><a class="btn" >查看营业执照</a></td>',
              '<td ><a class="btn" href="./transferInfoAdd.html?cid={#cid#}&name={#name#}&phone={#phone#}">发货/更新物流</a></td>',
+             '<td ><a class="btn" data-id="ok{#cid#}">完成配送</a></td>',
              '<td ><a class="btn" data-id="del{#cid#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#cid#}">修改</a></td>',
              '</tr>'
          ].join(''),
          transferFirm_find:[
              '<tr>',
+             '<td >{#type#}</td>',
              '<td >{#name#}</td>',
              '<td >{#phone#}</td>',
              '<td >{#remark#}</td>',
              '<td ><a class="btn" >查看营业执照</a></td>',
              '<td ><a class="btn" data-id="del{#tid#}">删除</a></td>',
              '<td ><a class="btn" href="./edit.html?id={#tid#}">修改</a></td>',
+             '</tr>'
+         ].join(''),
+         outPoultry_for_transferInfos:[
+             '<tr>',
+             '<td >{#id#}</td>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#firm#}</td>',
+             '<td >{#quantity#}</td>',
+             '<td >{#status#}</td>',
+             '<td >{#recordDate#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#idCharge#}</td>',
+             '<td ><a class="btn" data-id="look{#id#}">查看物流</a></td>',
+             '<td ><a class="btn" data-ok="ok{#id#}">完成配送</a></td>',
+             '</tr>'
+         ].join(''),
+         transferInfoList_find:[
+             '<tr>',
+             '<td >{#idPatch#}</td>',
+             '<td >{#cid#}</td>',
+             '<td >{#tid#}</td>',
+             '<td >{#remark#}</td>',
+             '<td >{#curquantity#}</td>',
+             '<td >{#curdate#}</td>',
+             '<td >{#driver#}</td>',
+             '<td >{#phone#}</td>',
+             '<td ><a class="btn" data-id="del{#id#}">删除</a></td>',
+             '<td ><a class="btn" href="./edit.html?id={#id#}">修改</a></td>',
              '</tr>'
          ].join(''),
          blank:[
@@ -899,19 +943,19 @@ var viewCommand = (function(msg){
              '<th>条目</th>'+
              '<th>发货信息</th>'+
              '</tr>'+
-             '<tr>'+
-             '<td>批发商地址</td>'+
-             '<td><input type="text" disabled></td>'+
+             '<tr class="firmName-p">'+
+             '<td>批发商地址(目的地)</td>'+
+             '<td><p id="firmName"></p></td>'+
              '</tr>'+
-             '<tr>'+
-             '<td>批发商联系电话</td>'+
-             '<td><input type="text" disabled></td>'+
+             '<tr class="firmName-select">'+
+             '<td>批发商地址(目的地)</td>'+
+             '<td><select  name="cid" class="select-fix-input"></select></td>'+
              '</tr>'+
-             '<tr>'+
-             '<td>批次状态</td>'+
+             '<tr class="status">'+
+             '<td >批次状态</td>'+
              '<td>' +
-             '已出厂:<input type="radio" name="status" value="30004" checked>' +
-             '完成加工/待运输<input type="radio" name="status" value="30006">' +
+             '待运输:<input type="radio" name="status" data-value="30007"  checked>' +
+             '待运输待加工<input type="radio" name="status" data-value="30009">' +
              '</td>'+
              '</tr>'+
              '<tr>'+
@@ -924,7 +968,7 @@ var viewCommand = (function(msg){
              '</tr>'+
              '<tr>'+
              '<td>输入物流站点</td>'+
-             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<td><input type="text" name="remark" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="站点位置"/>'+
              '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
              '</td>'+
              '</tr>'+
@@ -936,10 +980,10 @@ var viewCommand = (function(msg){
              '<td>配送司机电话</td>'+
              '<td><input type="text" name="phone"></td>'+
              '</tr>'+
-             '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
-             '</tr>'+
+             // '<tr>'+
+             // '<td>备注</td>'+
+             // '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
+             // '</tr>'+
              '<tr>'+
              '<td>操作</td>'+
              '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
@@ -957,20 +1001,20 @@ var viewCommand = (function(msg){
              '<th>更新物流信息</th>'+
              '</tr>'+
              '<tr>'+
-             '<td>批发商地址</td>'+
-             '<td><input type="text" disabled></td>'+
-             '</tr>'+
-             '<tr>'+
-             '<td>批发商联系电话</td>'+
-             '<td><input type="text" disabled></td>'+
+             '<td>批发商地址(目的地)</td>'+
+             '<td><p></p></td>'+
              '</tr>'+
              '<tr>'+
              '<td>正在被运输的批次号</td>'+
-             '<td><input type="text" disabled>数量:<span style="color:#387"></span>只</td>'+
+             '<td><p></p></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>输入当前物流所达到的站点</td>'+
-             '<td><input type="text" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="批发公司地址"/>'+
+             '<td>数量(单位:只)</td>'+
+             '<td><span style="color:#387"></span></td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td><p style="color:#387"></p>输入当前物流所达到的站点</td>'+
+             '<td><input type="text" name="remark" id="suggestId" size="40" value="仲恺农业工程学院海珠校区" placeholder="站点位置"/>'+
              '<div id="searchResultPanel" style="border:1px solid #c0c0c0;width:173px;height:auto;display:none"></div>' +
              '</td>'+
              '</tr>'+
@@ -983,10 +1027,6 @@ var viewCommand = (function(msg){
              '<td><input type="text" name="phone"></td>'+
              '</tr>'+
              '<tr>'+
-             '<td>备注</td>'+
-             '<td><textarea  name="remark" placeholder="备注" class="select-fix-input"></textarea></td>'+
-             '</tr>'+
-             '<tr>'+
              '<td>操作</td>'+
              '<td><button type="submit" class="btn select-fix-input" onclick="return false" >提交</button></td>'+
              '</tr>'+
@@ -997,7 +1037,7 @@ var viewCommand = (function(msg){
      };
      function formateString(str,obj){         //模板核心代码，替换{# #}之间的字符串
          return str.replace(/\{#(\w+)#\}/g,function(matchArr,key){
-             if(+obj[key]){   //判断是不是数字
+             if(+obj[key] && key != 'id'){   //判断是不是数字
                  var word = localStorage.getItem('waterfowl'+obj[key]);     //字典过滤
                  if(word){          //利用强制类型转换 是数字的
                      return word;

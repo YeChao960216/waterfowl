@@ -45,7 +45,7 @@ public class ManufactureController {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         manufacture.setRecordDate(t);
         if (manufactureService.add(manufacture) == 1) {
-            manufactureDao.setPatchStatus(manufacture.getIdPatch());
+
             return new Message("1", "成功增加1条记录");
         } else {
             return new Message("2", "增加记录失败");
@@ -122,12 +122,14 @@ public class ManufactureController {
 
     /**
      *
-     * @param id
+     * @param idPatch
      * @return
      * @throws Exception
      */
-    public Message setPatchStatusToTrans(String id) throws Exception{
-        if (manufactureDao.setPatchStatusToTrans(id) > 0) {
+    @ResponseBody
+    @RequestMapping("finishManufacture")
+    public Message setPatchStatusToTrans(String idPatch) throws Exception{
+        if (manufactureDao.setPatchStatusToTrans(idPatch) > 0) {
             return new Message("1", "修改成功");
         } else {
             return new Message("2", "修改失败");

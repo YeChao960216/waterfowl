@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2017-11-19 20:06:12 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2018-01-17 22:13:50
+ * @Last Modified time: 2018-02-01 16:03:25
  */
 /**
  * 失策：下面有很多代码的冗余，写的时候匆匆忙忙没有选好设计模式，导致写了一堆垃圾代码,虽然是实现了业务需求，但是代码的可维护性差。
@@ -18,6 +18,7 @@
             GETAQUACULTURELIST:'/poultry/list',
             GETINFOBYPID:'/poultry/selectBy/',
             GETPOSITON:'/dict/list?pid=70000',
+            GETNEXTP:'/dict/list?pid=16000',
             GETHOMETYPE:'/dict/list?pid=60000',
             GETDANWEI:'/dict/list?pid=14000',
             GETSIWANGYUANYING:'/dict/list?pid=12000',//死亡原因
@@ -35,6 +36,7 @@
             GETLASTMATERILNUM:'/aquaculture/checkQuantity/',  //饲料剩余量
             APOST : '/aquaculture/add',//最终养殖提交路径
             OPOST:'/outpoultry/add',//出厂路径
+            GETCHECK:'/admin/patch/findPatchByPidAndStatus/',
             GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/',//{id_p}通过PID查找所有已经划分的批次
             GETLASTNUM:'/admin/patch/isEqualSum/',//{id_p}通过PID查出我还能圈养多少只
             // GETTYPEBYPOSITION:'/admin/patch/listtype',//position -> type
@@ -50,6 +52,7 @@
             GETEPIVUE:'/epidemic/diseaesMethod?idPatch=',//免疫表的呈现
             DEL:'/poultry/delete/',
             GETLIUCHENGZHUANTAI:'/dict/list?pid=11000',//流程状态
+            GETCOM:'/transcompany/listtranscompany?type=',//获取各种公司
             };
     /**
      * 实例化一个分页控制者
@@ -152,7 +155,7 @@
      * 新增按钮的视图切换
      */
     $('#new').click(function () {
-        window.location.href ='./aqua_add.html'
+        window.location.href ='./germchit_add.html'
     });
     /**
      * 提交删除的id值
@@ -206,7 +209,7 @@
      * 字典翻译
      * @type {Map}
      */
-    var HOME_TYPE = new Map(),PTACH_SIZE = '';
+    var outPoultryStatus = 30005 ,PTACH_SIZE = '';   //默认待加工状态
 
     /**
      * 批次表呈现
@@ -266,7 +269,7 @@
                 var obj = queryParse.call($(form));
                 if(/^[1-9]\d{0,6}$/.test(obj.size)){
                     obj.idPoultry = oURL.idPoultry;
-                    obj.status = 30001;
+                    obj.status = 30002;
                     obj.numTotal = obj.size;
                     $.post(oURL.PRONAME+oURL.PPOST,obj,function (res) {
                         if(res){
@@ -426,7 +429,7 @@
                     param:[$(oDetail),res,'poultry_show']
                 });
                  //id_p->批次信息
-                    $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function(resPatchList){
+                    $.get(oURL.PRONAME+oURL.GETCHECK+id,function(resPatchList){
                         if(resPatchList.object.length){
                             viewCommand({                //id_p -> 批次
                                 command:'append',
@@ -926,13 +929,20 @@
     var resetInput = {};
     var MAX_FOOD = 0;
     var feedTypeObj = {};
+    var firmNodes = '';
+    var selectNodesEnable = function (eq) {
+        $(firmNodes).addClass('none');
+        $(firmNodes).find('select').attr("disabled",true);
+        $(firmNodes[eq]).removeClass('none');
+        $(firmNodes[eq]).find('select').removeAttr("disabled");
+    }
     $('#content').on('click','[data-check*="true"]',function () {
         if(!unbind){
             var option = $(this).attr('data-id').substr(0,1),
                 id  = $(this).attr('data-id').substr(1),
                 flag = '';
                 //flag = setCheck(id);//检查是否划分了批次
-                $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) { //根据idP返回已经被划分的批次号
+                $.get(oURL.PRONAME+oURL.GETCHECK+id,function (res) { //根据idP返回已经被划分的在养殖批次号
                     if(res.object.length){
                         flag = true;
                     }else{
@@ -985,12 +995,12 @@
                 default:break;
             }
             sub_btn.onclick = function () {
-                var obj = queryParse.call($(form));
                     if(post==oURL.APOST){
                         if(inputs[2]>MAX_FOOD){
                             alert('溯源提示:\n\n您输入的投料量有误,拒绝提交');
                             return
                         }else{
+                            var obj = queryParse.call($(form));
                             obj.remark = selectNodes[2].value.split('$')[0];
                             obj.feedType = selectNodes[2].value.split('$')[1];
                             $.post(oURL.PRONAME+post,obj,function (res) {
@@ -1003,15 +1013,45 @@
                             });
                         }
                     }else{
-                        $.post(oURL.PRONAME+post,obj,function (res) {
-                            if(res){
-                                alert(res.msg);
-                            }else{
-                                alert('溯源提示:\n\n提交失败');
-                            }
-                        });
-                    }
+                        selectNodesEnable(2);
+                        var obj = queryParse.call($(form));
+                        obj.status = outPoultryStatus//默认待加工阶段
+                        var firm = obj.firm.split('$');
+                        var firmName = firm[1];
+                        var firmId = firm[0];
+                        obj.firm = firmId;
+                        if(obj.quantity>0 && obj.idPatch){
+                            $.post(oURL.PRONAME+post,obj,function (res) {
+                                if(res.object){
+                                    if(res.object){
+                                        if(confirm('溯源提示:\n\n已为您生成该批次的溯源码\n\n'+res.object+'\n\n'+'将为您跳转后续操作页面')){
+                                            switch(+obj.nextProcess){//出完库之后的后续步骤
+                                                case 16001:window.location.href='../manu/add.html?firmId='+firmId+'&firmName='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//本公司加工 ->填加工表
+                                                case 16002:window.location.href='../order/transferInfoAdd.html?cid='+firmId+'&firm='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//送到其他加工企业 ->运输表
+                                                case 16003:window.location.href='../order/transferInfoAdd.html?cid='+firmId+'&firm='+firmName+'&quantity='+obj.quantity+'&idPatch='+res.object;break;//直接运输给批发商 ->运输表
+                                                default:break;
+                                            }
+                                        }
+                                    }
+                                    console.log(res.object);
+                                    /*closeVue.call(oClose,function () {
+                                        oClose.parentNode.style.cssText = 'width:700px;height:90%;';
+                                        oDetail.innerHTML = '';
+                                    });
+                                    unbind = false;
+                                    closeVue.call(oAddClose,function () {
+                                        oAddClose.parentNode.style.cssText = 'width:600px;height:90%;';
+                                    });*/
 
+                                }else{
+                                    alert('溯源提示:\n\n提交失败');
+                                }
+                            });
+                        }else{
+                            alert('溯源提示:\n\n出库数量有误，无法出库');
+                        }
+
+                    }
             }
             function render_a(id) {
 
@@ -1082,14 +1122,19 @@
                     }else{
                         sub_btn.disabled = true;
                     }
-
                 }
-
-                render({
-                    url:oURL.PRONAME+oURL.GETSTATUSLIST, //养殖状态
-                    dom:selectNodes[3],
-                    tpl:'id_name',
-                    dataDescription:'list',
+                $.get(oURL.PRONAME+oURL.GETSTATUSLIST,function(res){ //养殖状态
+                    if(res){
+                        var data = res.list.filter(function (item) {
+                           return (item.id == 30002 || item.id == 30003)
+                        });
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[3],data,'id_name']
+                        });
+                    }else{
+                        alert('养殖状态获取失败');
+                    }
                 });
                 $.get(oURL.PRONAME+oURL.GETEMP,function(res){
                     if(res){
@@ -1102,7 +1147,7 @@
                         alert('人员获取失败');
                     }
                 });
-                $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) {    //渲染养殖的批次号
+                $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) {    //渲染可养殖的批次号
                     if(res.object.length){
                         viewCommand({
                            command:'display',
@@ -1155,44 +1200,100 @@
                             }
                         });
                     }else{
-                       alert('溯源提示:\n\n获取对应的批次号失败');
+                       // alert('溯源提示:\n\n获取对应的批次号失败');
                     }
                 });
 
             }
-            function render_o(id) {
-                $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID+id,function (res) {    //渲染入场ID对应的批次号
+            function render_o(id) {  //渲染该入库厂家可出库的批次号
+
+                $.get(oURL.PRONAME+oURL.GETCHECK+id+'?status=30003',function (res) {    //渲染入场ID对应的批次号
                     if(res.object.length){
                         viewCommand({
                             command:'display',
                             param:[selectNodes[0],res.object,'id']
                         });
                         var inputNodes = oAdd.getElementsByClassName('detail-content')[0].getElementsByTagName('input');
+                            firmNodes = oAdd.getElementsByClassName('detail-content')[0].getElementsByClassName('firm');
                         $.get(oURL.PRONAME+oURL.GETPATHBYID+selectNodes[0].value,function (res) {
                             if(res){
                                 inputNodes[0].value = +res.size;
+                                inputNodes[0].max = +res.size;
                             }
                         });
                         selectNodes[0].onchange = function () {
                             $.get(oURL.PRONAME+oURL.GETPATHBYID+this.value,function (res) {
                                 if(res){
                                     inputNodes[0].value = +res.size;
+                                    inputNodes[0].max = +res.size;
                                 }
                             });
                         }
                     }
                 });
 
-                $.get(oURL.PRONAME+oURL.GETEMP,function(res){
+                $.get(oURL.PRONAME+oURL.GETNEXTP,function(res){
                     if(res){
                         viewCommand({
                             command:'display',
                             param:[selectNodes[1],res.list,'id_name']
                         });
                     }else{
+                        alert('获取出库下一步操作失败');
+                    }
+                });
+
+                $.get(oURL.PRONAME+oURL.GETCOM+17001,function(res){  //加工企业
+                    if(res){
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[2],res.list,'tidAndname']
+                        });
+                        $.get(oURL.PRONAME+oURL.GETCOM+17003,function(resp){ //运输到批发商
+                            if(resp){
+                                viewCommand({
+                                    command:'display',
+                                    param:[selectNodes[3],resp.list,'tidAndname']
+                                });
+                            }else{
+                                alert('获取运输企业、加工企业操作失败');
+                            }
+                        });
+                        $.get(oURL.PRONAME+oURL.GETCOM+17004,function(resp){ //本公司
+                            if(resp){
+                                $(firmNodes[2]).removeClass('none');
+                                viewCommand({
+                                    command:'display',
+                                    param:[selectNodes[4],resp.list,'tidAndname']
+                                });
+                            }else{
+                                alert('溯源提示:\n\n本公司信息为空，请前往公司管理模块中添加本公司的信息');
+                            }
+                        });
+                    }else{
+                        alert('获取加工企业失败');
+                    }
+                });
+
+
+                $.get(oURL.PRONAME+oURL.GETEMP,function(res){
+                    if(res){
+                        viewCommand({
+                            command:'display',
+                            param:[selectNodes[5],res.list,'id_name']
+                        });
+                    }else{
                         alert('人员获取失败');
                     }
                 });
+                selectNodes[1].onchange = function () {
+                    switch (+this.value){
+                        case 16001:selectNodesEnable(2);outPoultryStatus = 30005;break;//本公司加工        设置待加工状态
+                        case 16002:selectNodesEnable(0);outPoultryStatus = 30009;break;//送到其他加工企业  设置待运输待加工状态
+                        case 16003:selectNodesEnable(1);outPoultryStatus = 30007;break;//直接运输给批发商  设置待运输状态
+                        default:break;
+                    }
+                }
             }
         }
     }

@@ -13,26 +13,45 @@
         const oURL = {
             PRONAME:'/waterfowl',
             DEL:'/admin/patch/deletePatch/',
-            GETFINDPATCHBYPID:'/admin/patch/findPatchByPid/'+getRequest()['id'],
+            GETFINDPATCHBYPID:'/admin/patch/findPatchByPidAndStatusCutPage/'+getRequest()['id'],
+            GETPATCHLIST:'/admin/patch/listPatch?id='
         };
         var preDataObj = getRequest();
         viewCommand({
             command:'display',
             param:[$('#preContent')[0],preDataObj,'poultry_nav']
         });
-        $.get(oURL.PRONAME+oURL.GETFINDPATCHBYPID,function(res){
-            if(res.object.length){
-                var data = new DataFilter({
-                    data:res.object,
-                    type:'filterTimeAndNull'
-                });
-                viewCommand({
-                    command:'display',
-                    param:[$('#content')[0],data,'patch_list']
-                });
-            }
-        });
+    /**
+     * 实例化一个分页控制者
+     */
+    var pageController = new PageController({
 
+        url:oURL.PRONAME+oURL.GETFINDPATCHBYPID,
+        view:{
+            container : $('#content')[0],
+            tpl:'patch_list',
+            nowView:$('#now')[0],
+            allView:$('#all')[0],
+        },
+        pageBean:{
+            pageDescription:'pageNum',
+            countDescription:'pageSize',
+            dataDescription:'list',
+            totalDescription:'pages',
+            count:'10',
+        },
+        dataFilter:{
+            tpl:'filterTimeAndNull',
+        },
+        dom:{
+            nextBtn :$('#next')[0],
+            preBtn:$('#pre')[0],
+            jumpBtn:$('#jumpTo')[0],
+            jumpVal:$('#jumpText')[0],
+        },
+
+    });
+    pageController.init();
     /**
      * 查询功能
      * 点击了就序列化表单
@@ -50,7 +69,7 @@
             qStr.push(key+'='+q[key]);
         }
         $('#back').show();
-        // pageController.url = oURL.PRONAME+oURL.GETAQUACULTURELIST;
+        pageController.url = oURL.PRONAME+oURL.GETPATCHLIST
         pageController.other = '&'+qStr.join('&');
         pageController.init();
     });
@@ -65,7 +84,7 @@
     $('#back').click(function () {
         $('#searchForm input').val('');
         $(this).hide();
-        // pageController.url = oURL.PRONAME+oURL.GETPOUTLTRYLIST;
+        pageController.url = oURL.PRONAME+oURL.GETFINDPATCHBYPID;
         pageController.other = '';
         pageController.init();
     });

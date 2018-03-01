@@ -74,7 +74,7 @@ public class TransportationService {
         TransportationExample.Criteria criteria = transportationExample.createCriteria();
 
         if (StringUtils.isNotBlank(transportation.getIdPatch()))   // 批次
-            criteria.andIdPatchLike("%"+transportation.getIdPatch()+"%");
+            criteria.andIdPatchEqualTo(transportation.getIdPatch());
         if (StringUtils.isNotBlank(transportation.getTid()))  // 运输厂商id
             criteria.andTidEqualTo(transportation.getTid());
         if (StringUtils.isNotBlank(transportation.getCid()))  // 顾客id

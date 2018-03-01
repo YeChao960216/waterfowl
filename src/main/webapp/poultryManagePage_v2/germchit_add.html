@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../systemPage/css/public.css">
+</head>
+<body>
+    <form onsubmit="return false">
+        <table>
+            <tr>
+                <th>条目</th>
+                <th>填写种苗信息</th>
+            </tr>
+            <tr>
+                <td>供货厂商</td>
+                <td><select  id="associatedFirm" name="incubationPlant" class="select-fix-input"></select></td>
+            </tr>
+            <tr>
+                <td>种蛋上孵日期</td>
+                <td><input type="date" name="incubationDate" placeholder="种蛋上孵日期"></td>
+            </tr>
+            <tr>
+                <td>种蛋收集日期</td>
+                <td><input type="date" name="collectDate"  placeholder="种蛋收集日期"></td>
+            </tr>
+            <tr>
+                <td>孵化器编号</td>
+                <td><input type="text" name="incubator" placeholder="孵化器编号" ></td>
+            </tr>
+            <tr>
+                <td>出雏器编号</td>
+                <td><input type="text" name="chickDischarger" placeholder="出雏器编号" ></td>
+            </tr>
+            <tr>
+                <td>种苗溯源码</td>
+                <td><input type="text" name="idBreeding" placeholder="种鸡溯源码" ></td>
+            </tr>
+            <tr>
+                <td>进货数量</td>
+                <td><input type="number" name="numTotal" placeholder="进货数量" ></td>
+            </tr>
+            <tr>
+                <td>负责人</td>
+                <td><select id="idCharge" name="idCharge" class="select-fix-input"></select></td>
+            </tr>
+            <tr>
+                <td>操作</td>
+                <td><input type="submit" id="submit" class="btn"  value="添加"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+<script src="../static/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/willon_frame/willon_viewEngine_entity.js"></script>
+<script src="../static/willon_frame/willon_query.js"></script>
+<script src="./js/g_add.js"></script>
+</html>

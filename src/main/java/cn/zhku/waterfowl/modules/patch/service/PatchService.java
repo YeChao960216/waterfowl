@@ -2,14 +2,12 @@ package cn.zhku.waterfowl.modules.patch.service;
 
 import cn.zhku.waterfowl.modules.patch.dao.PatchDao;
 import cn.zhku.waterfowl.pojo.entity.*;
-import cn.zhku.waterfowl.pojo.mapper.AffiliationMapper;
 import cn.zhku.waterfowl.pojo.mapper.PatchMapper;
 import cn.zhku.waterfowl.util.interfaceUtils.IBaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +19,6 @@ public class PatchService implements IBaseService<Patch>{
     private PatchMapper patchMapper;
     @Autowired
     private PatchDao dao;
-    @Autowired
-    private AffiliationMapper affiliationMapper;
 
     @Override
     public int add(Patch entity) throws Exception {
@@ -56,28 +52,32 @@ public class PatchService implements IBaseService<Patch>{
         PatchExample.Criteria criteria=patchExample.createCriteria();
 
         //通过type
-        if(entity.getType()!=null){
-            criteria.andTypeLike("%"+entity.getType()+"%");
+        if(StringUtils.isNotBlank(entity.getType())){
+            criteria.andTypeEqualTo(entity.getType());
+        }
+        //通过idPoutry
+        if(StringUtils.isNotBlank(entity.getIdPoultry())){
+            criteria.andIdPoultryEqualTo(entity.getIdPoultry());
         }
         //通过status
-        if(entity.getStatus()!=null){
-            criteria.andStatusLike("%"+entity.getStatus()+"%");
+        if(StringUtils.isNotBlank(entity.getStatus())){
+            criteria.andStatusEqualTo(entity.getStatus());
         }
         //通过size
-        if(entity.getSize()!=null){
+        if(entity.getSize()!= null){
             criteria.andSizeEqualTo(entity.getSize());
         }
         //通过position
-        if(entity.getPosition()!=null){
-            criteria.andPositionLike("%"+entity.getPosition()+"%");
+        if(StringUtils.isNotBlank(entity.getPosition())){
+            criteria.andPositionEqualTo(entity.getPosition());
         }
         //通过idcharger
-        if(entity.getIdCharge()!=null){
+        if(entity.getIdCharge()!= null){
             criteria.andIdChargeLike("%"+entity.getIdCharge()+"%");
         }
         //通过idrecorder
-        if(entity.getIdRecorder()!=null){
-            criteria.andIdRecorderLike("%"+entity.getIdRecorder()+"%");
+        if(StringUtils.isNotBlank(entity.getIdRecorder())){
+            criteria.andIdRecorderEqualTo(entity.getIdRecorder());
         }
 
         if (StringUtils.isNotBlank(entity.getIdPoultry())) {
@@ -121,17 +121,6 @@ public class PatchService implements IBaseService<Patch>{
         return dao.findPatch(id_poultry);
     }
 
-
-
-
-    /**
-     * 该禽舍中存放的数量
-     * @param id patch 的id
-     * @return  String类型的规格的大小
-     */
-    public String findSize(String id) {
-        return dao.findSize(id);
-    }
 
     /**
      * poultry中的总数量

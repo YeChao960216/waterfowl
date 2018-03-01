@@ -37,10 +37,6 @@
                 command:'display',
                 param:[$('select')[2],res.list,'id_name']
             });
-            viewCommand({
-                command:'display',
-                param:[$('select')[3],res.list,'id_name']
-            });
         }else{
             alert('溯源提示:\n\n获取人员信息失败');
         }
@@ -60,6 +56,7 @@
                 $('#phone').val(data.phone);
                 $('#firm').val(data.firm);
                 $('#name').val(data.name);
+                $('#rest').val(data.rest);
                 $('#quantity').val(data.quantity);
 
         }else{

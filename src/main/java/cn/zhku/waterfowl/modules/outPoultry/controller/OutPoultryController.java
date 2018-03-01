@@ -3,11 +3,11 @@ package cn.zhku.waterfowl.modules.outPoultry.controller;
 import cn.zhku.waterfowl.modules.outPoultry.servie.OutPoultryService;
 import cn.zhku.waterfowl.modules.patch.service.PatchService;
 import cn.zhku.waterfowl.pojo.entity.OutPoultry;
-import cn.zhku.waterfowl.pojo.entity.Outstorage;
 import cn.zhku.waterfowl.pojo.entity.Patch;
 import cn.zhku.waterfowl.util.SessionUtil;
 import cn.zhku.waterfowl.util.modle.CommonQo;
 import cn.zhku.waterfowl.util.modle.Message;
+import cn.zhku.waterfowl.util.modle.Msg;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,19 +36,30 @@ public class OutPoultryController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public Message addOutPoultry(OutPoultry outPoultry) throws Exception{
+    public Msg addOutPoultry(OutPoultry outPoultry) throws Exception{
         //  从shrio Session中获取user的session,填充记录员的字段
         outPoultry.setIdRecord(SessionUtil.getUserSession().getId());
-        outPoultry.setId(UUID.randomUUID().toString().replace("-","").toUpperCase());   //用32位大小的UUID来设置记录id
-        outPoultry.setQuantity(patchService.get(outPoultry.getIdPatch()).getNumTotal());
-        if(outPoultryService.add(outPoultry)==1){
-            Patch patch=patchService.get(outPoultry.getIdPatch());
-            patch.setStatus("30004");
-            patchService.update(patch);
-            return new Message("1","成功增加1条记录");
+        String uuid =UUID.randomUUID().toString().replace("-","").toUpperCase();
+        outPoultry.setId(uuid);   //用32位大小的UUID来设置记录id
+        //   本次出库相关的批次记录
+        Patch patch = patchService.get(outPoultry.getIdPatch());
+        //  更新批次表的准备工作
+        Patch upDatePatch = new Patch();
+        upDatePatch.setId(outPoultry.getIdPatch());
+        if(patch.getSize() - outPoultry.getQuantity() == 0){ //如果一次过全部都出厂了就修改原批次状态为30013 已全部出厂状态
+            upDatePatch.setStatus("30013");
+        }
+        upDatePatch.setSize(patch.getSize() - outPoultry.getQuantity());
+
+        // gonefuture修改于2018/2/3， 应该比较的是属性size而不是numtotal
+        if(outPoultry.getQuantity()>patch.getNumTotal()){
+            return new Msg("3","增加记录失败，该批次数量不足");
+        }
+        else if(outPoultryService.add(outPoultry)==1 && patchService.update(upDatePatch) == 1){
+            return new Msg("1","成功增加1条记录","200",uuid);
         }
         else{
-            return new Message("2","增加记录失败");}
+            return new Msg("2","增加记录失败");}
     }
 
     /**
