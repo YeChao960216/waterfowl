@@ -2,7 +2,7 @@
  * @Author: 伟龙-Willon qq:1061258787 
  * @Date: 2018-02-05 16:00:18 
  * @Last Modified by: 伟龙-Willon
- * @Last Modified time: 2018-02-06 01:40:19
+ * @Last Modified time: 2018-02-24 23:27:36
  * MVP框架设计
  */
 
@@ -47,7 +47,7 @@
     
     global.MVP = MVP              //向最顶层对象暴露MVP超级对象
 
-    global.render = function (str,objArr,dom) {
+    global.render = function (str,objArr,dom) { //针对该系统设计的渲染函数
         var html = '';
         var data = Object.prototype.toString.call(objArr) === '[object Array]' ? objArr : [objArr];
             data.forEach(function (item) {

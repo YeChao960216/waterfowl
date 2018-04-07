@@ -41,7 +41,7 @@
         M.getData('firm',function (data) {
 
             data.forEach(function (item) {
-                console.log(item.tid);
+
                 localStorage.setItem('waterfowl'+item.tid,item.name);
             })
 
@@ -61,8 +61,13 @@
          * 这里从溯源码-》出库数据->idPatch
          */
         M.getDataDIY('this_outPoultry',M.getURL('project_name').name+M.getURL('outpoultry_findById').name+NAV.fowlCode,function (data) {
+            if(!NAV.idPatch){
+                alert('溯源系统提示:\n\n 关于该溯源码的信息不存在')
+                return
+            }
             render(V.getTPL('outPoultry'),data,G('outPoultry'));
             NAV.idPatch = data.idPatch;
+
             /**
              * 该批次信息 idPatch-》idPoultry
              */

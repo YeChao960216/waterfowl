@@ -814,6 +814,7 @@ var viewCommand = (function(msg){
          outPoultry_v3_show:[
              '<tr>',
              '<td >{#id#}</td>',
+             '<td ><img src="http://qr.liantu.com/api.php?w=150&logo=http://120.77.40.82:3000/assets/waterfowl/logo.png&text=http://192.168.90.21/waterfowl/fowl/result.html?fowlCode={#id#}"></td>',
              '<td >{#idPatch#}</td>',
              '<td >{#recordDate#}</td>',
              '<td >{#firm#}</td>',
@@ -858,7 +859,8 @@ var viewCommand = (function(msg){
          manu:[
              '<tr>',
              '<td >{#idPatch#}</td>',
-             '<td >{#recordeDate#}</td>',
+             '<td ><img src="http://qr.liantu.com/api.php?w=150&logo=http://120.77.40.82:3000/assets/waterfowl/logo.png&text=http://192.168.90.21/waterfowl/fowl/result.html?fowlCode={#idPatch#}"></td>',
+             '<td >{#recordDate#}</td>',
              '<td >{#firm#}</td>',
              '<td >{#site#}</td>',
              '<td >{#quantity#}</td>',
@@ -906,6 +908,7 @@ var viewCommand = (function(msg){
          outPoultry_for_transferInfos:[
              '<tr>',
              '<td >{#id#}</td>',
+             '<td ><img src="http://qr.liantu.com/api.php?w=150&logo=http://120.77.40.82:3000/assets/waterfowl/logo.png&text=http://192.168.90.21/waterfowl/fowl/result.html?fowlCode={#idPatch#}"></td>',
              '<td >{#idPatch#}</td>',
              '<td >{#firm#}</td>',
              '<td >{#quantity#}</td>',
