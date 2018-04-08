@@ -908,7 +908,7 @@ var viewCommand = (function(msg){
          outPoultry_for_transferInfos:[
              '<tr>',
              '<td >{#id#}</td>',
-             '<td ><img src="http://qr.liantu.com/api.php?w=150&logo=http://120.77.40.82:3000/assets/waterfowl/logo.png&text=http://192.168.90.21/waterfowl/fowl/result.html?fowlCode={#idPatch#}"></td>',
+             '<td ><img src="http://qr.liantu.com/api.php?w=150&logo=http://120.77.40.82:3000/assets/waterfowl/logo.png&text=http://120.77.250.250/waterfowl/fowl/result.html?fowlCode={#idPatch#}"></td>',
              '<td >{#idPatch#}</td>',
              '<td >{#firm#}</td>',
              '<td >{#quantity#}</td>',
