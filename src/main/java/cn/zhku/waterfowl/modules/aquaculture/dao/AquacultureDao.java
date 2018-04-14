@@ -12,6 +12,6 @@ import java.util.List;
 public interface AquacultureDao {
 
 
-    @Select("SELECT name, SUM(feed_Weight) feedWeight,weight FROM aquaculture where name <= #{name} and id_patch = #{idPatch}  group by name ")
+    @Select("SELECT name, SUM(feed_Weight) feedWeight,weight FROM aquaculture where name <= #{name} and id_patch = #{idPatch}  group by name ,weight")
     List<FeedWeight> feedWeight(@Param("name") int name, @Param("idPatch") String idPatch) ;
 }
